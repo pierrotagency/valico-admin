@@ -32,6 +32,7 @@ function Lane({ children, index: laneIndex, renderCard, renderLaneHeader, disabl
               children.cards.map((card, index) => (
                 <Card
                   key={card.id}
+                  card={card}
                   index={index}
                   renderCard={dragging => renderCard(children, card, dragging)}
                   disableCardDrag={disableCardDrag}
