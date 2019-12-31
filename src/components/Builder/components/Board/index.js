@@ -56,7 +56,9 @@ function UncontrolledBoard({
   disableCardDrag,
   disableLaneDrag
 }) {
+
   const [board, setBoard] = useState(initialBoard)
+
   const handleOnCardDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveCard, notifyCallback: onCardDragEnd })
   
   function handleOnDragEnd({ source, destination }, { moveCallback, notifyCallback }) {
@@ -67,13 +69,17 @@ function UncontrolledBoard({
 
 
   function handleCardAdd(lane, card, options = {}) {
+
     const boardWithNewCard = addCard(board, lane, card, options)
+    
     onCardAdded(
       boardWithNewCard,
       boardWithNewCard.lanes.find(({ id }) => id === lane.id),
       card
     )
+
     setBoard(boardWithNewCard)
+  
   }
 
   function handleCardRemove(lane, card) {
@@ -144,7 +150,7 @@ function BoardContainer({
                     <DefaultLaneHeader >
                       {lane}
                     </DefaultLaneHeader>
-                    <button onClick={() => handleCardAdd(lane, { id: 99, title: 'New card' })}>New card</button>  
+                    <button onClick={() => handleCardAdd(lane, { title: 'New card', description: 'Card content', component: "foo" })}>New card</button>  
                   </>
                 )
               }

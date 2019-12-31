@@ -1,8 +1,8 @@
-// import uuidv1 from 'uuid/v1'
+import uuidv4 from 'uuid/v4'
 
 
 function getUuid() {
-  return '999'; //uuidv1(); 
+  return uuidv4(); 
 }
 
 

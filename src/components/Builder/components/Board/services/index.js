@@ -45,8 +45,10 @@ function addCard(board, inLane, card, { on } = {}) {
 
   console.log(uuid);
 
+  card.id = uuid;
 
   const laneToAdd = board.lanes.find(({ id }) => id === inLane.id)
+
   const cards = addInArrayAtPosition(laneToAdd.cards, card, on === 'top' ? 0 : laneToAdd.cards.length)
   const lanes = replaceElementOfArray(board.lanes)({
     when: ({ id }) => inLane.id === id,
