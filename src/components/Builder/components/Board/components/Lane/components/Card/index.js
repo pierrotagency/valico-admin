@@ -27,7 +27,7 @@ function Card({ children, index, renderCard, disableCardDrag, card }) {
             {typeof Components[card.component] !== "undefined" &&
               React.createElement(Components[card.component], {
                 key: card.id,
-                title: 'aaaaaaa'
+                title: card.title
               })
             }
             

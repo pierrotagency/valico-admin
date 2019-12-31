@@ -91,7 +91,7 @@ const board = {
   }
 
   
-class Pagesblank extends Component {
+class PagesBuilder extends Component {
 
     componentDidMount() {
         this.props.activateAuthLayout();
@@ -123,10 +123,10 @@ class Pagesblank extends Component {
 
 
                         <div>
-                            <Board                                
-                                onLaneRemove={console.log}
-                                onLaneRename={console.log}
+                            <Board                                                                
                                 onCardRemove={console.log}
+                                onCardAdded={console.log}
+                                allowRemoveCard={true}                           
                                 initialBoard={board}
                             />
                         </div>
@@ -137,6 +137,6 @@ class Pagesblank extends Component {
     }
 }
 
-export default connect(null, { activateAuthLayout })(Pagesblank);
+export default connect(null, { activateAuthLayout })(PagesBuilder);
 
 

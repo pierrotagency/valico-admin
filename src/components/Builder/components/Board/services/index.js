@@ -2,15 +2,12 @@ import {
   removeFromArrayAtPosition,
   addInArrayAtPosition,
   changeElementOfPositionInArray,
-  replaceElementOfArray
+  replaceElementOfArray,
+  getUuid
 } from '../../../../../helpers/utils'
 
 function reorderCardsOnLane(lane, reorderCards) {
   return { ...lane, cards: reorderCards(lane.cards) }
-}
-
-function moveLane(board, { fromPosition }, { toPosition }) {
-  return { ...board, lanes: changeElementOfPositionInArray(board.lanes, fromPosition, toPosition) }
 }
 
 function moveCard(board, { fromPosition, fromLaneId }, { toPosition, toLaneId }) {
@@ -41,23 +38,14 @@ function moveCard(board, { fromPosition, fromLaneId }, { toPosition, toLaneId })
   }
 }
 
-function addLane(board, lane) {
-  return { ...board, lanes: addInArrayAtPosition(board.lanes, lane, board.lanes.length) }
-}
-
-function removeLane(board, lane) {
-  return { ...board, lanes: board.lanes.filter(({ id }) => id !== lane.id) }
-}
-
-function renameLane(board, lane, newTitle) {
-  const renamedLanes = replaceElementOfArray(board.lanes)({
-    when: ({ id }) => id === lane.id,
-    for: value => ({ ...value, title: newTitle })
-  })
-  return { ...board, lanes: renamedLanes }
-}
 
 function addCard(board, inLane, card, { on } = {}) {
+
+  const uuid = getUuid();
+
+  console.log(uuid);
+
+
   const laneToAdd = board.lanes.find(({ id }) => id === inLane.id)
   const cards = addInArrayAtPosition(laneToAdd.cards, card, on === 'top' ? 0 : laneToAdd.cards.length)
   const lanes = replaceElementOfArray(board.lanes)({
@@ -75,4 +63,4 @@ function removeCard(board, fromLane, card) {
   return { ...board, lanes: filteredLanes }
 }
 
-export { moveLane, moveCard, addLane, removeLane, renameLane, addCard, removeCard }
+export { moveCard, addCard, removeCard }

@@ -1,3 +1,12 @@
+// import uuidv1 from 'uuid/v1'
+
+
+function getUuid() {
+  return '999'; //uuidv1(); 
+}
+
+
+
 function compose(...fns) {
   return arg => fns.reduce((acc, fn) => fn(acc), arg)
 }
@@ -45,5 +54,6 @@ export {
   changeElementOfPositionInArray,
   when,
   replaceElementOfArray,
-  partialRight
+  partialRight,
+  getUuid
 }
