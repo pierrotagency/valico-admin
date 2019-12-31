@@ -79,12 +79,7 @@ const board = {
         id: 3,
         title: 'Lane Done',
         cards: [
-          {
-            id: 10,
-            title: 'Card title 10',
-            description: 'Card content',
-            component: "foo"            
-          }
+          
         ]
       }
     ]

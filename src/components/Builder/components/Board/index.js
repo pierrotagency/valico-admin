@@ -41,11 +41,8 @@ function getCoordinates(event) {
 
 const DroppableBoard = withDroppable(Lanes)
 
-function Board(props) {
-  return  <UncontrolledBoard {...props} />
-}
 
-function UncontrolledBoard({
+function Board({
   initialBoard,
   onCardDragEnd,
   onCardNew,
@@ -97,7 +94,9 @@ function UncontrolledBoard({
       onCardDragEnd={handleOnCardDragEnd}      
       handleCardAdd={handleCardAdd}
       renderCard={(lane, card, dragging) => {
-        if (renderCard) return renderCard(card, { removeCard: handleCardRemove.bind(null, lane, card), dragging })
+
+        // if (renderCard) return renderCard(card, { removeCard: handleCardRemove.bind(null, lane, card), dragging })
+        
         return (
           <DefaultCard
             dragging={dragging}
@@ -107,6 +106,7 @@ function UncontrolledBoard({
             {card}
           </DefaultCard>
         )
+
       }}
       disableLaneDrag={disableLaneDrag}
       disableCardDrag={disableCardDrag}
@@ -126,6 +126,7 @@ function BoardContainer({
   onCardDragEnd,
   handleCardAdd
 }) {
+
   function handleOnDragEnd(event) {
     const coordinates = getCoordinates(event)
     if (!coordinates.source) return
