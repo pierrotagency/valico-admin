@@ -32,7 +32,7 @@ class Pageslogin2 extends Component {
                                             </div>
                                             <div className="text-left p-3">
                                                 <h4 className="font-18 text-center">Welcome Back !</h4>
-                                                <p className="text-muted text-center">Sign in to continue to Veltrix.</p>
+                                                <p className="text-muted text-center">Sign in to continue to Valico.</p>
 
                                                 <form className="form-horizontal mt-5" action="/dashboard">
 
@@ -69,7 +69,7 @@ class Pageslogin2 extends Component {
                                             </div>
                                             <div className="mt-5 text-center">
                                                 <p>Don't have an account ? <Link to="pages-register-2" className="font-500 text-primary"> Signup now </Link> </p>
-                                                <p>© {new Date().getFullYear()}  Veltrix. Crafted with <i className="mdi mdi-heart text-danger"></i> by Themesbrand</p>
+                                                <p>© {new Date().getFullYear()}  Valico. Crafted with <i className="mdi mdi-heart text-danger"></i> by Pierrot</p>
                                             </div>
                                         </div>
                                     </div>

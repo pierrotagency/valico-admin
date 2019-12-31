@@ -178,7 +178,7 @@ class Uiimages extends Component {
                                             block.</p>
 
                                         <div className="media mb-4">
-                                            <img className="d-flex mr-3 rounded-circle" src={user6} alt="Veltrix" height="64" />
+                                            <img className="d-flex mr-3 rounded-circle" src={user6} alt="Valico" height="64" />
                                             <div className="media-body">
                                                 <h5 className="mt-0 font-16">Media heading</h5>
                                                 Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
@@ -187,14 +187,14 @@ class Uiimages extends Component {
 
 
                                         <div className="media mb-4">
-                                            <img className="d-flex mr-3 rounded-circle" src={user2} alt="Veltrix" height="64" />
+                                            <img className="d-flex mr-3 rounded-circle" src={user2} alt="Valico" height="64" />
                                             <div className="media-body">
                                                 <h5 className="mt-0 font-16">Media heading</h5>
                                                 Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
 
                                                 <div className="media mt-3">
                                                     <Link className="d-flex pr-3" to="#">
-                                                        <img src={user3} alt="Veltrix" height="64" className="rounded-circle" />
+                                                        <img src={user3} alt="Valico" height="64" className="rounded-circle" />
                                                     </Link>
                                                     <div className="media-body">
                                                         <h5 className="mt-0 font-16">Media heading</h5>
@@ -210,7 +210,7 @@ class Uiimages extends Component {
                                                 <h5 className="mt-0 mb-1 font-16">Media Object</h5>
                                                 Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
                                             </div>
-                                            <img className="d-flex ml-3 rounded-circle" src={user4} alt="Veltrix" height="64" />
+                                            <img className="d-flex ml-3 rounded-circle" src={user4} alt="Valico" height="64" />
                                         </div>
 
                                     </CardBody>
@@ -230,7 +230,7 @@ class Uiimages extends Component {
                                             aligned top, middle, or bottom. The default is top aligned.</p>
 
                                         <div className="media mb-4">
-                                            <img className="d-flex align-self-start rounded mr-3" src={user3} alt="Veltrix" height="64" />
+                                            <img className="d-flex align-self-start rounded mr-3" src={user3} alt="Valico" height="64" />
                                             <div className="media-body">
                                                 <h5 className="mt-0 font-16">Top-aligned media</h5>
                                                 <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
@@ -239,7 +239,7 @@ class Uiimages extends Component {
                                         </div>
 
                                         <div className="media mb-4">
-                                            <img className="d-flex align-self-center rounded mr-3" src={user5} alt="Veltrix" height="64" />
+                                            <img className="d-flex align-self-center rounded mr-3" src={user5} alt="Valico" height="64" />
                                             <div className="media-body">
                                                 <h5 className="mt-0 font-16">Center-aligned media</h5>
                                                 <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
@@ -248,7 +248,7 @@ class Uiimages extends Component {
                                         </div>
 
                                         <div className="media">
-                                            <img className="d-flex align-self-end rounded mr-3" src={user1} alt="Veltrix" height="64" />
+                                            <img className="d-flex align-self-end rounded mr-3" src={user1} alt="Valico" height="64" />
                                             <div className="media-body">
                                                 <h5 className="mt-0 font-16">Bottom-aligned media</h5>
                                                 <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>

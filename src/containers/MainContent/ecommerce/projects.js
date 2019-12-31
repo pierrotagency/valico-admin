@@ -133,13 +133,13 @@ class Projects extends Component {
                                                         <td>
                                                             <div className="team">
                                                                 <Tooltip placement="top" isOpen={this.state.i1} target="i1" toggle={() => this.setState({ i1: !this.state.i1 })}>Roger Drake</Tooltip>
-                                                                <Link to="#" id="i1" className="team-member"><img src={user6} alt="Veltrix" className="rounded-circle thumb-sm" /></Link>
+                                                                <Link to="#" id="i1" className="team-member"><img src={user6} alt="Valico" className="rounded-circle thumb-sm" /></Link>
 
                                                                 <Tooltip placement="top" isOpen={this.state.i2} target="i2" toggle={() => this.setState({ i2: !this.state.i2 })}>Reggie James</Tooltip>
-                                                                <Link to="#" id="i2" className="team-member"><img src={user7} alt="Veltrix" className="rounded-circle thumb-sm" /> </Link>
+                                                                <Link to="#" id="i2" className="team-member"><img src={user7} alt="Valico" className="rounded-circle thumb-sm" /> </Link>
 
                                                                 <Tooltip placement="top" isOpen={this.state.i3} target="i3" toggle={() => this.setState({ i3: !this.state.i3 })}>Reggie James</Tooltip>
-                                                                <Link to="#" id="i3" className="team-member"><img src={user8} alt="Veltrix" className="rounded-circle thumb-sm" /></Link>
+                                                                <Link to="#" id="i3" className="team-member"><img src={user8} alt="Valico" className="rounded-circle thumb-sm" /></Link>
                                                             </div>
                                                         </td>
                                                         <td>
@@ -166,10 +166,10 @@ class Projects extends Component {
                                                         <td>
                                                             <div className="team">
                                                                 <Tooltip placement="top" isOpen={this.state.i21} target="i21" toggle={() => this.setState({ i21: !this.state.i21 })}>Deborah Mixon</Tooltip>
-                                                                <Link to="#" id="i21" className="team-member"><img src={user2} alt="Veltrix" className="rounded-circle thumb-sm" /></Link>
+                                                                <Link to="#" id="i21" className="team-member"><img src={user2} alt="Valico" className="rounded-circle thumb-sm" /></Link>
 
                                                                 <Tooltip placement="top" isOpen={this.state.i22} target="i22" toggle={() => this.setState({ i22: !this.state.i22 })}>Scott Jessie</Tooltip>
-                                                                <Link to="#" id="i22" className="team-member"><img src={user1} alt="Veltrix" className="rounded-circle thumb-sm" /> </Link>
+                                                                <Link to="#" id="i22" className="team-member"><img src={user1} alt="Valico" className="rounded-circle thumb-sm" /> </Link>
                                                             </div>
                                                         </td>
                                                         <td>
@@ -196,16 +196,16 @@ class Projects extends Component {
                                                         <td>
                                                             <div className="team">
                                                                 <Tooltip placement="top" isOpen={this.state.i41} target="i41" toggle={() => this.setState({ i41: !this.state.i41 })}>Neil Wing</Tooltip>
-                                                                <Link to="#" id="i41" className="team-member"><img alt="Veltrix" src={user3} className="rounded-circle thumb-sm" /></Link>
+                                                                <Link to="#" id="i41" className="team-member"><img alt="Valico" src={user3} className="rounded-circle thumb-sm" /></Link>
 
                                                                 <Tooltip placement="top" isOpen={this.state.i42} target="i42" toggle={() => this.setState({ i42: !this.state.i42 })}>Stanley Barber</Tooltip>
-                                                                <Link to="#" id="i42" className="team-member"><img alt="Veltrix" src={user4} className="rounded-circle thumb-sm" /> </Link>
+                                                                <Link to="#" id="i42" className="team-member"><img alt="Valico" src={user4} className="rounded-circle thumb-sm" /> </Link>
 
                                                                 <Tooltip placement="top" isOpen={this.state.i43} target="i43" toggle={() => this.setState({ i43: !this.state.i43 })}>Roger Drake</Tooltip>
-                                                                <Link to="#" id="i43" className="team-member"><img alt="Veltrix" src={user5} className="rounded-circle thumb-sm" /></Link>
+                                                                <Link to="#" id="i43" className="team-member"><img alt="Valico" src={user5} className="rounded-circle thumb-sm" /></Link>
 
                                                                 <Tooltip placement="top" isOpen={this.state.i44} target="i44" toggle={() => this.setState({ i44: !this.state.i44 })}>Jack Krier</Tooltip>
-                                                                <Link to="#" id="i44" className="team-member"><img alt="Veltrix" src={user6} className="rounded-circle thumb-sm" /></Link>
+                                                                <Link to="#" id="i44" className="team-member"><img alt="Valico" src={user6} className="rounded-circle thumb-sm" /></Link>
 
                                                             </div>
                                                         </td>
@@ -233,13 +233,13 @@ class Projects extends Component {
                                                         <td>
                                                             <div className="team">
                                                                 <Tooltip placement="top" isOpen={this.state.i51} target="i51" toggle={() => this.setState({ i51: !this.state.i51 })}>Roger Drake</Tooltip>
-                                                                <Link to="#" id="i51" className="team-member"><img alt="Veltrix" src={user6} className="rounded-circle thumb-sm" /></Link>
+                                                                <Link to="#" id="i51" className="team-member"><img alt="Valico" src={user6} className="rounded-circle thumb-sm" /></Link>
 
                                                                 <Tooltip placement="top" isOpen={this.state.i52} target="i52" toggle={() => this.setState({ i52: !this.state.i52 })}>Reggie James</Tooltip>
-                                                                <Link to="#" id="i52" className="team-member"><img alt="Veltrix" src={user7} className="rounded-circle thumb-sm" /> </Link>
+                                                                <Link to="#" id="i52" className="team-member"><img alt="Valico" src={user7} className="rounded-circle thumb-sm" /> </Link>
 
                                                                 <Tooltip placement="top" isOpen={this.state.i53} target="i53" toggle={() => this.setState({ i53: !this.state.i53 })}>Reggie James</Tooltip>
-                                                                <Link to="#" id="i53" className="team-member"><img alt="Veltrix" src={user8} className="rounded-circle thumb-sm" /></Link>
+                                                                <Link to="#" id="i53" className="team-member"><img alt="Valico" src={user8} className="rounded-circle thumb-sm" /></Link>
                                                             </div>
                                                         </td>
                                                         <td>
@@ -266,10 +266,10 @@ class Projects extends Component {
                                                         <td>
                                                             <div className="team">
                                                                 <Tooltip placement="top" isOpen={this.state.i71} target="i71" toggle={() => this.setState({ i71: !this.state.i71 })}>Deborah Mixon</Tooltip>
-                                                                <Link to="#" id="i71" className="team-member"><img alt="Veltrix" src={user2} className="rounded-circle thumb-sm" /></Link>
+                                                                <Link to="#" id="i71" className="team-member"><img alt="Valico" src={user2} className="rounded-circle thumb-sm" /></Link>
 
                                                                 <Tooltip placement="top" isOpen={this.state.i72} target="i72" toggle={() => this.setState({ i72: !this.state.i72 })}>Scott Jessie</Tooltip>
-                                                                <Link to="#" id="i72" className="team-member"><img alt="Veltrix" src={user1} className="rounded-circle thumb-sm" /> </Link>
+                                                                <Link to="#" id="i72" className="team-member"><img alt="Valico" src={user1} className="rounded-circle thumb-sm" /> </Link>
                                                             </div>
                                                         </td>
                                                         <td>
@@ -296,19 +296,19 @@ class Projects extends Component {
                                                         <td>
                                                             <div className="team">
                                                                 <Tooltip placement="top" isOpen={this.state.i81} target="i81" toggle={() => this.setState({ i81: !this.state.i81 })}>Neil Wing</Tooltip>
-                                                                <Link to="#" id="i81" className="team-member"><img alt="Veltrix" src={user3} className="rounded-circle thumb-sm" /></Link>
+                                                                <Link to="#" id="i81" className="team-member"><img alt="Valico" src={user3} className="rounded-circle thumb-sm" /></Link>
 
                                                                 <Tooltip placement="top" isOpen={this.state.i82} target="i82" toggle={() => this.setState({ i82: !this.state.i82 })}>Stanley Barber</Tooltip>
-                                                                <Link to="#" id="i82" className="team-member"><img alt="Veltrix" src={user4} className="rounded-circle thumb-sm" /> </Link>
+                                                                <Link to="#" id="i82" className="team-member"><img alt="Valico" src={user4} className="rounded-circle thumb-sm" /> </Link>
 
                                                                 <Tooltip placement="top" isOpen={this.state.i83} target="i83" toggle={() => this.setState({ i83: !this.state.i83 })}>Roger Drake</Tooltip>
-                                                                <Link to="#" id="i83" className="team-member"><img alt="Veltrix" src={user5} className="rounded-circle thumb-sm" /></Link>
+                                                                <Link to="#" id="i83" className="team-member"><img alt="Valico" src={user5} className="rounded-circle thumb-sm" /></Link>
 
                                                                 <Tooltip placement="top" isOpen={this.state.i84} target="i84" toggle={() => this.setState({ i84: !this.state.i84 })}>Jack Krier</Tooltip>
-                                                                <Link to="#" id="i84" className="team-member"><img alt="Veltrix" src={user6} className="rounded-circle thumb-sm" /></Link>
+                                                                <Link to="#" id="i84" className="team-member"><img alt="Valico" src={user6} className="rounded-circle thumb-sm" /></Link>
 
                                                                 <Tooltip placement="top" isOpen={this.state.i85} target="i85" toggle={() => this.setState({ i85: !this.state.i85 })}>Jack Krier</Tooltip>
-                                                                <Link to="#" id="i85" className="team-member"><img alt="Veltrix" src={user7} className="rounded-circle thumb-sm" /></Link>
+                                                                <Link to="#" id="i85" className="team-member"><img alt="Valico" src={user7} className="rounded-circle thumb-sm" /></Link>
 
                                                             </div>
                                                         </td>
@@ -336,10 +336,10 @@ class Projects extends Component {
                                                         <td>
                                                             <div className="team">
                                                                 <Tooltip placement="top" isOpen={this.state.i101} target="i101" toggle={() => this.setState({ i101: !this.state.i101 })}>Roger Drake</Tooltip>
-                                                                <Link to="#" id="i101" className="team-member"><img alt="Veltrix" src={user6} className="rounded-circle thumb-sm" /></Link>
+                                                                <Link to="#" id="i101" className="team-member"><img alt="Valico" src={user6} className="rounded-circle thumb-sm" /></Link>
 
                                                                 <Tooltip placement="top" isOpen={this.state.i102} target="i102" toggle={() => this.setState({ i102: !this.state.i102 })}>Reggie James</Tooltip>
-                                                                <Link to="#" id="i102" className="team-member"><img alt="Veltrix" src={user7} className="rounded-circle thumb-sm" /> </Link>
+                                                                <Link to="#" id="i102" className="team-member"><img alt="Valico" src={user7} className="rounded-circle thumb-sm" /> </Link>
                                                             </div>
                                                         </td>
                                                         <td>
@@ -366,10 +366,10 @@ class Projects extends Component {
                                                         <td>
                                                             <div className="team">
                                                                 <Tooltip placement="top" isOpen={this.state.i111} target="i111" toggle={() => this.setState({ i111: !this.state.i111 })}>Deborah Mixon</Tooltip>
-                                                                <Link to="#" id="i111" className="team-member"><img alt="Veltrix" src={user2} className="rounded-circle thumb-sm" /></Link>
+                                                                <Link to="#" id="i111" className="team-member"><img alt="Valico" src={user2} className="rounded-circle thumb-sm" /></Link>
 
                                                                 <Tooltip placement="top" isOpen={this.state.i112} target="i112" toggle={() => this.setState({ i112: !this.state.i112 })}>Scott Jessie</Tooltip>
-                                                                <Link to="#" id="i112" className="team-member"><img alt="Veltrix" src={user1} className="rounded-circle thumb-sm" /> </Link>
+                                                                <Link to="#" id="i112" className="team-member"><img alt="Valico" src={user1} className="rounded-circle thumb-sm" /> </Link>
                                                             </div>
                                                         </td>
                                                         <td>

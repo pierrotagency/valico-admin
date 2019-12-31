@@ -55,7 +55,7 @@ class EmailTemplateBilling extends Component {
                                                             <table width="100%" cellPadding="0" cellSpacing="0" style={{ fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif", boxSizing: "border-box", fontSize: "14px", margin: "0" }}>
                                                                 <tr style={{ fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif", boxSizing: "border-box", fontSize: "14px", margin: "0" }}>
                                                                     <td className="content-block" style={{ fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif", boxSizing: "border-box", fontSize: "14px", verticalAlign: "top", margin: "0", padding: "0 0 20px" }} valign="top">
-                                                                        <h2 className="aligncenter" style={{ fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif", boxSizing: "border-box", fontSize: "24px", color: "#fff", lineHeight: "1.2em", fontWeight: "400", textAlign: "center", margin: "40px 0 0" }} align="center">Thanks for using <b style={{ fontWeight: "600" }} >Veltrix</b>.</h2>
+                                                                        <h2 className="aligncenter" style={{ fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif", boxSizing: "border-box", fontSize: "24px", color: "#fff", lineHeight: "1.2em", fontWeight: "400", textAlign: "center", margin: "40px 0 0" }} align="center">Thanks for using <b style={{ fontWeight: "600" }} >Valico</b>.</h2>
                                                                     </td>
                                                                 </tr>
                                                                 <tr style={{ fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif", boxSizing: "border-box", fontSize: "14px", margin: "0" }}>
@@ -102,13 +102,13 @@ class EmailTemplateBilling extends Component {
                                                                 </tr>
                                                                 <tr style={{ fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif", boxSizing: "border-box", fontSize: "14px", margin: "0" }}>
                                                                     <td className="content-block aligncenter" style={{ fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif", boxSizing: "border-box", fontSize: "14px", verticalAlign: "top", textAlign: "center", margin: "0", padding: "0 0 20px" }} align="center" valign="top">
-                                                                    Veltrix Inc. 2896 Howell Rd, Russellville, AR, 72823
+                                                                    Valico Inc. 2896 Howell Rd, Russellville, AR, 72823
                                                                     </td>
                                                                 </tr>
 
                                                                 <tr style={{ fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif", boxSizing: "border-box", fontSize: "14px", margin: "0" }}>
                                                                     <td className="content-block" style={{ textAlign: "center", fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif", boxSizing: "border-box", fontSize: "14px", verticalAlign: "top", margin: "0", padding: "0" }} valign="top">
-                                                                        ©  {new Date().getFullYear()}  Veltrix
+                                                                        ©  {new Date().getFullYear()}  Valico
                                                                     </td>
                                                                 </tr>
                                                             </table>

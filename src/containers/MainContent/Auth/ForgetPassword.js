@@ -63,7 +63,7 @@ class ForgetPassword extends Component {
                         </Card>
                         <div className="mt-5 text-center text-white-50">
                             <p>Already have an account ? <Link to="/login" className="font-500 text-white"> Sign In </Link> </p>
-                            <p>© {new Date().getFullYear()} Veltrix. Crafted with <i className="mdi mdi-heart text-danger"></i> by Themesbrand</p>
+                            <p>© {new Date().getFullYear()} Valico. Crafted with <i className="mdi mdi-heart text-danger"></i> by Pierrot</p>
                                
                           </div>
                     </Col>

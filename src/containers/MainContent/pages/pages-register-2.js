@@ -31,7 +31,7 @@ class Pagesregister2 extends Component {
                                             </div>
                                             <div className="text-left p-3">
                                                 <h4 className="font-18 text-center">Free Register</h4>
-                                                <p className="text-muted text-center">Get your free Veltrix account now..</p>
+                                                <p className="text-muted text-center">Get your free Valico account now..</p>
 
                                                 <form className="form-horizontal mt-5" action="dashboard">
 
@@ -59,7 +59,7 @@ class Pagesregister2 extends Component {
 
                                                     <div className="form-group mt-2 mb-0 row">
                                                         <div className="col-12 mt-3">
-                                                            <p className="mb-0">By registering you agree to the Veltrix <Link to="#" className="text-primary">Terms of Use</Link></p>
+                                                            <p className="mb-0">By registering you agree to the Valico <Link to="#" className="text-primary">Terms of Use</Link></p>
                                                         </div>
                                                     </div>
 
@@ -67,7 +67,7 @@ class Pagesregister2 extends Component {
                                             </div>
                                             <div className="mt-5 text-center">
                                                 <p>Already have an account ? <Link to="pages-login-2" className="font-500 text-primary"> Login </Link> </p>
-                                                <p>© {new Date().getFullYear()} Veltrix. Crafted with <i className="mdi mdi-heart text-danger"></i> by Themesbrand</p>
+                                                <p>© {new Date().getFullYear()} Valico. Crafted with <i className="mdi mdi-heart text-danger"></i> by Pierrot</p>
                                             </div>
                                         </div>
                                     </div>

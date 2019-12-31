@@ -103,7 +103,7 @@ class EmailInbox extends Component {
 
                             <div className="mt-2">
                                 <Link to="#" className="media">
-                                    <img className="d-flex mr-3 rounded-circle" src={user2} alt="Veltrix" height="36" />
+                                    <img className="d-flex mr-3 rounded-circle" src={user2} alt="Valico" height="36" />
                                     <div className="media-body chat-user-box">
                                         <p className="user-title m-0">Scott Median</p>
                                         <p className="text-muted">Hello</p>
@@ -111,7 +111,7 @@ class EmailInbox extends Component {
                                 </Link>
 
                                 <Link to="#" className="media">
-                                    <img className="d-flex mr-3 rounded-circle" src={user3} alt="Veltrix" height="36" />
+                                    <img className="d-flex mr-3 rounded-circle" src={user3} alt="Valico" height="36" />
                                     <div className="media-body chat-user-box">
                                         <p className="user-title m-0">Julian Rosa</p>
                                         <p className="text-muted">What about our next..</p>
@@ -119,7 +119,7 @@ class EmailInbox extends Component {
                                 </Link>
 
                                 <Link to="#" className="media">
-                                    <img className="d-flex mr-3 rounded-circle" src={user4} alt="Veltrix" height="36" />
+                                    <img className="d-flex mr-3 rounded-circle" src={user4} alt="Valico" height="36" />
                                     <div className="media-body chat-user-box">
                                         <p className="user-title m-0">David Medina</p>
                                         <p className="text-muted">Yeah everything is fine</p>
@@ -127,7 +127,7 @@ class EmailInbox extends Component {
                                 </Link>
 
                                 <Link to="#" className="media">
-                                    <img className="d-flex mr-3 rounded-circle" src={user6} alt="Veltrix" height="36" />
+                                    <img className="d-flex mr-3 rounded-circle" src={user6} alt="Valico" height="36" />
                                     <div className="media-body chat-user-box">
                                         <p className="user-title m-0">Jay Baker</p>
                                         <p className="text-muted">Wow that's great</p>

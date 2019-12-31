@@ -57,7 +57,7 @@ class Uicards extends Component {
                         <Row>
                             <Col md="6" xl="3">
                                 <Card>
-                                    <img className="card-img-top img-fluid" src={img1} alt="Veltrix" />
+                                    <img className="card-img-top img-fluid" src={img1} alt="Valico" />
                                     <CardBody>
                                         <h4 className="card-title font-16 mt-0">Card Title</h4>
                                         <p className="card-text">Some quick example text to build on the card title and make
@@ -69,7 +69,7 @@ class Uicards extends Component {
 
                             <Col md="6" xl="3">
                                 <Card>
-                                    <img className="card-img-top img-fluid" src={img2} alt="Veltrix" />
+                                    <img className="card-img-top img-fluid" src={img2} alt="Valico" />
                                     <CardBody>
                                         <h4 className="card-title font-16 mt-0">Card Title</h4>
                                         <p className="card-text">Some quick example text to build on the card title and make
@@ -88,7 +88,7 @@ class Uicards extends Component {
 
                             <Col md="6" xl="3">
                                 <Card>
-                                    <img className="card-img-top img-fluid" src={img3} alt="Veltrix" />
+                                    <img className="card-img-top img-fluid" src={img3} alt="Valico" />
                                     <CardBody>
                                         <p className="card-text">Some quick example text to build on the card title and make
                                             up the bulk of the card's content.</p>
@@ -102,7 +102,7 @@ class Uicards extends Component {
                                         <h4 className="card-title font-16 mt-0">Card Title</h4>
                                         <h6 className="card-subtitle font-14 text-muted">Support card subtitle</h6>
                                     </CardBody>
-                                    <img className="img-fluid" src={img4} alt="Veltrix" />
+                                    <img className="img-fluid" src={img4} alt="Valico" />
                                     <CardBody>
                                         <p className="card-text">Some quick example text to build on the card title and make
                                             up the bulk of the card's content.</p>
@@ -212,7 +212,7 @@ class Uicards extends Component {
                         <Row>
                             <Col lg="4">
                                 <Card>
-                                    <img className="card-img-top img-fluid" src={img5} alt="Veltrix" />
+                                    <img className="card-img-top img-fluid" src={img5} alt="Valico" />
                                     <CardBody>
                                         <h4 className="card-title font-16 mt-0">Card Title</h4>
                                         <p className="card-text">This is a wider card with supporting text below as a
@@ -236,13 +236,13 @@ class Uicards extends Component {
                                             <small className="text-muted">Last updated 3 mins ago</small>
                                         </p>
                                     </CardBody>
-                                    <img className="card-img-bottom img-fluid" src={img7} alt="Veltrix" />
+                                    <img className="card-img-bottom img-fluid" src={img7} alt="Valico" />
                                 </Card>
                             </Col>
 
                             <Col lg="4">
                                 <Card>
-                                    <img className="card-img img-fluid" src={img6} alt="Veltrix" />
+                                    <img className="card-img img-fluid" src={img6} alt="Valico" />
                                     <div className="card-img-overlay">
                                         <h4 className="card-title text-white font-16 mt-0">Card Title</h4>
                                         <p className="card-text text-light">This is a wider card with supporting text below as a
@@ -262,7 +262,7 @@ class Uicards extends Component {
                                 <Card>
                                     <div className="row no-gutters">
                                         <div className="col-md-4">
-                                            <img className="card-img img-fluid" src={img2} alt="Veltrix" />
+                                            <img className="card-img img-fluid" src={img2} alt="Valico" />
                                         </div>
                                         <div className="col-md-8">
                                             <CardBody>
@@ -285,7 +285,7 @@ class Uicards extends Component {
                                             </CardBody>
                                         </div>
                                         <div className="col-md-4">
-                                            <img className="card-img img-fluid" src={img3} alt="Veltrix" />
+                                            <img className="card-img img-fluid" src={img3} alt="Valico" />
                                         </div>
 
                                     </div>
@@ -413,7 +413,7 @@ class Uicards extends Component {
                                 <div className="card-deck-wrapper">
                                     <div className="card-deck">
                                         <Card className="mb-4">
-                                            <img className="card-img-top img-fluid" src={img4} alt="Veltrix" />
+                                            <img className="card-img-top img-fluid" src={img4} alt="Valico" />
                                             <CardBody>
                                                 <h4 className="card-title font-16 mt-0">Card Title</h4>
                                                 <p className="card-text">This is a longer card with supporting text below as
@@ -425,7 +425,7 @@ class Uicards extends Component {
                                             </CardBody>
                                         </Card>
                                         <Card className="mb-4">
-                                            <img className="card-img-top img-fluid" src={img5} alt="Veltrix" />
+                                            <img className="card-img-top img-fluid" src={img5} alt="Valico" />
                                             <CardBody>
                                                 <h4 className="card-title font-16 mt-0">Card Title</h4>
                                                 <p className="card-text">This card has supporting text below as a natural
@@ -436,7 +436,7 @@ class Uicards extends Component {
                                             </CardBody>
                                         </Card>
                                         <Card className="mb-4">
-                                            <img className="card-img-top img-fluid" src={img6} alt="Veltrix" />
+                                            <img className="card-img-top img-fluid" src={img6} alt="Valico" />
                                             <CardBody>
                                                 <h4 className="card-title font-16 mt-0">Card Title</h4>
                                                 <p className="card-text">This is a wider card with supporting text below as

@@ -44,7 +44,7 @@ class Pageslogin extends Component {
                                         </div>
                                 <div className="p-3">
                                 <h4 className="font-18 text-center">Login</h4>
-                                    <p className="text-muted text-center mb-4">Sign in to continue to Veltrix.</p>
+                                    <p className="text-muted text-center mb-4">Sign in to continue to Valico.</p>
 
                            {this.props.user && <Alert color="success">
                                     Your Login is successfull.</Alert>}
@@ -69,7 +69,7 @@ class Pageslogin extends Component {
                         </Card>
                         <div className="mt-5 text-center text-white-50">
                             <p>Don't have an account ? <Link to="/register" className="font-500 text-white"> Signup now </Link> </p>
-                            <p>© {new Date().getFullYear()} Veltrix. Crafted with <i className="mdi mdi-heart text-danger"></i> by Themesbrand</p>
+                            <p>© {new Date().getFullYear()} Valico. Crafted with <i className="mdi mdi-heart text-danger"></i> by Pierrot</p>
                          </div>
                     </Col>
                 </Row>

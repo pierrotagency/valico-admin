@@ -94,7 +94,7 @@ function Board({
       onCardDragEnd={handleOnCardDragEnd}      
       handleCardAdd={handleCardAdd}
       renderCard={(lane, card, dragging) => {
-
+        
         // if (renderCard) return renderCard(card, { removeCard: handleCardRemove.bind(null, lane, card), dragging })
         
         return (

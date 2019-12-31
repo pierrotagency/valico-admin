@@ -23,7 +23,9 @@ function Card({ children, index, renderCard, disableCardDrag, card }) {
       {(provided, { isDragging }) => {
         return (
           <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} data-testid='card'>
+            
             <CardTemplate>{renderCard(isDragging)}</CardTemplate>           
+            
             {typeof Components[card.component] !== "undefined" &&
               React.createElement(Components[card.component], {
                 key: card.id,

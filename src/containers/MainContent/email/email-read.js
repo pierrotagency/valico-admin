@@ -107,7 +107,7 @@ class EmailRead extends Component {
         
                                     <div className="mt-2">
                                         <Link to="#" className="media">
-                                            <img className="d-flex mr-3 rounded-circle" src={user2} alt="Veltrix" height="36" />
+                                            <img className="d-flex mr-3 rounded-circle" src={user2} alt="Valico" height="36" />
                                             <div className="media-body chat-user-box">
                                                 <p className="user-title m-0">Scott Median</p>
                                                 <p className="text-muted">Hello</p>
@@ -115,7 +115,7 @@ class EmailRead extends Component {
                                         </Link>
         
                                         <Link to="#" className="media">
-                                            <img className="d-flex mr-3 rounded-circle" src={user3} alt="Veltrix" height="36" />
+                                            <img className="d-flex mr-3 rounded-circle" src={user3} alt="Valico" height="36" />
                                             <div className="media-body chat-user-box">
                                                 <p className="user-title m-0">Julian Rosa</p>
                                                 <p className="text-muted">What about our next..</p>
@@ -123,7 +123,7 @@ class EmailRead extends Component {
                                         </Link>
         
                                         <Link to="#" className="media">
-                                            <img className="d-flex mr-3 rounded-circle" src={user4} alt="Veltrix" height="36" />
+                                            <img className="d-flex mr-3 rounded-circle" src={user4} alt="Valico" height="36" />
                                             <div className="media-body chat-user-box">
                                                 <p className="user-title m-0">David Medina</p>
                                                 <p className="text-muted">Yeah everything is fine</p>
@@ -131,7 +131,7 @@ class EmailRead extends Component {
                                         </Link>
         
                                         <Link to="#" className="media">
-                                            <img className="d-flex mr-3 rounded-circle" src={user6} alt="Veltrix" height="36" />
+                                            <img className="d-flex mr-3 rounded-circle" src={user6} alt="Valico" height="36" />
                                             <div className="media-body chat-user-box">
                                                 <p className="user-title m-0">Jay Baker</p>
                                                 <p className="text-muted">Wow that's great</p>
@@ -195,7 +195,7 @@ class EmailRead extends Component {
                                         <CardBody>
         
                                             <div className="media mb-4">
-                                                <img className="d-flex mr-3 rounded-circle thumb-md" src={user1} alt="Veltrix" />
+                                                <img className="d-flex mr-3 rounded-circle thumb-md" src={user1} alt="Valico" />
                                                 <div className="media-body">
                                                     <h4 className="font-14 m-0">Humberto D. Champion</h4>
                                                     <small className="text-muted">support@domain.com</small>
@@ -215,7 +215,7 @@ class EmailRead extends Component {
                                             <Row>
                                                 <div className="col-xl-2 col-6">
                                                     <Card>
-                                                        <img className="card-img-top img-fluid" src={img3}  alt="Veltrix" />
+                                                        <img className="card-img-top img-fluid" src={img3}  alt="Valico" />
                                                         <div className="py-2 text-center">
                                                             <Link to="" className="font-500">Download</Link>
                                                         </div>
@@ -223,7 +223,7 @@ class EmailRead extends Component {
                                                 </div>
                                             <div className="col-xl-2 col-6">
                                                     <Card>
-                                                        <img className="card-img-top img-fluid" src={img4}  alt="Veltrix" />
+                                                        <img className="card-img-top img-fluid" src={img4}  alt="Valico" />
                                                         <div className="py-2 text-center">
                                                             <Link to="" className="font-500">Download</Link>
                                                         </div>

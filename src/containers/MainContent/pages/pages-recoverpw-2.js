@@ -54,7 +54,7 @@ class Pagesrecoverpw2 extends Component {
                                             </div>
                                             <div className="mt-5 text-center">
                                                 <p>Remember It ? <Link to="pages-login-2" className="font-500 text-primary"> Sign In here </Link> </p>
-                                                <p>©  {new Date().getFullYear()} Veltrix. Crafted with <i className="mdi mdi-heart text-danger"></i> by Themesbrand</p>
+                                                <p>©  {new Date().getFullYear()} Valico. Crafted with <i className="mdi mdi-heart text-danger"></i> by Pierrot</p>
 
                                             </div>
                                         </div>

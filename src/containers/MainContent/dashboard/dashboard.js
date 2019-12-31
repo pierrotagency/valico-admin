@@ -76,7 +76,7 @@ class Dashboard extends Component {
                                 <div className="col-sm-6">
                                     <h4 className="page-title">Dashboard</h4>
                                     <ol className="breadcrumb">
-                                        <li className="breadcrumb-item active">Welcome to Veltrix Dashboard</li>
+                                        <li className="breadcrumb-item active">Welcome to Valico Dashboard</li>
                                     </ol>
                                 </div>
                                 <div className="col-sm-6">

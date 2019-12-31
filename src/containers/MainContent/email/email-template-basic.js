@@ -80,14 +80,14 @@ class EmailTemplateBasic extends Component {
                                                                 </tr>
                                                                 <tr style={{ fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif", boxSizing: "border-box", fontSize: "14px", margin: "0" }}>
                                                                     <td className="content-block" style={{ fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif", boxSizing: "border-box", fontSize: "14px", verticalAlign: "top", margin: "0", padding: "0 0 20px" }} valign="top">
-                                                                        <b>Veltrix</b>
+                                                                        <b>Valico</b>
                                                                         <p>Support Team</p>
                                                                     </td>
                                                                 </tr>
 
                                                                 <tr style={{ fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif", boxSizing: "border-box", fontSize: "14px", margin: "0" }}>
                                                                     <td className="content-block" style={{ textAlign: "center", fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif", boxSizing: "border-box", fontSize: "14px", verticalAlign: "top", margin: "0", padding: "0" }} valign="top">
-                                                                        © {new Date().getFullYear()}  Veltrix
+                                                                        © {new Date().getFullYear()}  Valico
                                                                     </td>
                                                                 </tr>
                                                             </table>
