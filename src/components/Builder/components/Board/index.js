@@ -122,6 +122,8 @@ function BoardContainer({
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <StyledBoard>
         <DroppableBoard droppableId='board-droppable' direction='horizontal' type='BOARD'>
+          
+          
           {board.areas.map((area, index) => (              
             <Area
               key={area.id}
@@ -133,6 +135,7 @@ function BoardContainer({
               {area}
             </Area>            
           ))}
+          
           
         </DroppableBoard>
       </StyledBoard>
