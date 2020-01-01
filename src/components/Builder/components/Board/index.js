@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { DragDropContext } from 'react-beautiful-dnd'
-import Area from './components/Area'
+// import Area from './components/Area'
 import withDroppable from '../withDroppable'
 import { when, partialRight } from '../../../../helpers/utils'
 
 import ModuleHandler from './components/ModuleHandler'
 import { moveModule, addModule, removeModule } from './services'
+
+
+import Layout1 from './layouts/Layout1'
 
 const StyledBoard = styled.div`
   padding: 5px;
@@ -123,7 +126,15 @@ function BoardContainer({
       <StyledBoard>
         <DroppableBoard droppableId='board-droppable' direction='horizontal' type='BOARD'>
           
-          
+          <Layout1
+              renderModule={renderModule}
+              moduleAdded={handleModuleAdd}              
+              disableModuleDrag={disableModuleDrag}
+          >
+            {board.areas}
+          </Layout1>
+
+          {/*           
           {board.areas.map((area, index) => (              
             <Area
               key={area.id}
@@ -134,8 +145,8 @@ function BoardContainer({
             >
               {area}
             </Area>            
-          ))}
-          
+          ))} */}
+
           
         </DroppableBoard>
       </StyledBoard>
