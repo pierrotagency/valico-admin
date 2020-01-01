@@ -12,53 +12,53 @@ const board = {
       {
         id: 1,
         title: 'Lane Backlog',
-        cards: [
+        modules: [
           {
             id: 1,
-            title: 'Card title 1',
-            description: 'Card content',
+            title: 'Module title 1',
+            description: 'Module content',
             component: "foo"            
           },
           {
             id: 2,
-            title: 'Card title 2',
-            description: 'Card content',
+            title: 'Module title 2',
+            description: 'Module content',
             component: "bar"            
           },
           {
             id: 3,
-            title: 'Card title 3',
-            description: 'Card content',
+            title: 'Module title 3',
+            description: 'Module content',
             component: "bar"            
           },
           {
             id: 4,
-            title: 'Card title 4',
-            description: 'Card content',
+            title: 'Module title 4',
+            description: 'Module content',
             component: "foo"            
           },
           {
             id: 5,
-            title: 'Card title 5',
-            description: 'Card content',
+            title: 'Module title 5',
+            description: 'Module content',
             component: "foo"            
           },
           {
             id: 6,
-            title: 'Card title 6',
-            description: 'Card content',
+            title: 'Module title 6',
+            description: 'Module content',
             component: "foo"            
           },
           {
             id: 7,
-            title: 'Card title 7',
-            description: 'Card content',
+            title: 'Module title 7',
+            description: 'Module content',
             component: "foo"            
           },
           {
             id: 8,
-            title: 'Card title 8',
-            description: 'Card content',
+            title: 'Module title 8',
+            description: 'Module content',
             component: "foo"            
           }
         ]
@@ -66,11 +66,11 @@ const board = {
       {
         id: 2,
         title: 'Lane Doing',
-        cards: [
+        modules: [
           {
             id: 9,
-            title: 'Card title 9',
-            description: 'Card content',
+            title: 'Module title 9',
+            description: 'Module content',
             component: "foo"            
           }
         ]
@@ -78,7 +78,7 @@ const board = {
       {
         id: 3,
         title: 'Lane Done',
-        cards: [
+        modules: [
           
         ]
       }
@@ -119,9 +119,9 @@ class PagesBuilder extends Component {
 
                         <div>
                             <Board                                                                
-                                onCardRemove={console.log}
-                                onCardAdded={console.log}
-                                allowRemoveCard={true}                           
+                                onModuleRemove={console.log}
+                                onModuleAdded={console.log}
+                                allowRemoveModule={true}                           
                                 initialBoard={board}
                             />
                         </div>

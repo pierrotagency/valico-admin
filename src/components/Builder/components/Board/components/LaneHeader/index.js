@@ -18,7 +18,7 @@ function LaneTitle({ allowRenameLane, onClick, children: title }) {
 }
 
 
-export default function({ children: lane, addCard }) {
+export default function({ children: lane, addModule }) {
   // const [title, setTitle] = useState(lane.title)
   const [title] = useState(lane.title)
   

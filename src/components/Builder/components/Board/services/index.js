@@ -6,63 +6,63 @@ import {
   getUuid
 } from '../../../../../helpers/utils'
 
-function reorderCardsOnLane(lane, reorderCards) {
-  return { ...lane, cards: reorderCards(lane.cards) }
+function reorderModulesOnLane(lane, reorderModules) {
+  return { ...lane, modules: reorderModules(lane.modules) }
 }
 
-function moveCard(board, { fromPosition, fromLaneId }, { toPosition, toLaneId }) {
+function moveModule(board, { fromPosition, fromLaneId }, { toPosition, toLaneId }) {
   const sourceLane = board.lanes.find(lane => lane.id === fromLaneId)
   const destinationLane = board.lanes.find(lane => lane.id === toLaneId)
 
   const reorderLanesOnBoard = reorderLanesMapper => ({ ...board, lanes: board.lanes.map(reorderLanesMapper) })
-  const reorderCardsOnSourceLane = reorderCardsOnLane.bind(null, sourceLane)
-  const reorderCardsOnDestinationLane = reorderCardsOnLane.bind(null, destinationLane)
+  const reorderModulesOnSourceLane = reorderModulesOnLane.bind(null, sourceLane)
+  const reorderModulesOnDestinationLane = reorderModulesOnLane.bind(null, destinationLane)
 
   if (sourceLane.id === destinationLane.id) {
-    const reorderedCardsOnLane = reorderCardsOnSourceLane(cards => {
-      return changeElementOfPositionInArray(cards, fromPosition, toPosition)
+    const reorderedModulesOnLane = reorderModulesOnSourceLane(modules => {
+      return changeElementOfPositionInArray(modules, fromPosition, toPosition)
     })
-    return reorderLanesOnBoard(lane => (lane.id === sourceLane.id ? reorderedCardsOnLane : lane))
+    return reorderLanesOnBoard(lane => (lane.id === sourceLane.id ? reorderedModulesOnLane : lane))
   } else {
-    const reorderedCardsOnSourceLane = reorderCardsOnSourceLane(cards => {
-      return removeFromArrayAtPosition(cards, fromPosition)
+    const reorderedModulesOnSourceLane = reorderModulesOnSourceLane(modules => {
+      return removeFromArrayAtPosition(modules, fromPosition)
     })
-    const reorderedCardsOnDestinationLane = reorderCardsOnDestinationLane(cards => {
-      return addInArrayAtPosition(cards, sourceLane.cards[fromPosition], toPosition)
+    const reorderedModulesOnDestinationLane = reorderModulesOnDestinationLane(modules => {
+      return addInArrayAtPosition(modules, sourceLane.modules[fromPosition], toPosition)
     })
     return reorderLanesOnBoard(lane => {
-      if (lane.id === sourceLane.id) return reorderedCardsOnSourceLane
-      if (lane.id === destinationLane.id) return reorderedCardsOnDestinationLane
+      if (lane.id === sourceLane.id) return reorderedModulesOnSourceLane
+      if (lane.id === destinationLane.id) return reorderedModulesOnDestinationLane
       return lane
     })
   }
 }
 
 
-function addCard(board, inLane, card, { on } = {}) {
+function addModule(board, inLane, module, { on } = {}) {
 
   const uuid = getUuid();
 
   console.log(uuid);
 
-  card.id = uuid;
+  module.id = uuid;
 
   const laneToAdd = board.lanes.find(({ id }) => id === inLane.id)
 
-  const cards = addInArrayAtPosition(laneToAdd.cards, card, on === 'top' ? 0 : laneToAdd.cards.length)
+  const modules = addInArrayAtPosition(laneToAdd.modules, module, on === 'top' ? 0 : laneToAdd.modules.length)
   const lanes = replaceElementOfArray(board.lanes)({
     when: ({ id }) => inLane.id === id,
-    for: value => ({ ...value, cards })
+    for: value => ({ ...value, modules })
   })
   return { ...board, lanes }
 }
 
-function removeCard(board, fromLane, card) {
+function removeModule(board, fromLane, module) {
   const laneToRemove = board.lanes.find(({ id }) => id === fromLane.id)
-  const filteredCards = laneToRemove.cards.filter(({ id }) => card.id !== id)
-  const laneWithoutCard = { ...laneToRemove, cards: filteredCards }
-  const filteredLanes = board.lanes.map(lane => (fromLane.id === lane.id ? laneWithoutCard : lane))
+  const filteredModules = laneToRemove.modules.filter(({ id }) => module.id !== id)
+  const laneWithoutModule = { ...laneToRemove, modules: filteredModules }
+  const filteredLanes = board.lanes.map(lane => (fromLane.id === lane.id ? laneWithoutModule : lane))
   return { ...board, lanes: filteredLanes }
 }
 
-export { moveCard, addCard, removeCard }
+export { moveModule, addModule, removeModule }

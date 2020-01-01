@@ -4,9 +4,9 @@ import { DragDropContext } from 'react-beautiful-dnd'
 import Lane from './components/Lane'
 import withDroppable from '../withDroppable'
 import { when, partialRight } from '../../../../helpers/utils'
-import DefaultLaneHeader from './components/DefaultLaneHeader'
-import DefaultCard from './components/DefaultCard'
-import { moveCard, addCard, removeCard } from './services'
+import LaneHeader from './components/LaneHeader'
+import ModuleHandler from './components/ModuleHandler'
+import { moveModule, addModule, removeModule } from './services'
 
 const StyledBoard = styled.div`
   padding: 5px;
@@ -44,19 +44,19 @@ const DroppableBoard = withDroppable(Lanes)
 
 function Board({
   initialBoard,
-  onCardDragEnd,
-  onCardNew,
-  renderCard,
-  allowRemoveCard,
-  onCardRemove,
-  onCardAdded,
-  disableCardDrag,
+  onModuleDragEnd,
+  onModuleNew,
+  renderModule,
+  allowRemoveModule,
+  onModuleRemove,
+  onModuleAdded,
+  disableModuleDrag,
   disableLaneDrag
 }) {
 
   const [board, setBoard] = useState(initialBoard)
 
-  const handleOnCardDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveCard, notifyCallback: onCardDragEnd })
+  const handleOnModuleDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveModule, notifyCallback: onModuleDragEnd })
   
   function handleOnDragEnd({ source, destination }, { moveCallback, notifyCallback }) {
     const reorderedBoard = moveCallback(board, source, destination)
@@ -65,51 +65,51 @@ function Board({
   }
 
 
-  function handleCardAdd(lane, card, options = {}) {
+  function handleModuleAdd(lane, module, options = {}) {
 
-    const boardWithNewCard = addCard(board, lane, card, options)
+    const boardWithNewModule = addModule(board, lane, module, options)
     
-    onCardAdded(
-      boardWithNewCard,
-      boardWithNewCard.lanes.find(({ id }) => id === lane.id),
-      card
+    onModuleAdded(
+      boardWithNewModule,
+      boardWithNewModule.lanes.find(({ id }) => id === lane.id),
+      module
     )
 
-    setBoard(boardWithNewCard)
+    setBoard(boardWithNewModule)
   
   }
 
-  function handleCardRemove(lane, card) {
-    const boardWithoutCard = removeCard(board, lane, card)
-    onCardRemove(
-      boardWithoutCard,
-      boardWithoutCard.lanes.find(({ id }) => id === lane.id),
-      card
+  function handleModuleRemove(lane, module) {
+    const boardWithoutModule = removeModule(board, lane, module)
+    onModuleRemove(
+      boardWithoutModule,
+      boardWithoutModule.lanes.find(({ id }) => id === lane.id),
+      module
     )
-    setBoard(boardWithoutCard)
+    setBoard(boardWithoutModule)
   }
 
   return (
     <BoardContainer
-      onCardDragEnd={handleOnCardDragEnd}      
-      handleCardAdd={handleCardAdd}
-      renderCard={(lane, card, dragging) => {
+      onModuleDragEnd={handleOnModuleDragEnd}      
+      handleModuleAdd={handleModuleAdd}
+      renderModule={(lane, module, dragging) => {
         
-        // if (renderCard) return renderCard(card, { removeCard: handleCardRemove.bind(null, lane, card), dragging })
+        // if (renderModule) return renderModule(module, { removeModule: handleModuleRemove.bind(null, lane, module), dragging })
         
         return (
-          <DefaultCard
+          <ModuleHandler
             dragging={dragging}
-            allowRemoveCard={allowRemoveCard}
-            onCardRemove={card => handleCardRemove(lane, card)}
+            allowRemoveModule={allowRemoveModule}
+            onModuleRemove={module => handleModuleRemove(lane, module)}
           >
-            {card}
-          </DefaultCard>
+            {module}
+          </ModuleHandler>
         )
 
       }}
       disableLaneDrag={disableLaneDrag}
-      disableCardDrag={disableCardDrag}
+      disableModuleDrag={disableModuleDrag}
     >
       {board}
     </BoardContainer>
@@ -118,20 +118,20 @@ function Board({
 
 function BoardContainer({
   children: board,
-  renderCard,
+  renderModule,
   disableLaneDrag,
-  disableCardDrag,
+  disableModuleDrag,
   renderLaneHeader,
   onLaneDragEnd,
-  onCardDragEnd,
-  handleCardAdd
+  onModuleDragEnd,
+  handleModuleAdd
 }) {
 
   function handleOnDragEnd(event) {
     const coordinates = getCoordinates(event)
     if (!coordinates.source) return
 
-    isALaneMove(event.type) ? onLaneDragEnd(coordinates) : onCardDragEnd(coordinates)
+    isALaneMove(event.type) ? onLaneDragEnd(coordinates) : onModuleDragEnd(coordinates)
   }
 
   return (
@@ -142,21 +142,21 @@ function BoardContainer({
             <Lane
               key={lane.id}
               index={index}
-              renderCard={renderCard}
+              renderModule={renderModule}
               renderLaneHeader={lane =>
                 renderLaneHeader ? (
                   renderLaneHeader(lane)
                 ) : (
                   <>
-                    <DefaultLaneHeader >
+                    <LaneHeader >
                       {lane}
-                    </DefaultLaneHeader>
-                    <button onClick={() => handleCardAdd(lane, { title: 'New card', description: 'Card content', component: "foo" })}>New card</button>  
+                    </LaneHeader>
+                    <button onClick={() => handleModuleAdd(lane, { title: 'New module', description: 'Module content', component: "foo" })}>New module</button>  
                   </>
                 )
               }
               disableLaneDrag={disableLaneDrag}
-              disableCardDrag={disableCardDrag}
+              disableModuleDrag={disableModuleDrag}
             >
               {lane}
             </Lane>            
