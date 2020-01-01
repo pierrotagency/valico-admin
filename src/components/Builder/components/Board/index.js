@@ -37,13 +37,10 @@ const DroppableBoard = withDroppable(Areas)
 function Board({
   initialBoard,
   onModuleDragEnd,
-  onModuleNew,
-  renderModule,
-  allowRemoveModule,
   onModuleRemove,
   onModuleAdded,
-  disableModuleDrag,
-  disableAreaDrag
+  allowRemoveModule,
+  disableModuleDrag
 }) {
 
   const [board, setBoard] = useState(initialBoard)
@@ -99,8 +96,7 @@ function Board({
           </ModuleHandler>
         )
 
-      }}
-      disableAreaDrag={disableAreaDrag}
+      }}      
       disableModuleDrag={disableModuleDrag}
     >
       {board}
@@ -111,7 +107,6 @@ function Board({
 function BoardContainer({
   children: board,
   renderModule,
-  disableAreaDrag,
   disableModuleDrag,   
   onModuleDragEnd,
   handleModuleAdd
@@ -120,7 +115,6 @@ function BoardContainer({
   function handleOnDragEnd(event) {
     const coordinates = getCoordinates(event)
     if (!coordinates.source) return
-
     onModuleDragEnd(coordinates)
   }
 
@@ -133,8 +127,7 @@ function BoardContainer({
               key={area.id}
               index={index}
               renderModule={renderModule}
-              moduleAdded={handleModuleAdd}
-              disableAreaDrag={disableAreaDrag}
+              moduleAdded={handleModuleAdd}              
               disableModuleDrag={disableModuleDrag}
             >
               {area}

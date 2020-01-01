@@ -116,15 +116,14 @@ class PagesBuilder extends Component {
                             </div>
                         </div>
 
-
-                        <div>
-                            <Board                                                                
-                                onModuleRemove={console.log}
-                                onModuleAdded={console.log}
-                                allowRemoveModule={true}                           
-                                initialBoard={board}
-                            />
-                        </div>
+                        <Board                                                                
+                            onModuleRemove={console.log}
+                            onModuleAdded={console.log}
+                            onModuleDragEnd={console.log}
+                            allowRemoveModule={true}                           
+                            initialBoard={board}
+                        />
+                    
                     </div>
                 </div>
             </React.Fragment>

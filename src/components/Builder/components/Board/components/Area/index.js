@@ -20,27 +20,27 @@ const DroppableArea = withDroppable(styled.div`
   min-height: 28px;
 `)
 
-function Area({ children, index: areaIndex, renderModule, moduleAdded, disableAreaDrag, disableModuleDrag }) {
+function Area({ children: area, index: areaIndex, renderModule, moduleAdded, disableModuleDrag }) {
   return (
-    <Draggable draggableId={`area-draggable-${children.id}`} index={areaIndex} isDragDisabled={disableAreaDrag}>
+    <Draggable draggableId={`area-draggable-${area.id}`} index={areaIndex} isDragDisabled={true}>
       {areaProvided => (
         <StyledArea ref={areaProvided.innerRef} {...areaProvided.draggableProps}>
           <div {...areaProvided.dragHandleProps}>
             
               <AreaHandler >
-                {children}
+                {area}
               </AreaHandler>
-              <button onClick={() => moduleAdded(children, { title: 'New module', description: 'Module content', component: "foo" })}>New module</button>  
+              <button onClick={() => moduleAdded(area, { title: 'New module', description: 'Module content', component: "foo" })}>New module</button>  
             
           </div>
-          <DroppableArea droppableId={String(children.id)}>
-            {(children.modules && children.modules.length) && (
-              children.modules.map((module, index) => (
+          <DroppableArea droppableId={String(area.id)}>
+            {(area.modules && area.modules.length) && (
+              area.modules.map((module, index) => (
                 <Module
                   key={module.id}
                   module={module}
                   index={index}
-                  renderModule={dragging => renderModule(children, module, dragging)}
+                  renderModule={dragging => renderModule(area, module, dragging)}
                   disableModuleDrag={disableModuleDrag}
                 >
                   {module}
