@@ -8,7 +8,7 @@ import Board from '../../../components/Builder';
 
 
 const board = {
-    lanes: [
+    areas: [
       {
         id: 1,
         title: 'Lane Backlog',

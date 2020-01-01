@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import CursorPointer from '../CursorPointer'
 
 const ModuleHandler = styled.div`
   border-radius: 3px;
@@ -26,6 +25,11 @@ const ModuleTitle = styled.div`
 const ModuleDescription = styled.div`
   padding-top: 10px;
 `
+
+const CursorPointer =  styled.span`
+  cursor: pointer;
+`
+
 
 export default function({ children: module, dragging, allowRemoveModule, onModuleRemove }) {
   return (

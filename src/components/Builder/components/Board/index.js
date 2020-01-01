@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { DragDropContext } from 'react-beautiful-dnd'
-import Lane from './components/Lane'
+import Area from './components/Area'
 import withDroppable from '../withDroppable'
 import { when, partialRight } from '../../../../helpers/utils'
-import LaneHeader from './components/LaneHeader'
+import AreaHandler from './components/AreaHandler'
 import ModuleHandler from './components/ModuleHandler'
 import { moveModule, addModule, removeModule } from './services'
 
@@ -15,31 +15,31 @@ const StyledBoard = styled.div`
   align-items: flex-start;
 `
 
-const Lanes = styled.div`
+const Areas = styled.div`
   white-space: nowrap;
 `
 
-function isALaneMove(type) {
+function isAAreaMove(type) {
   return type === 'BOARD'
 }
 
 function getCoordinates(event) {
   if (event.destination === null) return {}
 
-  const laneSource = { fromPosition: event.source.index }
-  const laneDestination = { toPosition: event.destination.index }
+  const areaSource = { fromPosition: event.source.index }
+  const areaDestination = { toPosition: event.destination.index }
 
-  if (isALaneMove(event.type)) {
-    return { source: laneSource, destination: laneDestination }
+  if (isAAreaMove(event.type)) {
+    return { source: areaSource, destination: areaDestination }
   }
 
   return {
-    source: { ...laneSource, fromLaneId: parseInt(event.source.droppableId) },
-    destination: { ...laneDestination, toLaneId: parseInt(event.destination.droppableId) }
+    source: { ...areaSource, fromAreaId: parseInt(event.source.droppableId) },
+    destination: { ...areaDestination, toAreaId: parseInt(event.destination.droppableId) }
   }
 }
 
-const DroppableBoard = withDroppable(Lanes)
+const DroppableBoard = withDroppable(Areas)
 
 
 function Board({
@@ -51,7 +51,7 @@ function Board({
   onModuleRemove,
   onModuleAdded,
   disableModuleDrag,
-  disableLaneDrag
+  disableAreaDrag
 }) {
 
   const [board, setBoard] = useState(initialBoard)
@@ -65,13 +65,13 @@ function Board({
   }
 
 
-  function handleModuleAdd(lane, module, options = {}) {
+  function handleModuleAdd(area, module, options = {}) {
 
-    const boardWithNewModule = addModule(board, lane, module, options)
+    const boardWithNewModule = addModule(board, area, module, options)
     
     onModuleAdded(
       boardWithNewModule,
-      boardWithNewModule.lanes.find(({ id }) => id === lane.id),
+      boardWithNewModule.areas.find(({ id }) => id === area.id),
       module
     )
 
@@ -79,11 +79,11 @@ function Board({
   
   }
 
-  function handleModuleRemove(lane, module) {
-    const boardWithoutModule = removeModule(board, lane, module)
+  function handleModuleRemove(area, module) {
+    const boardWithoutModule = removeModule(board, area, module)
     onModuleRemove(
       boardWithoutModule,
-      boardWithoutModule.lanes.find(({ id }) => id === lane.id),
+      boardWithoutModule.areas.find(({ id }) => id === area.id),
       module
     )
     setBoard(boardWithoutModule)
@@ -93,22 +93,22 @@ function Board({
     <BoardContainer
       onModuleDragEnd={handleOnModuleDragEnd}      
       handleModuleAdd={handleModuleAdd}
-      renderModule={(lane, module, dragging) => {
+      renderModule={(area, module, dragging) => {
         
-        // if (renderModule) return renderModule(module, { removeModule: handleModuleRemove.bind(null, lane, module), dragging })
+        // if (renderModule) return renderModule(module, { removeModule: handleModuleRemove.bind(null, area, module), dragging })
         
         return (
           <ModuleHandler
             dragging={dragging}
             allowRemoveModule={allowRemoveModule}
-            onModuleRemove={module => handleModuleRemove(lane, module)}
+            onModuleRemove={module => handleModuleRemove(area, module)}
           >
             {module}
           </ModuleHandler>
         )
 
       }}
-      disableLaneDrag={disableLaneDrag}
+      disableAreaDrag={disableAreaDrag}
       disableModuleDrag={disableModuleDrag}
     >
       {board}
@@ -119,10 +119,10 @@ function Board({
 function BoardContainer({
   children: board,
   renderModule,
-  disableLaneDrag,
+  disableAreaDrag,
   disableModuleDrag,
-  renderLaneHeader,
-  onLaneDragEnd,
+  renderAreaHandler,
+  onAreaDragEnd,
   onModuleDragEnd,
   handleModuleAdd
 }) {
@@ -131,35 +131,35 @@ function BoardContainer({
     const coordinates = getCoordinates(event)
     if (!coordinates.source) return
 
-    isALaneMove(event.type) ? onLaneDragEnd(coordinates) : onModuleDragEnd(coordinates)
+    isAAreaMove(event.type) ? onAreaDragEnd(coordinates) : onModuleDragEnd(coordinates)
   }
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <StyledBoard>
         <DroppableBoard droppableId='board-droppable' direction='horizontal' type='BOARD'>
-          {board.lanes.map((lane, index) => (              
-            <Lane
-              key={lane.id}
+          {board.areas.map((area, index) => (              
+            <Area
+              key={area.id}
               index={index}
               renderModule={renderModule}
-              renderLaneHeader={lane =>
-                renderLaneHeader ? (
-                  renderLaneHeader(lane)
+              renderAreaHandler={area =>
+                renderAreaHandler ? (
+                  renderAreaHandler(area)
                 ) : (
                   <>
-                    <LaneHeader >
-                      {lane}
-                    </LaneHeader>
-                    <button onClick={() => handleModuleAdd(lane, { title: 'New module', description: 'Module content', component: "foo" })}>New module</button>  
+                    <AreaHandler >
+                      {area}
+                    </AreaHandler>
+                    <button onClick={() => handleModuleAdd(area, { title: 'New module', description: 'Module content', component: "foo" })}>New module</button>  
                   </>
                 )
               }
-              disableLaneDrag={disableLaneDrag}
+              disableAreaDrag={disableAreaDrag}
               disableModuleDrag={disableModuleDrag}
             >
-              {lane}
-            </Lane>            
+              {area}
+            </Area>            
           ))}
           
         </DroppableBoard>

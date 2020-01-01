@@ -6,40 +6,40 @@ import {
   getUuid
 } from '../../../../../helpers/utils'
 
-function reorderModulesOnLane(lane, reorderModules) {
-  return { ...lane, modules: reorderModules(lane.modules) }
+function reorderModulesOnArea(area, reorderModules) {
+  return { ...area, modules: reorderModules(area.modules) }
 }
 
-function moveModule(board, { fromPosition, fromLaneId }, { toPosition, toLaneId }) {
-  const sourceLane = board.lanes.find(lane => lane.id === fromLaneId)
-  const destinationLane = board.lanes.find(lane => lane.id === toLaneId)
+function moveModule(board, { fromPosition, fromAreaId }, { toPosition, toAreaId }) {
+  const sourceArea = board.areas.find(area => area.id === fromAreaId)
+  const destinationArea = board.areas.find(area => area.id === toAreaId)
 
-  const reorderLanesOnBoard = reorderLanesMapper => ({ ...board, lanes: board.lanes.map(reorderLanesMapper) })
-  const reorderModulesOnSourceLane = reorderModulesOnLane.bind(null, sourceLane)
-  const reorderModulesOnDestinationLane = reorderModulesOnLane.bind(null, destinationLane)
+  const reorderAreasOnBoard = reorderAreasMapper => ({ ...board, areas: board.areas.map(reorderAreasMapper) })
+  const reorderModulesOnSourceArea = reorderModulesOnArea.bind(null, sourceArea)
+  const reorderModulesOnDestinationArea = reorderModulesOnArea.bind(null, destinationArea)
 
-  if (sourceLane.id === destinationLane.id) {
-    const reorderedModulesOnLane = reorderModulesOnSourceLane(modules => {
+  if (sourceArea.id === destinationArea.id) {
+    const reorderedModulesOnArea = reorderModulesOnSourceArea(modules => {
       return changeElementOfPositionInArray(modules, fromPosition, toPosition)
     })
-    return reorderLanesOnBoard(lane => (lane.id === sourceLane.id ? reorderedModulesOnLane : lane))
+    return reorderAreasOnBoard(area => (area.id === sourceArea.id ? reorderedModulesOnArea : area))
   } else {
-    const reorderedModulesOnSourceLane = reorderModulesOnSourceLane(modules => {
+    const reorderedModulesOnSourceArea = reorderModulesOnSourceArea(modules => {
       return removeFromArrayAtPosition(modules, fromPosition)
     })
-    const reorderedModulesOnDestinationLane = reorderModulesOnDestinationLane(modules => {
-      return addInArrayAtPosition(modules, sourceLane.modules[fromPosition], toPosition)
+    const reorderedModulesOnDestinationArea = reorderModulesOnDestinationArea(modules => {
+      return addInArrayAtPosition(modules, sourceArea.modules[fromPosition], toPosition)
     })
-    return reorderLanesOnBoard(lane => {
-      if (lane.id === sourceLane.id) return reorderedModulesOnSourceLane
-      if (lane.id === destinationLane.id) return reorderedModulesOnDestinationLane
-      return lane
+    return reorderAreasOnBoard(area => {
+      if (area.id === sourceArea.id) return reorderedModulesOnSourceArea
+      if (area.id === destinationArea.id) return reorderedModulesOnDestinationArea
+      return area
     })
   }
 }
 
 
-function addModule(board, inLane, module, { on } = {}) {
+function addModule(board, inArea, module, { on } = {}) {
 
   const uuid = getUuid();
 
@@ -47,22 +47,22 @@ function addModule(board, inLane, module, { on } = {}) {
 
   module.id = uuid;
 
-  const laneToAdd = board.lanes.find(({ id }) => id === inLane.id)
+  const areaToAdd = board.areas.find(({ id }) => id === inArea.id)
 
-  const modules = addInArrayAtPosition(laneToAdd.modules, module, on === 'top' ? 0 : laneToAdd.modules.length)
-  const lanes = replaceElementOfArray(board.lanes)({
-    when: ({ id }) => inLane.id === id,
+  const modules = addInArrayAtPosition(areaToAdd.modules, module, on === 'top' ? 0 : areaToAdd.modules.length)
+  const areas = replaceElementOfArray(board.areas)({
+    when: ({ id }) => inArea.id === id,
     for: value => ({ ...value, modules })
   })
-  return { ...board, lanes }
+  return { ...board, areas }
 }
 
-function removeModule(board, fromLane, module) {
-  const laneToRemove = board.lanes.find(({ id }) => id === fromLane.id)
-  const filteredModules = laneToRemove.modules.filter(({ id }) => module.id !== id)
-  const laneWithoutModule = { ...laneToRemove, modules: filteredModules }
-  const filteredLanes = board.lanes.map(lane => (fromLane.id === lane.id ? laneWithoutModule : lane))
-  return { ...board, lanes: filteredLanes }
+function removeModule(board, fromArea, module) {
+  const areaToRemove = board.areas.find(({ id }) => id === fromArea.id)
+  const filteredModules = areaToRemove.modules.filter(({ id }) => module.id !== id)
+  const areaWithoutModule = { ...areaToRemove, modules: filteredModules }
+  const filteredAreas = board.areas.map(area => (fromArea.id === area.id ? areaWithoutModule : area))
+  return { ...board, areas: filteredAreas }
 }
 
 export { moveModule, addModule, removeModule }
