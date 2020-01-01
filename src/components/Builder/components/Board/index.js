@@ -4,7 +4,7 @@ import { DragDropContext } from 'react-beautiful-dnd'
 import Area from './components/Area'
 import withDroppable from '../withDroppable'
 import { when, partialRight } from '../../../../helpers/utils'
-import AreaHandler from './components/AreaHandler'
+
 import ModuleHandler from './components/ModuleHandler'
 import { moveModule, addModule, removeModule } from './services'
 
@@ -19,19 +19,11 @@ const Areas = styled.div`
   white-space: nowrap;
 `
 
-function isAAreaMove(type) {
-  return type === 'BOARD'
-}
-
 function getCoordinates(event) {
   if (event.destination === null) return {}
 
   const areaSource = { fromPosition: event.source.index }
   const areaDestination = { toPosition: event.destination.index }
-
-  if (isAAreaMove(event.type)) {
-    return { source: areaSource, destination: areaDestination }
-  }
 
   return {
     source: { ...areaSource, fromAreaId: parseInt(event.source.droppableId) },
@@ -120,9 +112,7 @@ function BoardContainer({
   children: board,
   renderModule,
   disableAreaDrag,
-  disableModuleDrag,
-  renderAreaHandler,
-  onAreaDragEnd,
+  disableModuleDrag,   
   onModuleDragEnd,
   handleModuleAdd
 }) {
@@ -131,7 +121,7 @@ function BoardContainer({
     const coordinates = getCoordinates(event)
     if (!coordinates.source) return
 
-    isAAreaMove(event.type) ? onAreaDragEnd(coordinates) : onModuleDragEnd(coordinates)
+    onModuleDragEnd(coordinates)
   }
 
   return (
@@ -143,18 +133,7 @@ function BoardContainer({
               key={area.id}
               index={index}
               renderModule={renderModule}
-              renderAreaHandler={area =>
-                renderAreaHandler ? (
-                  renderAreaHandler(area)
-                ) : (
-                  <>
-                    <AreaHandler >
-                      {area}
-                    </AreaHandler>
-                    <button onClick={() => handleModuleAdd(area, { title: 'New module', description: 'Module content', component: "foo" })}>New module</button>  
-                  </>
-                )
-              }
+              moduleAdded={handleModuleAdd}
               disableAreaDrag={disableAreaDrag}
               disableModuleDrag={disableModuleDrag}
             >

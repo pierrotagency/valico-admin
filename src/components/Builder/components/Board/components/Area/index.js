@@ -4,6 +4,8 @@ import { Draggable } from 'react-beautiful-dnd'
 import Module from '../Module'
 import withDroppable from '../../../withDroppable'
 
+import AreaHandler from '../AreaHandler'
+
 export const StyledArea = styled.div`
   height: 100%;
   display: inline-block;
@@ -18,13 +20,18 @@ const DroppableArea = withDroppable(styled.div`
   min-height: 28px;
 `)
 
-function Area({ children, index: areaIndex, renderModule, renderAreaHandler, disableAreaDrag, disableModuleDrag }) {
+function Area({ children, index: areaIndex, renderModule, moduleAdded, disableAreaDrag, disableModuleDrag }) {
   return (
     <Draggable draggableId={`area-draggable-${children.id}`} index={areaIndex} isDragDisabled={disableAreaDrag}>
       {areaProvided => (
         <StyledArea ref={areaProvided.innerRef} {...areaProvided.draggableProps}>
           <div {...areaProvided.dragHandleProps}>
-            {renderAreaHandler(children)}
+            
+              <AreaHandler >
+                {children}
+              </AreaHandler>
+              <button onClick={() => moduleAdded(children, { title: 'New module', description: 'Module content', component: "foo" })}>New module</button>  
+            
           </div>
           <DroppableArea droppableId={String(children.id)}>
             {(children.modules && children.modules.length) && (
