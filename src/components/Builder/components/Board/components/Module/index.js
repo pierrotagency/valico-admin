@@ -7,6 +7,9 @@ const ModuleTemplate = styled.div`
   display: inline-block;
   white-space: normal;
 `
+
+
+
 function Module({ children, index, renderModule, disableModuleDrag, module, modules }) {
 
   const Component = modules[module.component]
