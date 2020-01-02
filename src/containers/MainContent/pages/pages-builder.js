@@ -11,7 +11,7 @@ const board = {
     areas: [
       {
         id: 1,
-        title: 'Lane Backlog',
+        title: 'Area 1',
         modules: [
           {
             id: 1,
@@ -65,7 +65,7 @@ const board = {
       },
       {
         id: 2,
-        title: 'Lane Doing',
+        title: 'Area 2',
         modules: [
           {
             id: 9,
@@ -77,7 +77,7 @@ const board = {
       },
       {
         id: 3,
-        title: 'Lane Done',
+        title: 'Area 3',
         modules: [
           
         ]
