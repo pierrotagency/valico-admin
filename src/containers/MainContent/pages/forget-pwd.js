@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, CardBody, Alert, Button, CustomInput } from 'reactstrap';
+import { Row, Col, Card, CardBody, Alert, Button } from 'reactstrap';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import logodark from '../../../images/logo-dark.png';
