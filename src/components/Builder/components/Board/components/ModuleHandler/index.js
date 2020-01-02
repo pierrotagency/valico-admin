@@ -31,7 +31,12 @@ const CursorPointer =  styled.span`
 `
 
 
-export default function({ children: module, dragging, allowRemoveModule, onModuleRemove }) {
+export default function({ 
+  children: module, 
+  dragging, 
+  allowRemoveModule, 
+  onModuleRemove
+}) {
   return (
     <ModuleHandler dragging={dragging}>
       <span>

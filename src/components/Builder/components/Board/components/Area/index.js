@@ -30,24 +30,22 @@ function Area({
   name 
 }) {
 
-
   const area = areas.find(e => e.name === name)
-
 
   return (
     <Draggable draggableId={`area-draggable-${area.id}`} index={areaIndex} isDragDisabled={true}>
       {areaProvided => (
         <StyledArea ref={areaProvided.innerRef} {...areaProvided.draggableProps}>
-          <div {...areaProvided.dragHandleProps}>
-            
+          
+          <div {...areaProvided.dragHandleProps}>            
               <AreaHandler
                 moduleAdded={moduleAdded}
                 library={library}
               >
                 {area}
               </AreaHandler>
-
           </div>
+          
           <DroppableArea droppableId={String(area.id)}>
             {(area.modules && area.modules.length) && (
               area.modules.map((module, index) => (
@@ -64,6 +62,7 @@ function Area({
               ))
             )}
           </DroppableArea>
+
         </StyledArea>
       )}
     </Draggable>

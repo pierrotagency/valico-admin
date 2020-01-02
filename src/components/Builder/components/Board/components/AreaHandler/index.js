@@ -22,7 +22,6 @@ function AreaTitle({ allowRenameArea, onClick, children: title }) {
 export default function({ 
   children: area,
   library,
-  addModule,
   moduleAdded
 }) {
   
@@ -54,8 +53,8 @@ export default function({
                 <DropdownItem key={key} onClick={() => addClickHandler(key)} >{key}</DropdownItem>                                  
               ))} 
 
-              <div className="dropdown-divider"></div>
-              <DropdownItem>Custom module..</DropdownItem>
+              {/* <div className="dropdown-divider"></div>
+              <DropdownItem>Custom module..</DropdownItem> */}
             </DropdownMenu>
           </Dropdown> 
           

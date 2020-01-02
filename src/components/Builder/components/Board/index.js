@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import { DragDropContext } from 'react-beautiful-dnd'
-// import Area from './components/Area'
+
 import withDroppable from '../withDroppable'
 import { when, partialRight } from '../../../../helpers/utils'
-
 import ModuleHandler from './components/ModuleHandler'
 import { moveModule, addModule, removeModule } from './services'
-
-
-
 
 import Layout1 from './layouts/Layout1'
 
 import { library } from "./ModuleLibraryLoader";
+
+
+import { Row, Col, Card, CardBody } from 'reactstrap';
 
 
 const StyledBoard = styled.div`
@@ -97,27 +96,52 @@ function Board({
   }
 
   return (
-    <BoardContainer
-      onModuleDragEnd={handleOnModuleDragEnd}      
-      handleModuleAdd={handleModuleAdd}
-      renderModule={(area, module, dragging) => {
-        
-        return (
-          <ModuleHandler
-            dragging={dragging}
-            allowRemoveModule={allowRemoveModule}
-            onModuleRemove={module => handleModuleRemove(area, module)}
-          >
-            {module}
-          </ModuleHandler>
-        )
+    <>
 
-      }}      
-      disableModuleDrag={disableModuleDrag}
-      library={library}
-    >
-      {board}
-    </BoardContainer>
+
+      <Card>
+        <CardBody>
+
+            <h4 className="mt-0 header-title">Textual Inputs</h4>
+            <p className="text-muted mb-4">Here are examples of <code>.form-control</code> applied to each
+                textual HTML5 <code>&lt;input&gt;</code> <code>type</code>.</p>
+
+            <Row className="form-group">
+                <label htmlFor="example-text-input" className="col-sm-2 col-form-label">Text</label>
+                <Col sm="10">
+                    <input className="form-control" type="text" value="Artisanal kale" id="example-text-input" />
+                </Col>
+            </Row>
+            
+        </CardBody>
+      </Card>
+
+
+      <BoardContainer
+        onModuleDragEnd={handleOnModuleDragEnd}      
+        handleModuleAdd={handleModuleAdd}
+        renderModule={(area, module, dragging) => {
+          
+          return (
+            <ModuleHandler
+              dragging={dragging}
+              allowRemoveModule={allowRemoveModule}
+              onModuleRemove={module => handleModuleRemove(area, module)}
+            >
+              {module}
+            </ModuleHandler>
+          )
+
+        }}      
+        disableModuleDrag={disableModuleDrag}
+        library={library}
+      >
+        {board}
+      </BoardContainer>
+
+
+
+    </>
   )
 }
 
@@ -150,20 +174,6 @@ function BoardContainer({
             {board.areas}
           </Layout1>
 
-          {/*           
-          {board.areas.map((area, index) => (              
-            <Area
-              key={area.id}
-              index={index}
-              renderModule={renderModule}
-              moduleAdded={handleModuleAdd}              
-              disableModuleDrag={disableModuleDrag}
-            >
-              {area}
-            </Area>            
-          ))} */}
-
-          
         </DroppableBoard>
       </StyledBoard>
     </DragDropContext>
