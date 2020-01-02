@@ -2,22 +2,15 @@ import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import styled from 'styled-components'
 
-import Foo from "../../modules/Foo";
-import Bar from "../../modules/Bar";
 
 const ModuleTemplate = styled.div`
   display: inline-block;
   white-space: normal;
 `
+function Module({ children, index, renderModule, disableModuleDrag, module, modules }) {
 
-const Components = {
-  foo: Foo,
-  bar: Bar
-};
+  const Component = modules[module.component]
 
-
-
-function Module({ children, index, renderModule, disableModuleDrag, module }) {
   return (
     <Draggable draggableId={String(children.id)} index={index} isDragDisabled={disableModuleDrag}>
       {(provided, { isDragging }) => {
@@ -27,11 +20,8 @@ function Module({ children, index, renderModule, disableModuleDrag, module }) {
             {/* acá esta lo del box */}
             <ModuleTemplate>{renderModule(isDragging)}</ModuleTemplate>           
             
-            {typeof Components[module.component] !== "undefined" &&
-              React.createElement(Components[module.component], {
-                key: module.id,
-                title: module.title
-              })
+            {typeof modules[module.component] !== "undefined" &&
+              <Component title={module.title} />
             }
             
           </div>

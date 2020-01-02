@@ -17,49 +17,49 @@ const board = {
             id: 1,
             title: 'Module title 1',
             description: 'Module content',
-            component: "foo"            
+            component: "Foo"            
           },
           {
             id: 2,
             title: 'Module title 2',
             description: 'Module content',
-            component: "bar"            
+            component: "Bar"            
           },
           {
             id: 3,
             title: 'Module title 3',
             description: 'Module content',
-            component: "bar"            
+            component: "Bar"            
           },
           {
             id: 4,
             title: 'Module title 4',
             description: 'Module content',
-            component: "foo"            
+            component: "Foo"            
           },
           {
             id: 5,
             title: 'Module title 5',
             description: 'Module content',
-            component: "foo"            
+            component: "Foo"            
           },
           {
             id: 6,
             title: 'Module title 6',
             description: 'Module content',
-            component: "foo"            
+            component: "Foo"            
           },
           {
             id: 7,
             title: 'Module title 7',
             description: 'Module content',
-            component: "foo"            
+            component: "Foo"            
           },
           {
             id: 8,
             title: 'Module title 8',
             description: 'Module content',
-            component: "foo"            
+            component: "Foo"            
           }
         ]
       },
@@ -71,7 +71,7 @@ const board = {
             id: 9,
             title: 'Module title 9',
             description: 'Module content',
-            component: "foo"            
+            component: "Foo"            
           }
         ]
       },

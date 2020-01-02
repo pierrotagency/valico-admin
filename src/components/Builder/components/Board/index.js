@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { DragDropContext } from 'react-beautiful-dnd'
 // import Area from './components/Area'
@@ -9,7 +9,12 @@ import ModuleHandler from './components/ModuleHandler'
 import { moveModule, addModule, removeModule } from './services'
 
 
+
+
 import Layout1 from './layouts/Layout1'
+
+import { modules } from "./ModulesLoader";
+
 
 const StyledBoard = styled.div`
   padding: 5px;
@@ -50,6 +55,16 @@ function Board({
 
   const handleOnModuleDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveModule, notifyCallback: onModuleDragEnd })
   
+
+
+  useEffect(() => {
+
+      console.log(modules);
+
+  },[])
+
+
+
   function handleOnDragEnd({ source, destination }, { moveCallback, notifyCallback }) {
     const reorderedBoard = moveCallback(board, source, destination)
     when(notifyCallback)(callback => callback(reorderedBoard, source, destination))
@@ -101,6 +116,7 @@ function Board({
 
       }}      
       disableModuleDrag={disableModuleDrag}
+      modules={modules}
     >
       {board}
     </BoardContainer>
@@ -112,7 +128,8 @@ function BoardContainer({
   renderModule,
   disableModuleDrag,   
   onModuleDragEnd,
-  handleModuleAdd
+  handleModuleAdd,
+  modules
 }) {
 
   function handleOnDragEnd(event) {
@@ -130,6 +147,7 @@ function BoardContainer({
               renderModule={renderModule}
               moduleAdded={handleModuleAdd}              
               disableModuleDrag={disableModuleDrag}
+              modules={modules}
           >
             {board.areas}
           </Layout1>

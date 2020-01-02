@@ -3,7 +3,7 @@ import Area from '../components/Area'
 
 
 
-function Layout1({ children:areas, renderModule, moduleAdded, disableModuleDrag }) {
+function Layout1({ children:areas, renderModule, moduleAdded, disableModuleDrag,modules }) {
     return (
         <>
 
@@ -13,6 +13,7 @@ function Layout1({ children:areas, renderModule, moduleAdded, disableModuleDrag 
                 renderModule={renderModule}
                 moduleAdded={moduleAdded}              
                 disableModuleDrag={disableModuleDrag}
+                modules={modules}
             >
                 {areas[0]}
             </Area>            
@@ -23,6 +24,7 @@ function Layout1({ children:areas, renderModule, moduleAdded, disableModuleDrag 
                 renderModule={renderModule}
                 moduleAdded={moduleAdded}              
                 disableModuleDrag={disableModuleDrag}
+                modules={modules}
             >
                 {areas[1]}
             </Area>           

@@ -20,7 +20,7 @@ const DroppableArea = withDroppable(styled.div`
   min-height: 28px;
 `)
 
-function Area({ children: area, index: areaIndex, renderModule, moduleAdded, disableModuleDrag }) {
+function Area({ children: area, index: areaIndex, renderModule, moduleAdded, disableModuleDrag, modules }) {
   return (
     <Draggable draggableId={`area-draggable-${area.id}`} index={areaIndex} isDragDisabled={true}>
       {areaProvided => (
@@ -30,7 +30,7 @@ function Area({ children: area, index: areaIndex, renderModule, moduleAdded, dis
               <AreaHandler >
                 {area}
               </AreaHandler>
-              <button onClick={() => moduleAdded(area, { title: 'New module', description: 'Module content', component: "foo" })}>New module</button>  
+              <button onClick={() => moduleAdded(area, { title: 'New module', description: 'Module content', component: "Foo" })}>New module</button>  
             
           </div>
           <DroppableArea droppableId={String(area.id)}>
@@ -42,6 +42,7 @@ function Area({ children: area, index: areaIndex, renderModule, moduleAdded, dis
                   index={index}
                   renderModule={dragging => renderModule(area, module, dragging)}
                   disableModuleDrag={disableModuleDrag}
+                  modules={modules}
                 >
                   {module}
                 </Module>
