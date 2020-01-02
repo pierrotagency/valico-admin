@@ -13,7 +13,7 @@ import { moveModule, addModule, removeModule } from './services'
 
 import Layout1 from './layouts/Layout1'
 
-import { modules } from "./ModulesLoader";
+import { library } from "./ModuleLibraryLoader";
 
 
 const StyledBoard = styled.div`
@@ -59,7 +59,7 @@ function Board({
 
   useEffect(() => {
 
-      console.log(modules);
+      console.log(library);
 
   },[])
 
@@ -102,8 +102,6 @@ function Board({
       handleModuleAdd={handleModuleAdd}
       renderModule={(area, module, dragging) => {
         
-        // if (renderModule) return renderModule(module, { removeModule: handleModuleRemove.bind(null, area, module), dragging })
-        
         return (
           <ModuleHandler
             dragging={dragging}
@@ -116,7 +114,7 @@ function Board({
 
       }}      
       disableModuleDrag={disableModuleDrag}
-      modules={modules}
+      library={library}
     >
       {board}
     </BoardContainer>
@@ -129,7 +127,7 @@ function BoardContainer({
   disableModuleDrag,   
   onModuleDragEnd,
   handleModuleAdd,
-  modules
+  library
 }) {
 
   function handleOnDragEnd(event) {
@@ -147,7 +145,7 @@ function BoardContainer({
               renderModule={renderModule}
               moduleAdded={handleModuleAdd}              
               disableModuleDrag={disableModuleDrag}
-              modules={modules}
+              library={library}
           >
             {board.areas}
           </Layout1>

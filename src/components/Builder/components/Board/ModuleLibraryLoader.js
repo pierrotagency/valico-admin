@@ -12,7 +12,7 @@ const ComponentLoader = f => import(`./modules/${f}/index.js`);
  * You can choose to show a placeholder and render error component in case of error,
  * check API section for more
  */
-export const modules = modulesList.reduce((p, c) => {
+export const library = modulesList.reduce((p, c) => {
   return {
     ...p,
     [c]: ReactDynamicImport({

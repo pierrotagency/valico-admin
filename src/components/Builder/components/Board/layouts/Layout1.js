@@ -3,30 +3,38 @@ import Area from '../components/Area'
 
 
 
-function Layout1({ children:areas, renderModule, moduleAdded, disableModuleDrag,modules }) {
+function Layout1({
+    children:areas, 
+    renderModule, 
+    moduleAdded, 
+    disableModuleDrag,
+    library
+}) {
     return (
         <>
 
             <Area
                 key={1}
                 index={1}
+                name="area1"
                 renderModule={renderModule}
                 moduleAdded={moduleAdded}              
                 disableModuleDrag={disableModuleDrag}
-                modules={modules}
+                library={library}
             >
-                {areas[0]}
+                {areas}
             </Area>            
 
             <Area
                 key={2}
                 index={2}
+                name="area2"
                 renderModule={renderModule}
                 moduleAdded={moduleAdded}              
                 disableModuleDrag={disableModuleDrag}
-                modules={modules}
+                library={library}
             >
-                {areas[1]}
+                {areas}
             </Area>           
         
         </>

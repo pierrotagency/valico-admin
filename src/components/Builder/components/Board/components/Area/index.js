@@ -1,9 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components'
 import { Draggable } from 'react-beautiful-dnd'
+
 import Module from '../Module'
 import withDroppable from '../../../withDroppable'
-
 import AreaHandler from '../AreaHandler'
 
 export const StyledArea = styled.div`
@@ -20,18 +20,33 @@ const DroppableArea = withDroppable(styled.div`
   min-height: 28px;
 `)
 
-function Area({ children: area, index: areaIndex, renderModule, moduleAdded, disableModuleDrag, modules }) {
+function Area({ 
+  children: areas, 
+  index: areaIndex, 
+  renderModule, 
+  moduleAdded, 
+  disableModuleDrag, 
+  library, 
+  name 
+}) {
+
+
+  const area = areas.find(e => e.name === name)
+
+
   return (
     <Draggable draggableId={`area-draggable-${area.id}`} index={areaIndex} isDragDisabled={true}>
       {areaProvided => (
         <StyledArea ref={areaProvided.innerRef} {...areaProvided.draggableProps}>
           <div {...areaProvided.dragHandleProps}>
             
-              <AreaHandler >
+              <AreaHandler
+                moduleAdded={moduleAdded}
+                library={library}
+              >
                 {area}
               </AreaHandler>
-              <button onClick={() => moduleAdded(area, { title: 'New module', description: 'Module content', component: "Foo" })}>New module</button>  
-            
+
           </div>
           <DroppableArea droppableId={String(area.id)}>
             {(area.modules && area.modules.length) && (
@@ -42,7 +57,7 @@ function Area({ children: area, index: areaIndex, renderModule, moduleAdded, dis
                   index={index}
                   renderModule={dragging => renderModule(area, module, dragging)}
                   disableModuleDrag={disableModuleDrag}
-                  modules={modules}
+                  library={library}
                 >
                   {module}
                 </Module>
@@ -53,6 +68,7 @@ function Area({ children: area, index: areaIndex, renderModule, moduleAdded, dis
       )}
     </Draggable>
   )
+
 }
 
 export default Area

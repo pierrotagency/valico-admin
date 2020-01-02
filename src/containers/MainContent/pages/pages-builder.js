@@ -11,6 +11,7 @@ const board = {
     areas: [
       {
         id: 1,
+        name: 'area1',
         title: 'Area 1',
         modules: [
           {
@@ -65,6 +66,7 @@ const board = {
       },
       {
         id: 2,
+        name: 'area2',
         title: 'Area 2',
         modules: [
           {
@@ -77,6 +79,7 @@ const board = {
       },
       {
         id: 3,
+        name: 'area3',
         title: 'Area 3',
         modules: [
           
