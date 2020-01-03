@@ -67,9 +67,6 @@ function removeModule(board, fromArea, module) {
 
 function updateModule(board, module, updatedModule) {
 
-  console.log('updateModule');
-  
-
   let area = null;
 
   board.areas.forEach(ar => {

@@ -90,18 +90,10 @@ function Board({
 
     setCurrentModule(module);
 
-    // const boardWithoutModule = removeModule(board, area, module)
-    // onModuleRemove(
-    //   boardWithoutModule,
-    //   boardWithoutModule.areas.find(({ id }) => id === area.id),
-    //   module
-    // )
-    // setBoard(boardWithoutModule)
   }
 
 
   function handleModuleUpdated(updatedModule) {
-    console.log('handleModuleUpdated')
 
     const boardModified = updateModule(board, currentModule, updatedModule)  
     // console.log(boardModified)
@@ -116,6 +108,7 @@ function Board({
       <ModuleEditor
         moduleUpdated={handleModuleUpdated}
         module={currentModule}
+        library={library}
       >        
       </ModuleEditor>
 
