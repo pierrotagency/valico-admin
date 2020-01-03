@@ -100,10 +100,10 @@ function Board({
   }
 
 
-  function handleModuleUpdated(fields) {
+  function handleModuleUpdated(updatedModule) {
     console.log('handleModuleUpdated')
 
-    const boardModified = updateModule(board, currentModule, fields)  
+    const boardModified = updateModule(board, currentModule, updatedModule)  
     // console.log(boardModified)
     setBoard(boardModified)
 

@@ -57,7 +57,7 @@ export default function({
 
   const handleSaveChanges = () =>{
     
-    moduleUpdated(state.module.fields)
+    moduleUpdated(state.module)
     
 
 

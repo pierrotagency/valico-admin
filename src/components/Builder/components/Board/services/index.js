@@ -65,7 +65,7 @@ function removeModule(board, fromArea, module) {
 
 
 
-function updateModule(board, module, fields) {
+function updateModule(board, module, updatedModule) {
 
   console.log('updateModule');
   
@@ -79,8 +79,7 @@ function updateModule(board, module, fields) {
 
       area = ar;
       
-      module.fields = fields  
-      ar.modules[moduleIndex] = module;
+      ar.modules[moduleIndex] = updatedModule;
 
     }
 
