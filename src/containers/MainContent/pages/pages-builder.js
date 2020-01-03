@@ -16,52 +16,24 @@ const board = {
         modules: [
           {
             id: 1,
-            title: 'Module title 1',
+            title: 'Module 1',
             description: 'Module content',
-            component: "Foo"            
+            component: "Foo",
+            fields: {
+              title: 'Title module 1',
+              subtitle: 'Subtitle module 1'
+            }        
           },
           {
             id: 2,
-            title: 'Module title 2',
+            title: 'Module 2',
             description: 'Module content',
-            component: "Bar"            
-          },
-          {
-            id: 3,
-            title: 'Module title 3',
-            description: 'Module content',
-            component: "Bar"            
-          },
-          {
-            id: 4,
-            title: 'Module title 4',
-            description: 'Module content',
-            component: "Foo"            
-          },
-          {
-            id: 5,
-            title: 'Module title 5',
-            description: 'Module content',
-            component: "Foo"            
-          },
-          {
-            id: 6,
-            title: 'Module title 6',
-            description: 'Module content',
-            component: "Foo"            
-          },
-          {
-            id: 7,
-            title: 'Module title 7',
-            description: 'Module content',
-            component: "Foo"            
-          },
-          {
-            id: 8,
-            title: 'Module title 8',
-            description: 'Module content',
-            component: "Foo"            
-          }
+            component: "Bar",
+            fields: {
+              title: 'Title module 2',
+              subtitle: 'Subtitle module 2'
+            }          
+          }          
         ]
       },
       {
@@ -70,10 +42,14 @@ const board = {
         title: 'Area 2',
         modules: [
           {
-            id: 9,
-            title: 'Module title 9',
+            id: 3,
+            title: 'Module  3',
             description: 'Module content',
-            component: "Foo"            
+            component: "Foo",            
+            fields: {
+              title: 'Title module 3',
+              subtitle: 'Subtitle module 3'
+            }         
           }
         ]
       },
@@ -81,8 +57,7 @@ const board = {
         id: 3,
         name: 'area3',
         title: 'Area 3',
-        modules: [
-          
+        modules: [          
         ]
       }
     ]

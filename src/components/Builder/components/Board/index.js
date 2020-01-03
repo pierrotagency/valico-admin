@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { DragDropContext } from 'react-beautiful-dnd'
 
@@ -6,7 +6,7 @@ import withDroppable from '../withDroppable'
 import { when, partialRight } from '../../../../helpers/utils'
 import ModuleHandler from './components/ModuleHandler'
 import ModuleEditor from './components/ModuleEditor'
-import { moveModule, addModule, removeModule } from './services'
+import { moveModule, addModule, removeModule, updateModule } from './services'
 
 import Layout1 from './layouts/Layout1'
 
@@ -51,17 +51,10 @@ function Board({
 
   const [board, setBoard] = useState(initialBoard)
   
-  const [currentModule, setCurrentModule] = useState(initialBoard)
+  const [currentModule, setCurrentModule] = useState()
 
   const handleOnModuleDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveModule, notifyCallback: onModuleDragEnd })
   
-
-  useEffect(() => {
-
-      console.log(library);
-
-  },[])
-
 
 
   function handleOnDragEnd({ source, destination }, { moveCallback, notifyCallback }) {
@@ -72,17 +65,14 @@ function Board({
 
 
   function handleModuleAdd(area, module, options = {}) {
-
-    const boardWithNewModule = addModule(board, area, module, options)
-    
+    const boardWithNewModule = addModule(board, area, module, options)    
     onModuleAdded(
       boardWithNewModule,
       boardWithNewModule.areas.find(({ id }) => id === area.id),
       module
     )
-
     setBoard(boardWithNewModule)
-  
+
   }
 
   function handleModuleRemove(area, module) {
@@ -110,17 +100,13 @@ function Board({
   }
 
 
-  function handleModuleUpdated(module) {
+  function handleModuleUpdated(fields) {
+    console.log('handleModuleUpdated')
 
-    console.log(module)
-    
-    // const boardWithoutModule = removeModule(board, area, module)
-    // onModuleRemove(
-    //   boardWithoutModule,
-    //   boardWithoutModule.areas.find(({ id }) => id === area.id),
-    //   module
-    // )
-    // setBoard(boardWithoutModule)
+    const boardModified = updateModule(board, currentModule, fields)  
+    // console.log(boardModified)
+    setBoard(boardModified)
+
   }
 
 
@@ -129,8 +115,8 @@ function Board({
 
       <ModuleEditor
         moduleUpdated={handleModuleUpdated}
-      >
-        {currentModule}
+        module={currentModule}
+      >        
       </ModuleEditor>
 
       <BoardContainer
@@ -155,8 +141,6 @@ function Board({
       >
         {board}
       </BoardContainer>
-
-
 
     </>
   )

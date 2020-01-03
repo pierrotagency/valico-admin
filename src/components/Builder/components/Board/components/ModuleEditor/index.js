@@ -1,29 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-
 import { Row, Col, Card, CardBody } from 'reactstrap';
-
-
 
 const ModuleEditor = styled.div`
   margin-bottom: 7px;
 `
 
 
-
 export default function({ 
-  children: module,
+  module,
   moduleUpdated
 }) {
 
 
-  const [state, setState] = useState({
-    fields: {
-      title: {
-        value: ""
-      } 
-    }
-  })
+  const [state, setState] = useState({})
 
   // const handleInputChange = (e) => setInput({
   //   ...input,
@@ -32,41 +22,55 @@ export default function({
 
 
   async function updateInput({ name, value }) {
-    let hasError;
-    // if (!validateAgainst) hasError = await inputValidations({ name, value });
+    
     setState(state => ({
       ...state,
-      fields: {       
-        ...state.fields,
-        [name]: {
-          value: value,
-          error: hasError ? hasError : "",
-          completed: hasError ? false : true
-        }      
+      module: {
+        ...state.module,
+        fields: {       
+          ...state.module.fields,
+          [name]: value
+          }      
+        }
       }
-    }));
+      
+    ));
+
+
   }
 
 
 
+
   useEffect(() => {
+    console.log('componentDidUpdate')
+    
 
-    console.log('fields');
+      setState(state => ({
+        ...state,
+        module: module
+      }));
+      
+    
+  }, [module]);
 
-    moduleUpdated(state)
 
-  },[moduleUpdated, state, state.fields])
+  const handleSaveChanges = () =>{
+    
+    moduleUpdated(state.module.fields)
+    
 
 
-
+  }
 
   return (
     <ModuleEditor>
-     
+
+    {state.module &&     
      <Card>
         <CardBody>
 
-            <h4 className="mt-0 header-title">{module && module.title}</h4>
+            <h4 className="mt-0 header-title">{state.module && state.module.title}</h4>
             <p className="text-muted mb-4">Here are examples of <code>.form-control</code> applied to each
                 textual HTML5 <code>&lt;input&gt;</code> <code>type</code>.</p>
 
@@ -76,15 +80,24 @@ export default function({
                     {/* <input className="form-control" type="text" name="title" onChange={handleInputChange}  /> */}
                     <input className="form-control" type="text" 
                       name="title"   
-                      value={state.fields.title.value}
-                      onChange={e => updateInput({ name: e.target.name, value: e.target.value })}
-                      error={state.fields.title.error ? state.fields.title.error : null}
+                      value={state.module.fields.title}
+                      onChange={e => updateInput({ name: e.target.name, value: e.target.value })}                      
                     />
+
+
+
+                </Col>
+            </Row>
+
+            <Row className="form-group">                
+                <Col sm="10">
+                  <button type="button" className="btn btn-primary" onClick={handleSaveChanges}> Save</button>
                 </Col>
             </Row>
             
         </CardBody>
       </Card>
+    }
 
 
     </ModuleEditor>

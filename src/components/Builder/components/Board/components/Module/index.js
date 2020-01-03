@@ -18,13 +18,13 @@ function Module({ children, index, renderModule, disableModuleDrag, module, libr
     <Draggable draggableId={String(children.id)} index={index} isDragDisabled={disableModuleDrag}>
       {(provided, { isDragging }) => {
         return (
-          <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} data-testid='module'>
+          <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
             
             {/* acá esta lo del box */}
             <ModuleTemplate>{renderModule(isDragging)}</ModuleTemplate>           
             
             {typeof library[module.component] !== "undefined" &&
-              <Component title={module.title} />
+              <Component title={module.fields.title} />
             }
             
           </div>

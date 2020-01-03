@@ -43,8 +43,6 @@ function addModule(board, inArea, module, { on } = {}) {
 
   const uuid = getUuid();
 
-  console.log(uuid);
-
   module.id = uuid;
 
   const areaToAdd = board.areas.find(({ id }) => id === inArea.id)
@@ -65,4 +63,37 @@ function removeModule(board, fromArea, module) {
   return { ...board, areas: filteredAreas }
 }
 
-export { moveModule, addModule, removeModule }
+
+
+function updateModule(board, module, fields) {
+
+  console.log('updateModule');
+  
+
+  let area = null;
+
+  board.areas.forEach(ar => {
+
+    let moduleIndex = ar.modules.findIndex(el => el.id === module.id)
+    if( moduleIndex !== -1){
+
+      area = ar;
+      
+      module.fields = fields  
+      ar.modules[moduleIndex] = module;
+
+    }
+
+  })
+
+  const areas = replaceElementOfArray(board.areas)({
+    when: ({ id }) => area.id === id,
+    for: value => ({ ...value, modules: area.modules })
+  })
+
+  return { ...board, areas: areas }
+
+}
+
+
+export { moveModule, addModule, removeModule, updateModule }
