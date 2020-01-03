@@ -35,14 +35,16 @@ export default function({
   children: module, 
   dragging, 
   allowRemoveModule, 
-  onModuleRemove
+  onModuleRemove,
+  onModuleEdit
 }) {
   return (
     <ModuleHandler dragging={dragging}>
       <span>
         <ModuleTitle>
           <span>{module.title}</span>
-          {allowRemoveModule && <CursorPointer onClick={() => onModuleRemove(module)}>×</CursorPointer>}
+          {allowRemoveModule && <CursorPointer onClick={() => onModuleRemove(module)}>DEL</CursorPointer>}
+          <CursorPointer onClick={() => onModuleEdit(module)}>EDIT</CursorPointer>
         </ModuleTitle>
       </span>
       <ModuleDescription>{module.description}</ModuleDescription>

@@ -5,14 +5,12 @@ import { DragDropContext } from 'react-beautiful-dnd'
 import withDroppable from '../withDroppable'
 import { when, partialRight } from '../../../../helpers/utils'
 import ModuleHandler from './components/ModuleHandler'
+import ModuleEditor from './components/ModuleEditor'
 import { moveModule, addModule, removeModule } from './services'
 
 import Layout1 from './layouts/Layout1'
 
 import { library } from "./ModuleLibraryLoader";
-
-
-import { Row, Col, Card, CardBody } from 'reactstrap';
 
 
 const StyledBoard = styled.div`
@@ -45,16 +43,18 @@ function Board({
   initialBoard,
   onModuleDragEnd,
   onModuleRemove,
+  onModuleEdit,
   onModuleAdded,
   allowRemoveModule,
   disableModuleDrag
 }) {
 
   const [board, setBoard] = useState(initialBoard)
+  
+  const [currentModule, setCurrentModule] = useState(initialBoard)
 
   const handleOnModuleDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveModule, notifyCallback: onModuleDragEnd })
   
-
 
   useEffect(() => {
 
@@ -95,27 +95,43 @@ function Board({
     setBoard(boardWithoutModule)
   }
 
+
+  function handleModuleEdit(area, module) {
+
+    setCurrentModule(module);
+
+    // const boardWithoutModule = removeModule(board, area, module)
+    // onModuleRemove(
+    //   boardWithoutModule,
+    //   boardWithoutModule.areas.find(({ id }) => id === area.id),
+    //   module
+    // )
+    // setBoard(boardWithoutModule)
+  }
+
+
+  function handleModuleUpdated(module) {
+
+    console.log(module)
+    
+    // const boardWithoutModule = removeModule(board, area, module)
+    // onModuleRemove(
+    //   boardWithoutModule,
+    //   boardWithoutModule.areas.find(({ id }) => id === area.id),
+    //   module
+    // )
+    // setBoard(boardWithoutModule)
+  }
+
+
   return (
     <>
 
-
-      <Card>
-        <CardBody>
-
-            <h4 className="mt-0 header-title">Textual Inputs</h4>
-            <p className="text-muted mb-4">Here are examples of <code>.form-control</code> applied to each
-                textual HTML5 <code>&lt;input&gt;</code> <code>type</code>.</p>
-
-            <Row className="form-group">
-                <label htmlFor="example-text-input" className="col-sm-2 col-form-label">Text</label>
-                <Col sm="10">
-                    <input className="form-control" type="text" value="Artisanal kale" id="example-text-input" />
-                </Col>
-            </Row>
-            
-        </CardBody>
-      </Card>
-
+      <ModuleEditor
+        moduleUpdated={handleModuleUpdated}
+      >
+        {currentModule}
+      </ModuleEditor>
 
       <BoardContainer
         onModuleDragEnd={handleOnModuleDragEnd}      
@@ -127,6 +143,7 @@ function Board({
               dragging={dragging}
               allowRemoveModule={allowRemoveModule}
               onModuleRemove={module => handleModuleRemove(area, module)}
+              onModuleEdit={module => handleModuleEdit(area, module)}
             >
               {module}
             </ModuleHandler>

@@ -121,6 +121,7 @@ class PagesBuilder extends Component {
 
                         <Board                                                                
                             onModuleRemove={console.log}
+                            onModuleEdit={console.log}
                             onModuleAdded={console.log}
                             onModuleDragEnd={console.log}
                             allowRemoveModule={true}                           
