@@ -1,33 +1,11 @@
 import ReactDynamicImport from "../../dynamic-import";
 
-// const libraryDefinition = ["Bar", "Foo"];
-
 export const libraryDefinition = [
   {
-    name: "Bar",
-    schema: {
-      title: {
-        type: 'text',
-        label: 'Title'
-      },
-      subtitle: {
-        type: 'text',
-        label: 'SubTitle'
-      }
-    }    
+    name: "Bar"
   },
   {
-    name: "Foo",
-    schema: {
-      title: {
-        type: 'text',
-        label: 'Title'
-      },
-      subtitle: {
-        type: 'text',
-        label: 'SubTitle'
-      }
-    }    
+    name: "Foo"        
   }
 ];
 

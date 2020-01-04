@@ -11,6 +11,9 @@ export default function({
 
   const [state, setState] = useState({})
 
+
+  const [schema, setSchema] = useState({})
+
   async function updateInput({ name, value }) {
     
     setState(state => ({
@@ -31,22 +34,22 @@ export default function({
 
 
 
-  useEffect(() => {
-    console.log('1111')
-    // console.log(libraryDefinition)
-    
-    
-  }, [libraryDefinition]);
-
 
 
   useEffect(() => {
 
-    setState(state => ({
-      ...state,
-      module: module
-    }));
-    
+    if(module){
+
+      setState(state => ({
+        ...state,
+        module: module
+      }));
+
+      console.log(module)
+
+      const loadschema = import(`../../modules/${module.component}/schema.js`).then(mod => setSchema(mod.schema))
+      
+  }
     
   }, [module]);
 
@@ -57,18 +60,20 @@ export default function({
     
   }
 
-
-  const schema = {
-    title: "Todo",
-    type: "object",
-    required: ["title"],
-    properties: {
-      title: {type: "string", title: "Title", default: "A new task"},
-      done: {type: "boolean", title: "Done?", default: false}
-    }
-  };
   
   const log = (type) => console.log.bind(console, type);
+
+  function validate(formData, errors) {
+
+
+    if (formData.pass1 !== formData.pass2) {
+      errors.pass2.addError("Passwords don't match");
+    }
+
+    console.log(errors)
+
+    return errors;
+  }
 
 
   return (
@@ -108,6 +113,8 @@ export default function({
         onChange={log("changed")}
         onSubmit={log("submitted")}
         onError={log("errors")}    
+        validate={validate}
+        liveValidate={false}
       />
 
     </>
