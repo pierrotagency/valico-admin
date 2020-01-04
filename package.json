@@ -52,6 +52,7 @@
     "react-fontawesome": "^1.6.1",
     "react-image-lightbox": "^5.1.0",
     "react-input-mask": "^2.0.4",
+    "react-jsonschema-form": "^1.8.1",
     "react-jvectormap": "0.0.10",
     "react-modal-video": "^1.2.2",
     "react-perfect-scrollbar": "^1.5.2",

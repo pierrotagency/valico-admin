@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Row, Col, Card, CardBody } from 'reactstrap';
 
-
+import Form from "react-jsonschema-form";
 
 export default function({ 
   module,
-  moduleUpdated
+  moduleUpdated,
+  libraryDefinition
 }) {
 
   const [state, setState] = useState({})
@@ -28,6 +29,17 @@ export default function({
 
   }
 
+
+
+  useEffect(() => {
+    console.log('1111')
+    // console.log(libraryDefinition)
+    
+    
+  }, [libraryDefinition]);
+
+
+
   useEffect(() => {
 
     setState(state => ({
@@ -40,10 +52,24 @@ export default function({
 
 
   const handleSaveChanges = () =>{
-    
+
     moduleUpdated(state.module)
     
   }
+
+
+  const schema = {
+    title: "Todo",
+    type: "object",
+    required: ["title"],
+    properties: {
+      title: {type: "string", title: "Title", default: "A new task"},
+      done: {type: "boolean", title: "Done?", default: false}
+    }
+  };
+  
+  const log = (type) => console.log.bind(console, type);
+
 
   return (
     <>
@@ -77,6 +103,13 @@ export default function({
         </CardBody>
       </Card>
     }
+
+      <Form schema={schema}
+        onChange={log("changed")}
+        onSubmit={log("submitted")}
+        onError={log("errors")}    
+      />
+
     </>
   )
 }

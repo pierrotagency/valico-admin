@@ -10,7 +10,7 @@ import { moveModule, addModule, removeModule, updateModule } from './services'
 
 import Layout1 from './layouts/Layout1'
 
-import { library } from "./ModuleLibraryLoader";
+import { library, libraryDefinition } from "./ModuleLibraryLoader";
 
 
 const StyledBoard = styled.div`
@@ -108,8 +108,8 @@ function Board({
       <ModuleEditor
         moduleUpdated={handleModuleUpdated}
         module={currentModule}
-        library={library}
-      >        
+        libraryDefinition={libraryDefinition}
+      >
       </ModuleEditor>
 
       <BoardContainer

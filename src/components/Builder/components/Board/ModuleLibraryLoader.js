@@ -1,16 +1,18 @@
 import ReactDynamicImport from "../../dynamic-import";
 
-// const modulesList = ["Bar", "Foo"];
+// const libraryDefinition = ["Bar", "Foo"];
 
-const modulesList = [
+export const libraryDefinition = [
   {
     name: "Bar",
     schema: {
       title: {
-        type: 'text'
+        type: 'text',
+        label: 'Title'
       },
       subtitle: {
-        type: 'text'
+        type: 'text',
+        label: 'SubTitle'
       }
     }    
   },
@@ -18,10 +20,12 @@ const modulesList = [
     name: "Foo",
     schema: {
       title: {
-        type: 'text'
+        type: 'text',
+        label: 'Title'
       },
       subtitle: {
-        type: 'text'
+        type: 'text',
+        label: 'SubTitle'
       }
     }    
   }
@@ -37,7 +41,7 @@ const ComponentLoader = f => import(`./modules/${f}/index.js`);
  * You can choose to show a placeholder and render error component in case of error,
  * check API section for more
  */
-export const library = modulesList.reduce((p, c) => {
+export const library = libraryDefinition.reduce((p, c) => {
   return {
     ...p,
     [c.name]: ReactDynamicImport({
