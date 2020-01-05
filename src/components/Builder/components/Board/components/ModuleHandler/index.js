@@ -22,10 +22,6 @@ const ModuleTitle = styled.div`
   justify-content: space-between;
 `
 
-const ModuleDescription = styled.div`
-  padding-top: 10px;
-`
-
 const CursorPointer =  styled.span`
   cursor: pointer;
 `
@@ -39,15 +35,11 @@ export default function({
   onModuleEdit
 }) {
   return (
-    <ModuleHandler dragging={dragging}>
-      <span>
-        <ModuleTitle>
-          <span>{module.title}</span>
+    <ModuleHandler dragging={dragging}>      
+        <ModuleTitle>         
           {allowRemoveModule && <CursorPointer onClick={() => onModuleRemove(module)}>DEL</CursorPointer>}
           <CursorPointer onClick={() => onModuleEdit(module)}>EDIT</CursorPointer>
-        </ModuleTitle>
-      </span>
-      <ModuleDescription>{module.description}</ModuleDescription>
+        </ModuleTitle>      
     </ModuleHandler>
   )
 }

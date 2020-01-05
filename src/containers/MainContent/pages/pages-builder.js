@@ -15,20 +15,16 @@ const board = {
         title: 'Area 1',
         modules: [
           {
-            id: 1,
-            title: 'Module 1',
-            description: 'Module content',
-            component: "Foo",
+            id: 1,                        
+            component: 'Foo',
             fields: {
               title: 'Title module 1',
               subtitle: 'Subtitle module 1'
             }        
           },
           {
-            id: 2,
-            title: 'Module 2',
-            description: 'Module content',
-            component: "Bar",
+            id: 2,                        
+            component: 'Bar',
             fields: {
               title: 'Title module 2',
               subtitle: 'Subtitle module 2'
@@ -42,10 +38,8 @@ const board = {
         title: 'Area 2',
         modules: [
           {
-            id: 3,
-            title: 'Module  3',
-            description: 'Module content',
-            component: "Foo",            
+            id: 3,                        
+            component: 'Foo',            
             fields: {
               title: 'Title module 3',
               subtitle: 'Subtitle module 3'

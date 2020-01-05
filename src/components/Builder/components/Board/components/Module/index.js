@@ -24,7 +24,7 @@ function Module({ children, index, renderModule, disableModuleDrag, module, libr
             <ModuleTemplate>{renderModule(isDragging)}</ModuleTemplate>           
             
             {typeof library[module.component] !== "undefined" &&
-              <Component title={module.fields.title} />
+              <Component fields={module.fields} />
             }
             
           </div>

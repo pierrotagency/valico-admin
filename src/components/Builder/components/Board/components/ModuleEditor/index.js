@@ -5,61 +5,22 @@ import Form from "react-jsonschema-form";
 
 export default function({ 
   module,
-  fieldsUpdated,
-  libraryDefinition
+  fieldsUpdated  
 }) {
 
-  const [state, setState] = useState({})
-
-
   const [schema, setSchema] = useState({})
-
-  // async function updateInput({ name, value }) {
-    
-  //   setState(state => ({
-  //     ...state,
-  //     module: {
-  //       ...state.module,
-  //       fields: {       
-  //         ...state.module.fields,
-  //         [name]: value
-  //         }      
-  //       }
-  //     }
-      
-  //   ));
-
-  // }
-
-
-
 
 
   useEffect(() => {
 
     if(module){
-
-      // setState(state => ({
-      //   ...state,
-      //   module: module
-      // }));
-
       console.log(module)
-
-      const loadschema = import(`../../modules/${module.component}/schema.js`).then(mod => setSchema(mod.schema))
-      
-  }
+      const loadschema = import(`../../modules/${module.component}/schema.js`).then(mod => setSchema(mod.schema))      
+    }
     
   }, [module]);
 
 
-  // const handleSaveChanges = () =>{
-
-  //   fieldsUpdated(state.module)
-    
-  // }
-
-  
   const log = (type) => console.log.bind(console, type);
 
   function validate(formData, errors) {
@@ -69,9 +30,6 @@ export default function({
     console.log(errors)
     return errors;
   }
-
-
-
 
   const formSubmit = (e) =>{
 
@@ -87,25 +45,8 @@ export default function({
       <Card>
         <CardBody>
 
-          <h4 className="mt-0 header-title">{module && module.title}</h4>
-          <p className="text-muted mb-4">Here are examples of <code>.form-control</code> applied to each
-              textual HTML5 <code>&lt;input&gt;</code> <code>type</code>.</p>
-
-          {/* <Row className="form-group">
-            <label htmlFor="example-text-input" className="col-sm-2 col-form-label">Text</label>
-            <Col sm="10">
-              <input className="form-control" type="text" 
-                name="title"   
-                value={state.module.fields.title}
-                onChange={e => updateInput({ name: e.target.name, value: e.target.value })}                      
-              />
-            </Col>
-          </Row>
-          <Row className="form-group">                
-            <Col sm="10">              
-              <button type="button" className="btn btn-primary" onClick={handleSaveChanges}> Save</button>
-            </Col>
-          </Row> */}
+          <h4 className="mt-0 header-title">{module && module.component}</h4>
+          <p className="text-muted mb-4">Here are examples of <code>.form-control</code> applied to each.</p>
 
           <Row className="form-group">                
             <Col sm="10">
@@ -116,6 +57,7 @@ export default function({
                 onError={log("errors")}    
                 validate={validate}
                 liveValidate={false}
+                formData={module.fields}
               />
 
             </Col>
@@ -124,8 +66,6 @@ export default function({
         </CardBody>
       </Card>
     }
-
-     
 
     </>
   )

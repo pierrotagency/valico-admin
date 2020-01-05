@@ -2,16 +2,15 @@ export const schema = {
     title: "Foo Module Form",
     description: "A simple form example.",
     type: "object",
-    required: ["firstName", "lastName"],
+    required: ["title", "subtitle"],
     properties: {
-        firstName: {
+        title: {
             type: "string",
-            title: "First name",
-            default: "Chuck"
+            title: "Title"            
         },
-        lastName: {
+        subtitle: {
             type: "string",
-            title: "Last name"
+            title: "Subtitle"
         },
         age: {
             type: "integer",
@@ -20,12 +19,7 @@ export const schema = {
         bio: {
             type: "string",
             title: "Bio"
-        },
-        password: {
-            type: "string",
-            title: "Password",
-            minLength: 3
-        },
+        },       
         telephone: {
             type: "string",
             title: "Telephone",
