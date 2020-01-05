@@ -65,7 +65,7 @@ function removeModule(board, fromArea, module) {
 
 
 
-function updateModule(board, module, updatedModule) {
+function updateModuleFields(board, module, fields) {
 
   let area = null;
 
@@ -76,7 +76,7 @@ function updateModule(board, module, updatedModule) {
 
       area = ar;
       
-      ar.modules[moduleIndex] = updatedModule;
+      ar.modules[moduleIndex].fields = fields;
 
     }
 
@@ -92,4 +92,4 @@ function updateModule(board, module, updatedModule) {
 }
 
 
-export { moveModule, addModule, removeModule, updateModule }
+export { moveModule, addModule, removeModule, updateModuleFields }

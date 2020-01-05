@@ -2,34 +2,16 @@ export const schema = {
     title: "Bar Module Form",
     description: "A simple form example.",
     type: "object",
-    required: ["firstName", "lastName"],
+    required: ["title"],
     properties: {
-        firstName: {
+        title: {
             type: "string",
-            title: "First name",
-            default: "Chuck"
+            title: "Title",
+            default: "Rodrigo"
         },
-        lastName: {
+        subtitle: {
             type: "string",
-            title: "Last name"
-        },
-        age: {
-            type: "integer",
-            title: "Age"
-        },
-        bio: {
-            type: "string",
-            title: "Bio"
-        },
-        password: {
-            type: "string",
-            title: "Password",
-            minLength: 3
-        },
-        telephone: {
-            type: "string",
-            title: "Telephone",
-            minLength: 10
+            title: "Subtitle"
         }
     }
 };

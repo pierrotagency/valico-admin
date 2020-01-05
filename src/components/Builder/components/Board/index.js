@@ -6,7 +6,7 @@ import withDroppable from '../withDroppable'
 import { when, partialRight } from '../../../../helpers/utils'
 import ModuleHandler from './components/ModuleHandler'
 import ModuleEditor from './components/ModuleEditor'
-import { moveModule, addModule, removeModule, updateModule } from './services'
+import { moveModule, addModule, removeModule, updateModuleFields } from './services'
 
 import Layout1 from './layouts/Layout1'
 
@@ -93,9 +93,9 @@ function Board({
   }
 
 
-  function handleModuleUpdated(updatedModule) {
+  function handleFieldsUpdated(fields) {
 
-    const boardModified = updateModule(board, currentModule, updatedModule)  
+    const boardModified = updateModuleFields(board, currentModule, fields)  
     // console.log(boardModified)
     setBoard(boardModified)
 
@@ -106,7 +106,7 @@ function Board({
     <>
 
       <ModuleEditor
-        moduleUpdated={handleModuleUpdated}
+        fieldsUpdated={handleFieldsUpdated}
         module={currentModule}
         libraryDefinition={libraryDefinition}
       >
