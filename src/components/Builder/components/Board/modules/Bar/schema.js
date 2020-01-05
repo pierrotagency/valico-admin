@@ -24,8 +24,7 @@ export const schema = {
                 "properties": {
                     "title": {
                     "type": "string",
-                    "title": "Title",
-                    "description": "A sample title"
+                    "title": "Title",                    
                     },
                     "details": {
                     "type": "string",
@@ -34,7 +33,7 @@ export const schema = {
                     },
                     "done": {
                     "type": "boolean",
-                    "title": "Done?",
+                    "title": " Done?",
                     "default": false
                     }
                 }
