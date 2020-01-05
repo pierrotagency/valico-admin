@@ -22,6 +22,7 @@ const StyledBoard = styled.div`
 
 const Areas = styled.div`
   white-space: nowrap;
+  width: 100%; 
 `
 
 function getCoordinates(event) {
@@ -93,7 +94,7 @@ function Board({
   }
 
 
-  function handleFieldsUpdated(fields) {
+  function handleModuleFielUpdated(fields) {
 
     const boardModified = updateModuleFields(board, currentModule, fields)  
     // console.log(boardModified)
@@ -106,7 +107,7 @@ function Board({
     <>
 
       <ModuleEditor
-        fieldsUpdated={handleFieldsUpdated}
+        fieldsUpdated={handleModuleFielUpdated}
         module={currentModule}
         libraryDefinition={libraryDefinition}
       >
@@ -114,7 +115,7 @@ function Board({
 
       <BoardContainer
         onModuleDragEnd={handleOnModuleDragEnd}      
-        handleModuleAdd={handleModuleAdd}
+        handleModuleAdd={handleModuleAdd}        
         renderModule={(area, module, dragging) => {
           
           return (
@@ -157,13 +158,14 @@ function BoardContainer({
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <StyledBoard>
-        <DroppableBoard droppableId='board-droppable' direction='horizontal' type='BOARD'>
+        <DroppableBoard droppableId='board-droppable' direction='horizontal' type='BOARD' style={{width:'100%'}}>
           
           <Layout1
               renderModule={renderModule}
               moduleAdded={handleModuleAdd}              
               disableModuleDrag={disableModuleDrag}
               library={library}
+              className="layout1"
           >
             {board.areas}
           </Layout1>

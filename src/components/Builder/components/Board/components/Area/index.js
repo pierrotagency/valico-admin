@@ -6,18 +6,13 @@ import Module from '../Module'
 import withDroppable from '../../../withDroppable'
 import AreaHandler from '../AreaHandler'
 
-export const StyledArea = styled.div`
-  height: 100%;
-  display: inline-block;
-  padding: 15px;
-  border-radius: 2px;
-  background-color: #eee;
-  margin: 5px;
+export const StyledArea = styled.div`  
+  background-color: #eee;  
   vertical-align: top;
 `
 
 const DroppableArea = withDroppable(styled.div`
-  min-height: 28px;
+  min-height: 28px; 
 `)
 
 function Area({ 
@@ -27,7 +22,8 @@ function Area({
   moduleAdded, 
   disableModuleDrag, 
   library, 
-  name 
+  name ,
+  className
 }) {
 
   const area = areas.find(e => e.name === name)
@@ -35,7 +31,7 @@ function Area({
   return (
     <Draggable draggableId={`area-draggable-${area.id}`} index={areaIndex} isDragDisabled={true}>
       {areaProvided => (
-        <StyledArea ref={areaProvided.innerRef} {...areaProvided.draggableProps}>
+        <StyledArea ref={areaProvided.innerRef} {...areaProvided.draggableProps} className={className}>
           
           <div {...areaProvided.dragHandleProps}>            
               <AreaHandler

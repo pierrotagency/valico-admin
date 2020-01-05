@@ -1,6 +1,7 @@
 import React from 'react'
-import Area from '../components/Area'
+import Area from '../../components/Area'
 
+import './index.scss'
 
 
 function Layout1({
@@ -8,15 +9,17 @@ function Layout1({
     renderModule, 
     moduleAdded, 
     disableModuleDrag,
-    library
+    library,
+    className
 }) {
     return (
-        <>
+        <div className={className}>
 
             <Area
                 key={1}
                 index={1}
                 name="area1"
+                className="area1"
                 renderModule={renderModule}
                 moduleAdded={moduleAdded}              
                 disableModuleDrag={disableModuleDrag}
@@ -29,6 +32,7 @@ function Layout1({
                 key={2}
                 index={2}
                 name="area2"
+                className="area2"
                 renderModule={renderModule}
                 moduleAdded={moduleAdded}              
                 disableModuleDrag={disableModuleDrag}
@@ -37,7 +41,7 @@ function Layout1({
                 {areas}
             </Area>           
         
-        </>
+        </div>
     )    
 }
 
