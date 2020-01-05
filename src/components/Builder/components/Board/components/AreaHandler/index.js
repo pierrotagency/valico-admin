@@ -32,7 +32,7 @@ export default function({
 
   const addClickHandler = (el) =>{
     
-    moduleAdded(area, { fields: { title: "titlllllle" }, component: el })
+    moduleAdded(area, { component: el })
 
   }
   

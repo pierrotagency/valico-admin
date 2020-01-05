@@ -12,7 +12,7 @@ const ModuleTemplate = styled.div`
 
 function Module({ children, index, renderModule, disableModuleDrag, module, library }) {
 
-  const Component = library[module.component]
+  const Component = library[module.component].component
 
   return (
     <Draggable draggableId={String(children.id)} index={index} isDragDisabled={disableModuleDrag}>
@@ -23,7 +23,7 @@ function Module({ children, index, renderModule, disableModuleDrag, module, libr
             {/* acá esta lo del box */}
             <ModuleTemplate>{renderModule(isDragging)}</ModuleTemplate>           
             
-            {typeof library[module.component] !== "undefined" &&
+            {typeof library[module.component].component !== "undefined" &&
               <Component fields={module.fields} />
             }
             

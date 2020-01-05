@@ -39,13 +39,16 @@ function moveModule(board, { fromPosition, fromAreaId }, { toPosition, toAreaId 
 }
 
 
-async function addModule(board, inArea, module, { on } = {}) {
+function addModule(board, library, inArea, module, { on } = {}) {
 
   const uuid = getUuid();
   module.id = uuid;
 
-  const defaultsFile = await import(`../modules/${module.component}/defaults.js`)
-  module.fields = defaultsFile.defaults
+  // const defaultsFile = await import(`../modules/${module.component}/defaults.js`)  
+  // module.fields = defaultsFile.defaults
+
+  const defaults = library[module.component].defaults
+  module.fields = defaults
 
   const areaToAdd = board.areas.find(({ id }) => id === inArea.id)
 

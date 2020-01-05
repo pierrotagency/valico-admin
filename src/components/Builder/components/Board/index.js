@@ -10,13 +10,7 @@ import { moveModule, addModule, removeModule, updateModuleFields } from './servi
 
 import Area from './components/Area'
 
-// import Layout1 from './layouts/Layout1'
-
-import { ExampleComponent, Foo, Layout1 } from 'valico-sanmartin'
-
-
-import { library, libraryDefinition } from "./ModuleLibraryLoader";
-
+import { ExampleComponent, Layout1, library } from 'valico-sanmartin'
 
 const StyledBoard = styled.div`
   padding: 5px;
@@ -70,9 +64,9 @@ function Board({
   }
 
 
-  async function handleModuleAdd(area, module, options = {}) {
+  function handleModuleAdd(area, module, options = {}) {
 
-    const boardWithNewModule = await addModule(board, area, module, options)    
+    const boardWithNewModule = addModule(board, library, area, module, options)    
     
     onModuleAdded(
       boardWithNewModule,
@@ -119,7 +113,7 @@ function Board({
       <ModuleEditor
         fieldsUpdated={handleModuleFielUpdated}
         module={currentModule}
-        libraryDefinition={libraryDefinition}
+        library={library}
       >
       </ModuleEditor>
 

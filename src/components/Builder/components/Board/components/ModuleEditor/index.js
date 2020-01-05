@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Row, Col, Card, CardBody } from 'reactstrap';
 import Form from "react-jsonschema-form-bs4";
 // import Form from "react-jsonschema-form"; Original lib form but without BS4 support https://github.com/rjsf-team/react-jsonschema-form/issues/899
@@ -11,25 +11,14 @@ import './index.scss'
 
 export default function({ 
   module,
-  fieldsUpdated  
+  fieldsUpdated,
+  library
 }) {
-
-  const [schema, setSchema] = useState({})
 
   const [state, setState] = useState({
     liveReload: true
   })
 
-
-  useEffect(() => {
-    console.log('Module reload')
-
-    if(module){
-      console.log(module)
-      import(`../../modules/${module.component}/schema.js`).then(mod => setSchema(mod.schema))      
-    }
-    
-  }, [module]);
 
 
   const log = (type) => console.log.bind(console, type);
@@ -56,6 +45,7 @@ export default function({
   }
 
   const handleLiveReloadToggle = handleToggleChange.bind(this, 'liveReload')
+
 
   return (
     <>
@@ -87,7 +77,7 @@ export default function({
           <Row className="form-group">                
             <Col sm="12">
 
-              <Form schema={schema}
+              <Form schema={library[module.component].schema}
                 onChange={handleFormChange}
                 onSubmit={formSubmit}
                 onError={log("errors")}    
