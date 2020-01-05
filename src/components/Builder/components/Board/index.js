@@ -65,13 +65,16 @@ function Board({
   }
 
 
-  function handleModuleAdd(area, module, options = {}) {
-    const boardWithNewModule = addModule(board, area, module, options)    
+  async function handleModuleAdd(area, module, options = {}) {
+
+    const boardWithNewModule = await addModule(board, area, module, options)    
+    
     onModuleAdded(
       boardWithNewModule,
       boardWithNewModule.areas.find(({ id }) => id === area.id),
       module
     )
+
     setBoard(boardWithNewModule)
 
   }
