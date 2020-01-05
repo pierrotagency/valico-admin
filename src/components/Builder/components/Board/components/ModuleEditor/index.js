@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Row, Col, Card, CardBody } from 'reactstrap';
-import Form from "react-jsonschema-form";
+import Form from "react-jsonschema-form-bs4";
+// import Form from "react-jsonschema-form"; Original lib form but without BS4 support https://github.com/rjsf-team/react-jsonschema-form/issues/899
 
 import Toggle from 'react-toggle';
 import "react-toggle/style.css";
