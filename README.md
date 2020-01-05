@@ -19,3 +19,15 @@ rm -rf node_modules/babel-jest node_modules/jest
 To run:
 
 npm start
+
+
+
+
+LINK LIB
+
+In the other project
+yarn link
+
+Here:
+yarn link "valico-sanmartin"
+(RUN after every yarn)

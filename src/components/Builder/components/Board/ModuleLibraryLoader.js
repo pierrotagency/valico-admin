@@ -10,6 +10,7 @@ export const libraryDefinition = [
 ];
 
 
+// const ComponentLoader = f => import(`valico-sanmartin/modules/${f}/index.js`);
 const ComponentLoader = f => import(`./modules/${f}/index.js`);
 
 /**

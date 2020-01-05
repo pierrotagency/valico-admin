@@ -8,7 +8,12 @@ import ModuleHandler from './components/ModuleHandler'
 import ModuleEditor from './components/ModuleEditor'
 import { moveModule, addModule, removeModule, updateModuleFields } from './services'
 
-import Layout1 from './layouts/Layout1'
+import Area from './components/Area'
+
+// import Layout1 from './layouts/Layout1'
+
+import { ExampleComponent, Foo, Layout1 } from 'valico-sanmartin'
+
 
 import { library, libraryDefinition } from "./ModuleLibraryLoader";
 
@@ -109,6 +114,8 @@ function Board({
   return (
     <>
 
+      <ExampleComponent text='RRRRRRRR Modern React component module' />
+
       <ModuleEditor
         fieldsUpdated={handleModuleFielUpdated}
         module={currentModule}
@@ -169,6 +176,7 @@ function BoardContainer({
               disableModuleDrag={disableModuleDrag}
               library={library}
               className="layout1"
+              Area={Area}
           >
             {board.areas}
           </Layout1>
