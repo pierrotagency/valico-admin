@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Row, Col, Card, CardBody } from 'reactstrap';
-
 import Form from "react-jsonschema-form";
+
+import Toggle from 'react-toggle';
+import "react-toggle/style.css";
+
 
 export default function({ 
   module,
@@ -10,12 +13,15 @@ export default function({
 
   const [schema, setSchema] = useState({})
 
+  const [state, setState] = useState({})
+
 
   useEffect(() => {
+    console.log('Module reload')
 
     if(module){
       console.log(module)
-      const loadschema = import(`../../modules/${module.component}/schema.js`).then(mod => setSchema(mod.schema))      
+      import(`../../modules/${module.component}/schema.js`).then(mod => setSchema(mod.schema))      
     }
     
   }, [module]);
@@ -38,6 +44,16 @@ export default function({
     
   }
 
+  const handleFormChange = (e) => {
+    if(state.liveReload) formSubmit(e)
+  }
+
+
+  function handleChange (key, event) {
+    setState({ [key]: event.target.checked })
+  }
+
+  const handleLiveReloadToggle = handleChange.bind(this, 'liveReload')
 
   return (
     <>
@@ -46,13 +62,31 @@ export default function({
         <CardBody>
 
           <h4 className="mt-0 header-title">{module && module.component}</h4>
-          <p className="text-muted mb-4">Here are examples of <code>.form-control</code> applied to each.</p>
+          <p className="text-muted mb-4">Fields dynamically loaded according to <code>module</code>.</p>
+
+          <Row className="form-group">                
+            <Col sm="10">
+              
+              <div className="mb-2 ml-0">
+                <label className="d-flex align-items-center mb-1">
+                    <Toggle                      
+                      defaultChecked={state.liveReload}
+                      aria-label='Live Reload'
+                      icons={false}
+                      onChange={handleLiveReloadToggle}                    
+                    />
+                  <span className="ml-2">Live Edit</span>
+                </label>
+              </div>
+
+            </Col>
+          </Row>
 
           <Row className="form-group">                
             <Col sm="10">
 
               <Form schema={schema}
-                onChange={log("changed")}
+                onChange={handleFormChange}
                 onSubmit={formSubmit}
                 onError={log("errors")}    
                 validate={validate}
