@@ -5,6 +5,8 @@ import Form from "react-jsonschema-form";
 import Toggle from 'react-toggle';
 import "react-toggle/style.css";
 
+import './index.scss'
+
 
 export default function({ 
   module,
@@ -13,7 +15,9 @@ export default function({
 
   const [schema, setSchema] = useState({})
 
-  const [state, setState] = useState({})
+  const [state, setState] = useState({
+    liveReload: true
+  })
 
 
   useEffect(() => {
@@ -38,22 +42,19 @@ export default function({
   }
 
   const formSubmit = (e) =>{
-
     fieldsUpdated(e.formData)
     console.log(e.formData)
-    
   }
 
   const handleFormChange = (e) => {
     if(state.liveReload) formSubmit(e)
   }
 
-
-  function handleChange (key, event) {
+  function handleToggleChange (key, event) {
     setState({ [key]: event.target.checked })
   }
 
-  const handleLiveReloadToggle = handleChange.bind(this, 'liveReload')
+  const handleLiveReloadToggle = handleToggleChange.bind(this, 'liveReload')
 
   return (
     <>
@@ -65,7 +66,7 @@ export default function({
           <p className="text-muted mb-4">Fields dynamically loaded according to <code>module</code>.</p>
 
           <Row className="form-group">                
-            <Col sm="10">
+            <Col sm="12">
               
               <div className="mb-2 ml-0">
                 <label className="d-flex align-items-center mb-1">
@@ -83,7 +84,7 @@ export default function({
           </Row>
 
           <Row className="form-group">                
-            <Col sm="10">
+            <Col sm="12">
 
               <Form schema={schema}
                 onChange={handleFormChange}
