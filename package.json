@@ -1,7 +1,7 @@
 {
   "name": "valico-admin",
   "author": "Rodrigo Butta / Pierrot",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
     "@fullcalendar/bootstrap": "^4.2.0",

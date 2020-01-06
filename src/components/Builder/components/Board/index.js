@@ -10,7 +10,7 @@ import { moveModule, addModule, removeModule, cloneModule, updateModuleFields } 
 
 import Area from './components/Area'
 
-import { AboutComponent, Layout1, library } from 'valico-sanmartin'
+import { AboutComponent, library, layouts } from 'valico-sanmartin'
 
 const StyledBoard = styled.div`
   padding: 5px;
@@ -105,7 +105,7 @@ function Board({
   return (
     <>
 
-      <AboutComponent text='RRRRRRRR Modern React component module' />
+      <AboutComponent customText='Rodri' coreVersion={process.env.REACT_APP_VERSION} />
 
       <ModuleEditor
         fieldsUpdated={handleModuleFielUpdated}
@@ -156,12 +156,14 @@ function BoardContainer({
     onModuleDragEnd(coordinates)
   }
 
+  const Layout = layouts.Layout1.view;
+
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <StyledBoard>
         <DroppableBoard droppableId='board-droppable' direction='horizontal' type='BOARD' style={{width:'100%'}}>
           
-          <Layout1
+          <Layout
               renderModule={renderModule}
               moduleAdded={handleModuleAdd}              
               disableModuleDrag={disableModuleDrag}
@@ -170,7 +172,7 @@ function BoardContainer({
               Area={Area}
           >
             {board.areas}
-          </Layout1>
+          </Layout>
 
         </DroppableBoard>
       </StyledBoard>
