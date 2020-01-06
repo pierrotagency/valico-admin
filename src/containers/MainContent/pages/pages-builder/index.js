@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import { activateAuthLayout } from '../../../store/actions';
+import { activateAuthLayout } from '../../../../store/actions';
 import { connect } from 'react-redux';
-import Settingmenu from '../Subpages/Settingmenu';
+import MenuSettings from './MenuSettings';
 import { Link } from 'react-router-dom';
 
-import Board from '../../../components/Builder';
+import Board from '../../../../components/Builder';
 
 
-const board = {
+const page = {
+    name: "Página 1",
+    layout: "Layout1",
     areas: [
       {
         id: 1,
@@ -76,6 +78,7 @@ class PagesBuilder extends Component {
         this.props.activateAuthLayout();
     }
 
+
     render() {
 
         return (
@@ -88,13 +91,14 @@ class PagesBuilder extends Component {
                                     <h4 className="page-title">Builder</h4>
                                     <ol className="breadcrumb">
                                         <li className="breadcrumb-item"><Link to="#"><i className="mdi mdi-home-outline"></i></Link></li>
-                                        <li className="breadcrumb-item"><Link to="#">Page Name</Link></li>
+                                        <li className="breadcrumb-item"><Link to="#">{page.name}</Link></li>
                                         <li className="breadcrumb-item active">Builder</li>
                                     </ol>
                                 </div>
                                 <div className="col-sm-6">
                                     <div className="float-right d-none d-md-block">
-                                        <Settingmenu />
+                                        <MenuSettings                                           
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -104,8 +108,8 @@ class PagesBuilder extends Component {
                             onModuleRemove={console.log}
                             onModuleEdit={console.log}
                             onModuleAdded={console.log}
-                            onModuleDragEnd={console.log}                     
-                            initialBoard={board}
+                            onModuleDragEnd={console.log}             
+                            initialPage={page}
                         />
                     
                     </div>
@@ -116,5 +120,3 @@ class PagesBuilder extends Component {
 }
 
 export default connect(null, { activateAuthLayout })(PagesBuilder);
-
-

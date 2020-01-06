@@ -6,11 +6,20 @@ import withDroppable from '../withDroppable'
 import { when, partialRight } from '../../../../helpers/utils'
 import ModuleHandler from './components/ModuleHandler'
 import ModuleEditor from './components/ModuleEditor'
-import { moveModule, addModule, removeModule, cloneModule, updateModuleFields } from './services'
+import { 
+  moveModule, 
+  addModule, 
+  removeModule, 
+  cloneModule, 
+  updateModuleFields,
+  changeLayout
+ } from './services'
+
+ import MenuSettings from './components/MenuSettings';
 
 import Area from './components/Area'
 
-import { AboutComponent, library, layouts } from 'valico-sanmartin'
+import { library, layouts } from 'valico-sanmartin'
 
 const StyledBoard = styled.div`
   padding: 5px;
@@ -22,6 +31,13 @@ const StyledBoard = styled.div`
 const Areas = styled.div`
   white-space: nowrap;
   width: 100%; 
+`
+
+
+const StyledMenuSettings = styled.div`
+  text-align: right;
+  display: block;
+  width: 100%;
 `
 
 function getCoordinates(event) {
@@ -40,7 +56,7 @@ const DroppableBoard = withDroppable(Areas)
 
 
 function Board({
-  initialBoard,
+  initialPage,
   onModuleDragEnd,
   onModuleRemove,
   onModuleEdit,
@@ -48,7 +64,7 @@ function Board({
   disableModuleDrag
 }) {
 
-  const [board, setBoard] = useState(initialBoard)
+  const [page, setPage] = useState(initialPage)
   
   const [currentModule, setCurrentModule] = useState()
 
@@ -56,39 +72,39 @@ function Board({
   
 
   function handleOnDragEnd({ source, destination }, { moveCallback, notifyCallback }) {
-    const reorderedBoard = moveCallback(board, source, destination)
+    const reorderedBoard = moveCallback(page, source, destination)
     when(notifyCallback)(callback => callback(reorderedBoard, source, destination))
-    setBoard(reorderedBoard)
+    setPage(reorderedBoard)
   }
 
   function handleModuleAdd(area, module, options = {}) {
-    const boardWithNewModule = addModule(board, library, area, module, options)    
+    const pageWithNewModule = addModule(page, library, area, module, options)    
     onModuleAdded(
-      boardWithNewModule,
-      boardWithNewModule.areas.find(({ id }) => id === area.id),
+      pageWithNewModule,
+      pageWithNewModule.areas.find(({ id }) => id === area.id),
       module
     )
-    setBoard(boardWithNewModule)
+    setPage(pageWithNewModule)
   }
 
   function handleModuleClone(area, module, options = {}) {
-    const boardWithNewModule = cloneModule(board, area, module, options)        
+    const pageWithNewModule = cloneModule(page, area, module, options)        
     // onModuleCloned(
-    //   boardWithNewModule,
-    //   boardWithNewModule.areas.find(({ id }) => id === area.id),
+    //   pageWithNewModule,
+    //   pageWithNewModule.areas.find(({ id }) => id === area.id),
     //   module
     // )
-    setBoard(boardWithNewModule)
+    setPage(pageWithNewModule)
   }
 
   function handleModuleRemove(area, module) {
-    const boardWithoutModule = removeModule(board, area, module)
+    const pageWithoutModule = removeModule(page, area, module)
     onModuleRemove(
-      boardWithoutModule,
-      boardWithoutModule.areas.find(({ id }) => id === area.id),
+      pageWithoutModule,
+      pageWithoutModule.areas.find(({ id }) => id === area.id),
       module
     )
-    setBoard(boardWithoutModule)
+    setPage(pageWithoutModule)
   }
 
   function handleModuleEdit(area, module) {
@@ -96,16 +112,26 @@ function Board({
   }
 
   function handleModuleFielUpdated(fields) {
-    const boardModified = updateModuleFields(board, currentModule, fields)  
-    // console.log(boardModified)
-    setBoard(boardModified)
+    const pageModified = updateModuleFields(page, currentModule, fields)  
+    // console.log(pageModified)
+    setPage(pageModified)
+  }
+
+
+  function handleLayoutChange(layoutName) {
+    const pageWithSetLayout = changeLayout(page,layoutName)        
+    setPage(pageWithSetLayout)
   }
 
 
   return (
     <>
 
-      <AboutComponent customText='Rodri' coreVersion={process.env.REACT_APP_VERSION} />
+      <StyledMenuSettings>
+        <MenuSettings                                           
+          onChangeLayout={(layoutName) => handleLayoutChange(layoutName)}
+        />
+      </StyledMenuSettings>
 
       <ModuleEditor
         fieldsUpdated={handleModuleFielUpdated}
@@ -134,7 +160,7 @@ function Board({
         disableModuleDrag={disableModuleDrag}
         library={library}
       >
-        {board}
+        {page}
       </BoardContainer>
 
     </>
@@ -142,7 +168,7 @@ function Board({
 }
 
 function BoardContainer({
-  children: board,
+  children: page,
   renderModule,
   disableModuleDrag,   
   onModuleDragEnd,
@@ -156,7 +182,7 @@ function BoardContainer({
     onModuleDragEnd(coordinates)
   }
 
-  const Layout = layouts.Layout1.view;
+  const Layout = layouts[page.layout].view;
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -168,10 +194,10 @@ function BoardContainer({
               moduleAdded={handleModuleAdd}              
               disableModuleDrag={disableModuleDrag}
               library={library}
-              className="layout1"
+              className={page.layout}
               Area={Area}
           >
-            {board.areas}
+            {page.areas}
           </Layout>
 
         </DroppableBoard>

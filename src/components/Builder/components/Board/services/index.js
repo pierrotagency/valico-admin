@@ -11,11 +11,11 @@ function reorderModulesOnArea(area, reorderModules) {
   return { ...area, modules: reorderModules(area.modules) }
 }
 
-function moveModule(board, { fromPosition, fromAreaId }, { toPosition, toAreaId }) {
-  const sourceArea = board.areas.find(area => area.id === fromAreaId)
-  const destinationArea = board.areas.find(area => area.id === toAreaId)
+function moveModule(page, { fromPosition, fromAreaId }, { toPosition, toAreaId }) {
+  const sourceArea = page.areas.find(area => area.id === fromAreaId)
+  const destinationArea = page.areas.find(area => area.id === toAreaId)
 
-  const reorderAreasOnBoard = reorderAreasMapper => ({ ...board, areas: board.areas.map(reorderAreasMapper) })
+  const reorderAreasOnBoard = reorderAreasMapper => ({ ...page, areas: page.areas.map(reorderAreasMapper) })
   const reorderModulesOnSourceArea = reorderModulesOnArea.bind(null, sourceArea)
   const reorderModulesOnDestinationArea = reorderModulesOnArea.bind(null, destinationArea)
 
@@ -40,7 +40,7 @@ function moveModule(board, { fromPosition, fromAreaId }, { toPosition, toAreaId 
 }
 
 
-function addModule(board, library, inArea, module, { on } = {}) {
+function addModule(page, library, inArea, module, { on } = {}) {
 
   module.id = getUuid();
 
@@ -50,50 +50,50 @@ function addModule(board, library, inArea, module, { on } = {}) {
   const defaults = library[module.component].defaults
   module.fields = defaults
 
-  const areaToAdd = board.areas.find(({ id }) => id === inArea.id)
+  const areaToAdd = page.areas.find(({ id }) => id === inArea.id)
 
   const modules = addInArrayAtPosition(areaToAdd.modules, module, on === 'top' ? 0 : areaToAdd.modules.length)
-  const areas = replaceElementOfArray(board.areas)({
+  const areas = replaceElementOfArray(page.areas)({
     when: ({ id }) => inArea.id === id,
     for: value => ({ ...value, modules })
   })
 
-  return { ...board, areas }
+  return { ...page, areas }
 }
 
 
-function cloneModule(board, inArea, module, { on } = {}) {
+function cloneModule(page, inArea, module, { on } = {}) {
   
   let newModule = cloneObject(module);
       newModule.id = getUuid();
 
-  const areaToAdd = board.areas.find(({ id }) => id === inArea.id)
+  const areaToAdd = page.areas.find(({ id }) => id === inArea.id)
 
   const modules = addInArrayAtPosition(areaToAdd.modules, newModule, on === 'top' ? 0 : areaToAdd.modules.length)
-  const areas = replaceElementOfArray(board.areas)({
+  const areas = replaceElementOfArray(page.areas)({
     when: ({ id }) => inArea.id === id,
     for: value => ({ ...value, modules })
   })
 
-  return { ...board, areas }
+  return { ...page, areas }
 }
 
 
-function removeModule(board, fromArea, module) {
-  const areaToRemove = board.areas.find(({ id }) => id === fromArea.id)
+function removeModule(page, fromArea, module) {
+  const areaToRemove = page.areas.find(({ id }) => id === fromArea.id)
   const filteredModules = areaToRemove.modules.filter(({ id }) => module.id !== id)
   const areaWithoutModule = { ...areaToRemove, modules: filteredModules }
-  const filteredAreas = board.areas.map(area => (fromArea.id === area.id ? areaWithoutModule : area))
-  return { ...board, areas: filteredAreas }
+  const filteredAreas = page.areas.map(area => (fromArea.id === area.id ? areaWithoutModule : area))
+  return { ...page, areas: filteredAreas }
 }
 
 
 
-function updateModuleFields(board, module, fields) {
+function updateModuleFields(page, module, fields) {
 
   let area = null;
 
-  board.areas.forEach(ar => {
+  page.areas.forEach(ar => {
 
     let moduleIndex = ar.modules.findIndex(el => el.id === module.id)
     if( moduleIndex !== -1){
@@ -106,14 +106,25 @@ function updateModuleFields(board, module, fields) {
 
   })
 
-  const areas = replaceElementOfArray(board.areas)({
+  const areas = replaceElementOfArray(page.areas)({
     when: ({ id }) => area.id === id,
     for: value => ({ ...value, modules: area.modules })
   })
 
-  return { ...board, areas: areas }
+  return { ...page, areas: areas }
 
 }
 
 
-export { moveModule, addModule, removeModule, cloneModule, updateModuleFields }
+
+
+
+function changeLayout(page,layoutName) {
+  
+  const layout = layoutName
+
+  return { ...page, layout }
+}
+
+
+export { moveModule, addModule, removeModule, cloneModule, updateModuleFields, changeLayout }

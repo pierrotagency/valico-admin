@@ -7,7 +7,6 @@ import withDroppable from '../../../withDroppable'
 import AreaHandler from '../AreaHandler'
 
 export const StyledArea = styled.div`  
-  background-color: #eee;  
   vertical-align: top;
 `
 
