@@ -8,6 +8,15 @@ const ModuleTemplate = styled.div`
   white-space: normal;
 `
 
+const ModuleWrapper = styled.div`
+  opacity: 1;
+  
+  ${({ dragging }) =>
+    dragging &&
+    `
+    opacity: 0.5;
+  `}
+`
 
 
 function Module({ children, index, renderModule, disableModuleDrag, module, library }) {
@@ -23,9 +32,15 @@ function Module({ children, index, renderModule, disableModuleDrag, module, libr
             {/* acá esta lo del box */}
             <ModuleTemplate>{renderModule(isDragging)}</ModuleTemplate>           
             
+            
             {typeof library[module.component].component !== "undefined" &&
-              <Component fields={module.fields} />
+              (
+                <ModuleWrapper dragging={isDragging}>
+                  <Component fields={module.fields}/>
+                </ModuleWrapper>
+              )
             }
+            
             
           </div>
         )

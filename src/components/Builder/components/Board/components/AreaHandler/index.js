@@ -44,7 +44,7 @@ export default function({
           </AreaTitle>   
           
           <Dropdown isOpen={state.drp_main} toggle={() => setState({ drp_main: !state.drp_main })}>
-            <DropdownToggle className="btn btn-primary mb-2 mb-sm-0" caret>
+            <DropdownToggle className="btn btn-info mb-2 mb-sm-0" caret>
               Add{' '}
             </DropdownToggle>
             <DropdownMenu>

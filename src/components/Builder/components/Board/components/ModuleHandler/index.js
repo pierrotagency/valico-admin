@@ -2,12 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 
 const ModuleHandler = styled.div`  
-  margin-bottom: 3px;
+  margin-bottom: 0px;
 
   ${({ dragging }) =>
     dragging &&
     `
-    box-shadow: 2px 2px grey;
+    opacity: 0;
   `}
 `
 
