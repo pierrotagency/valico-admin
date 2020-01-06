@@ -6,11 +6,11 @@ import withDroppable from '../withDroppable'
 import { when, partialRight } from '../../../../helpers/utils'
 import ModuleHandler from './components/ModuleHandler'
 import ModuleEditor from './components/ModuleEditor'
-import { moveModule, addModule, removeModule, updateModuleFields } from './services'
+import { moveModule, addModule, removeModule, cloneModule, updateModuleFields } from './services'
 
 import Area from './components/Area'
 
-import { ExampleComponent, Layout1, library } from 'valico-sanmartin'
+import { AboutComponent, Layout1, library } from 'valico-sanmartin'
 
 const StyledBoard = styled.div`
   padding: 5px;
@@ -45,7 +45,6 @@ function Board({
   onModuleRemove,
   onModuleEdit,
   onModuleAdded,
-  allowRemoveModule,
   disableModuleDrag
 }) {
 
@@ -56,26 +55,30 @@ function Board({
   const handleOnModuleDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveModule, notifyCallback: onModuleDragEnd })
   
 
-
   function handleOnDragEnd({ source, destination }, { moveCallback, notifyCallback }) {
     const reorderedBoard = moveCallback(board, source, destination)
     when(notifyCallback)(callback => callback(reorderedBoard, source, destination))
     setBoard(reorderedBoard)
   }
 
-
   function handleModuleAdd(area, module, options = {}) {
-
     const boardWithNewModule = addModule(board, library, area, module, options)    
-    
     onModuleAdded(
       boardWithNewModule,
       boardWithNewModule.areas.find(({ id }) => id === area.id),
       module
     )
-
     setBoard(boardWithNewModule)
+  }
 
+  function handleModuleClone(area, module, options = {}) {
+    const boardWithNewModule = cloneModule(board, area, module, options)        
+    // onModuleCloned(
+    //   boardWithNewModule,
+    //   boardWithNewModule.areas.find(({ id }) => id === area.id),
+    //   module
+    // )
+    setBoard(boardWithNewModule)
   }
 
   function handleModuleRemove(area, module) {
@@ -88,27 +91,21 @@ function Board({
     setBoard(boardWithoutModule)
   }
 
-
   function handleModuleEdit(area, module) {
-
     setCurrentModule(module);
-
   }
 
-
   function handleModuleFielUpdated(fields) {
-
     const boardModified = updateModuleFields(board, currentModule, fields)  
     // console.log(boardModified)
     setBoard(boardModified)
-
   }
 
 
   return (
     <>
 
-      <ExampleComponent text='RRRRRRRR Modern React component module' />
+      <AboutComponent text='RRRRRRRR Modern React component module' />
 
       <ModuleEditor
         fieldsUpdated={handleModuleFielUpdated}
@@ -124,10 +121,10 @@ function Board({
           
           return (
             <ModuleHandler
-              dragging={dragging}
-              allowRemoveModule={allowRemoveModule}
+              dragging={dragging}              
               onModuleRemove={module => handleModuleRemove(area, module)}
               onModuleEdit={module => handleModuleEdit(area, module)}
+              onModuleClone={module => handleModuleClone(area, module)}
             >
               {module}
             </ModuleHandler>

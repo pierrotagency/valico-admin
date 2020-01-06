@@ -3,7 +3,8 @@ import {
   addInArrayAtPosition,
   changeElementOfPositionInArray,
   replaceElementOfArray,
-  getUuid
+  getUuid,
+  cloneObject
 } from '../../../../../helpers/utils'
 
 function reorderModulesOnArea(area, reorderModules) {
@@ -41,8 +42,7 @@ function moveModule(board, { fromPosition, fromAreaId }, { toPosition, toAreaId 
 
 function addModule(board, library, inArea, module, { on } = {}) {
 
-  const uuid = getUuid();
-  module.id = uuid;
+  module.id = getUuid();
 
   // const defaultsFile = await import(`../modules/${module.component}/defaults.js`)  
   // module.fields = defaultsFile.defaults
@@ -60,6 +60,24 @@ function addModule(board, library, inArea, module, { on } = {}) {
 
   return { ...board, areas }
 }
+
+
+function cloneModule(board, inArea, module, { on } = {}) {
+  
+  let newModule = cloneObject(module);
+      newModule.id = getUuid();
+
+  const areaToAdd = board.areas.find(({ id }) => id === inArea.id)
+
+  const modules = addInArrayAtPosition(areaToAdd.modules, newModule, on === 'top' ? 0 : areaToAdd.modules.length)
+  const areas = replaceElementOfArray(board.areas)({
+    when: ({ id }) => inArea.id === id,
+    for: value => ({ ...value, modules })
+  })
+
+  return { ...board, areas }
+}
+
 
 function removeModule(board, fromArea, module) {
   const areaToRemove = board.areas.find(({ id }) => id === fromArea.id)
@@ -98,4 +116,4 @@ function updateModuleFields(board, module, fields) {
 }
 
 
-export { moveModule, addModule, removeModule, updateModuleFields }
+export { moveModule, addModule, removeModule, cloneModule, updateModuleFields }

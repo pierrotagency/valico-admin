@@ -1,11 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const ModuleHandler = styled.div`
-  border-radius: 3px;
-  background-color: #fff;
-  padding: 10px;
-  margin-bottom: 7px;
+const ModuleHandler = styled.div`  
+  margin-bottom: 3px;
 
   ${({ dragging }) =>
     dragging &&
@@ -14,31 +11,27 @@ const ModuleHandler = styled.div`
   `}
 `
 
-const ModuleTitle = styled.div`
-  border-bottom: 1px solid #eee;
-  padding-bottom: 5px;
+const ModuleTitle = styled.div`    
   font-weight: bold;
   display: flex;
   justify-content: space-between;
 `
 
-const CursorPointer =  styled.span`
-  cursor: pointer;
-`
-
-
 export default function({ 
   children: module, 
   dragging, 
-  allowRemoveModule, 
   onModuleRemove,
-  onModuleEdit
+  onModuleEdit,
+  onModuleClone
 }) {
   return (
     <ModuleHandler dragging={dragging}>      
-        <ModuleTitle>         
-          {allowRemoveModule && <CursorPointer onClick={() => onModuleRemove(module)}>DEL</CursorPointer>}
-          <CursorPointer onClick={() => onModuleEdit(module)}>EDIT</CursorPointer>
+        <ModuleTitle>             
+          <div className="btn-group mb-2 mb-sm-0">
+              <button type="button" className="btn btn-primary waves-light waves-effect" onClick={() => onModuleClone(module)}><i className="far fa-copy"></i></button>
+              <button type="button" className="btn btn-primary waves-light waves-effect" onClick={() => onModuleEdit(module)}><i className="fas fa-pencil-alt"></i></button>
+              <button type="button" className="btn btn-primary waves-light waves-effect" onClick={() => onModuleRemove(module)}><i className="far fa-trash-alt"></i></button>
+          </div>               
         </ModuleTitle>      
     </ModuleHandler>
   )

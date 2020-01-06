@@ -48,6 +48,11 @@ function replaceElementOfArray(array) {
   }
 }
 
+
+function cloneObject(src) {
+  return Object.assign({}, src);
+}
+
 export {
   addInArrayAtPosition,
   removeFromArrayAtPosition,
@@ -55,5 +60,6 @@ export {
   when,
   replaceElementOfArray,
   partialRight,
-  getUuid
+  getUuid,
+  cloneObject
 }
