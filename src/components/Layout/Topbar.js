@@ -124,7 +124,7 @@ class Topbar extends Component {
 }
 
 const mapStatetoProps = state => {
-    const { is_toggle,is_light } = state.Layout;
+    const { is_toggle,is_light } = state.layout;
     return {  is_toggle,is_light };
 }
 

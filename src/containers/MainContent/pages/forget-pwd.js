@@ -72,8 +72,8 @@ class forgetPwd extends Component {
 }
 
 const mapStatetoProps = state => {
-    console.log(state.Forgetpwd)
-    const { user, forget_pwd_successful,forget_pwd_failed, loading } = state.Forgetpwd;
+    console.log(state.forgetpwd)
+    const { user, forget_pwd_successful,forget_pwd_failed, loading } = state.forgetpwd;
     return { user, forget_pwd_successful,forget_pwd_failed, loading };
 }
 

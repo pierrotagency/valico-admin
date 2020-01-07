@@ -29,15 +29,16 @@ const layout = (state=initialState,action) => {
                 is_toggle : action.payload
             }
             break;
-            case TOGGLE_LD:
-                state = {
-                    ...state,
-                    is_light : action.payload
-                }
-                break;
+        
+        case TOGGLE_LD:
+            state = {
+                ...state,
+                is_light : action.payload
+            }
+            break;
 
         default:
-            state = {...state};
+            // state = state;
             break;
     }
     return state;

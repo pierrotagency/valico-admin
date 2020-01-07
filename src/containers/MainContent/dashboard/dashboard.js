@@ -65,6 +65,10 @@ class Dashboard extends Component {
         }
     }
 
+    test(){
+        console.log('test')
+    }
+
     render() {
 
         return (
@@ -82,6 +86,7 @@ class Dashboard extends Component {
                                 <div className="col-sm-6">
                                     <div className="float-right d-none d-md-block">
                                         <Settingmenu />
+                                        <button onClick={this.test}>TEST</button>
                                     </div>
                                 </div>
                             </div>
@@ -524,7 +529,7 @@ class Dashboard extends Component {
 
 
 const mapStatetoProps = state => {
-    const { user, loading } = state.Login;
+    const { user, loading } = state.login;
     return { user, loading };
 }
 

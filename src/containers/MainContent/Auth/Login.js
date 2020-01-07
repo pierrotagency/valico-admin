@@ -86,7 +86,7 @@ class Pageslogin extends Component {
 }
 
 const mapStatetoProps = state => {
-    const { user, loginError, loading } = state.Login;
+    const { user, loginError, loading } = state.login;
     return { user, loginError, loading };
 }
 

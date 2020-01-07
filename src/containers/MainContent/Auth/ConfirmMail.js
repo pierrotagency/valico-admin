@@ -66,7 +66,7 @@ class ConfirmEmail extends Component {
 }
 
 const mapStatetoProps = state => {
-    const { user, confirmSuccess, confirmError } = state.Account;
+    const { user, confirmSuccess, confirmError } = state.account;
     return { user,confirmSuccess, confirmError };
 }
 

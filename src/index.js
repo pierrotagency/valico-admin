@@ -16,8 +16,7 @@ sagaMiddleware.run(rootSaga);
 
 const app = (
     <Provider store={store}>
-    
-        <PersistGate loading={<h1>Loadinggggggggggg</h1>} persistor={persistor}>
+        <PersistGate loading={null} persistor={persistor}>
             <BrowserRouter>
                 <App />
             </BrowserRouter>

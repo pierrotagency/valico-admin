@@ -257,7 +257,7 @@ class Sidebar extends Component {
 }
 
 const mapStatetoProps = state => {
-    const { is_toggle } = state.Layout;
+    const { is_toggle } = state.layout;
     return {  is_toggle };
 }
 

@@ -70,7 +70,7 @@ class Layout extends Component {
 
 const mapStatetoProps = state => {
   return {
-    layout: state.Layout
+    layout: state.layout
   };
 }
 

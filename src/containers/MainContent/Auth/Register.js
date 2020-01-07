@@ -88,7 +88,7 @@ class Pagesregister extends Component {
 
 const mapStatetoProps = state => {
 
-    const { user, registrationError, loading } = state.Account;
+    const { user, registrationError, loading } = state.account;
     return { user, registrationError, loading };
 }
 
