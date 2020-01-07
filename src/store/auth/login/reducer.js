@@ -5,7 +5,7 @@ const initialState = {
 }
 
 const login = (state = initialState, action) => {
-    switch (action.type) {
+    switch (action.type) {       
         case CHECK_LOGIN:
             state = {
                 ...state,

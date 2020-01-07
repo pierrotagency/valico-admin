@@ -23,11 +23,16 @@ class Rightbar extends Component {
     };
 
     render() {
+
+        const { user } = this.props;
+
         return (
             <React.Fragment>
                  <div className="right-sidebar d-none d-xl-block">
             <div className="slimscroll-menu">
                 <div className="px-4 pt-4">
+                    
+                    {user &&
                     <div className="card user-wid text-center overflow-hidden">
                         <div className="p-4 bg-lighten-danger"></div>
                         <div className="mx-3">
@@ -35,11 +40,12 @@ class Rightbar extends Component {
                                 <div className="user-img">
                                     <img src={user1} alt="user-img" title="" className="rounded-circle thumb-md img-fluid" />
                                 </div>
-                                <h5 className="font-14 mb-1"><Link to="#">James Heine</Link> </h5>
+                                <h5 className="font-14 mb-1"><Link to="#">{user.username}</Link> </h5>
                                 <p className="text-muted mb-2"><small>Admin Head</small></p>
                             </div>
                         </div>
                     </div>
+                    }
                     <div className="mb-4">
                         <h5 className="font-14">Calender</h5>
                         <div className="dashboard-date-pick" id="date-pick-widget" data-provide="datepicker-inline">

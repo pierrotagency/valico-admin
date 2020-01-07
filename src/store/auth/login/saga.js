@@ -17,9 +17,9 @@ function* loginUser({ payload: { username, password, history } }) {
 
         try {
             const response = yield call(postLogin, '/post-login', {username: username, password: password});
-             setLoggeedInUser(response);
-             yield put(loginUserSuccessful(response));
-            //  history.push('/dashboard');
+            setLoggeedInUser(response);
+            yield put(loginUserSuccessful(response));
+            history.push('/dashboard');
         } catch (error) {
             yield put(apiLoginError(error));
         }

@@ -32,53 +32,52 @@ class Pageslogin extends Component {
                     <Link to="/" className="text-white"><i className="fas fa-home h2"></i></Link>
                 </div>
                 <div className="account-pages my-5 pt-5">
-            <div className="container">
-            <Row className="justify-content-center">
-                    <Col md="8" lg="6" xl="5">
-                        <Card className="bg-pattern shadow-none">
-                            <CardBody>
-                            <div className="text-center mt-4">
+                    <div className="container">
+                        <Row className="justify-content-center">
+                            <Col md="8" lg="6" xl="5">
+                                <Card className="bg-pattern shadow-none">
+                                    <CardBody>
+                                        <div className="text-center mt-4">
                                             <div className="mb-3">
                                                 <Link to="/" className="logo"><img src={logolight} height="20" alt="logo" /></Link>
                                             </div>
                                         </div>
-                                <div className="p-3">
-                                <h4 className="font-18 text-center">Login</h4>
-                                    <p className="text-muted text-center mb-4">Sign in to continue to Valico.</p>
+                                        <div className="p-3">
+                                            <h4 className="font-18 text-center">Login</h4>
+                                            <p className="text-muted text-center mb-4">Sign in to continue to Valico.</p>
 
-                           {this.props.user && <Alert color="success">
-                                    Your Login is successfull.</Alert>}
+                                            {this.props.user && <Alert color="success">
+                                                    Your Login is successfull.</Alert>}
 
-                            {this.props.loginError && <Alert color="danger">
-                                {this.props.loginError}</Alert>}
+                                            {this.props.loginError && <Alert color="danger">
+                                                {this.props.loginError}</Alert>}
 
-                                        <AvForm className="form-horizontal" onValidSubmit={this.handleSubmit}>
-                                        <AvField name="username"  value={this.state.username} placeholder="Email" type="text"  validate={{email: true, required: true}}  />
-                                        <AvField name="password"  value={this.state.password} placeholder="Password" type="password" required />
-                                        
-                                        
-                                        <div className="mt-3">
-                                        {this.props.loading ?  (
-                                            <div className="spinner-border text-primary" role="status">
-                                                <span className="sr-only">Loading...</span>
-                                            </div>)
-                                            : <Button className="btn btn-primary btn-block waves-effect waves-light" type="submit">Login</Button>}
-                                        </div>
-                                
-                                        <div className="mt-4 text-center">
-                                            <Link to="/forget-password"> Forgot your password ?</Link>
-                                        </div>
-                                    </AvForm>
-                                </div>
-                            </CardBody>
-                        </Card>
-                        <div className="mt-5 text-center text-white-50">
-                            <p>Don't have an account ? <Link to="/register" className="font-500 text-white"> Signup now </Link> </p>
-                            <p>© {new Date().getFullYear()} Valico. Crafted with <i className="mdi mdi-heart text-danger"></i> by Pierrot</p>
-                         </div>
-                    </Col>
-                </Row>
-            </div>
+                                            <AvForm className="form-horizontal" onValidSubmit={this.handleSubmit}>
+                                            <AvField name="username"  value={this.state.username} placeholder="Email" type="text"  validate={{email: true, required: true}}  />
+                                            <AvField name="password"  value={this.state.password} placeholder="Password" type="password" required />
+                                            
+                                            <div className="mt-3">
+                                            {this.props.loading ?  (
+                                                <div className="spinner-border text-primary" role="status">
+                                                    <span className="sr-only">Loading...</span>
+                                                </div>)
+                                                : <Button className="btn btn-primary btn-block waves-effect waves-light" type="submit">Login</Button>}
+                                            </div>
+                                    
+                                            <div className="mt-4 text-center">
+                                                <Link to="/forget-password"> Forgot your password ?</Link>
+                                            </div>
+                                        </AvForm>
+                                    </div>
+                                </CardBody>
+                            </Card>
+                            <div className="mt-5 text-center text-white-50">
+                                <p>Don't have an account ? <Link to="/register" className="font-500 text-white"> Signup now </Link> </p>
+                                <p>© {new Date().getFullYear()} Valico. Crafted with <i className="mdi mdi-heart text-danger"></i> by Pierrot</p>
+                            </div>
+                        </Col>
+                    </Row>
+                </div>
             </div>
                 
             </React.Fragment>

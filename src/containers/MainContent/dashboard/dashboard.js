@@ -74,7 +74,7 @@ class Dashboard extends Component {
                         <div className="page-title-box">
                             <div className="row align-items-center">
                                 <div className="col-sm-6">
-                                    <h4 className="page-title">Dashboard</h4>
+                                {this.props.user && <h4 className="page-title">Dashboard {this.props.user.email}</h4>}
                                     <ol className="breadcrumb">
                                         <li className="breadcrumb-item active">Welcome to Valico Dashboard</li>
                                     </ol>
@@ -513,13 +513,21 @@ class Dashboard extends Component {
                 </div>
 
                 <Rightsidebar>
-                    <DashboardRightSidebar />
+                    <DashboardRightSidebar 
+                        user={this.props.user}
+                    />
                 </Rightsidebar>
             </React.Fragment>
         );
     }
 }
 
-export default withRouter(connect(null, { activateAuthLayout })(Dashboard));
+
+const mapStatetoProps = state => {
+    const { user, loading } = state.Login;
+    return { user, loading };
+}
+
+export default withRouter(connect(mapStatetoProps, { activateAuthLayout })(Dashboard));
 
 
