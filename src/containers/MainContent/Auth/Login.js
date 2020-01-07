@@ -55,9 +55,14 @@ class Pageslogin extends Component {
                                         <AvForm className="form-horizontal" onValidSubmit={this.handleSubmit}>
                                         <AvField name="username"  value={this.state.username} placeholder="Email" type="text"  validate={{email: true, required: true}}  />
                                         <AvField name="password"  value={this.state.password} placeholder="Password" type="password" required />
-
+                                        
+                                        
                                         <div className="mt-3">
-                                        <Button className="btn btn-primary btn-block waves-effect waves-light" type="submit">Login</Button>
+                                        {this.props.loading ?  (
+                                            <div className="spinner-border text-primary" role="status">
+                                                <span className="sr-only">Loading...</span>
+                                            </div>)
+                                            : <Button className="btn btn-primary btn-block waves-effect waves-light" type="submit">Login</Button>}
                                         </div>
                                 
                                         <div className="mt-4 text-center">

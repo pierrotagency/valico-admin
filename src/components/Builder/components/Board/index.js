@@ -61,6 +61,7 @@ function Board({
   onModuleRemove,
   onModuleEdit,
   onModuleAdded,
+  onPageSave,
   disableModuleDrag
 }) {
 
@@ -123,6 +124,10 @@ function Board({
     setPage(pageWithSetLayout)
   }
 
+  function handlePageSave() {
+    onPageSave(page)    
+  }
+
 
   return (
     <>
@@ -130,6 +135,8 @@ function Board({
       <StyledMenuSettings>
         <MenuSettings                                           
           onChangeLayout={(layoutName) => handleLayoutChange(layoutName)}
+          onClickSave={() => handlePageSave()}
+          currentLayout={page.layout}
         />
       </StyledMenuSettings>
 

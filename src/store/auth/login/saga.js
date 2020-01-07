@@ -1,4 +1,4 @@
-import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
+import { takeEvery, fork, put, all, call, delay } from 'redux-saga/effects';
 
 // Login Redux States
 import { CHECK_LOGIN } from './actionTypes';
@@ -9,11 +9,17 @@ import { setLoggeedInUser,postLogin } from '../../../helpers/authUtils';
 
 //If user is login then dispatch redux action's are directly from here.
 function* loginUser({ payload: { username, password, history } }) {
+
+    console.log('loginUser')
+    yield delay(2000)
+    console.log('loginUser.......')
+
+
         try {
             const response = yield call(postLogin, '/post-login', {username: username, password: password});
              setLoggeedInUser(response);
              yield put(loginUserSuccessful(response));
-             history.push('/dashboard');
+            //  history.push('/dashboard');
         } catch (error) {
             yield put(apiLoginError(error));
         }
