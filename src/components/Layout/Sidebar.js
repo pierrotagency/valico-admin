@@ -208,6 +208,9 @@ class Sidebar extends Component {
         if (matchingMenuItem) {
             this.activateParentDropdown(matchingMenuItem);
         }
+
+
+        // console.log(this.props.layout.)
     }
 
     activateParentDropdown = (item) => {

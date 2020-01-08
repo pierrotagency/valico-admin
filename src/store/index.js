@@ -11,7 +11,7 @@ import rootReducer from './reducers';
 const persistConfig = {
     key: 'root',
     storage: storage,
-    // whitelist: ['login', 'account', 'layout'],
+    whitelist: ['login', 'account', 'layout'],
     stateReconciler: autoMergeLevel2, // see "Merge Process" section for details.    
 };
 
@@ -20,7 +20,9 @@ const sagaMiddleware = createSagaMiddleware();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 
-let store = createStore(persistedReducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
-let persistor = persistStore(store);
+// const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
+const store = createStore(persistedReducer, {}, composeEnhancers(applyMiddleware(sagaMiddleware)));
+
+const persistor = persistStore(store);
 
 export { store, persistor, sagaMiddleware };

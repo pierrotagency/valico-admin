@@ -29,7 +29,6 @@ export const toggleSidebar = (is_toggle) => {
     return {
         type: TOGGLE,
             payload: is_toggle 
-           
     }
 }
 
@@ -37,7 +36,6 @@ export const toggleLightDark = (is_light) => {
     return {
         type: TOGGLE_LD,
             payload: is_light 
-           
     }
 }
 

@@ -30,7 +30,8 @@ class Topbar extends Component {
         }));
     }
 
-    sidebarToggle = () =>{
+    sidebarToggle = () =>{    
+        console.log('sidebarToggle')    
         document.body.classList.toggle('enlarged');
         this.props.toggleSidebar(!this.props.is_toggle);
      }
