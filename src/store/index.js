@@ -8,6 +8,7 @@ import { createFilter } from 'redux-persist-transform-filter';
 import rootReducer from './reducers';  
 
 
+// avoid saving other login store properties (used for login flow, just keep the user for now)
 const filterLoginStore = createFilter(
     'login',
     ['user'] // ['user', 'keyYouWantToSave2']
@@ -29,7 +30,6 @@ const sagaMiddleware = createSagaMiddleware();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(persistedReducer, {}, composeEnhancers(applyMiddleware(sagaMiddleware)));
-
 const persistor = persistStore(store);
 
 export { store, persistor, sagaMiddleware };

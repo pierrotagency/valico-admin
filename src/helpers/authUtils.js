@@ -55,13 +55,14 @@ const postLogin = (action, data) => {
 
             const { status, data } = err.response;
 
-            // console.log(status)
-            // console.log(data)
+            console.log(status)
+            console.log(data)
         
-            throw status;
-
-            // throw err;
-        
+            let errDescription = '';
+            if(data[0] && data[0].message) errDescription = data[0].message
+            else if(data.error) errDescription = data.error
+            
+            throw errDescription; // TODO check other API response taxonomies         
         });
 
 }

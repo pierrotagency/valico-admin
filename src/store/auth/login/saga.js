@@ -8,21 +8,17 @@ import {  apiLoginError, loginUserSuccessful } from './actions';
 import { postLogin } from '../../../helpers/authUtils';
 
 //If user is login then dispatch redux action's are directly from here.
-function* loginUser({ payload: { username, password, history } }) {
+function* loginUser({ payload: { email, password, history } }) {
 
-    // console.log('loginUser')
-    // yield delay(2000)
-    // console.log('loginUser.......')
+    try {
+        const response = yield call(postLogin, '/auth/login', {email: email, password: password});           
+        yield put(loginUserSuccessful(response));
+        history.push('/dashboard');
+    } catch (error) {
+        console.log(error)
+        yield put(apiLoginError(error));
+    }
 
-
-        try {
-            const response = yield call(postLogin, '/auth/login', {username: username, password: password});           
-            yield put(loginUserSuccessful(response));
-            history.push('/dashboard');
-        } catch (error) {
-            console.log(error)
-            // yield put(apiLoginError(error));
-        }
 }
 
 export function* watchUserLogin() {

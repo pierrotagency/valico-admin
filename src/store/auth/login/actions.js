@@ -1,9 +1,9 @@
 import { CHECK_LOGIN, LOGIN_USER_SUCCESSFUL, APILOGIN_FAILED, CHECK_OTP,VALIDATE_OTP_SUCCESS, VALIDATE_OTP_ERROR, ERROR_CLEAR, LOGOUT_USER } from './actionTypes';
 
-export const checkLogin = (username, password, history) => {
+export const checkLogin = (email, password, history) => {
     return {
         type: CHECK_LOGIN,
-        payload: { username, password, history }
+        payload: { email, password, history }
     }
 }
 

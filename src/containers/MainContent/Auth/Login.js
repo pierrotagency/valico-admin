@@ -10,12 +10,12 @@ class Pageslogin extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {  username : "rbutta@gmail.com", password : "rbutta2" }
+        this.state = {  email : "rbutta@gmail.com", password : "rbutta2" }
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleSubmit(event, values) {
-        this.props.checkLogin(values.username, values.password, this.props.history);
+        this.props.checkLogin(values.email, values.password, this.props.history);
     }
 
     componentDidMount()
@@ -53,7 +53,7 @@ class Pageslogin extends Component {
                                                 {this.props.loginError}</Alert>}
 
                                             <AvForm className="form-horizontal" onValidSubmit={this.handleSubmit}>
-                                            <AvField name="username"  value={this.state.username} placeholder="Email" type="text"  validate={{email: true, required: true}}  />
+                                            <AvField name="email"  value={this.state.email} placeholder="Email" type="text"  validate={{email: true, required: true}}  />
                                             <AvField name="password"  value={this.state.password} placeholder="Password" type="password" required />
                                             
                                             <div className="mt-3">
