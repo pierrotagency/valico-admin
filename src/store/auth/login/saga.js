@@ -1,11 +1,11 @@
 import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
 
 // Login Redux States
-import { CHECK_LOGIN } from './actionTypes';
-import {  apiLoginError, loginUserSuccessful } from './actions';
+import { CHECK_LOGIN, GET_USER_INFO } from './actionTypes';
+import {  apiLoginError, loginUserSuccessful, getUserInfoOk, getUserInfoError } from './actions';
 
 // AUTH related methods
-import { postLogin } from '../../../helpers/authUtils';
+import { postLogin, requestGetUserInfo } from '../../../helpers/authUtils';
 
 //If user is login then dispatch redux action's are directly from here.
 function* loginUser({ payload: { email, password, history } }) {
@@ -21,12 +21,33 @@ function* loginUser({ payload: { email, password, history } }) {
 
 }
 
+
+
+function* getUserInfo() {
+
+    try {
+        const response = yield call(requestGetUserInfo, '/user/me', {});           
+        yield put(getUserInfoOk(response));        
+    } catch (error) {
+        console.log(error)
+        yield put(getUserInfoError(error));
+    }
+
+}
+
+
+
 export function* watchUserLogin() {
     yield takeEvery(CHECK_LOGIN, loginUser)
 }
 
+
+export function* watchGetUserInfo() {
+    yield takeEvery(GET_USER_INFO, getUserInfo)
+}
+
 function* loginSaga() {
-    yield all([fork(watchUserLogin)]);
+    yield all([fork(watchUserLogin),fork(watchGetUserInfo)]);
 }
 
 export default loginSaga;

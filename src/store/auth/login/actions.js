@@ -1,4 +1,17 @@
-import { CHECK_LOGIN, LOGIN_USER_SUCCESSFUL, APILOGIN_FAILED, CHECK_OTP,VALIDATE_OTP_SUCCESS, VALIDATE_OTP_ERROR, ERROR_CLEAR, LOGOUT_USER } from './actionTypes';
+import { 
+    CHECK_LOGIN, 
+    LOGIN_USER_SUCCESSFUL, 
+    APILOGIN_FAILED, 
+    CHECK_OTP,
+    VALIDATE_OTP_SUCCESS, 
+    VALIDATE_OTP_ERROR, 
+    ERROR_CLEAR, 
+    LOGOUT_USER, 
+    GET_USER_INFO,
+    GET_USER_INFO_OK,
+    GET_USER_INFO_ERROR,
+    REFRESH_TOKEN
+} from './actionTypes';
 
 export const checkLogin = (email, password, history) => {
     return {
@@ -54,5 +67,40 @@ export const clearErrorLogin = () => {
 export const logoutUser = (user) => {
     return {
         type: LOGOUT_USER
+    }
+}
+
+
+
+
+export const getUserInfo = () => {
+    return {
+        type: GET_USER_INFO        
+    }
+}
+
+export const getUserInfoOk = (user) => {
+    return {
+        type: GET_USER_INFO_OK,
+        payload: user
+    }
+}
+
+export const getUserInfoError = (error) => {
+    return {
+        type: GET_USER_INFO_ERROR,
+        payload: error
+    }
+}
+
+
+
+export const refreshToken = (newToken, newRefreshToken) => {
+    return {
+        type: REFRESH_TOKEN,
+        payload: {
+            newToken: newToken,
+            newRefreshToken: newRefreshToken
+        }
     }
 }

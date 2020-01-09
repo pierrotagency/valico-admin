@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
-import { activateAuthLayout } from '../../../store/actions';
+import { activateAuthLayout, getUserInfo } from '../../../store/actions';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Settingmenu from '../Subpages/Settingmenu';
@@ -39,6 +39,10 @@ class Dashboard extends Component {
 
     componentDidMount() {
         this.props.activateAuthLayout();
+
+
+        this.props.getUserInfo();
+
         // document.body.classList = "";
         // if (this.props.location.pathname === '/layout-light') {
         //     document.body.classList.add('left-side-menu-light');
@@ -535,6 +539,6 @@ const mapStatetoProps = state => {
     return { user, loading };
 }
 
-export default withRouter(connect(mapStatetoProps, { activateAuthLayout })(Dashboard));
+export default withRouter(connect(mapStatetoProps, { activateAuthLayout, getUserInfo })(Dashboard));
 
 

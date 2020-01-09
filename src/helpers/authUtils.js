@@ -67,6 +67,44 @@ const postLogin = (action, data) => {
 
 }
 
+
+
+
+// Login Method
+const requestGetUserInfo = (action, data) => {
+
+    const url = process.env.REACT_APP_API_URL + action;
+
+    return axios.get(url, data)
+        .then(res => {
+
+            console.log(res)
+
+            // TODO it shoulnt arrive here because of the try catch
+            // if (res.status === 400 || res.status === 500){
+            //     throw res.data;
+            // }
+                
+            return res.data;
+        })
+        .catch(err => {
+
+            const { status, data } = err.response;
+
+            console.log(status)
+            console.log(data)
+        
+            let errDescription = '';
+            if(data[0] && data[0].message) errDescription = data[0].message
+            else if(data.error) errDescription = data.error
+            
+            throw errDescription; // TODO check other API response taxonomies         
+        });
+
+}
+
+
+
 // postForgetPwd 
 const postForgetPwd = (url, data) => {
     return axios.post(url, data).then(res => {
@@ -79,4 +117,4 @@ const postForgetPwd = (url, data) => {
 }
 
 
-export { getLoggedInUser, isUserAuthenticated, postRegister, postLogin, postForgetPwd }
+export { getLoggedInUser, isUserAuthenticated, postRegister, postLogin, postForgetPwd, requestGetUserInfo }

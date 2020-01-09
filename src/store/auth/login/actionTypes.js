@@ -9,3 +9,9 @@ export const APILOGIN_FAILED = 'api_failed';
 export const ERROR_CLEAR = 'error_clear';
 
 export const LOGOUT_USER = 'logout_user';
+
+export const GET_USER_INFO = 'get_user_info';
+export const GET_USER_INFO_OK = 'get_user_info_ok';
+export const GET_USER_INFO_ERROR = 'get_user_info_error';
+
+export const REFRESH_TOKEN = 'refresh_token';

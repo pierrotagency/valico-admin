@@ -1,4 +1,4 @@
-import { CHECK_LOGIN, LOGIN_USER_SUCCESSFUL, APILOGIN_FAILED, CHECK_OTP,ERROR_CLEAR, VALIDATE_OTP_SUCCESS, VALIDATE_OTP_ERROR, LOGOUT_USER } from './actionTypes';
+import { CHECK_LOGIN, LOGIN_USER_SUCCESSFUL, APILOGIN_FAILED, CHECK_OTP,ERROR_CLEAR, VALIDATE_OTP_SUCCESS, VALIDATE_OTP_ERROR, LOGOUT_USER, REFRESH_TOKEN } from './actionTypes';
 
 const initialState = {
     loginError: null, message: null, loading: null
@@ -65,6 +65,16 @@ const login = (state = initialState, action) => {
             state = {
                 ...state,
                 user: null,
+            }
+            break;
+        case REFRESH_TOKEN:
+            state = {
+                ...state,
+                user: {
+                    ...state.user,                   
+                    token: action.payload.newToken,
+                    refreshToken: action.payload.newRefreshToken                    
+                }                
             }
             break;
         default:
