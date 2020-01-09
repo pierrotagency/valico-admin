@@ -42,7 +42,7 @@ const postLogin = (action, data) => {
     return axios.post(url, data)
         .then(res => {
 
-            console.log(res)
+            // console.log(res)
 
             // TODO it shoulnt arrive here because of the try catch
             // if (res.status === 400 || res.status === 500){
