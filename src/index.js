@@ -11,10 +11,6 @@ import rootSaga from './store/sagas';
 import {persistor, store, sagaMiddleware} from './store';
 
 
-import { initInterceptors } from './middlewares/api'
-
-initInterceptors();
-
 sagaMiddleware.run(rootSaga);
 
 

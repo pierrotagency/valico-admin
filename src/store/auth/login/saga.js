@@ -14,8 +14,7 @@ function* loginUser({ payload: { email, password, history } }) {
         const response = yield call(postLogin, '/auth/login', {email: email, password: password});           
         yield put(loginUserSuccessful(response));
         history.push('/dashboard');
-    } catch (error) {
-        console.log(error)
+    } catch (error) {        
         yield put(apiLoginError(error));
     }
 

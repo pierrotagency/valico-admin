@@ -3,6 +3,10 @@ import axios from 'axios';
 
 import {store} from '../store';
 
+
+import { api } from '../services/api';
+
+
 // Gets the logged in user data from local session 
 const getLoggedInUser = () => {
     return store.getState().login.user    
@@ -37,45 +41,39 @@ const postRegister = (url, data) => {
 // Login Method
 const postLogin = (action, data) => {
 
-    const url = process.env.REACT_APP_API_URL + action;
-
-    return axios.post(url, data)
+    return api.post(action, data)
         .then(res => {
-
-            // console.log(res)
-
-            // TODO it shoulnt arrive here because of the try catch
-            // if (res.status === 400 || res.status === 500){
-            //     throw res.data;
-            // }
-                
             return res.data;
         })
         .catch(err => {
 
-            const { status, data } = err.response;
+            if(err.response){
+                
+                const { data } = err.response;
 
-            console.log(status)
-            console.log(data)
-        
-            let errDescription = '';
-            if(data[0] && data[0].message) errDescription = data[0].message
-            else if(data.error) errDescription = data.error
-            
-            throw errDescription; // TODO check other API response taxonomies         
+                let errDescription = '';
+                if(data[0] && data[0].message) errDescription = data[0].message
+                else if(data.error) errDescription = data.error
+                
+                throw errDescription; // TODO check other API response taxonomies         
+
+            }
+            else{
+                const defaultError = 'API response error' 
+                throw defaultError;
+            }
+
         });
 
 }
 
 
 
-
-// Login Method
+// MMMMM REDUNDANCIA
+// Info Method
 const requestGetUserInfo = (action, data) => {
 
-    const url = process.env.REACT_APP_API_URL + action;
-
-    return axios.get(url, data)
+    return api.get(action, data)
         .then(res => {
 
             console.log(res)
