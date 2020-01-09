@@ -15,7 +15,7 @@ import { isUserAuthenticated } from './helpers/authUtils';
 
 
 // Activating fake backend
-fakeBackend();
+// fakeBackend();
 
 function withLayout(WrappedComponent) {
   // ...and returns another component...

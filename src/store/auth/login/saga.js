@@ -10,13 +10,13 @@ import { postLogin } from '../../../helpers/authUtils';
 //If user is login then dispatch redux action's are directly from here.
 function* loginUser({ payload: { username, password, history } }) {
 
-    console.log('loginUser')
-    yield delay(2000)
-    console.log('loginUser.......')
+    // console.log('loginUser')
+    // yield delay(2000)
+    // console.log('loginUser.......')
 
 
         try {
-            const response = yield call(postLogin, '/post-login', {username: username, password: password});           
+            const response = yield call(postLogin, '/auth/login', {username: username, password: password});           
             yield put(loginUserSuccessful(response));
             history.push('/dashboard');
         } catch (error) {
