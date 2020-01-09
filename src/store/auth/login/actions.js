@@ -1,4 +1,4 @@
-import { CHECK_LOGIN, LOGIN_USER_SUCCESSFUL, APILOGIN_FAILED, CHECK_OTP,VALIDATE_OTP_SUCCESS, VALIDATE_OTP_ERROR, ERROR_CLEAR } from './actionTypes';
+import { CHECK_LOGIN, LOGIN_USER_SUCCESSFUL, APILOGIN_FAILED, CHECK_OTP,VALIDATE_OTP_SUCCESS, VALIDATE_OTP_ERROR, ERROR_CLEAR, LOGOUT_USER } from './actionTypes';
 
 export const checkLogin = (username, password, history) => {
     return {
@@ -47,5 +47,12 @@ export const apiLoginError = (error) => {
 export const clearErrorLogin = () => {
     return {
         type: ERROR_CLEAR
+    }
+}
+
+
+export const logoutUser = (user) => {
+    return {
+        type: LOGOUT_USER
     }
 }

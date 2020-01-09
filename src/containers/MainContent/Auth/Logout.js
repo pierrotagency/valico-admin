@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {  withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { activateNonAuthLayout } from '../../../store/actions';
+import { activateNonAuthLayout, logoutUser } from '../../../store/actions';
 
 class Logout extends Component {
 
@@ -14,8 +14,9 @@ class Logout extends Component {
      
         this.props.activateNonAuthLayout();
 
-        // Remove all Item from localstorage and redirect to login page
-        localStorage.removeItem('user');
+        logoutUser();
+        
+        // localStorage.removeItem('user');
         this.props.history.push('/login');
     }
 

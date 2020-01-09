@@ -7,3 +7,5 @@ export const VALIDATE_OTP_ERROR = 'validate_otp_error';
 
 export const APILOGIN_FAILED = 'api_failed';
 export const ERROR_CLEAR = 'error_clear';
+
+export const LOGOUT_USER = 'logout_user';

@@ -5,7 +5,7 @@ import { CHECK_LOGIN } from './actionTypes';
 import {  apiLoginError, loginUserSuccessful } from './actions';
 
 // AUTH related methods
-import { setLoggeedInUser,postLogin } from '../../../helpers/authUtils';
+import { postLogin } from '../../../helpers/authUtils';
 
 //If user is login then dispatch redux action's are directly from here.
 function* loginUser({ payload: { username, password, history } }) {
@@ -16,8 +16,7 @@ function* loginUser({ payload: { username, password, history } }) {
 
 
         try {
-            const response = yield call(postLogin, '/post-login', {username: username, password: password});
-            setLoggeedInUser(response);
+            const response = yield call(postLogin, '/post-login', {username: username, password: password});           
             yield put(loginUserSuccessful(response));
             history.push('/dashboard');
         } catch (error) {

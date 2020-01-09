@@ -1,4 +1,4 @@
-import { CHECK_LOGIN, LOGIN_USER_SUCCESSFUL, APILOGIN_FAILED, CHECK_OTP,ERROR_CLEAR, VALIDATE_OTP_SUCCESS, VALIDATE_OTP_ERROR } from './actionTypes';
+import { CHECK_LOGIN, LOGIN_USER_SUCCESSFUL, APILOGIN_FAILED, CHECK_OTP,ERROR_CLEAR, VALIDATE_OTP_SUCCESS, VALIDATE_OTP_ERROR, LOGOUT_USER } from './actionTypes';
 
 const initialState = {
     loginError: null, message: null, loading: null
@@ -54,13 +54,19 @@ const login = (state = initialState, action) => {
                 validate_otp_error: action.payload,
             }
             break;
-            case ERROR_CLEAR:
-                state = {
-                    ...state,
-                    loginError: null,
-                    user: null,
-                }
-                break;
+        case ERROR_CLEAR:
+            state = {
+                ...state,
+                loginError: null,
+                user: null,
+            }
+            break;
+        case LOGOUT_USER:
+            state = {
+                ...state,
+                user: null,
+            }
+            break;
         default:
             // state = { ...state };
             break;

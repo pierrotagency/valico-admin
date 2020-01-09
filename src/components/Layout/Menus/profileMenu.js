@@ -24,6 +24,8 @@ class ProfileMenu extends Component {
  
     render() {
 
+        const { user } = this.props;
+
         return (
             <React.Fragment>
                 <Dropdown isOpen={this.state.menu} toggle={this.toggle} className="notification-list list-inline-item nav-pro-img" tag="li">
@@ -31,7 +33,7 @@ class ProfileMenu extends Component {
                         <img src={user4} alt="user" className="rounded-circle" />
                     </DropdownToggle>
                     <DropdownMenu className="profile-dropdown" right>
-                        <DropdownItem tag="a" href="#"><i className="mdi mdi-account-circle m-r-5"></i> Profile</DropdownItem>
+                        <DropdownItem tag="a" href="#"><i className="mdi mdi-account-circle m-r-5"></i> {user? user.username : 'Profile'}</DropdownItem>
                         <DropdownItem tag="a" href="#"><i className="mdi mdi-wallet m-r-5"></i> My Wallet</DropdownItem>
                         <DropdownItem tag="a" href="#"><span className="badge mt-1 badge-soft-success float-right">11</span><i className="mdi mdi-settings m-r-5"></i> Settings</DropdownItem>
                         <DropdownItem tag="a" href="#"><i className="mdi mdi-lock-open-outline m-r-5"></i> Lock screen</DropdownItem>

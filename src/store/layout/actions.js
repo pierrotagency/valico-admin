@@ -7,7 +7,6 @@ export const activateAuthLayout = () => {
             topbar: true,
             sidebar: true,
             footer: true,
-            rodri: 'butta',
             layoutType: 'Auth'
         }
     }

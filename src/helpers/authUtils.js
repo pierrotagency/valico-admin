@@ -1,16 +1,15 @@
 import axios from 'axios';
 
-//Set the logged in user data in local session 
-const setLoggeedInUser = (user) => {
-    localStorage.setItem('user', JSON.stringify(user));
-}
+
+import {store} from '../store';
 
 // Gets the logged in user data from local session 
 const getLoggedInUser = () => {
-    const user = localStorage.getItem('user');
-    if (user)
-        return JSON.parse(user);
-    return null;
+    return store.getState().login.user
+    // const user = localStorage.getItem('user');
+    // if (user)
+    //     return JSON.parse(user);
+    // return null;
 }
 
 //is user is logged in
@@ -40,26 +39,35 @@ const postRegister = (url, data) => {
 }
 
 // Login Method
-const postLogin = (url, data) => {
-    return axios.post(url, data).then(response => {
-        if (response.status === 400 || response.status === 500)
-            throw response.data;
-        return response.data;
+const postLogin = (action, data) => {
+
+    const url = process.env.REACT_APP_API_URL + action;
+
+    console.log(url)
+
+    return axios.post(url, data).then(res => {
+
+        console.log(res)
+
+        if (res.status === 400 || res.status === 500)
+            throw res.data;
+        return res.data;
     }).catch(err => {
         throw err[1];
     });
+
 }
 
 // postForgetPwd 
 const postForgetPwd = (url, data) => {
-    return axios.post(url, data).then(response => {
-        if (response.status === 400 || response.status === 500)
-            throw response.data;
-        return response.data;
+    return axios.post(url, data).then(res => {
+        if (res.status === 400 || res.status === 500)
+            throw res.data;
+        return res.data;
     }).catch(err => {
         throw err[1];
     });
 }
 
 
-export { setLoggeedInUser, getLoggedInUser, isUserAuthenticated, postRegister, postLogin, postForgetPwd }
+export { getLoggedInUser, isUserAuthenticated, postRegister, postLogin, postForgetPwd }

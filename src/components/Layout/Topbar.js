@@ -92,7 +92,8 @@ class Topbar extends Component {
                             </li>
 
                             <NotificationMenu />
-                            <ProfileMenu />
+                            
+                            <ProfileMenu user={this.props.user} />
                         </ul>
 
                         <ul className="list-inline menu-left mb-0">
@@ -126,7 +127,9 @@ class Topbar extends Component {
 
 const mapStatetoProps = state => {
     const { is_toggle,is_light } = state.layout;
-    return {  is_toggle,is_light };
+    const { user } = state.login;
+    
+    return {  user, is_toggle, is_light };
 }
 
 export default withRouter(connect(mapStatetoProps, { toggleSidebar })(Topbar));
