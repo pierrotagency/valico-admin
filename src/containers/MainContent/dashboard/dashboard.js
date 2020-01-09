@@ -65,9 +65,9 @@ class Dashboard extends Component {
         }
     }
 
-    test(){
-        console.log('test')
-    }
+    // test(){
+    //     console.log('test')
+    // }
 
     render() {
 
@@ -78,15 +78,17 @@ class Dashboard extends Component {
                         <div className="page-title-box">
                             <div className="row align-items-center">
                                 <div className="col-sm-6">
-                                {this.props.user && <h4 className="page-title">Dashboard {this.props.user.email}</h4>}
+                                    <h4 className="page-title">Dashboard</h4>
+                                {this.props.user && 
                                     <ol className="breadcrumb">
-                                        <li className="breadcrumb-item active">Welcome to Valico Dashboard</li>
+                                        <li className="breadcrumb-item active">Welcome {this.props.user.username}!</li>
                                     </ol>
+                                }
                                 </div>
                                 <div className="col-sm-6">
                                     <div className="float-right d-none d-md-block">
                                         <Settingmenu />
-                                        <button onClick={this.test}>TEST</button>
+                                        {/* <button onClick={this.test}>TEST</button> */}
                                     </div>
                                 </div>
                             </div>

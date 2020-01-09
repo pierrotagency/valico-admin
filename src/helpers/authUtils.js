@@ -45,9 +45,9 @@ const postLogin = (action, data) => {
             console.log(res)
 
             // TODO it shoulnt arrive here because of the try catch
-            if (res.status === 400 || res.status === 500){
-                throw res.data;
-            }
+            // if (res.status === 400 || res.status === 500){
+            //     throw res.data;
+            // }
                 
             return res.data;
         })
