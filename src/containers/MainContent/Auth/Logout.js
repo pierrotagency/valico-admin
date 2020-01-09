@@ -10,13 +10,9 @@ class Logout extends Component {
         this.state = {  };
     }
 
-    componentDidMount() {
-     
-        this.props.activateNonAuthLayout();
-
-        logoutUser();
-        
-        // localStorage.removeItem('user');
+    componentDidMount() {     
+        this.props.activateNonAuthLayout(); // TODO integrate with user session
+        logoutUser();     
         this.props.history.push('/login');
     }
 

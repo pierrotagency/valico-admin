@@ -6,15 +6,11 @@ import routes from './routes';
 import './custom.css';
 import './App.scss';
 
-//Fake backend
-import fakeBackend from './helpers/fakeBackend';
-
-// Get all Auth methods
 import { isUserAuthenticated } from './helpers/authUtils';
 
 
-
-// Activating fake backend
+//Fake backend
+// import fakeBackend from './helpers/fakeBackend';
 // fakeBackend();
 
 function withLayout(WrappedComponent) {

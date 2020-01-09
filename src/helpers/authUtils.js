@@ -5,11 +5,7 @@ import {store} from '../store';
 
 // Gets the logged in user data from local session 
 const getLoggedInUser = () => {
-    return store.getState().login.user
-    // const user = localStorage.getItem('user');
-    // if (user)
-    //     return JSON.parse(user);
-    // return null;
+    return store.getState().login.user    
 }
 
 //is user is logged in
@@ -43,18 +39,30 @@ const postLogin = (action, data) => {
 
     const url = process.env.REACT_APP_API_URL + action;
 
-    console.log(url)
+    return axios.post(url, data)
+        .then(res => {
 
-    return axios.post(url, data).then(res => {
+            console.log(res)
 
-        console.log(res)
+            // TODO it shoulnt arrive here because of the try catch
+            if (res.status === 400 || res.status === 500){
+                throw res.data;
+            }
+                
+            return res.data;
+        })
+        .catch(err => {
 
-        if (res.status === 400 || res.status === 500)
-            throw res.data;
-        return res.data;
-    }).catch(err => {
-        throw err[1];
-    });
+            const { status, data } = err.response;
+
+            // console.log(status)
+            // console.log(data)
+        
+            throw status;
+
+            // throw err;
+        
+        });
 
 }
 

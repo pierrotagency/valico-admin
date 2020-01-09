@@ -1,4 +1,4 @@
-import { takeEvery, fork, put, all, call, delay } from 'redux-saga/effects';
+import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
 
 // Login Redux States
 import { CHECK_LOGIN } from './actionTypes';
@@ -20,7 +20,8 @@ function* loginUser({ payload: { username, password, history } }) {
             yield put(loginUserSuccessful(response));
             history.push('/dashboard');
         } catch (error) {
-            yield put(apiLoginError(error));
+            console.log(error)
+            // yield put(apiLoginError(error));
         }
 }
 
