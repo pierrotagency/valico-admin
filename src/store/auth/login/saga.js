@@ -19,8 +19,6 @@ function* loginUser({ payload: { email, password, history } }) {
 
 }
 
-
-
 function* getUserInfo() {
 
     try {
@@ -33,19 +31,9 @@ function* getUserInfo() {
 
 }
 
-
-
-export function* watchUserLogin() {
-    yield takeEvery(CHECK_LOGIN, loginUser)
-}
-
-
-export function* watchGetUserInfo() {
-    yield takeEvery(GET_USER_INFO, getUserInfo)
-}
-
 function* loginSaga() {
-    yield all([fork(watchUserLogin),fork(watchGetUserInfo)]);
+    yield takeEvery(CHECK_LOGIN, loginUser);
+    yield takeEvery(GET_USER_INFO, getUserInfo);    
 }
 
 export default loginSaga;
