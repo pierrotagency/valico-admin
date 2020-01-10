@@ -1,4 +1,5 @@
-import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
+// import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
+import { takeEvery, put, call } from 'redux-saga/effects';
 
 // Login Redux States
 import { CHECK_LOGIN, GET_USER_INFO } from './actionTypes';
@@ -19,6 +20,8 @@ function* loginUser({ payload: { email, password, history } }) {
 
 }
 
+
+
 function* getUserInfo() {
 
     try {
@@ -31,9 +34,23 @@ function* getUserInfo() {
 
 }
 
+
 function* loginSaga() {
     yield takeEvery(CHECK_LOGIN, loginUser);
     yield takeEvery(GET_USER_INFO, getUserInfo);    
 }
+
+// export function* watchUserLogin() {
+//     yield takeEvery(CHECK_LOGIN, loginUser)
+// }
+
+
+// export function* watchGetUserInfo() {
+//     yield takeEvery(GET_USER_INFO, getUserInfo)
+// }
+
+// function* loginSaga() {
+//     yield all([fork(watchUserLogin),fork(watchGetUserInfo)]);
+// }
 
 export default loginSaga;
