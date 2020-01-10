@@ -6,7 +6,7 @@ import routes from './routes';
 import './custom.css';
 import './App.scss';
 
-import { isUserAuthenticated } from './helpers/authUtils';
+import { isUserAuthenticated } from './helpers/auth';
 
 
 //Fake backend

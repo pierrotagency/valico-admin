@@ -4,13 +4,12 @@ import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
 import { REGISTER_USER } from './actionTypes';
 import { registerUserSuccessful, apiError } from './actions';
 
-//AUTH related methods
-import { postRegister } from '../../../helpers/authUtils';
+import { apiPost } from '../../../services/api';
 
 // Is user register successfull then direct plot user in redux.
 function* registerUser({ payload: { user } }) {
     try {
-        const response = yield call(postRegister, '/post-register', user);
+        const response = yield call(apiPost, '/post-register', user);
         yield put(registerUserSuccessful(response));
     } catch (error) {
         yield put(apiError(error));

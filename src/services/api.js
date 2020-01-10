@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getLoggedInUser, isUserAuthenticated } from '../helpers/authUtils';
+import { getLoggedInUser, isUserAuthenticated } from '../helpers/auth';
 
 import {store} from '../store';
 import { refreshToken } from '../store/actions';
@@ -62,4 +62,63 @@ error => {
 
 
 
-export { api };
+const apiPost = (action, data) => {
+
+    return api.post(action, data)
+        .then(res => {
+            return res.data;
+        })
+        .catch(err => {
+
+            if(err.response){
+                
+                const { data } = err.response;
+
+                let errDescription = '';
+                if(data[0] && data[0].message) errDescription = data[0].message // pick first validation element of the backend (controller error response)
+                else if(data.error) errDescription = data.error
+                
+                throw errDescription; // TODO check other API response taxonomies         
+
+            }
+            else{
+                const defaultError = 'API response error' 
+                throw defaultError;
+            }
+
+        });
+
+}
+
+
+
+const apiGet = (action, data) => {
+
+    return api.get(action, data)
+        .then(res => {
+            return res.data;
+        })
+        .catch(err => {
+
+            if(err.response){
+                
+                const { data } = err.response;
+
+                let errDescription = '';
+                if(data[0] && data[0].message) errDescription = data[0].message // pick first validation element of the backend (controller error response)
+                else if(data.error) errDescription = data.error
+                
+                throw errDescription; // TODO check other API response taxonomies         
+
+            }
+            else{
+                const defaultError = 'API response error' 
+                throw defaultError;
+            }
+
+        });
+
+}
+
+
+export { api, apiPost, apiGet};

@@ -8,8 +8,6 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 import { connect } from 'react-redux';
 import { toggleSidebar  } from '../../store/actions';
 
-// import { getLoggedInUser } from '../../helpers/authUtils';
-
 import logoLight from "../../images/logo-light.png";
 import logoDark from "../../images/logo-dark.png";
 import logoSmall from "../../images/logo-sm.png";
