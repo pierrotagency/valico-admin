@@ -3,15 +3,12 @@ import { Progress, Tooltip } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 
-import user6 from '../../../../../../images/users/user-6.jpg';
-import user7 from '../../../../../../images/users/user-7.jpg';
-import user8 from '../../../../../../images/users/user-8.jpg';
-
 
 export default function({ 
     onRemove,
     onEdit,
-    item
+    item,
+    types
 }) {
     const [state, setState] = useState({})
 
@@ -20,28 +17,10 @@ export default function({
     }
 
     return (
-        <tr>
-            <th scope="row">1</th>
+        <tr>            
             <td>{item.name}</td>
-            <td>22/4/2019</td>
-            <td><span className="badge badge-soft-success badge-pill"><i className="mdi mdi-checkbox-blank-circle mr-1"></i> Completed</span></td>
-
-            <td>
-                <div className="team">
-                    <Tooltip placement="top" isOpen={state.i1} target="i1" toggle={() => setState({ i1: !state.i1 })}>Roger Drake</Tooltip>
-                    <Link to="#" id="i1" className="team-member"><img src={user6} alt="Valico" className="rounded-circle thumb-sm" /></Link>
-
-                    <Tooltip placement="top" isOpen={state.i2} target="i2" toggle={() => setState({ i2: !state.i2 })}>Reggie James</Tooltip>
-                    <Link to="#" id="i2" className="team-member"><img src={user7} alt="Valico" className="rounded-circle thumb-sm" /> </Link>
-
-                    <Tooltip placement="top" isOpen={state.i3} target="i3" toggle={() => setState({ i3: !state.i3 })}>Reggie James</Tooltip>
-                    <Link to="#" id="i3" className="team-member"><img src={user8} alt="Valico" className="rounded-circle thumb-sm" /></Link>
-                </div>
-            </td>
-            <td>
-                <p className="float-right mb-0 ml-3">80%</p>
-                <Progress className="mt-2" style={{ height: '5px' }} color="success" value={80} />
-            </td>
+            <td>{item.type?types[item.type].name:null}</td>
+            <td>{item.is_published ? <span className="badge badge-soft-success badge-pill"><i className="mdi mdi-checkbox-blank-circle mr-1"></i> Published</span>:<span className="badge badge-soft-warning badge-pill"><i className="mdi mdi-checkbox-blank-circle mr-1"></i> Not Published</span>}</td>
             <td>            
                 <div>
                     <Tooltip placement="top" isOpen={state.t1} target="t1" toggle={() => setState({ t1: !state.t1 })}>Edit</Tooltip>                

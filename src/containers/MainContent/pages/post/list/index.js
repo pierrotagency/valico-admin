@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, CardBody, Progress, Tooltip } from 'reactstrap';
+import { Row, Col, Card, CardBody } from 'reactstrap';
 import { Link, withRouter } from 'react-router-dom';
 import { activateAuthLayout, getPosts } from '../../../../../store/actions';
 import { connect } from 'react-redux';
 import Settingmenu from '../../../Subpages/Settingmenu';
 import Item from './Item';
 
-
+import { types } from 'valico-sanmartin'
 
 class Posts extends Component {
 
@@ -104,23 +104,20 @@ class Posts extends Component {
                             <Col lg="12">
                                 <Card>
                                     <CardBody>
-                                        {(posts && posts.length) && (
+                                        {(posts && posts.length) ? (
                                         <>
                                         <div className="table-responsive project-list">
                                             <table className="table project-table">
                                                 <thead>
-                                                    <tr>
-                                                        <th scope="col">#</th>
+                                                    <tr>                                                       
                                                         <th scope="col">Name</th>
-                                                        <th scope="col">Date</th>
-                                                        <th scope="col">Status</th>
-                                                        <th scope="col">Team</th>
-                                                        <th scope="col" style={{ width: "16%" }}>Progress</th>
+                                                        <th scope="col">Type</th>
+                                                        <th scope="col">Status</th>                                                       
                                                         <th scope="col">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {posts.map((post, index) => <Item item={post} key={index}></Item>)}                                                
+                                                    {posts.map((post, index) => <Item item={post} key={index} types={types}></Item>)}                                                
                                                 </tbody>
                                             </table>
                                         </div>
@@ -138,7 +135,8 @@ class Posts extends Component {
                                             </ul>
                                         </div>
                                         </>
-                                        )}
+                                        )
+                                        :<h3>Nothing yet</h3>}
 
 
                                     </CardBody>
