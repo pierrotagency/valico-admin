@@ -3,6 +3,7 @@
 Part of this ecosystem
 ![alt text](https://github.com/pierrotagency/valico-admin/blob/master/doc/ecosystem.jpg?raw=true)
 
+Valico admin with ReactJS
 
 ## Install
 ```bash
