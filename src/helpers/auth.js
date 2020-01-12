@@ -7,7 +7,8 @@ const getLoggedInUser = () => {
 
 //is user is logged in
 const isUserAuthenticated = () => {
-    return getLoggedInUser() !== null;
+    const user = getLoggedInUser();
+    return user !== null && typeof user != "undefined"
 }
 
 export { getLoggedInUser, isUserAuthenticated }

@@ -56,16 +56,16 @@ const DroppableBoard = withDroppable(Areas)
 
 
 function Board({
-  initialPage,
+  initialPost,
   onModuleDragEnd,
   onModuleRemove,
   onModuleEdit,
   onModuleAdded,
-  onPageSave,
+  onPostSave,
   disableModuleDrag
 }) {
 
-  const [page, setPage] = useState(initialPage)
+  const [post, setPost] = useState(initialPost)
   
   const [currentModule, setCurrentModule] = useState()
 
@@ -73,39 +73,39 @@ function Board({
   
 
   function handleOnDragEnd({ source, destination }, { moveCallback, notifyCallback }) {
-    const reorderedBoard = moveCallback(page, source, destination)
+    const reorderedBoard = moveCallback(post, source, destination)
     when(notifyCallback)(callback => callback(reorderedBoard, source, destination))
-    setPage(reorderedBoard)
+    setPost(reorderedBoard)
   }
 
   function handleModuleAdd(area, module, options = {}) {
-    const pageWithNewModule = addModule(page, library, area, module, options)    
+    const postWithNewModule = addModule(post, library, area, module, options)    
     onModuleAdded(
-      pageWithNewModule,
-      pageWithNewModule.content.find(({ id }) => id === area.id),
+      postWithNewModule,
+      postWithNewModule.content.find(({ id }) => id === area.id),
       module
     )
-    setPage(pageWithNewModule)
+    setPost(postWithNewModule)
   }
 
   function handleModuleClone(area, module, options = {}) {
-    const pageWithNewModule = cloneModule(page, area, module, options)        
+    const postWithNewModule = cloneModule(post, area, module, options)        
     // onModuleCloned(
-    //   pageWithNewModule,
-    //   pageWithNewModule.content.find(({ id }) => id === area.id),
+    //   postWithNewModule,
+    //   postWithNewModule.content.find(({ id }) => id === area.id),
     //   module
     // )
-    setPage(pageWithNewModule)
+    setPost(postWithNewModule)
   }
 
   function handleModuleRemove(area, module) {
-    const pageWithoutModule = removeModule(page, area, module)
+    const postWithoutModule = removeModule(post, area, module)
     onModuleRemove(
-      pageWithoutModule,
-      pageWithoutModule.content.find(({ id }) => id === area.id),
+      postWithoutModule,
+      postWithoutModule.content.find(({ id }) => id === area.id),
       module
     )
-    setPage(pageWithoutModule)
+    setPost(postWithoutModule)
   }
 
   function handleModuleEdit(area, module) {
@@ -113,19 +113,19 @@ function Board({
   }
 
   function handleModuleFielUpdated(fields) {
-    const pageModified = updateModuleFields(page, currentModule, fields)  
-    // console.log(pageModified)
-    setPage(pageModified)
+    const postModified = updateModuleFields(post, currentModule, fields)  
+    // console.log(postModified)
+    setPost(postModified)
   }
 
 
   function handleTemplateChange(templateName) {
-    const pageWithSetTemplate = changeTemplate(page,templateName)        
-    setPage(pageWithSetTemplate)
+    const postWithSetTemplate = changeTemplate(post,templateName)        
+    setPost(postWithSetTemplate)
   }
 
-  function handlePageSave() {
-    onPageSave(page)    
+  function handlePostSave() {
+    onPostSave(post)    
   }
 
 
@@ -135,8 +135,8 @@ function Board({
       <StyledMenuSettings>
         <MenuSettings                                           
           onChangeTemplate={(templateName) => handleTemplateChange(templateName)}
-          onClickSave={() => handlePageSave()}
-          currentTemplate={page.template}
+          onClickSave={() => handlePostSave()}
+          currentTemplate={post.template}
         />
       </StyledMenuSettings>
 
@@ -167,7 +167,7 @@ function Board({
         disableModuleDrag={disableModuleDrag}
         library={library}
       >
-        {page}
+        {post}
       </BoardContainer>
 
     </>
@@ -175,7 +175,7 @@ function Board({
 }
 
 function BoardContainer({
-  children: page,
+  children: post,
   renderModule,
   disableModuleDrag,   
   onModuleDragEnd,
@@ -189,7 +189,7 @@ function BoardContainer({
     onModuleDragEnd(coordinates)
   }
 
-  const Template = templates[page.template].view;
+  const Template = templates[post.template].view;
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -201,10 +201,10 @@ function BoardContainer({
               moduleAdded={handleModuleAdd}              
               disableModuleDrag={disableModuleDrag}
               library={library}
-              className={page.template}
+              className={post.template}
               Area={Area}
           >
-            {page.content}
+            {post.content}
           </Template>
 
         </DroppableBoard>

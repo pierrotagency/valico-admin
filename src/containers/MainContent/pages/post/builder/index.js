@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
-import { activateAuthLayout } from '../../../../store/actions';
+import { activateAuthLayout } from '../../../../../store/actions';
 import { connect } from 'react-redux';
 import MenuSettings from './MenuSettings';
 import { Link } from 'react-router-dom';
 
 import { useParams} from "react-router";
 
-import Board from '../../../../components/Builder';
+import Board from '../../../../../components/Builder';
 
 
-const page = {
+const post = {
     name: "Página 1",
     template: "Template1",
     content: [
@@ -74,7 +74,7 @@ const page = {
   }
 
 
-function PagesBuilder({
+function PostBuilder({
   activateAuthLayout
 }) {
 
@@ -88,13 +88,13 @@ function PagesBuilder({
       <React.Fragment>
           <div className="content">
               <div className="container-fluid">
-                  <div className="page-title-box">
+                  <div className="post-title-box">
                       <div className="row align-items-center">
                           <div className="col-sm-6">
-                              <h4 className="page-title">Builder</h4>
+                              <h4 className="post-title">Builder</h4>
                               <ol className="breadcrumb">
                                   <li className="breadcrumb-item"><Link to="#"><i className="mdi mdi-home-outline"></i></Link></li>
-                                  <li className="breadcrumb-item"><Link to="#">{page.name} {id}</Link></li>
+                                  <li className="breadcrumb-item"><Link to="#">{post.name} {id}</Link></li>
                                   <li className="breadcrumb-item active">Builder</li>
                               </ol>
                           </div>
@@ -112,8 +112,8 @@ function PagesBuilder({
                       onModuleEdit={console.log}
                       onModuleAdded={console.log}
                       onModuleDragEnd={console.log} 
-                      onPageSave={console.log}             
-                      initialPage={page}
+                      onPostSave={console.log}             
+                      initialPost={post}
                   />
               
               </div>
@@ -123,4 +123,4 @@ function PagesBuilder({
 
 }
 
-export default connect(null, { activateAuthLayout })(PagesBuilder);
+export default connect(null, { activateAuthLayout })(PostBuilder);

@@ -11,11 +11,11 @@ function reorderModulesOnArea(area, reorderModules) {
   return { ...area, modules: reorderModules(area.modules) }
 }
 
-function moveModule(page, { fromPosition, fromAreaId }, { toPosition, toAreaId }) {
-  const sourceArea = page.content.find(area => area.id === fromAreaId)
-  const destinationArea = page.content.find(area => area.id === toAreaId)
+function moveModule(post, { fromPosition, fromAreaId }, { toPosition, toAreaId }) {
+  const sourceArea = post.content.find(area => area.id === fromAreaId)
+  const destinationArea = post.content.find(area => area.id === toAreaId)
 
-  const reorderAreasOnBoard = reorderAreasMapper => ({ ...page, content: page.content.map(reorderAreasMapper) })
+  const reorderAreasOnBoard = reorderAreasMapper => ({ ...post, content: post.content.map(reorderAreasMapper) })
   const reorderModulesOnSourceArea = reorderModulesOnArea.bind(null, sourceArea)
   const reorderModulesOnDestinationArea = reorderModulesOnArea.bind(null, destinationArea)
 
@@ -40,7 +40,7 @@ function moveModule(page, { fromPosition, fromAreaId }, { toPosition, toAreaId }
 }
 
 
-function addModule(page, library, inArea, module, { on } = {}) {
+function addModule(post, library, inArea, module, { on } = {}) {
 
   module.id = getUuid();
 
@@ -50,50 +50,50 @@ function addModule(page, library, inArea, module, { on } = {}) {
   const defaults = library[module.component].defaults
   module.fields = defaults
 
-  const areaToAdd = page.content.find(({ id }) => id === inArea.id)
+  const areaToAdd = post.content.find(({ id }) => id === inArea.id)
 
   const modules = addInArrayAtPosition(areaToAdd.modules, module, on === 'top' ? 0 : areaToAdd.modules.length)
-  const content = replaceElementOfArray(page.content)({
+  const content = replaceElementOfArray(post.content)({
     when: ({ id }) => inArea.id === id,
     for: value => ({ ...value, modules })
   })
 
-  return { ...page, content }
+  return { ...post, content }
 }
 
 
-function cloneModule(page, inArea, module, { on } = {}) {
+function cloneModule(post, inArea, module, { on } = {}) {
   
   let newModule = cloneObject(module);
       newModule.id = getUuid();
 
-  const areaToAdd = page.content.find(({ id }) => id === inArea.id)
+  const areaToAdd = post.content.find(({ id }) => id === inArea.id)
 
   const modules = addInArrayAtPosition(areaToAdd.modules, newModule, on === 'top' ? 0 : areaToAdd.modules.length)
-  const content = replaceElementOfArray(page.content)({
+  const content = replaceElementOfArray(post.content)({
     when: ({ id }) => inArea.id === id,
     for: value => ({ ...value, modules })
   })
 
-  return { ...page, content }
+  return { ...post, content }
 }
 
 
-function removeModule(page, fromArea, module) {
-  const areaToRemove = page.content.find(({ id }) => id === fromArea.id)
+function removeModule(post, fromArea, module) {
+  const areaToRemove = post.content.find(({ id }) => id === fromArea.id)
   const filteredModules = areaToRemove.modules.filter(({ id }) => module.id !== id)
   const areaWithoutModule = { ...areaToRemove, modules: filteredModules }
-  const filteredAreas = page.content.map(area => (fromArea.id === area.id ? areaWithoutModule : area))
-  return { ...page, content: filteredAreas }
+  const filteredAreas = post.content.map(area => (fromArea.id === area.id ? areaWithoutModule : area))
+  return { ...post, content: filteredAreas }
 }
 
 
 
-function updateModuleFields(page, module, fields) {
+function updateModuleFields(post, module, fields) {
 
   let area = null;
 
-  page.content.forEach(ar => {
+  post.content.forEach(ar => {
 
     let moduleIndex = ar.modules.findIndex(el => el.id === module.id)
     if( moduleIndex !== -1){
@@ -106,12 +106,12 @@ function updateModuleFields(page, module, fields) {
 
   })
 
-  const content = replaceElementOfArray(page.content)({
+  const content = replaceElementOfArray(post.content)({
     when: ({ id }) => area.id === id,
     for: value => ({ ...value, modules: area.modules })
   })
 
-  return { ...page, content: content }
+  return { ...post, content: content }
 
 }
 
@@ -119,11 +119,11 @@ function updateModuleFields(page, module, fields) {
 
 
 
-function changeTemplate(page,templateName) {
+function changeTemplate(post,templateName) {
   
   const template = templateName
 
-  return { ...page, template }
+  return { ...post, template }
 }
 
 
