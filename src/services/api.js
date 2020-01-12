@@ -94,7 +94,9 @@ const apiPost = (action, data) => {
 
 const apiGet = (action, data) => {
 
-    return api.get(action, data)
+    return api.get(action, {
+        params: data
+    })
         .then(res => {
             return res.data;
         })
