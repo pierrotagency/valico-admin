@@ -3,6 +3,9 @@ import { Row, Col, Card, CardBody } from 'reactstrap';
 import { Link, withRouter } from 'react-router-dom';
 import { activateAuthLayout, getPosts } from '../../../../../store/actions';
 import { connect } from 'react-redux';
+import queryString from 'query-string'
+// import { useParams} from "react-router";
+
 import Settingmenu from '../../../Subpages/Settingmenu';
 import Item from './Item';
 
@@ -18,13 +21,78 @@ class Posts extends Component {
     componentDidMount() {
         this.props.activateAuthLayout();
 
-        this.props.getPosts();
+        const qs = queryString.parse(this.props.location.search)
+        this.fetchPosts(qs.father);
+        
+    }
+
+    fetchPosts = (father=null) => this.props.getPosts(father)
+    
+    handleOnEnter = (item) => this.fetchPosts(item.uuid)        
+   
+    withLoading = (Component) => {
+        return function EnhancedComponent({ isLoading, ...props }) {
+            if (!isLoading) 
+                return <Component { ...props } />;            
+            else
+                return (<div className="spinner-border text-primary" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </div>);
+        };
+    }
+
+    Table = () => {
+
+        const { posts } = this.props
+
+        if(posts && posts.length) {
+            return (
+                <>
+                    <div className="table-responsive project-list">
+                        <table className="table project-table">
+                            <thead>
+                                <tr>                                                       
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Status</th>                                                       
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {posts.map((post, index) => <Item 
+                                    item={post} key={index} types={types}
+                                    onEnter={this.handleOnEnter} ></Item>)}                                                
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="pt-3">
+                        <ul className="pagination justify-content-end mb-0">
+                            <li className="page-item disabled">
+                                <Link className="page-link" to="#" tabIndex="-1" aria-disabled="true">Previous</Link>
+                            </li>
+                            <li className="page-item"><Link className="page-link" to="#">1</Link></li>
+                            <li className="page-item active"><Link className="page-link" to="#">2</Link></li>
+                            <li className="page-item"><Link className="page-link" to="#">3</Link></li>
+                            <li className="page-item">
+                                <Link className="page-link" to="#">Next</Link>
+                            </li>
+                        </ul>
+                    </div>
+                </>
+            )
+        }
+        else{
+            return (<h3>Nothing yet</h3>)
+        }
+      
     }
 
 
     render() {
 
-        const { posts } = this.props
+        const { posts, loading } = this.props
+
+        const ListWithLoading = this.withLoading(this.Table);
 
         return (
             <>
@@ -104,41 +172,10 @@ class Posts extends Component {
                             <Col lg="12">
                                 <Card>
                                     <CardBody>
-                                        {(posts && posts.length) ? (
-                                        <>
-                                        <div className="table-responsive project-list">
-                                            <table className="table project-table">
-                                                <thead>
-                                                    <tr>                                                       
-                                                        <th scope="col">Name</th>
-                                                        <th scope="col">Type</th>
-                                                        <th scope="col">Status</th>                                                       
-                                                        <th scope="col"></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {posts.map((post, index) => <Item item={post} key={index} types={types}></Item>)}                                                
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div className="pt-3">
-                                            <ul className="pagination justify-content-end mb-0">
-                                                <li className="page-item disabled">
-                                                    <Link className="page-link" to="#" tabIndex="-1" aria-disabled="true">Previous</Link>
-                                                </li>
-                                                <li className="page-item"><Link className="page-link" to="#">1</Link></li>
-                                                <li className="page-item active"><Link className="page-link" to="#">2</Link></li>
-                                                <li className="page-item"><Link className="page-link" to="#">3</Link></li>
-                                                <li className="page-item">
-                                                    <Link className="page-link" to="#">Next</Link>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        </>
-                                        )
-                                        :<h3>Nothing yet</h3>}
-
-
+                                        <ListWithLoading
+                                            isLoading={loading}
+                                            posts={posts}
+                                        />                             
                                     </CardBody>
                                 </Card>
                             </Col>

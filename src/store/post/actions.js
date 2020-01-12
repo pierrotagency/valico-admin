@@ -4,16 +4,19 @@ import {
     GET_POSTS_ERROR
 } from './actionTypes';
 
-export const getPosts = () => {
+export const getPosts = (father) => {
     return {
-        type: GET_POSTS        
+        type: GET_POSTS,
+        payload: {
+            father: father
+        }     
     }
 }
 
-export const getPostsOk = (user) => {
+export const getPostsOk = (payload) => {
     return {
         type: GET_POSTS_OK,
-        payload: user
+        payload: payload
     }
 }
 

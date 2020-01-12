@@ -3,7 +3,6 @@ import { activateAuthLayout } from '../../../../../store/actions';
 import { connect } from 'react-redux';
 import MenuSettings from './MenuSettings';
 import { Link } from 'react-router-dom';
-
 import { useParams} from "react-router";
 
 import Board from '../../../../../components/Builder';

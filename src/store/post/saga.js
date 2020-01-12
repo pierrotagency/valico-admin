@@ -1,13 +1,16 @@
-import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
+import { takeEvery, fork, put, all, call, delay } from 'redux-saga/effects';
 
 import { GET_POSTS } from './actionTypes';
 import {  getPostsOk, getPostsError } from './actions';
 import { apiGet, apiPost } from '../../services/api';
 
 
-function* getPosts() {
+function* getPosts({ payload: { father } }) {
+    
+    yield delay(50)
+    
     try {
-        const response = yield call(apiGet, '/posts', {});           
+        const response = yield call(apiGet, '/posts', {father: father});           
         yield put(getPostsOk(response));        
     } catch (error) {
         console.log(error)
