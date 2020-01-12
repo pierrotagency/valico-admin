@@ -12,14 +12,14 @@ import {
   removeModule, 
   cloneModule, 
   updateModuleFields,
-  changeLayout
+  changeTemplate
  } from './services'
 
  import MenuSettings from './components/MenuSettings';
 
 import Area from './components/Area'
 
-import { library, layouts } from 'valico-sanmartin'
+import { library, templates } from 'valico-sanmartin'
 
 const StyledBoard = styled.div`
   padding: 5px;
@@ -119,9 +119,9 @@ function Board({
   }
 
 
-  function handleLayoutChange(layoutName) {
-    const pageWithSetLayout = changeLayout(page,layoutName)        
-    setPage(pageWithSetLayout)
+  function handleTemplateChange(templateName) {
+    const pageWithSetTemplate = changeTemplate(page,templateName)        
+    setPage(pageWithSetTemplate)
   }
 
   function handlePageSave() {
@@ -134,9 +134,9 @@ function Board({
 
       <StyledMenuSettings>
         <MenuSettings                                           
-          onChangeLayout={(layoutName) => handleLayoutChange(layoutName)}
+          onChangeTemplate={(templateName) => handleTemplateChange(templateName)}
           onClickSave={() => handlePageSave()}
-          currentLayout={page.layout}
+          currentTemplate={page.template}
         />
       </StyledMenuSettings>
 
@@ -189,23 +189,23 @@ function BoardContainer({
     onModuleDragEnd(coordinates)
   }
 
-  const Layout = layouts[page.layout].view;
+  const Template = templates[page.template].view;
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <StyledBoard>
         <DroppableBoard droppableId='board-droppable' direction='horizontal' type='BOARD' style={{width:'100%'}}>
           
-          <Layout
+          <Template
               renderModule={renderModule}
               moduleAdded={handleModuleAdd}              
               disableModuleDrag={disableModuleDrag}
               library={library}
-              className={page.layout}
+              className={page.template}
               Area={Area}
           >
             {page.areas}
-          </Layout>
+          </Template>
 
         </DroppableBoard>
       </StyledBoard>

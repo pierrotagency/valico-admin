@@ -11,7 +11,7 @@ import Board from '../../../../components/Builder';
 
 const page = {
     name: "Página 1",
-    layout: "Layout1",
+    template: "Template1",
     areas: [
       {
         id: 1,

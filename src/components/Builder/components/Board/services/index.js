@@ -119,12 +119,12 @@ function updateModuleFields(page, module, fields) {
 
 
 
-function changeLayout(page,layoutName) {
+function changeTemplate(page,templateName) {
   
-  const layout = layoutName
+  const template = templateName
 
-  return { ...page, layout }
+  return { ...page, template }
 }
 
 
-export { moveModule, addModule, removeModule, cloneModule, updateModuleFields, changeLayout }
+export { moveModule, addModule, removeModule, cloneModule, updateModuleFields, changeTemplate }
