@@ -15,7 +15,7 @@ const DroppableArea = withDroppable(styled.div`
 `)
 
 function Area({ 
-  children: areas, 
+  children: content, 
   index: areaIndex, 
   renderModule, 
   moduleAdded, 
@@ -25,7 +25,7 @@ function Area({
   className
 }) {
 
-  const area = areas.find(e => e.name === name)
+  const area = content.find(e => e.name === name)
 
   return (
     <Draggable draggableId={`area-draggable-${area.id}`} index={areaIndex} isDragDisabled={true}>

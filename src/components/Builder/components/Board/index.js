@@ -82,7 +82,7 @@ function Board({
     const pageWithNewModule = addModule(page, library, area, module, options)    
     onModuleAdded(
       pageWithNewModule,
-      pageWithNewModule.areas.find(({ id }) => id === area.id),
+      pageWithNewModule.content.find(({ id }) => id === area.id),
       module
     )
     setPage(pageWithNewModule)
@@ -92,7 +92,7 @@ function Board({
     const pageWithNewModule = cloneModule(page, area, module, options)        
     // onModuleCloned(
     //   pageWithNewModule,
-    //   pageWithNewModule.areas.find(({ id }) => id === area.id),
+    //   pageWithNewModule.content.find(({ id }) => id === area.id),
     //   module
     // )
     setPage(pageWithNewModule)
@@ -102,7 +102,7 @@ function Board({
     const pageWithoutModule = removeModule(page, area, module)
     onModuleRemove(
       pageWithoutModule,
-      pageWithoutModule.areas.find(({ id }) => id === area.id),
+      pageWithoutModule.content.find(({ id }) => id === area.id),
       module
     )
     setPage(pageWithoutModule)
@@ -204,7 +204,7 @@ function BoardContainer({
               className={page.template}
               Area={Area}
           >
-            {page.areas}
+            {page.content}
           </Template>
 
         </DroppableBoard>
