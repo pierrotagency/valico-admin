@@ -1,33 +1,26 @@
-To install:
+# valico-admin
 
+Part of this ecosystem
+![alt text](https://raw.githubusercontent.com/pierrotagency/valico-admin/doc/ecosystem.png)
+
+
+## Install
+```bash
 yarn
+```
+Must link theme project with
 
-
-To add lib 
-
-yarn instal LIBBBB
-
-
-
-FIX ERROR ON START
-
-After adding any lib with yarn, run:
-
-rm -rf node_modules/babel-jest node_modules/jest
-
-
-To run:
-
-npm start
-
-
-
-
-LINK LIB
-
-In the other project
+In theme project
+```bash
 yarn link
+```
 
-Here:
-yarn link "valico-sanmartin"
-(RUN after every yarn)
+In current project
+```bash
+yarn link "vaslico-custom-theme"
+```
+
+## Run
+```bash
+npm start
+```
