@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import queryString from 'query-string'
 // import { browserHistory } from 'react-router';
 // import { useParams} from "react-router";
+// import { useHistory } from "react-router-dom";
 
 import Settingmenu from '../../../Subpages/Settingmenu';
 import Item from './Item';
@@ -102,9 +103,9 @@ class Posts extends Component {
             )
         }
         else{
-            return (<h3>Nothing yet</h3>)
+            return (<h4>Nothing yet</h4>)
         }
-      
+
     }
 
 
