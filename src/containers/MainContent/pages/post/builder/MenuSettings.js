@@ -29,5 +29,3 @@ class MenuSettings extends Component {
 }
 
 export default MenuSettings;
-
-

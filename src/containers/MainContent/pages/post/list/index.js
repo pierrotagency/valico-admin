@@ -4,11 +4,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { activateAuthLayout, getPosts } from '../../../../../store/actions';
 import { connect } from 'react-redux';
 import Settingmenu from '../../../Subpages/Settingmenu';
-
-
-import user6 from '../../../../../images/users/user-6.jpg';
-import user7 from '../../../../../images/users/user-7.jpg';
-import user8 from '../../../../../images/users/user-8.jpg';
+import Item from './Item';
 
 
 
@@ -27,6 +23,8 @@ class Posts extends Component {
 
 
     render() {
+
+        const { posts } = this.props
 
         return (
             <>
@@ -106,6 +104,8 @@ class Posts extends Component {
                             <Col lg="12">
                                 <Card>
                                     <CardBody>
+                                        {(posts && posts.length) && (
+                                        <>
                                         <div className="table-responsive project-list">
                                             <table className="table project-table">
                                                 <thead>
@@ -120,44 +120,10 @@ class Posts extends Component {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <th scope="row">1</th>
-                                                        <td>New admin Design</td>
-                                                        <td>22/4/2019</td>
-                                                        <td><span className="badge badge-soft-success badge-pill"><i className="mdi mdi-checkbox-blank-circle mr-1"></i> Completed</span></td>
-
-                                                        <td>
-                                                            <div className="team">
-                                                                <Tooltip placement="top" isOpen={this.state.i1} target="i1" toggle={() => this.setState({ i1: !this.state.i1 })}>Roger Drake</Tooltip>
-                                                                <Link to="#" id="i1" className="team-member"><img src={user6} alt="Valico" className="rounded-circle thumb-sm" /></Link>
-
-                                                                <Tooltip placement="top" isOpen={this.state.i2} target="i2" toggle={() => this.setState({ i2: !this.state.i2 })}>Reggie James</Tooltip>
-                                                                <Link to="#" id="i2" className="team-member"><img src={user7} alt="Valico" className="rounded-circle thumb-sm" /> </Link>
-
-                                                                <Tooltip placement="top" isOpen={this.state.i3} target="i3" toggle={() => this.setState({ i3: !this.state.i3 })}>Reggie James</Tooltip>
-                                                                <Link to="#" id="i3" className="team-member"><img src={user8} alt="Valico" className="rounded-circle thumb-sm" /></Link>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <p className="float-right mb-0 ml-3">80%</p>
-                                                            <Progress className="mt-2" style={{ height: '5px' }} color="success" value={80} />
-                                                        </td>
-                                                        <td>
-                                                            <div>
-                                                                <Tooltip placement="top" isOpen={this.state.t1} target="t1" toggle={() => this.setState({ t1: !this.state.t1 })}>Edit</Tooltip>
-                                                                <Link to="#" id="t1" className="text-success mr-4"> <i className="dripicons-pencil h5 m-0"></i></Link>
-
-                                                                <Tooltip placement="top" isOpen={this.state.t2} target="t2" toggle={() => this.setState({ t2: !this.state.t2 })}>Delete</Tooltip>
-                                                                <Link to="#" id="t2" className="text-danger" > <i className="dripicons-cross h5 m-0"></i></Link>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
+                                                    {posts.map((post, index) => <Item item={post} key={index}></Item>)}                                                
                                                 </tbody>
                                             </table>
                                         </div>
-
-
                                         <div className="pt-3">
                                             <ul className="pagination justify-content-end mb-0">
                                                 <li className="page-item disabled">
@@ -171,6 +137,8 @@ class Posts extends Component {
                                                 </li>
                                             </ul>
                                         </div>
+                                        </>
+                                        )}
 
 
                                     </CardBody>

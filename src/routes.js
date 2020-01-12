@@ -121,8 +121,8 @@ const routes = [
 
     { path: '/pages-blank', component: Pagesblank },
     
-    { path: '/posts/:id/builder', component: PostBuilder, ispublic: false  },
-    { path: '/posts', component: PostList, ispublic: false  },
+    { path: '/posts/:id/builder', component: PostBuilder },
+    { path: '/posts', component: PostList },
 
 
     { path: '/pages-timeline', component: Pagestimeline },
