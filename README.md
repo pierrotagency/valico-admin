@@ -1,7 +1,7 @@
 # valico-admin
 
 Part of this ecosystem
-![alt text](https://raw.githubusercontent.com/pierrotagency/valico-admin/doc/ecosystem.png)
+![alt text](https://github.com/pierrotagency/valico-admin/blob/master/doc/ecosystem.jpg?raw=true)
 
 
 ## Install
