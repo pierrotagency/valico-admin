@@ -13,9 +13,9 @@ export default function({
 }) {
     const [state, setState] = useState({})
 
-    const handleOnEdit = () => (typeof(onEdit) === 'function') ? onEdit(item) : false
-    const handleOnRemove = () => (typeof(onRemove) === 'function') ? onRemove(item) : false
-    const handleOnEnter = () => (typeof(onEnter) === 'function') ? onEnter(item) : false
+    const handleOnEdit = (e) => (typeof(onEdit) === 'function') ? onEdit(e, item) : false
+    const handleOnRemove = (e) => (typeof(onRemove) === 'function') ? onRemove(e, item) : false
+    const handleOnEnter = (e) => (typeof(onEnter) === 'function') ? onEnter(e, item) : false
     
     return (
         <tr>            

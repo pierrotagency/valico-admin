@@ -4,6 +4,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { activateAuthLayout, getPosts } from '../../../../../store/actions';
 import { connect } from 'react-redux';
 import queryString from 'query-string'
+// import { browserHistory } from 'react-router';
 // import { useParams} from "react-router";
 
 import Settingmenu from '../../../Subpages/Settingmenu';
@@ -21,15 +22,34 @@ class Posts extends Component {
     componentDidMount() {
         this.props.activateAuthLayout();
 
-        const qs = queryString.parse(this.props.location.search)
-        this.fetchPosts(qs.father);
-        
+        this.handleUrlChanges(this.props.location.search);     
+        window.onpopstate  = (e) => {
+            this.handleUrlChanges(e.target.document.location.search)
+        }
+
+    }
+
+    handleUrlChanges = (locationSearch) => {     
+        const qs = queryString.parse(locationSearch)
+        this.fetchPosts(qs.father)
     }
 
     fetchPosts = (father=null) => this.props.getPosts(father)
     
-    handleOnEnter = (item) => this.fetchPosts(item.uuid)        
-   
+    handleOnEnter = (e, item) => {
+        e.preventDefault()
+        e.stopPropagation()
+
+        let qs = queryString.parse(this.props.location.search)
+            qs.father = item.uuid
+        
+        const url = this.props.match.path + '?' + queryString.stringify(qs)        
+        this.props.history.push(url)
+
+        this.fetchPosts(item.uuid)        
+
+    }
+
     withLoading = (Component) => {
         return function EnhancedComponent({ isLoading, ...props }) {
             if (!isLoading) 
