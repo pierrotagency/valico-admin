@@ -12,10 +12,10 @@ export default function({
         <ol className="breadcrumb">
             <li key="home" className="breadcrumb-item"><Link to="#"><i className="mdi mdi-home-outline"></i></Link></li>        
             <li key="posts" className="breadcrumb-item"><Link to="/posts">Posts</Link></li>
-            {post &&post.path.map((item, index) => {                
+            {post &&post.path.reverse().map((item, index) => {                
                 return <li key={index} className="breadcrumb-item"><Link to="#" onClick={(e) => handleOnClick(e, item)}>{item.name}</Link></li>
             })}
-            {post && <li key={post.id} className="breadcrumb-item">{post.name}</li>}                    
+            {post && <li key={post.id} className={action ? 'breadcrumb-item' : 'breadcrumb-item active'}>{post.name}</li>}                    
             {action && <li className="breadcrumb-item active">{action}</li>}
                 
         </ol>

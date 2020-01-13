@@ -66,10 +66,10 @@ function Posts({
         history.push(url)
     }
 
+    // MMM should be common, and might uuid be param, filters still query
     const handleBreadcrumbClick = (e, item) => {        
         e.preventDefault()
         e.stopPropagation()
-
         
         let qs = queryString.parse(location.search)
             qs.father = item.uuid
@@ -148,7 +148,7 @@ function Posts({
                     <div className="page-title-box">
                         <Row className="align-items-center">
                             <Col sm="6">
-                                <h4 className="page-title">Posts </h4>
+                                <h4 className="page-title">{post ? post.name : "Posts"}</h4>
                                 <Breadcrumb post={post} onClick={handleBreadcrumbClick} />
                             </Col>
                             <Col sm="6">
