@@ -1,57 +1,60 @@
-import React, { Component } from 'react';
+import React, {useEffect} from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { activateAuthLayout, getPosts } from '../../../../../store/actions';
-import { connect } from 'react-redux';
 import queryString from 'query-string'
-// import { browserHistory } from 'react-router';
-// import { useParams} from "react-router";
-// import { useHistory } from "react-router-dom";
+import { useLocation, useHistory } from "react-router";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import Settingmenu from '../../../Subpages/Settingmenu';
 import Item from './Item';
 
 import { types } from 'valico-sanmartin'
 
-class Posts extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {}
-    }
 
-    componentDidMount() {
-        this.props.activateAuthLayout();
+function Posts({
+    ddd,
+    aaa
+}) {
+    const location = useLocation();
+    const history = useHistory();
 
-        this.handleUrlChanges(this.props.location.search);     
-        window.onpopstate  = (e) => {
-            this.handleUrlChanges(e.target.document.location.search)
-        }
-
-    }
-
-    handleUrlChanges = (locationSearch) => {     
-        const qs = queryString.parse(locationSearch)
-        this.fetchPosts(qs.father)
-    }
-
-    fetchPosts = (father=null) => this.props.getPosts(father)
+    const posts = useSelector(state => state.post.posts);
+    const loading = useSelector(state => state.post.loading);
+    const dispatch = useDispatch();
     
-    handleOnEnter = (e, item) => {
+    // const { father } = useParams()
+    
+    useEffect(() => {      
+        dispatch(activateAuthLayout())
+    },[dispatch]);
+    
+
+    useEffect(() => {
+        console.log('useEffect Location') // TODO is running twice on history back
+        
+        const qs = queryString.parse(location.search)        
+        dispatch(getPosts(qs.father))
+        // dispatch(getPosts(father))
+
+    }, [location, dispatch])
+
+
+    const handleOnEnter = (e, item) => {
         e.preventDefault()
         e.stopPropagation()
 
-        let qs = queryString.parse(this.props.location.search)
+        let qs = queryString.parse(location.search)
             qs.father = item.uuid
-        
-        const url = this.props.match.path + '?' + queryString.stringify(qs)        
-        this.props.history.push(url)
 
-        this.fetchPosts(item.uuid)        
+        const url = location.pathname + '?' + queryString.stringify(qs)        
+        history.push(url)
 
     }
 
-    withLoading = (Component) => {
+    const withLoading = (Component) => {
         return function EnhancedComponent({ isLoading, ...props }) {
             if (!isLoading) 
                 return <Component { ...props } />;            
@@ -62,9 +65,7 @@ class Posts extends Component {
         };
     }
 
-    Table = () => {
-
-        const { posts } = this.props
+    const Table = () => {
 
         if(posts && posts.length) {
             return (
@@ -82,7 +83,7 @@ class Posts extends Component {
                             <tbody>
                                 {posts.map((post, index) => <Item 
                                     item={post} key={index} types={types}
-                                    onEnter={this.handleOnEnter} ></Item>)}                                                
+                                    onEnter={handleOnEnter} ></Item>)}                                                
                             </tbody>
                         </table>
                     </div>
@@ -109,115 +110,113 @@ class Posts extends Component {
     }
 
 
-    render() {
+    const ListWithLoading = withLoading(Table);
 
-        const { posts, loading } = this.props
+    return (
+        <>
+            <div className="content">
+                <div className="container-fluid">
+                    <div className="page-title-box">
+                        <Row className="align-items-center">
+                            <Col sm="6">
+                                <h4 className="page-title">Posts </h4>
+                                <ol className="breadcrumb">
+                                    <li className="breadcrumb-item"><Link to="#"><i className="mdi mdi-home-outline"></i></Link></li>
+                                    <li className="breadcrumb-item active">Posts</li>
+                                </ol>
+                            </Col>
+                            <Col sm="6">
+                                <div className="float-right d-none d-md-block">
+                                    <Settingmenu />
+                                </div>
+                            </Col>
+                        </Row>
+                    </div>
 
-        const ListWithLoading = this.withLoading(this.Table);
-
-        return (
-            <>
-                <div className="content">
-                    <div className="container-fluid">
-                        <div className="page-title-box">
-                            <Row className="align-items-center">
-                                <Col sm="6">
-                                    <h4 className="page-title">Posts </h4>
-                                    <ol className="breadcrumb">
-                                        <li className="breadcrumb-item"><Link to="#"><i className="mdi mdi-home-outline"></i></Link></li>
-                                        <li className="breadcrumb-item active">Posts</li>
-                                    </ol>
-                                </Col>
-                                <Col sm="6">
-                                    <div className="float-right d-none d-md-block">
-                                        <Settingmenu />
+                    <Row>
+                        <Col xl="3" md="6">
+                            <Card className="bg-pattern">
+                                <CardBody>
+                                    <div className="float-right">
+                                        <i className="dripicons-archive text-primary h4 ml-3"></i>
                                     </div>
-                                </Col>
-                            </Row>
-                        </div>
-
-                        <Row>
-                            <Col xl="3" md="6">
-                                <Card className="bg-pattern">
-                                    <CardBody>
-                                        <div className="float-right">
-                                            <i className="dripicons-archive text-primary h4 ml-3"></i>
-                                        </div>
-                                        <h5 className="font-20 mt-0 pt-1">24</h5>
-                                        <p className="text-muted mb-0">Total Posts</p>
-                                    </CardBody>
-                                </Card>
-                            </Col>
-                            <Col xl="3" md="6">
-                                <Card className="bg-pattern">
-                                    <CardBody>
-                                        <div className="float-right">
-                                            <i className="dripicons-trophy text-primary h4 ml-3"></i>
-                                        </div>
-                                        <h5 className="font-20 mt-0 pt-1">18</h5>
-                                        <p className="text-muted mb-0">Completed Posts</p>
-                                    </CardBody>
-                                </Card>
-                            </Col>
-                            <Col xl="3" md="6">
-                                <Card className="bg-pattern">
-                                    <CardBody>
-                                        <div className="float-right">
-                                            <i className="dripicons-hourglass text-primary h4 ml-3"></i>
-                                        </div>
-                                        <h5 className="font-20 mt-0 pt-1">06</h5>
-                                        <p className="text-muted mb-0">Pending Posts</p>
-                                    </CardBody>
-                                </Card>
-                            </Col>
-                            <Col xl="3" md="6">
-                                <Card>
-                                    <CardBody>
-                                        <form>
-                                            <div className="form-group mb-0">
-                                                <label>Search</label>
-                                                <div className="input-group mb-0">
-                                                    <input type="text" className="form-control" placeholder="Search..." aria-describedby="project-search-addon" />
-                                                    <div className="input-group-append">
-                                                        <button className="btn btn-danger" type="button" id="project-search-addon"><i className="mdi mdi-magnify search-icon font-12"></i></button>
-                                                    </div>
+                                    <h5 className="font-20 mt-0 pt-1">24</h5>
+                                    <p className="text-muted mb-0">Total Posts</p>
+                                </CardBody>
+                            </Card>
+                        </Col>
+                        <Col xl="3" md="6">
+                            <Card className="bg-pattern">
+                                <CardBody>
+                                    <div className="float-right">
+                                        <i className="dripicons-trophy text-primary h4 ml-3"></i>
+                                    </div>
+                                    <h5 className="font-20 mt-0 pt-1">18</h5>
+                                    <p className="text-muted mb-0">Completed Posts</p>
+                                </CardBody>
+                            </Card>
+                        </Col>
+                        <Col xl="3" md="6">
+                            <Card className="bg-pattern">
+                                <CardBody>
+                                    <div className="float-right">
+                                        <i className="dripicons-hourglass text-primary h4 ml-3"></i>
+                                    </div>
+                                    <h5 className="font-20 mt-0 pt-1">06</h5>
+                                    <p className="text-muted mb-0">Pending Posts</p>
+                                </CardBody>
+                            </Card>
+                        </Col>
+                        <Col xl="3" md="6">
+                            <Card>
+                                <CardBody>
+                                    <form>
+                                        <div className="form-group mb-0">
+                                            <label>Search</label>
+                                            <div className="input-group mb-0">
+                                                <input type="text" className="form-control" placeholder="Search..." aria-describedby="project-search-addon" />
+                                                <div className="input-group-append">
+                                                    <button className="btn btn-danger" type="button" id="project-search-addon"><i className="mdi mdi-magnify search-icon font-12"></i></button>
                                                 </div>
                                             </div>
-                                        </form>
-                                    </CardBody>
-                                </Card>
-                            </Col>
-                        </Row>
+                                        </div>
+                                    </form>
+                                </CardBody>
+                            </Card>
+                        </Col>
+                    </Row>
 
-                        <Row>
-                            <Col lg="12">
-                                <Card>
-                                    <CardBody>
-                                        <ListWithLoading
-                                            isLoading={loading}
-                                            posts={posts}
-                                        />                             
-                                    </CardBody>
-                                </Card>
-                            </Col>
-                        </Row>
+                    <Row>
+                        <Col lg="12">
+                            <Card>
+                                <CardBody>
+                                    <ListWithLoading
+                                        isLoading={loading}
+                                        posts={posts}
+                                    />                             
+                                </CardBody>
+                            </Card>
+                        </Col>
+                    </Row>
 
-                    </div>
                 </div>
-            </>
-        );
-    }
+            </div>
+        </>
+    )
+    
 }
 
 
 
 
-const mapStatetoProps = state => {
-    const { posts, loading } = state.post;
-    return { posts, loading };
-}
+// const mapStatetoProps = state => {
+//     const { posts, loading } = state.post;
+//     return { posts, loading };
+// }
 
-export default withRouter(connect(mapStatetoProps, { activateAuthLayout, getPosts })(Posts));
+// export default withRouter(connect(mapStatetoProps, { activateAuthLayout, getPosts })(Posts));
 
 
 
+
+export default Posts
