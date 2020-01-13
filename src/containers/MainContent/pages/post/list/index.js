@@ -13,19 +13,16 @@ import Item from './Item';
 import { types } from 'valico-sanmartin'
 
 
-
 function Posts({
     ddd,
     aaa
 }) {
     const location = useLocation();
     const history = useHistory();
-
     const posts = useSelector(state => state.post.posts);
     const loading = useSelector(state => state.post.loading);
     const dispatch = useDispatch();
     
-    // const { father } = useParams()
     
     useEffect(() => {      
         dispatch(activateAuthLayout())
@@ -37,7 +34,6 @@ function Posts({
         
         const qs = queryString.parse(location.search)        
         dispatch(getPosts(qs.father))
-        // dispatch(getPosts(father))
 
     }, [location, dispatch])
 
@@ -205,18 +201,5 @@ function Posts({
     )
     
 }
-
-
-
-
-// const mapStatetoProps = state => {
-//     const { posts, loading } = state.post;
-//     return { posts, loading };
-// }
-
-// export default withRouter(connect(mapStatetoProps, { activateAuthLayout, getPosts })(Posts));
-
-
-
 
 export default Posts
