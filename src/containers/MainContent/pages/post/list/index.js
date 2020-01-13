@@ -34,28 +34,22 @@ function Posts({
     
     
     const fetchPosts = useCallback(() => {
-        
-        console.log('>>> useCallback')
 
+        console.log('>>> useCallback')
         dispatch(getPosts(father, page, epp))
 
     }, [dispatch, father, page, epp]);
-
-
 
     useEffect(() => {
         console.log('useEffect location')
         
         const qs = queryString.parse(location.search)        
-
-        let page = qs.page ? qs.page : 1
-
         setFather(qs.father)
 
+        const page = qs.page ? qs.page : 1
         setPage(page)
 
     }, [location])
-
 
     useEffect(() => {
         console.log('useEffect father page epp')
@@ -70,7 +64,6 @@ function Posts({
         fetchPosts()
 
     }, [fetchPosts, father, page, epp, dispatch])
-
 
 
     const handlePostEnter = (e, item) => {
