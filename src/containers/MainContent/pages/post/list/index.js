@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { activateAuthLayout, getPosts } from '../../../../../store/actions';
+import { activateAuthLayout, getPosts, getPost, resetPost } from '../../../../../store/actions';
 import queryString from 'query-string'
 import { useLocation, useHistory } from "react-router";
 // import { useParams } from "react-router-dom";
@@ -11,6 +11,7 @@ import Settingmenu from '../../../Subpages/Settingmenu';
 import Item from './Item';
 
 import { types } from 'valico-sanmartin'
+import Breadcrumb from '../components/Breadcrumb';
 
 
 function Posts({
@@ -20,8 +21,11 @@ function Posts({
     const location = useLocation();
     const history = useHistory();
     const posts = useSelector(state => state.post.posts);
-    const loading = useSelector(state => state.post.loading);
+    const loadingPosts = useSelector(state => state.post.loadingPosts);
+    const post = useSelector(state => state.post.post);    
+    const loadingPost = useSelector(state => state.post.loadingPost);
     const dispatch = useDispatch();
+    // const [post, setPost] = useState({})
     
     
     useEffect(() => {      
@@ -35,10 +39,15 @@ function Posts({
         const qs = queryString.parse(location.search)        
         dispatch(getPosts(qs.father))
 
+        if(qs.father)
+            dispatch(getPost(qs.father))
+        else    
+            dispatch(resetPost())
+
     }, [location, dispatch])
 
 
-    const handleOnEnter = (e, item) => {
+    const handlePostEnter = (e, item) => {
         e.preventDefault()
         e.stopPropagation()
 
@@ -49,7 +58,7 @@ function Posts({
         history.push(url)
     }
 
-    const handleOnEdit = (e, item) => {        
+    const handlePostEdit = (e, item) => {        
         e.preventDefault()
         e.stopPropagation()
 
@@ -57,6 +66,17 @@ function Posts({
         history.push(url)
     }
 
+    const handleBreadcrumbClick = (e, item) => {        
+        e.preventDefault()
+        e.stopPropagation()
+
+        
+        let qs = queryString.parse(location.search)
+            qs.father = item.uuid
+
+        const url = location.pathname + '?' + queryString.stringify(qs)    
+        history.push(url)        
+    }
 
     const withLoading = (Component) => {
         return function EnhancedComponent({ isLoading, ...props }) {
@@ -87,8 +107,8 @@ function Posts({
                             <tbody>
                                 {posts.map((post, index) => <Item 
                                     item={post} key={index} types={types}
-                                    onEnter={handleOnEnter} 
-                                    onEdit={handleOnEdit}
+                                    onEnter={handlePostEnter} 
+                                    onEdit={handlePostEdit}
                                 ></Item>)}                                                
                             </tbody>
                         </table>
@@ -118,18 +138,18 @@ function Posts({
 
     const ListWithLoading = withLoading(Table);
 
+
+
     return (
         <>
             <div className="content">
                 <div className="container-fluid">
+                    
                     <div className="page-title-box">
                         <Row className="align-items-center">
                             <Col sm="6">
                                 <h4 className="page-title">Posts </h4>
-                                <ol className="breadcrumb">
-                                    <li className="breadcrumb-item"><Link to="#"><i className="mdi mdi-home-outline"></i></Link></li>
-                                    <li className="breadcrumb-item active">Posts</li>
-                                </ol>
+                                <Breadcrumb post={post} onClick={handleBreadcrumbClick} />
                             </Col>
                             <Col sm="6">
                                 <div className="float-right d-none d-md-block">
@@ -138,7 +158,7 @@ function Posts({
                             </Col>
                         </Row>
                     </div>
-
+                
                     <Row>
                         <Col xl="3" md="6">
                             <Card className="bg-pattern">
@@ -197,7 +217,7 @@ function Posts({
                             <Card>
                                 <CardBody>
                                     <ListWithLoading
-                                        isLoading={loading}
+                                        isLoading={loadingPosts}
                                         posts={posts}
                                     />                             
                                 </CardBody>
