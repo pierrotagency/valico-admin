@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { activateAuthLayout, getPosts } from '../../../../../store/actions';
 import queryString from 'query-string'
 import { useLocation, useHistory } from "react-router";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Settingmenu from '../../../Subpages/Settingmenu';
@@ -45,10 +45,18 @@ function Posts({
         let qs = queryString.parse(location.search)
             qs.father = item.uuid
 
-        const url = location.pathname + '?' + queryString.stringify(qs)        
+        const url = location.pathname + '?' + queryString.stringify(qs)    
         history.push(url)
-
     }
+
+    const handleOnEdit = (e, item) => {        
+        e.preventDefault()
+        e.stopPropagation()
+
+        const url = '/posts/'+item.uuid+'/builder'
+        history.push(url)
+    }
+
 
     const withLoading = (Component) => {
         return function EnhancedComponent({ isLoading, ...props }) {
@@ -79,7 +87,9 @@ function Posts({
                             <tbody>
                                 {posts.map((post, index) => <Item 
                                     item={post} key={index} types={types}
-                                    onEnter={handleOnEnter} ></Item>)}                                                
+                                    onEnter={handleOnEnter} 
+                                    onEdit={handleOnEdit}
+                                ></Item>)}                                                
                             </tbody>
                         </table>
                     </div>
