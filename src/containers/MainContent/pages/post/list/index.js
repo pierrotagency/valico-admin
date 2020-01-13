@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState, useRef, useCallback} from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
-import { activateAuthLayout, getPosts, getPost, resetPost } from '../../../../../store/actions';
+import { activateAuthLayout, getPosts, getPost, resetPost, setPostEpp } from '../../../../../store/actions';
 import queryString from 'query-string'
 import { useLocation, useHistory } from "react-router";
 // import { useParams } from "react-router-dom";
@@ -13,7 +13,6 @@ import { types } from 'valico-sanmartin'
 import Breadcrumb from '../components/Breadcrumb';
 import Paginator from '../../../../../components/Paginator';
 
-
 function Posts({
     ddd,
     aaa
@@ -25,32 +24,53 @@ function Posts({
     const post = useSelector(state => state.post.post);    
     // const loadingPost = useSelector(state => state.post.loadingPost);
     const dispatch = useDispatch();
+    const epp = useSelector(state => state.post.epp)
+    const [father, setFather] = useState(null)
+    const [page, setPage] = useState(1)
     
     useEffect(() => {      
         dispatch(activateAuthLayout())
     },[dispatch]);
     
+    
+    const fetchPosts = useCallback(() => {
+        
+        console.log('>>> useCallback')
+
+        dispatch(getPosts(father, page, epp))
+
+    }, [dispatch, father, page, epp]);
+
+
 
     useEffect(() => {
-        console.log('useEffect Location') // TODO is running twice on history back
+        console.log('useEffect location')
         
         const qs = queryString.parse(location.search)        
 
         let page = qs.page ? qs.page : 1
 
-        // eslint-disable-next-line no-mixed-operators
-        if( qs.father && (!post || post && post.uuid !== qs.father) ){        
-            page = 1
-            dispatch(getPost(qs.father))
+        setFather(qs.father)
+
+        setPage(page)
+
+    }, [location])
+
+
+    useEffect(() => {
+        console.log('useEffect father page epp')
+        
+        if(father){                   
+            dispatch(getPost(father))
         }
-        else if(!qs.father){
+        else{            
             dispatch(resetPost())
         }
+        
+        fetchPosts()
 
-        dispatch(getPosts(qs.father, page))
+    }, [fetchPosts, father, page, epp, dispatch])
 
-
-    }, [location, dispatch, post])
 
 
     const handlePostEnter = (e, item) => {
@@ -134,6 +154,20 @@ function Posts({
 
     }
 
+    const epps = [5,10,50,500];
+    let eppOptions = [];
+    epps.map((item,index) => {
+        // if(item===epp)
+            // eppOptions.push(<option key={item} selected>{item}</option>);
+        // else
+            eppOptions.push(<option key={item}>{item}</option>);
+    })
+
+    const handleSetEpp = (event) => {        
+        console.log(event.target.value)
+        dispatch(setPostEpp(event.target.value))
+    }
+
 
     const ListWithLoading = withLoading(Table);
 
@@ -173,11 +207,31 @@ function Posts({
                         <Col xl="4" md="12">
                             <Card className="bg-pattern">
                                 <CardBody>
-                                    <div className="float-right">
-                                        <i className="dripicons-trophy text-primary h4 ml-3"></i>
-                                    </div>
-                                    <h5 className="font-20 mt-0 pt-1">18</h5>
-                                    <p className="text-muted mb-0">Completed Posts</p>
+                                    <form>
+                                        <Row className="form-group mb-0">                                            
+                                            <label className="col-sm-12 col-form-label">Posts per page</label>                                            
+                                            <Col sm="12">
+                                                <div className="input-group mb-0">
+                                                    <select className="form-control" onChange={handleSetEpp} value={epp}>
+                                                        {eppOptions}
+                                                    </select>
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                        <Row className="form-group mb-0">
+                                            <label className="col-sm-12 col-form-label">Sort</label>
+                                            <Col sm="12">
+                                                <div className="input-group mb-0">
+                                                    <select className="form-control">
+                                                        <option>Name ASC</option>
+                                                        <option>Name DESc</option>
+                                                        <option>Newest</option>
+                                                        <option>Oldest</option>
+                                                    </select>
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                    </form>
                                 </CardBody>
                             </Card>
                         </Col>

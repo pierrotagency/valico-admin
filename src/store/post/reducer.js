@@ -1,9 +1,10 @@
-import { GET_POSTS, GET_POSTS_OK, GET_POSTS_ERROR, GET_POST, GET_POST_OK, GET_POST_ERROR, RESET_POST } from './actionTypes';
+import { GET_POSTS, GET_POSTS_OK, GET_POSTS_ERROR, GET_POST, GET_POST_OK, GET_POST_ERROR, RESET_POST, SET_POST_EPP } from './actionTypes';
 
 const initialState = {
     posts: [],      
     loadingPosts: null,
-    loadingPost: null
+    loadingPost: null,
+    epp: 10
 }
 
 const login = (state = initialState, action) => {
@@ -52,6 +53,13 @@ const login = (state = initialState, action) => {
                 ...state,
                 post: null,
                 loadingPost: false
+            }
+            break;
+
+        case SET_POST_EPP:
+            state = {
+                ...state,
+                epp: action.payload
             }
             break;
 
