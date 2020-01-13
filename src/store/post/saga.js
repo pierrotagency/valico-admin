@@ -5,12 +5,12 @@ import { getPostsOk, getPostsError, getPostOk, getPostError } from './actions';
 import { apiGet } from '../../services/api';
 
 
-function* getPosts({ payload: { father } }) {
+function* getPosts({ payload: { father, page } }) {
     
-    yield delay(500)
+    if (process.env.NODE_ENV === 'development') yield delay(500)
     
     try {
-        const response = yield call(apiGet, '/posts', {father: father});           
+        const response = yield call(apiGet, '/posts', {father: father, page: page});           
         yield put(getPostsOk(response));        
     } catch (error) {
         console.log(error)
@@ -24,7 +24,7 @@ export function* watchGetPosts() {
 
 function* getPost({ payload: { uuid } }) {
     
-    yield delay(500)
+    if (process.env.NODE_ENV === 'development') yield delay(500)
 
     try {
         const response = yield call(apiGet, '/posts/' + uuid, {});           

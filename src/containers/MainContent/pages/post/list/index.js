@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
-import { Link } from 'react-router-dom';
 import { activateAuthLayout, getPosts, getPost, resetPost } from '../../../../../store/actions';
 import queryString from 'query-string'
 import { useLocation, useHistory } from "react-router";
@@ -12,6 +11,7 @@ import Item from './Item';
 
 import { types } from 'valico-sanmartin'
 import Breadcrumb from '../components/Breadcrumb';
+import Paginator from '../../../../../components/Paginator';
 
 
 function Posts({
@@ -23,10 +23,8 @@ function Posts({
     const posts = useSelector(state => state.post.posts);
     const loadingPosts = useSelector(state => state.post.loadingPosts);
     const post = useSelector(state => state.post.post);    
-    const loadingPost = useSelector(state => state.post.loadingPost);
+    // const loadingPost = useSelector(state => state.post.loadingPost);
     const dispatch = useDispatch();
-    // const [post, setPost] = useState({})
-    
     
     useEffect(() => {      
         dispatch(activateAuthLayout())
@@ -37,19 +35,26 @@ function Posts({
         console.log('useEffect Location') // TODO is running twice on history back
         
         const qs = queryString.parse(location.search)        
-        dispatch(getPosts(qs.father))
 
-        if(qs.father)
+        let page = qs.page ? qs.page : 1
+
+        // eslint-disable-next-line no-mixed-operators
+        if( qs.father && (!post || post && post.uuid !== qs.father) ){        
+            page = 1
             dispatch(getPost(qs.father))
-        else    
+        }
+        else if(!qs.father){
             dispatch(resetPost())
+        }
 
-    }, [location, dispatch])
+        dispatch(getPosts(qs.father, page))
+
+
+    }, [location, dispatch, post])
 
 
     const handlePostEnter = (e, item) => {
-        e.preventDefault()
-        e.stopPropagation()
+        e.preventDefault()        
 
         let qs = queryString.parse(location.search)
             qs.father = item.uuid
@@ -59,8 +64,7 @@ function Posts({
     }
 
     const handlePostEdit = (e, item) => {        
-        e.preventDefault()
-        e.stopPropagation()
+        e.preventDefault()        
 
         const url = '/posts/'+item.uuid+'/builder'
         history.push(url)
@@ -68,8 +72,7 @@ function Posts({
 
     // MMM should be common, and might uuid be param, filters still query
     const handleBreadcrumbClick = (e, item) => {        
-        e.preventDefault()
-        e.stopPropagation()
+        e.preventDefault()        
         
         let qs = queryString.parse(location.search)
             qs.father = item.uuid
@@ -83,15 +86,19 @@ function Posts({
             if (!isLoading) 
                 return <Component { ...props } />;            
             else
-                return (<div className="spinner-border text-primary" role="status">
+                return (
+                    <div className="d-flex justify-content-center">
+                        <div className="spinner-grow text-primary" role="status">
                             <span className="sr-only">Loading...</span>
-                        </div>);
+                        </div>
+                    </div>
+                );
         };
     }
 
     const Table = () => {
 
-        if(posts && posts.length) {
+        if(posts && posts.total > 0) {
             return (
                 <>
                     <div className="table-responsive project-list">
@@ -105,7 +112,7 @@ function Posts({
                                 </tr>
                             </thead>
                             <tbody>
-                                {posts.map((post, index) => <Item 
+                                {posts.data.map((post, index) => <Item 
                                     item={post} key={index} types={types}
                                     onEnter={handlePostEnter} 
                                     onEdit={handlePostEdit}
@@ -114,17 +121,9 @@ function Posts({
                         </table>
                     </div>
                     <div className="pt-3">
-                        <ul className="pagination justify-content-end mb-0">
-                            <li className="page-item disabled">
-                                <Link className="page-link" to="#" tabIndex="-1" aria-disabled="true">Previous</Link>
-                            </li>
-                            <li className="page-item"><Link className="page-link" to="#">1</Link></li>
-                            <li className="page-item active"><Link className="page-link" to="#">2</Link></li>
-                            <li className="page-item"><Link className="page-link" to="#">3</Link></li>
-                            <li className="page-item">
-                                <Link className="page-link" to="#">Next</Link>
-                            </li>
-                        </ul>
+
+                        <Paginator paginator={posts} />
+
                     </div>
                 </>
             )
@@ -160,7 +159,7 @@ function Posts({
                     </div>
                 
                     <Row>
-                        <Col xl="3" md="6">
+                        <Col xl="4" md="12">
                             <Card className="bg-pattern">
                                 <CardBody>
                                     <div className="float-right">
@@ -171,7 +170,7 @@ function Posts({
                                 </CardBody>
                             </Card>
                         </Col>
-                        <Col xl="3" md="6">
+                        <Col xl="4" md="12">
                             <Card className="bg-pattern">
                                 <CardBody>
                                     <div className="float-right">
@@ -182,18 +181,7 @@ function Posts({
                                 </CardBody>
                             </Card>
                         </Col>
-                        <Col xl="3" md="6">
-                            <Card className="bg-pattern">
-                                <CardBody>
-                                    <div className="float-right">
-                                        <i className="dripicons-hourglass text-primary h4 ml-3"></i>
-                                    </div>
-                                    <h5 className="font-20 mt-0 pt-1">06</h5>
-                                    <p className="text-muted mb-0">Pending Posts</p>
-                                </CardBody>
-                            </Card>
-                        </Col>
-                        <Col xl="3" md="6">
+                        <Col xl="4" md="12">
                             <Card>
                                 <CardBody>
                                     <form>
@@ -216,7 +204,7 @@ function Posts({
                         <Col lg="12">
                             <Card>
                                 <CardBody>
-                                    <ListWithLoading
+                                    <ListWithLoading                                        
                                         isLoading={loadingPosts}
                                         posts={posts}
                                     />                             

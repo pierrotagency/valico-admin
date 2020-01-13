@@ -48,7 +48,7 @@ class IconsThemify extends Component {
                                     <CardBody>
 
                                         <h4 className="mt-0 header-title">Examples</h4>
-                                        <p className="text-muted">Use <code>&lt;i class="ti-arrow-up"&gt;&lt;/i&gt;</code>.
+                                        <p className="text-muted">Use <code>&lt;i className="ti-arrow-up"&gt;&lt;/i&gt;</code>.
                                         </p>
 
                                         <Row className="icon-demo-content">

@@ -49,7 +49,7 @@ class IconFontawesome extends Component {
                                     <CardBody>
 
                                         <h4 className="mt-0 header-title">Examples</h4>
-                                        <p className="text-muted mb-4">Use <code>&lt;i class="fab fa-500px"&gt;&lt;/i&gt;</code> <span className="badge badge-success h6">v5.6.1</span>.
+                                        <p className="text-muted mb-4">Use <code>&lt;i className="fab fa-500px"&gt;&lt;/i&gt;</code> <span className="badge badge-success h6">v5.6.1</span>.
                                         </p>
 
                                         <Row className="icon-demo-content">

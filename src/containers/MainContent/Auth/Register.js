@@ -52,7 +52,7 @@ class Pagesregister extends Component {
                                         </div>
                                         <div className="p-3">
                                             <h4 className="font-18 text-center mb-3">Register</h4>
-                                            <p class="text-muted text-center mb-4">Sign up to continue to Valico.</p>
+                                            <p className="text-muted text-center mb-4">Sign up to continue to Valico.</p>
 
                                             {this.props.user && <Alert color="success">
                                            Registration Done Successfully.</Alert>}

@@ -49,7 +49,7 @@ class Icondripicons extends Component {
 
                                         <h4 className="mt-0 header-title">Examples</h4>
                                         <p className="text-muted mb-4">Use <code>&lt;i
-                                            class="dripicons-alarm"&gt;&lt;/i&gt;</code>.
+                                            className="dripicons-alarm"&gt;&lt;/i&gt;</code>.
                                         </p>
 
                                         <Row className="icon-demo-content">

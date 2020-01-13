@@ -134,7 +134,7 @@ class Uitypography extends Component {
                                         <p className="text-muted mb-4">For quoting blocks of content from
                                             another source within your document. Wrap <code
                                                 className="highlighter-rouge">&lt;blockquote
-                                                class="blockquote"&gt;</code> around any <abbr
+                                                className="blockquote"&gt;</code> around any <abbr
                                                 title="HyperText Markup Language">HTML</abbr> as the quote.</p>
 
                                         <blockquote className="blockquote font-16">

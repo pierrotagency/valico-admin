@@ -50,7 +50,7 @@ class Pagesinvoice extends Component {
                                                 <div className="invoice-title">
                                                     <h4 className="mt-0 float-right font-16"><strong>Order # 12345</strong></h4>
                                                     <div className="mb-4">
-                                                    <img src={logolight} alt="logo_light" height="16" class="d-print-none" />
+                                                    <img src={logolight} alt="logo_light" height="16" className="d-print-none" />
                                                     </div>
                                                 </div>
                                                 <hr />

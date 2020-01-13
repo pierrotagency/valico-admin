@@ -48,7 +48,7 @@ class IconsMaterial extends Component {
                                 <Card>
                                     <CardBody>
                                         <h4 className="mt-0 header-title">Examples</h4>
-                                        <p className="text-muted mb-4">Use <code>&lt;i class="mdi mdi-turtle"&gt;&lt;/i&gt;</code> <span className="badge badge-success h6">v3.6.95</span>.
+                                        <p className="text-muted mb-4">Use <code>&lt;i className="mdi mdi-turtle"&gt;&lt;/i&gt;</code> <span className="badge badge-success h6">v3.6.95</span>.
                                         </p>
 
                                         <Row className="icon-demo-content">

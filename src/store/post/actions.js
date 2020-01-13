@@ -1,10 +1,11 @@
 import { GET_POSTS, GET_POSTS_OK, GET_POSTS_ERROR, GET_POST, GET_POST_OK, GET_POST_ERROR, RESET_POST} from './actionTypes';
 
-export const getPosts = (father) => {
+export const getPosts = (father,page=1) => {
     return {
         type: GET_POSTS,
         payload: {
-            father: father
+            father: father,
+            page: page
         }     
     }
 }
