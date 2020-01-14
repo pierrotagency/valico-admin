@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
 import { activateAuthLayout, getPosts, getPost, resetPost, setPostEpp, setPostSort, setPostPage } from '../../../../../store/actions';
 // import queryString from 'query-string'
