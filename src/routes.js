@@ -124,7 +124,7 @@ const routes = [
     
     { path: '/posts/:id/builder', component: PostBuilder },
     { path: '/posts/:id/edit', component: PostEdit },
-    { path: '/posts', component: PostList },
+    { path: '/posts/:id?', component: PostList },
 
 
     { path: '/pages-timeline', component: Pagestimeline },

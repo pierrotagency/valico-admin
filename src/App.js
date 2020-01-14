@@ -31,7 +31,7 @@ function App() {
   useEffect(
     () => {
       // ga.send(['pageview', location.pathname])
-      console.log('pageview: ', location.pathname)
+      // console.log('pageview: ', location.pathname)
     },
     [location]
   )

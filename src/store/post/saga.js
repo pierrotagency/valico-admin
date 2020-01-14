@@ -1,4 +1,4 @@
-import { takeEvery, fork, put, all, call, delay } from 'redux-saga/effects';
+import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
 
 import { GET_POSTS, GET_POST } from './actionTypes';
 import { getPostsOk, getPostsError, getPostOk, getPostError } from './actions';

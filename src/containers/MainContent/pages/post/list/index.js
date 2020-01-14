@@ -1,9 +1,9 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
 import { activateAuthLayout, getPosts, getPost, resetPost, setPostEpp, setPostSort } from '../../../../../store/actions';
 import queryString from 'query-string'
 import { useLocation, useHistory } from "react-router";
-// import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { types } from 'valico-sanmartin'
@@ -25,19 +25,11 @@ function Posts() {
     const dispatch = useDispatch();
     const epp = useSelector(state => state.post.epp)
     
-    const [view, setView] = useState({
-        page: 1,
-        father: null
-    })
+    // const [view, setView] = useState({
+    //     page: 1
+    // })
     
-    
-    
-    const fetchPosts = useCallback(() => {
-
-        console.log('>>> useCallback')
-        dispatch(getPosts(view.father, view.page, epp))
-
-    }, [dispatch, view.father, view.page, epp]);
+    let { id } = useParams();
 
     
     const changeUrlParam = (params) => {        
@@ -55,40 +47,30 @@ function Posts() {
     },[dispatch]);
 
     useEffect(() => {
-        console.log('useEffect location')
+        console.log('useEffect id location.search')
         
-        const qs = queryString.parse(location.search)        
-        const father = qs.father ? qs.father : null
-        const page = qs.page ? parseInt(qs.page) : 1
-        
-        if(page !== view.page || father !== view.father){
-            setView({        
-                page: page,
-                father: father
-            })            
-        }
+        // setView({        
+        //     page: page
+        // })
 
-    }, [location.search, view.father, view.page])
-
-    useEffect(() => {
-        console.log('useEffect view')
-        console.log(view)
-        
-        if(view.father){                   
-            dispatch(getPost(view.father))
+        if(id){                   
+            dispatch(getPost(id))
         }
         else{            
             dispatch(resetPost())
         }
         
-        fetchPosts()
-
-    }, [view, dispatch, fetchPosts])
+        const qs = queryString.parse(location.search)                
+        const page = qs.page ? parseInt(qs.page) : 1
+        dispatch(getPosts(id, page))
+        
+    }, [dispatch, id, location.search])
 
 
     const handlePostEnter = (e, item) => {
         e.preventDefault()        
-        changeUrlParam({father: item.uuid, page: 1})
+        // changeUrlParam({father: item.uuid, page: 1})
+        history.push('/posts/'+item.uuid)
     }
 
     const handlePostEdit = (e, item) => {        
@@ -112,7 +94,7 @@ function Posts() {
     }
 
     const handlePaginatorClick = (e, page) => {        
-        e.preventDefault()          
+        e.preventDefault()        
         changeUrlParam({page: page})
     }
 
