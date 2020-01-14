@@ -1,8 +1,9 @@
 import React, {useEffect, useState, useRef} from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
 import { activateAuthLayout, getPosts, getPost, resetPost, setPostEpp, setPostSort, setPostPage } from '../../../../../store/actions';
-import queryString from 'query-string'
-import { useLocation, useHistory } from "react-router";
+// import queryString from 'query-string'
+// import { useLocation, useHistory } from "react-router";
+import { useHistory } from "react-router";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -16,7 +17,7 @@ import CardWithLoading from '../../../../../components/CardWithLoading';
 
 function Posts() {
 
-    const location = useLocation();
+    // const location = useLocation();
     const history = useHistory();
     const posts = useSelector(state => state.post.posts);
     const loadingPosts = useSelector(state => state.post.loadingPosts);
@@ -38,14 +39,14 @@ function Posts() {
     // })
     
     
-    const changeUrlParam = (params) => {        
+    // const changeUrlParam = (params) => {        
 
-        let qs = queryString.parse(location.search)
-            qs = {...qs, ...params}
+    //     let qs = queryString.parse(location.search)
+    //         qs = {...qs, ...params}
 
-        const url = location.pathname + '?' + queryString.stringify(qs)    
-        history.push(url)        
-    }
+    //     const url = location.pathname + '?' + queryString.stringify(qs)    
+    //     history.push(url)        
+    // }
 
     function usePrevious(value) {
         const ref = useRef();
@@ -116,11 +117,11 @@ function Posts() {
 
     const sorts = [
         {
-            value: 'uuid-',
+            value: 'created_at-',
             label: 'Newest'
         },
         {
-            value: 'uuid',
+            value: 'created_at',
             label: 'Oldest'
         },
         {

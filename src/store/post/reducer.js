@@ -6,7 +6,7 @@ const initialState = {
     loadingPost: null,
     epp: 10,
     page: 1,
-    sort: 'uuid-'
+    sort: 'created_at-'
 }
 
 const login = (state = initialState, action) => {
