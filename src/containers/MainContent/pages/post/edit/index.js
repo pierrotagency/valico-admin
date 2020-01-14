@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
 import Select from 'react-select';
-
+import queryString from 'query-string'
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useHistory } from "react-router";
 
 import { activateAuthLayout, getPost } from '../../../../../store/actions';
 import Settingmenu from '../../../Subpages/Settingmenu';
@@ -25,11 +26,25 @@ const options = [
 
 function PostEdit() {
   
+    const location = useLocation();
+    const history = useHistory();
+
     const post = useSelector(state => state.post.post);    
     const loadingPost = useSelector(state => state.post.loadingPost);
     const dispatch = useDispatch();
 
     let { id } = useParams();
+
+    const changeUrlParam = (params) => {        
+
+        let qs = queryString.parse(location.search)
+            qs = {...qs, ...params}
+
+        const url = location.pathname + '?' + queryString.stringify(qs)    
+        history.push(url)        
+    }
+
+
 
     useEffect(() => {      
         dispatch(activateAuthLayout())
@@ -137,7 +152,7 @@ function PostEdit() {
                         <Row className="align-items-center">
                             <Col sm="6">
                                 <h4 className="page-title">{post?post.name:'Product ' + id}</h4>
-                                <Breadcrumb post={post} onClick={handleBreadcrumbClick} />
+                                <Breadcrumb post={post} onClick={handleBreadcrumbClick} action={'Edit'} />
                             </Col>
                             <Col sm="6">
                                 <div className="float-right d-none d-md-block">
