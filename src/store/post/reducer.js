@@ -1,10 +1,12 @@
-import { GET_POSTS, GET_POSTS_OK, GET_POSTS_ERROR, GET_POST, GET_POST_OK, GET_POST_ERROR, RESET_POST, SET_POST_EPP, SET_POST_SORT } from './actionTypes';
+import { GET_POSTS, GET_POSTS_OK, GET_POSTS_ERROR, GET_POST, GET_POST_OK, GET_POST_ERROR, RESET_POST, SET_POST_EPP, SET_POST_SORT, SET_POST_PAGE } from './actionTypes';
 
 const initialState = {
     posts: [],      
     loadingPosts: null,
     loadingPost: null,
-    epp: 10
+    epp: 10,
+    page: 1,
+    sort: 'uuid-'
 }
 
 const login = (state = initialState, action) => {
@@ -67,6 +69,13 @@ const login = (state = initialState, action) => {
             state = {
                 ...state,
                 sort: action.payload
+            }
+            break;
+        
+        case SET_POST_PAGE:
+            state = {
+                ...state,
+                page: action.payload
             }
             break;
 

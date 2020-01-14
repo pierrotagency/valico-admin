@@ -9,3 +9,4 @@ export const RESET_POST = 'reset_post';
 
 export const SET_POST_EPP = 'set_post_epp';
 export const SET_POST_SORT = 'set_post_sort';
+export const SET_POST_PAGE = 'set_post_page';

@@ -1,4 +1,4 @@
-import { GET_POSTS, GET_POSTS_OK, GET_POSTS_ERROR, GET_POST, GET_POST_OK, GET_POST_ERROR, RESET_POST, SET_POST_EPP, SET_POST_SORT} from './actionTypes';
+import { GET_POSTS, GET_POSTS_OK, GET_POSTS_ERROR, GET_POST, GET_POST_OK, GET_POST_ERROR, RESET_POST, SET_POST_EPP, SET_POST_SORT, SET_POST_PAGE} from './actionTypes';
 
 export const getPosts = (father,page=1,epp=5,sort='name') => {
     return {
@@ -66,6 +66,13 @@ export const setPostEpp = (payload) => {
 export const setPostSort = (payload) => {
     return {
         type: SET_POST_SORT,
+        payload: payload
+    }
+}
+
+export const setPostPage = (payload) => {
+    return {
+        type: SET_POST_PAGE,
         payload: payload
     }
 }

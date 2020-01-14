@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useRef} from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
-import { activateAuthLayout, getPosts, getPost, resetPost, setPostEpp, setPostSort } from '../../../../../store/actions';
+import { activateAuthLayout, getPosts, getPost, resetPost, setPostEpp, setPostSort, setPostPage } from '../../../../../store/actions';
 import queryString from 'query-string'
 import { useLocation, useHistory } from "react-router";
 import { useParams } from "react-router-dom";
@@ -23,7 +23,10 @@ function Posts() {
     const post = useSelector(state => state.post.post);    
     // const loadingPost = useSelector(state => state.post.loadingPost);
     const dispatch = useDispatch();
+    
     const epp = useSelector(state => state.post.epp)
+    const page = useSelector(state => state.post.page)
+    const sort = useSelector(state => state.post.sort)
     
     
     let { id } = useParams();
@@ -68,12 +71,15 @@ function Posts() {
             dispatch(resetPost())
         }
         
-        const qs = queryString.parse(location.search)                
-        const page = qs.page ? parseInt(qs.page) : 1
-        dispatch(getPosts(id, page))
+        // const qs = queryString.parse(location.search)                
+        // const page = qs.page ? parseInt(qs.page) : 1
+        dispatch(getPosts(id, page, epp, sort))
+        
+        console.log(id)
+        console.log(page)
         
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dispatch, id, location.search])
+    }, [dispatch, id, page, epp, sort])
 
 
     const handlePostEnter = (e, item) => {
@@ -101,16 +107,32 @@ function Posts() {
     //     history.push('/posts/'+item.uuid)          
     // }
 
-    const handlePaginatorClick = (e, page) => {        
-        e.preventDefault()        
-        changeUrlParam({page: page})
-    }
 
     const epps = [5,10,50,500];
     let eppOptions = [];
     epps.forEach((item,index) => {      
         eppOptions.push(<option key={index}>{item}</option>);
     })
+
+    const sorts = [
+        {
+            value: 'uuid-',
+            label: 'Newest'
+        },
+        {
+            value: 'uuid',
+            label: 'Oldest'
+        },
+        {
+            value: 'name',
+            label: 'Name'
+        }
+    ]
+    let sortOptions = [];
+    sorts.forEach((item,index) => {      
+        sortOptions.push(<option key={index} value={item.value}>{item.label}</option>);
+    })
+
 
     const handleSetEpp = (event) => {        
         console.log(event.target.value)
@@ -122,6 +144,10 @@ function Posts() {
         dispatch(setPostSort(event.target.value))
     }
 
+    const handlePaginatorClick = (e, newPage) => {          
+        e.preventDefault()                
+        dispatch(setPostPage(newPage))        
+    }
 
     const Table = () => {
 
@@ -152,7 +178,8 @@ function Posts() {
                     <div className="pt-3">
 
                         <Paginator 
-                            paginator={posts} 
+                            lastPage={posts.lastPage} 
+                            currentPage={page}
                             onPageClick={handlePaginatorClick}                             
                         />
 
@@ -221,11 +248,8 @@ function Posts() {
                                             <label className="col-sm-12 col-form-label">Sort</label>
                                             <Col sm="12">
                                                 <div className="input-group mb-0">
-                                                    <select className="form-control" onChange={handleSetSort} value={epp}>
-                                                        <option>Name ASC</option>
-                                                        <option>Name DESc</option>
-                                                        <option>Newest</option>
-                                                        <option>Oldest</option>
+                                                    <select className="form-control" onChange={handleSetSort} value={sort}>
+                                                        {sortOptions}                                                        
                                                     </select>
                                                 </div>
                                             </Col>

@@ -1,21 +1,22 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-function Paginator({ 
-    paginator,
-    onPageClick
+function Paginator({     
+    onPageClick,
+    currentPage,
+    lastPage
 }) {
 
     const handlePageClick = (e, page) => (typeof(onPageClick) === 'function') ? onPageClick(e, page) : false
-    const handlePreviousClick = (e) => (typeof(onPageClick) === 'function') ? onPageClick(e, paginator.page-1) : false
-    const handleNextClick = (e) => (typeof(onPageClick) === 'function') ? onPageClick(e, paginator.page+1) : false
+    const handlePreviousClick = (e) => (typeof(onPageClick) === 'function') ? onPageClick(e, currentPage-1) : false
+    const handleNextClick = (e) => (typeof(onPageClick) === 'function') ? onPageClick(e, currentPage+1) : false
 
-    const nextDisabled = paginator.page >= paginator.lastPage
-    const previousDisabled = paginator.page <= 1
+    const nextDisabled = currentPage >= lastPage
+    const previousDisabled = currentPage <= 1
 
     let options = [];
-    for (let i = 1; i <= paginator.lastPage; i++) {
-        if(i===paginator.page)
+    for (let i = 1; i <= lastPage; i++) {
+        if(i===currentPage)
             options.push(<li key={i} className="page-item active"><Link className="page-link" to="#" onClick={(e) => handlePageClick(e,i)}>{i}</Link></li>);
         else
             options.push(<li key={i} className="page-item"><Link className="page-link" to="#" onClick={(e) => handlePageClick(e,i)}>{i}</Link></li>);
