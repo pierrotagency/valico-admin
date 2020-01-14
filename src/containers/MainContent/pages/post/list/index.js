@@ -31,9 +31,7 @@ function Posts({}) {
         father: null
     })
     
-    useEffect(() => {      
-        dispatch(activateAuthLayout())
-    },[dispatch]);
+    
     
     
     const fetchPosts = useCallback(() => {
@@ -43,12 +41,28 @@ function Posts({}) {
 
     }, [dispatch, view.father, view.page, epp]);
 
+    
+    const changeUrlParam = (params) => {        
+
+        let qs = queryString.parse(location.search)
+            qs = {...qs, ...params}
+
+        const url = location.pathname + '?' + queryString.stringify(qs)    
+        history.push(url)        
+    }
+
+
+    useEffect(() => {      
+        dispatch(activateAuthLayout())
+    },[dispatch]);
+
+
     useEffect(() => {
         console.log('useEffect location')
         
         const qs = queryString.parse(location.search)        
         const father = qs.father ? qs.father : null
-        const page = qs.page ? qs.page : 1
+        const page = qs.page ? parseInt(qs.page) : 1
         
         if(page !== view.page || father !== view.father){
             setView({        
@@ -75,50 +89,30 @@ function Posts({}) {
     }, [view, dispatch, fetchPosts])
 
 
-
-
     const handlePostEnter = (e, item) => {
         e.preventDefault()        
-
-        let qs = queryString.parse(location.search)
-            qs.father = item.uuid
-
-        const url = location.pathname + '?' + queryString.stringify(qs)    
-        history.push(url)
+        changeUrlParam({father: item.uuid, page: 1})
     }
 
     const handlePostEdit = (e, item) => {        
         e.preventDefault()        
-
-        const url = '/posts/'+item.uuid+'/builder'
-        history.push(url)
+        history.push('/posts/'+item.uuid+'/builder')
     }
 
-    // MMM should be common, and might uuid be param, filters still query
     const handleBreadcrumbClick = (e, item) => {        
         e.preventDefault()        
-        
-        let qs = queryString.parse(location.search)
-            qs.father = item.uuid
-
-        const url = location.pathname + '?' + queryString.stringify(qs)    
-        history.push(url)        
+        changeUrlParam({father: item.uuid, page: 1})             
     }
 
     const handlePaginatorClick = (e, page) => {        
-        e.preventDefault()        
-        
-        let qs = queryString.parse(location.search)
-            qs.page = page
-
-        const url = location.pathname + '?' + queryString.stringify(qs)    
-        history.push(url)        
+        e.preventDefault()          
+        changeUrlParam({page: page})
     }
 
     const withLoading = (Component) => {
         return function EnhancedComponent({ isLoading, ...props }) {
             if (!isLoading) 
-                return <Component { ...props } />;            
+                return <Component { ...props } />          
             else
                 return (
                     <div className="d-flex justify-content-center">
