@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef, useCallback} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
 import { activateAuthLayout, getPosts, getPost, resetPost, setPostEpp, setPostSort } from '../../../../../store/actions';
 import queryString from 'query-string'
@@ -105,6 +105,16 @@ function Posts({}) {
         history.push(url)        
     }
 
+    const handlePaginatorClick = (e, page) => {        
+        e.preventDefault()        
+        
+        let qs = queryString.parse(location.search)
+            qs.page = page
+
+        const url = location.pathname + '?' + queryString.stringify(qs)    
+        history.push(url)        
+    }
+
     const withLoading = (Component) => {
         return function EnhancedComponent({ isLoading, ...props }) {
             if (!isLoading) 
@@ -146,7 +156,7 @@ function Posts({}) {
                     </div>
                     <div className="pt-3">
 
-                        <Paginator paginator={posts} />
+                        <Paginator paginator={posts} onPageClick={handlePaginatorClick} />
 
                     </div>
                 </>
