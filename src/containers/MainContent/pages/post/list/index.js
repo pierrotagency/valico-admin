@@ -13,7 +13,8 @@ import Settingmenu from '../../../Subpages/Settingmenu';
 import Item from './Item';
 
 
-function Posts({}) {
+function Posts() {
+
     const location = useLocation();
     const history = useHistory();
     const posts = useSelector(state => state.post.posts);
@@ -21,16 +22,12 @@ function Posts({}) {
     const post = useSelector(state => state.post.post);    
     // const loadingPost = useSelector(state => state.post.loadingPost);
     const dispatch = useDispatch();
-    
     const epp = useSelector(state => state.post.epp)
     
-    // const [father, setFather] = useState(null)
-    // const [page, setPage] = useState(1)
     const [view, setView] = useState({
         page: 1,
         father: null
     })
-    
     
     
     
@@ -55,7 +52,6 @@ function Posts({}) {
     useEffect(() => {      
         dispatch(activateAuthLayout())
     },[dispatch]);
-
 
     useEffect(() => {
         console.log('useEffect location')
@@ -108,6 +104,24 @@ function Posts({}) {
         e.preventDefault()          
         changeUrlParam({page: page})
     }
+
+    const epps = [5,10,50,500];
+    let eppOptions = [];
+    epps.forEach((item,index) => {      
+        eppOptions.push(<option key={index}>{item}</option>);
+    })
+
+    const handleSetEpp = (event) => {        
+        console.log(event.target.value)
+        dispatch(setPostEpp(event.target.value))
+    }
+
+    const handleSetSort = (event) => {        
+        console.log(event.target.value)
+        dispatch(setPostSort(event.target.value))
+    }
+
+
 
     const withLoading = (Component) => {
         return function EnhancedComponent({ isLoading, ...props }) {
@@ -162,28 +176,7 @@ function Posts({}) {
 
     }
 
-    const epps = [5,10,50,500];
-    let eppOptions = [];
-    epps.map((item,index) => {
-        // if(item===epp)
-            // eppOptions.push(<option key={item} selected>{item}</option>);
-        // else
-            eppOptions.push(<option key={item}>{item}</option>);
-    })
-
-    const handleSetEpp = (event) => {        
-        console.log(event.target.value)
-        dispatch(setPostEpp(event.target.value))
-    }
-
-    const handleSetSort = (event) => {        
-        console.log(event.target.value)
-        dispatch(setPostSort(event.target.value))
-    }
-
-
     const ListWithLoading = withLoading(Table);
-
 
 
     return (
