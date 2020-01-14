@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const ModuleHandler = styled.div`  
+const StyledModuleHandler = styled.div`  
   margin-bottom: 0px;
 
   ${({ dragging }) =>
@@ -17,7 +17,7 @@ const ModuleTitle = styled.div`
   justify-content: space-between;
 `
 
-export default function({ 
+export default function ModuleHandler({ 
   children: module, 
   dragging, 
   onModuleRemove,
@@ -25,7 +25,7 @@ export default function({
   onModuleClone
 }) {
   return (
-    <ModuleHandler dragging={dragging}>      
+    <StyledModuleHandler dragging={dragging}>      
         <ModuleTitle>             
           <div className="btn-group mb-2 mb-sm-0">
               <button type="button" className="btn btn-primary waves-light waves-effect" onClick={() => onModuleClone(module)}><i className="far fa-copy"></i></button>
@@ -33,6 +33,6 @@ export default function({
               <button type="button" className="btn btn-primary waves-light waves-effect" onClick={() => onModuleRemove(module)}><i className="far fa-trash-alt"></i></button>
           </div>               
         </ModuleTitle>      
-    </ModuleHandler>
+    </StyledModuleHandler>
   )
 }

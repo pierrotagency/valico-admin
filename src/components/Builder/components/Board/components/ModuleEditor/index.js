@@ -9,7 +9,7 @@ import "react-toggle/style.css";
 import './index.scss'
 
 
-export default function({ 
+export default function ModuleEditor({ 
   module,
   fieldsUpdated,
   library

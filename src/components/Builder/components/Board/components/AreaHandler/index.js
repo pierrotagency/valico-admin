@@ -19,7 +19,7 @@ function AreaTitle({ allowRenameArea, onClick, children: title }) {
 }
 
 
-export default function({ 
+export default function AreaHandler({ 
   children: area,
   library,
   moduleAdded
