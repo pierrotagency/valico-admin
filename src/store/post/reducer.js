@@ -80,7 +80,7 @@ const login = (state = initialState, action) => {
             break;
 
         default:
-            state = { ...state };
+            // state = { ...state };
             break;
     }
     return state;
