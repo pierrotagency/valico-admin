@@ -7,7 +7,7 @@ import { apiGet } from '../../services/api';
 
 function* getPosts({ payload: { father, page, epp, sort } }) {
     
-    if (process.env.NODE_ENV === 'development') yield delay(500)
+    // if (process.env.NODE_ENV === 'development') yield delay(500)
     
     try {
         const response = yield call(apiGet, '/posts', {father: father, page: page, epp: epp, sort: sort});           
@@ -24,7 +24,7 @@ export function* watchGetPosts() {
 
 function* getPost({ payload: { uuid } }) {
     
-    if (process.env.NODE_ENV === 'development') yield delay(500)
+    // if (process.env.NODE_ENV === 'development') yield delay(500)
 
     try {
         const response = yield call(apiGet, '/posts/' + uuid, {});           

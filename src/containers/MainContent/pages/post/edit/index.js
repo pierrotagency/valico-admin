@@ -12,6 +12,9 @@ import Settingmenu from '../../../Subpages/Settingmenu';
 
 import img1 from '../../../../../images/products/1.jpg';
 
+
+import CardWithLoading from '../../../../../components/CardWithLoading';
+
 const options = [
     { value: 'Alaska', label: 'Alaska' },
     { value: 'Hawaii', label: 'Hawaii' },
@@ -40,6 +43,89 @@ function PostEdit() {
 
     },[dispatch, id]);
 
+
+    
+    const ParamsCard = () => {    
+        
+        return (
+            <>
+                <Card>
+                    <CardBody>
+
+                        <h4 className="mt-0 header-title">Basic Information</h4>
+                        <p className="text-muted mb-4">Fill all information below</p>
+
+                        <form>
+                            <Row>
+                                <Col sm="6">
+                                    <div className="form-group">
+                                        <label htmlFor="productname">Product Name</label>
+                                        <input id="productname" name="productname" type="text" className="form-control" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="manufacturername">Manufacturer Name</label>
+                                        <input id="manufacturername" name="manufacturername" type="text" className="form-control" />
+                                    </div>
+                                </Col>
+
+                                <Col sm="6">
+                                    <div className="form-group">
+                                        <label htmlFor="productdesc">Product Description</label>
+                                        <textarea className="form-control" id="productdesc" rows="5"></textarea>
+                                    </div>
+                                </Col>
+                            </Row>
+
+                            <Row>
+                                <Col sm="6">
+                                    <div className="form-group">
+                                        <label htmlFor="manufacturerbrand">Manufacturer Brand</label>
+                                        <input id="manufacturerbrand" name="manufacturerbrand" type="text" className="form-control" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="price">Price</label>
+                                        <input id="price" name="price" type="text" className="form-control" />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label className="control-label">Category</label>
+                                        <select className="form-control select2">
+                                            <option>Select</option>
+                                            <option value="AK">Alaska</option>
+                                            <option value="HI">Hawaii</option>
+                                        </select>
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="control-label">Features</label>
+
+                                        <Select options={options} />
+
+                                    </div>
+                                </Col>
+
+                                <Col sm="6">
+                                    <div className="form-group">
+                                        <label>Product Image</label> <br />
+                                        <img src={img1} alt="product img" className="img-fluid rounded" style={{ maxWidth: "200px" }} />
+                                        <br />
+                                        <button type="button" className="btn btn-info mt-2 waves-effect waves-light">Change Image</button>
+                                    </div>
+                                </Col>
+                            </Row>
+
+                            <button type="submit" className="btn btn-success mr-1 waves-effect waves-light">Save Changes</button>
+                            <button type="submit" className="btn btn-secondary waves-effect">Cancel</button>
+                        </form>
+
+                    </CardBody>
+                </Card>
+            </>
+        )
+
+    }
+
+    const ParamsCardWithLoading = CardWithLoading(ParamsCard);
+
     return (
         <React.Fragment>
 
@@ -65,76 +151,8 @@ function PostEdit() {
 
                     <Row>
                         <Col>
-                            <Card>
-                                <CardBody>
 
-                                    <h4 className="mt-0 header-title">Basic Information</h4>
-                                    <p className="text-muted mb-4">Fill all information below</p>
-
-                                    <form>
-                                        <Row>
-                                            <Col sm="6">
-                                                <div className="form-group">
-                                                    <label htmlFor="productname">Product Name</label>
-                                                    <input id="productname" name="productname" type="text" className="form-control" />
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="manufacturername">Manufacturer Name</label>
-                                                    <input id="manufacturername" name="manufacturername" type="text" className="form-control" />
-                                                </div>
-                                            </Col>
-
-                                            <Col sm="6">
-                                                <div className="form-group">
-                                                    <label htmlFor="productdesc">Product Description</label>
-                                                    <textarea className="form-control" id="productdesc" rows="5"></textarea>
-                                                </div>
-                                            </Col>
-                                        </Row>
-
-                                        <Row>
-                                            <Col sm="6">
-                                                <div className="form-group">
-                                                    <label htmlFor="manufacturerbrand">Manufacturer Brand</label>
-                                                    <input id="manufacturerbrand" name="manufacturerbrand" type="text" className="form-control" />
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="price">Price</label>
-                                                    <input id="price" name="price" type="text" className="form-control" />
-                                                </div>
-
-                                                <div className="form-group">
-                                                    <label className="control-label">Category</label>
-                                                    <select className="form-control select2">
-                                                        <option>Select</option>
-                                                        <option value="AK">Alaska</option>
-                                                        <option value="HI">Hawaii</option>
-                                                    </select>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label className="control-label">Features</label>
-
-                                                    <Select options={options} />
-
-                                                </div>
-                                            </Col>
-
-                                            <Col sm="6">
-                                                <div className="form-group">
-                                                    <label>Product Image</label> <br />
-                                                    <img src={img1} alt="product img" className="img-fluid rounded" style={{ maxWidth: "200px" }} />
-                                                    <br />
-                                                    <button type="button" className="btn btn-info mt-2 waves-effect waves-light">Change Image</button>
-                                                </div>
-                                            </Col>
-                                        </Row>
-
-                                        <button type="submit" className="btn btn-success mr-1 waves-effect waves-light">Save Changes</button>
-                                        <button type="submit" className="btn btn-secondary waves-effect">Cancel</button>
-                                    </form>
-
-                                </CardBody>
-                            </Card>
+                            <ParamsCardWithLoading isLoading={loadingPost} />   
 
                             <Card>
                                 <CardBody>
