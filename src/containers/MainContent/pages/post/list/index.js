@@ -52,7 +52,6 @@ function Posts() {
         return ref.current;
     }
 
-
     useEffect(() => {      
         dispatch(activateAuthLayout())
     },[dispatch]);
@@ -79,7 +78,6 @@ function Posts() {
 
     const handlePostEnter = (e, item) => {
         e.preventDefault()        
-        // changeUrlParam({father: item.uuid, page: 1})
         history.push('/posts/'+item.uuid)
     }
 
@@ -98,10 +96,10 @@ function Posts() {
         console.log('Remove')
     }
 
-    const handleBreadcrumbClick = (e, item) => {        
-        e.preventDefault()        
-        changeUrlParam({father: item.uuid, page: 1})             
-    }
+    // const handleBreadcrumbClick = (e, item) => {        
+    //     e.preventDefault()      
+    //     history.push('/posts/'+item.uuid)          
+    // }
 
     const handlePaginatorClick = (e, page) => {        
         e.preventDefault()        
@@ -153,7 +151,10 @@ function Posts() {
                     </div>
                     <div className="pt-3">
 
-                        <Paginator paginator={posts} onPageClick={handlePaginatorClick} />
+                        <Paginator 
+                            paginator={posts} 
+                            onPageClick={handlePaginatorClick}                             
+                        />
 
                     </div>
                 </>
@@ -177,7 +178,10 @@ function Posts() {
                         <Row className="align-items-center">
                             <Col sm="6">
                                 <h4 className="page-title">{post ? post.name : "Posts"}</h4>
-                                <Breadcrumb post={post} onClick={handleBreadcrumbClick} />
+                                <Breadcrumb 
+                                    post={post} 
+                                    // onClick={handleBreadcrumbClick}                                     
+                                />
                             </Col>
                             <Col sm="6">
                                 <div className="float-right d-none d-md-block">
