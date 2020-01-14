@@ -1,22 +1,19 @@
 import React, {useEffect, useState, useRef, useCallback} from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
-import { activateAuthLayout, getPosts, getPost, resetPost, setPostEpp } from '../../../../../store/actions';
+import { activateAuthLayout, getPosts, getPost, resetPost, setPostEpp, setPostSort } from '../../../../../store/actions';
 import queryString from 'query-string'
 import { useLocation, useHistory } from "react-router";
 // import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import Settingmenu from '../../../Subpages/Settingmenu';
-import Item from './Item';
-
 import { types } from 'valico-sanmartin'
 import Breadcrumb from '../components/Breadcrumb';
 import Paginator from '../../../../../components/Paginator';
+import Settingmenu from '../../../Subpages/Settingmenu';
+import Item from './Item';
 
-function Posts({
-    ddd,
-    aaa
-}) {
+
+function Posts({}) {
     const location = useLocation();
     const history = useHistory();
     const posts = useSelector(state => state.post.posts);
@@ -24,9 +21,15 @@ function Posts({
     const post = useSelector(state => state.post.post);    
     // const loadingPost = useSelector(state => state.post.loadingPost);
     const dispatch = useDispatch();
+    
     const epp = useSelector(state => state.post.epp)
-    const [father, setFather] = useState(null)
-    const [page, setPage] = useState(1)
+    
+    // const [father, setFather] = useState(null)
+    // const [page, setPage] = useState(1)
+    const [view, setView] = useState({
+        page: 1,
+        father: null
+    })
     
     useEffect(() => {      
         dispatch(activateAuthLayout())
@@ -36,26 +39,32 @@ function Posts({
     const fetchPosts = useCallback(() => {
 
         console.log('>>> useCallback')
-        dispatch(getPosts(father, page, epp))
+        dispatch(getPosts(view.father, view.page, epp))
 
-    }, [dispatch, father, page, epp]);
+    }, [dispatch, view.father, view.page, epp]);
 
     useEffect(() => {
         console.log('useEffect location')
         
         const qs = queryString.parse(location.search)        
-        setFather(qs.father)
-
+        const father = qs.father ? qs.father : null
         const page = qs.page ? qs.page : 1
-        setPage(page)
+        
+        if(page !== view.page || father !== view.father){
+            setView({        
+                page: page,
+                father: father
+            })            
+        }
 
-    }, [location])
+    }, [location.search, view.father, view.page])
 
     useEffect(() => {
-        console.log('useEffect father page epp')
+        console.log('useEffect view')
+        console.log(view)
         
-        if(father){                   
-            dispatch(getPost(father))
+        if(view.father){                   
+            dispatch(getPost(view.father))
         }
         else{            
             dispatch(resetPost())
@@ -63,7 +72,9 @@ function Posts({
         
         fetchPosts()
 
-    }, [fetchPosts, father, page, epp, dispatch])
+    }, [view, dispatch, fetchPosts])
+
+
 
 
     const handlePostEnter = (e, item) => {
@@ -161,6 +172,11 @@ function Posts({
         dispatch(setPostEpp(event.target.value))
     }
 
+    const handleSetSort = (event) => {        
+        console.log(event.target.value)
+        dispatch(setPostSort(event.target.value))
+    }
+
 
     const ListWithLoading = withLoading(Table);
 
@@ -215,7 +231,7 @@ function Posts({
                                             <label className="col-sm-12 col-form-label">Sort</label>
                                             <Col sm="12">
                                                 <div className="input-group mb-0">
-                                                    <select className="form-control">
+                                                    <select className="form-control" onChange={handleSetSort} value={epp}>
                                                         <option>Name ASC</option>
                                                         <option>Name DESc</option>
                                                         <option>Newest</option>

@@ -1,12 +1,13 @@
-import { GET_POSTS, GET_POSTS_OK, GET_POSTS_ERROR, GET_POST, GET_POST_OK, GET_POST_ERROR, RESET_POST, SET_POST_EPP} from './actionTypes';
+import { GET_POSTS, GET_POSTS_OK, GET_POSTS_ERROR, GET_POST, GET_POST_OK, GET_POST_ERROR, RESET_POST, SET_POST_EPP, SET_POST_SORT} from './actionTypes';
 
-export const getPosts = (father,page=1,epp=5) => {
+export const getPosts = (father,page=1,epp=5,sort='name') => {
     return {
         type: GET_POSTS,
         payload: {
             father: father,
             page: page,
-            epp: epp
+            epp: epp,
+            sort: sort
         }     
     }
 }
@@ -58,6 +59,13 @@ export const resetPost = () => {
 export const setPostEpp = (payload) => {
     return {
         type: SET_POST_EPP,
+        payload: payload
+    }
+}
+
+export const setPostSort = (payload) => {
+    return {
+        type: SET_POST_SORT,
         payload: payload
     }
 }

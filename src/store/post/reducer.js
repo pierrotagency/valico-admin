@@ -1,4 +1,4 @@
-import { GET_POSTS, GET_POSTS_OK, GET_POSTS_ERROR, GET_POST, GET_POST_OK, GET_POST_ERROR, RESET_POST, SET_POST_EPP } from './actionTypes';
+import { GET_POSTS, GET_POSTS_OK, GET_POSTS_ERROR, GET_POST, GET_POST_OK, GET_POST_ERROR, RESET_POST, SET_POST_EPP, SET_POST_SORT } from './actionTypes';
 
 const initialState = {
     posts: [],      
@@ -60,6 +60,13 @@ const login = (state = initialState, action) => {
             state = {
                 ...state,
                 epp: action.payload
+            }
+            break;
+
+        case SET_POST_SORT:
+            state = {
+                ...state,
+                sort: action.payload
             }
             break;
 
