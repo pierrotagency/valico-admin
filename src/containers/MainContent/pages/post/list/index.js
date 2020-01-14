@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
 import { activateAuthLayout, getPosts, getPost, resetPost, setPostEpp, setPostSort } from '../../../../../store/actions';
 import queryString from 'query-string'
@@ -25,12 +25,15 @@ function Posts() {
     const dispatch = useDispatch();
     const epp = useSelector(state => state.post.epp)
     
+    
+    let { id } = useParams();
+
+
+    const prevAmount = usePrevious({id});
     // const [view, setView] = useState({
     //     page: 1
     // })
     
-    let { id } = useParams();
-
     
     const changeUrlParam = (params) => {        
 
@@ -41,6 +44,14 @@ function Posts() {
         history.push(url)        
     }
 
+    function usePrevious(value) {
+        const ref = useRef();
+        useEffect(() => {
+            ref.current = value;
+        });
+        return ref.current;
+    }
+
 
     useEffect(() => {      
         dispatch(activateAuthLayout())
@@ -49,12 +60,10 @@ function Posts() {
     useEffect(() => {
         console.log('useEffect id location.search')
         
-        // setView({        
-        //     page: page
-        // })
-
-        if(id){                   
-            dispatch(getPost(id))
+        if(id){
+            if(!prevAmount || prevAmount.id !== id) {
+                dispatch(getPost(id))                
+            }            
         }
         else{            
             dispatch(resetPost())
@@ -64,6 +73,7 @@ function Posts() {
         const page = qs.page ? parseInt(qs.page) : 1
         dispatch(getPosts(id, page))
         
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, id, location.search])
 
 
