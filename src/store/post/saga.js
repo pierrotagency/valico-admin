@@ -27,7 +27,7 @@ function* getPost({ payload: { uuid } }) {
     // if (process.env.NODE_ENV === 'development') yield delay(500)
 
     try {
-        const response = yield call(apiGet, '/posts/' + uuid, {});           
+        const response = yield call(apiGet, '/posts/' + uuid + '/peep', {});           
         yield put(getPostOk(response));        
     } catch (error) {
         console.log(error)
