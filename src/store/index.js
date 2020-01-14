@@ -12,16 +12,22 @@ import rootReducer from './reducers';
 const filterLoginStore = createFilter(
     'login',
     ['user'] // ['user', 'keyYouWantToSave2']
-  );
+);
+
+const filterPostStore = createFilter(
+    'post',
+    ['sort','epp'] // ['user', 'keyYouWantToSave2']
+);
 
 
 const persistConfig = {
     key: 'root',
     storage: storage,
-    whitelist: ['login', 'account', 'layout'],
+    whitelist: ['login', 'account', 'layout', 'post'],
     stateReconciler: autoMergeLevel2,   
     transforms: [
-        filterLoginStore
+        filterLoginStore,
+        filterPostStore
     ]
 };
 

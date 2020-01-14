@@ -1,4 +1,4 @@
-import { GET_POSTS, GET_POSTS_OK, GET_POSTS_ERROR, GET_POST, GET_POST_OK, GET_POST_ERROR, RESET_POST, SET_POST_EPP, SET_POST_SORT, SET_POST_PAGE} from './actionTypes';
+import { GET_POSTS, GET_POSTS_OK, GET_POSTS_ERROR, GET_POST, GET_POST_OK, GET_POST_ERROR, RESET_POST, SET_POST_EPP, SET_POST_SORT, SET_POST_PAGE, GET_VIEW_POST, GET_VIEW_POST_OK, GET_VIEW_POST_ERROR} from './actionTypes';
 
 export const getPosts = (father,page=1,epp=5,sort='name') => {
     return {
@@ -26,6 +26,28 @@ export const getPostsError = (error) => {
     }
 }
 
+export const getViewPost = (uuid) => {
+    return {
+        type: GET_VIEW_POST,
+        payload: {
+            uuid: uuid
+        }     
+    }
+}
+
+export const getViewPostOk = (payload) => {
+    return {
+        type: GET_VIEW_POST_OK,
+        payload: payload
+    }
+}
+
+export const getViewPostError = (error) => {
+    return {
+        type: GET_VIEW_POST_ERROR,
+        payload: error
+    }
+}
 
 export const getPost = (uuid) => {
     return {

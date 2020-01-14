@@ -1,8 +1,9 @@
-import { GET_POSTS, GET_POSTS_OK, GET_POSTS_ERROR, GET_POST, GET_POST_OK, GET_POST_ERROR, RESET_POST, SET_POST_EPP, SET_POST_SORT, SET_POST_PAGE } from './actionTypes';
+import { GET_POSTS, GET_POSTS_OK, GET_POSTS_ERROR, GET_POST, GET_POST_OK, GET_POST_ERROR, RESET_POST, SET_POST_EPP, SET_POST_SORT, SET_POST_PAGE, GET_VIEW_POST, GET_VIEW_POST_OK, GET_VIEW_POST_ERROR } from './actionTypes';
 
 const initialState = {
-    posts: [],      
+    posts: [],    
     loadingPosts: null,
+    post: null,
     loadingPost: null,
     epp: 10,
     page: 1,
@@ -47,6 +48,7 @@ const login = (state = initialState, action) => {
         case GET_POST_ERROR:
             state = {
                 ...state,
+                post: null,
                 loadingPost: false
             }
             break;
@@ -76,6 +78,27 @@ const login = (state = initialState, action) => {
             state = {
                 ...state,
                 page: action.payload
+            }
+            break;
+
+        case GET_VIEW_POST:
+            state = {
+                ...state,                
+                loadingViewPost: true                
+            }
+            break;
+        case GET_VIEW_POST_OK:
+            state = {
+                ...state,
+                viewPost: action.payload,
+                loadingViewPost: false
+            }
+            break;
+        case GET_VIEW_POST_ERROR:
+            state = {
+                ...state,
+                viewPost: null,
+                loadingViewPost: false
             }
             break;
 

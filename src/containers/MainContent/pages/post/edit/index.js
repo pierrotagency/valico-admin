@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
 import Select from 'react-select';
-import queryString from 'query-string'
+// import queryString from 'query-string'
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useHistory } from "react-router";
+// import { useLocation, useHistory } from "react-router";
 
-import { activateAuthLayout, getPost } from '../../../../../store/actions';
+import { activateAuthLayout, getViewPost } from '../../../../../store/actions';
 import Settingmenu from '../../../Subpages/Settingmenu';
 
 import img1 from '../../../../../images/products/1.jpg';
@@ -26,41 +26,41 @@ const options = [
 
 function PostEdit() {
   
-    const location = useLocation();
-    const history = useHistory();
+    // const location = useLocation();
+    // const history = useHistory();
 
-    const post = useSelector(state => state.post.post);    
-    const loadingPost = useSelector(state => state.post.loadingPost);
+    const post = useSelector(state => state.post.viewPost);    
+    const loadingPost = useSelector(state => state.post.loadingViewPost);
     const dispatch = useDispatch();
 
     let { id } = useParams();
 
-    const changeUrlParam = (params) => {        
 
-        let qs = queryString.parse(location.search)
-            qs = {...qs, ...params}
+    // const changeUrlParam = (params) => {        
 
-        const url = location.pathname + '?' + queryString.stringify(qs)    
-        history.push(url)        
-    }
+    //     let qs = queryString.parse(location.search)
+    //         qs = {...qs, ...params}
 
+    //     const url = location.pathname + '?' + queryString.stringify(qs)    
+    //     history.push(url)        
+    // }
 
 
     useEffect(() => {      
         dispatch(activateAuthLayout())
+
+        // window.addEventListener('popstate', (event) => {
+        // alert("You message");
+        // });
+        
     },[dispatch]);
 
     useEffect(() => {      
         
-        dispatch(getPost(id))
+        dispatch(getViewPost(id))
 
     },[dispatch, id]);
 
-
-    const handleBreadcrumbClick = (e, item) => {        
-        e.preventDefault()        
-        // changeUrlParam({father: item.uuid, page: 1})             
-    }
 
     const ParamsCard = () => {    
         
@@ -152,7 +152,10 @@ function PostEdit() {
                         <Row className="align-items-center">
                             <Col sm="6">
                                 <h4 className="page-title">{post?post.name:'Product ' + id}</h4>
-                                <Breadcrumb post={post} onClick={handleBreadcrumbClick} action={'Edit'} />
+                                <Breadcrumb 
+                                    post={post} 
+                                    action={'Edit'}                                    
+                                />
                             </Col>
                             <Col sm="6">
                                 <div className="float-right d-none d-md-block">

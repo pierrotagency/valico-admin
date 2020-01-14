@@ -38,16 +38,6 @@ function Posts() {
     //     page: 1
     // })
     
-    
-    // const changeUrlParam = (params) => {        
-
-    //     let qs = queryString.parse(location.search)
-    //         qs = {...qs, ...params}
-
-    //     const url = location.pathname + '?' + queryString.stringify(qs)    
-    //     history.push(url)        
-    // }
-
     function usePrevious(value) {
         const ref = useRef();
         useEffect(() => {
@@ -63,21 +53,21 @@ function Posts() {
     useEffect(() => {
         console.log('useEffect id location.search')
         
+        console.log(id)
+        
         if(id){
+            console.log('111111')
             if(!prevAmount || prevAmount.id !== id) {
+                console.log('getPost')
                 dispatch(getPost(id))                
             }            
         }
-        else{            
+        else{
+            console.log('resetPost')
             dispatch(resetPost())
         }
         
-        // const qs = queryString.parse(location.search)                
-        // const page = qs.page ? parseInt(qs.page) : 1
         dispatch(getPosts(id, page, epp, sort))
-        
-        console.log(id)
-        console.log(page)
         
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, id, page, epp, sort])
