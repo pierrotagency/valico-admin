@@ -92,7 +92,17 @@ function Posts() {
 
     const handlePostEdit = (e, item) => {        
         e.preventDefault()        
+        history.push('/posts/'+item.uuid+'/edit')
+    }
+
+    const handlePostBuild = (e, item) => {        
+        e.preventDefault()        
         history.push('/posts/'+item.uuid+'/builder')
+    }
+
+    const handlePostRemove = (e, item) => {  // TODO
+        e.preventDefault()        
+        console.log('Remove')
     }
 
     const handleBreadcrumbClick = (e, item) => {        
@@ -157,7 +167,9 @@ function Posts() {
                                 {posts.data.map((post, index) => <Item 
                                     item={post} key={index} types={types}
                                     onEnter={handlePostEnter} 
-                                    onEdit={handlePostEdit}
+                                    onEditClick={handlePostEdit}
+                                    onBuildClick={handlePostBuild}
+                                    onRemoveClick={handlePostRemove}
                                 ></Item>)}                                                
                             </tbody>
                         </table>

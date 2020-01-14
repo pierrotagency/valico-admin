@@ -42,6 +42,7 @@ import Pages404 from './containers/MainContent/pages/pages-404';
 import Pages500 from './containers/MainContent/pages/pages-500';
 
 import PostBuilder from './containers/MainContent/pages/post/builder';
+import PostEdit from './containers/MainContent/pages/post/edit';
 import PostList from './containers/MainContent/pages/post/list';
 
 import Emailtemplatebasic from './containers/MainContent/email/email-template-basic';
@@ -122,6 +123,7 @@ const routes = [
     { path: '/pages-blank', component: Pagesblank },
     
     { path: '/posts/:id/builder', component: PostBuilder },
+    { path: '/posts/:id/edit', component: PostEdit },
     { path: '/posts', component: PostList },
 
 
