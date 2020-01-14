@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
 import Select from 'react-select';
-// import { activateAuthLayout } from '../../../../../store/actions';
-// import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -12,7 +10,7 @@ import Settingmenu from '../../../Subpages/Settingmenu';
 
 import img1 from '../../../../../images/products/1.jpg';
 
-
+import Breadcrumb from '../components/Breadcrumb';
 import CardWithLoading from '../../../../../components/CardWithLoading';
 
 const options = [
@@ -44,7 +42,11 @@ function PostEdit() {
     },[dispatch, id]);
 
 
-    
+    const handleBreadcrumbClick = (e, item) => {        
+        e.preventDefault()        
+        // changeUrlParam({father: item.uuid, page: 1})             
+    }
+
     const ParamsCard = () => {    
         
         return (
@@ -135,11 +137,7 @@ function PostEdit() {
                         <Row className="align-items-center">
                             <Col sm="6">
                                 <h4 className="page-title">{post?post.name:'Product ' + id}</h4>
-                                <ol className="breadcrumb">
-                                    <li className="breadcrumb-item"><Link to="#"><i className="mdi mdi-home-outline"></i></Link></li>
-                                    <li className="breadcrumb-item"><Link to="#">Posts</Link></li>
-                                    {post?<li className="breadcrumb-item active">{post.name}</li>:null}
-                                </ol>
+                                <Breadcrumb post={post} onClick={handleBreadcrumbClick} />
                             </Col>
                             <Col sm="6">
                                 <div className="float-right d-none d-md-block">

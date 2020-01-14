@@ -11,6 +11,7 @@ import Breadcrumb from '../components/Breadcrumb';
 import Paginator from '../../../../../components/Paginator';
 import Settingmenu from '../../../Subpages/Settingmenu';
 import Item from './Item';
+import CardWithLoading from '../../../../../components/CardWithLoading';
 
 
 function Posts() {
@@ -132,22 +133,6 @@ function Posts() {
     }
 
 
-
-    const withLoading = (Component) => {
-        return function EnhancedComponent({ isLoading, ...props }) {
-            if (!isLoading) 
-                return <Component { ...props } />          
-            else
-                return (
-                    <div className="d-flex justify-content-center">
-                        <div className="spinner-grow text-primary" role="status">
-                            <span className="sr-only">Loading...</span>
-                        </div>
-                    </div>
-                );
-        };
-    }
-
     const Table = () => {
 
         if(posts && posts.total > 0) {
@@ -188,7 +173,7 @@ function Posts() {
 
     }
 
-    const ListWithLoading = withLoading(Table);
+    const ListWithLoading = CardWithLoading(Table);
 
 
     return (
