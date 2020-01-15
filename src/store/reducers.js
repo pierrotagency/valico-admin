@@ -1,21 +1,23 @@
 import { combineReducers  } from 'redux';
 
 // Front
-import layout from './layout/reducer';
+import layoutReducer from './layout/reducer';
 
 // Authentication Module
-import account from './auth/register/reducer';
-import login from './auth/login/reducer';
-import forget from './auth/forgetpwd/reducer';
+import accountReducer from './auth/register/reducer';
+import loginReducer from './auth/login/reducer';
+import forgetReducer from './auth/forgetpwd/reducer';
 
-import post from './post/reducer';
+import postReducer from './post/reducer';
+
 
 const rootReducer = combineReducers({
-    layout,
-    account,
-    login,
-    forget,
-    post
+    layout: layoutReducer,
+    account: accountReducer,
+    login: loginReducer,
+    forget: forgetReducer,
+    post: postReducer
 });
+
 
 export default rootReducer;

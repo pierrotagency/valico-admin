@@ -12,7 +12,7 @@ export default function Breadcrumb({
         <ol className="breadcrumb" style={{"backgroundColor":"transparent"}}>
             <li key="home" className="breadcrumb-item"><Link to="/"><i className="mdi mdi-home-outline"></i></Link></li>        
             <li key="posts" className="breadcrumb-item"><Link to="/posts">Posts</Link></li>
-            {post &&post.path.reverse().map((item, index) => {                
+            {(post && post.path) && post.path.reverse().map((item, index) => {                
                 return <li key={index} className="breadcrumb-item"><Link to={"/posts/"+item.uuid}>{item.name}</Link></li>
             })}
             {post && <li key={post.id} className={action ? 'breadcrumb-item' : 'breadcrumb-item active'}>{post.name}</li>}                    

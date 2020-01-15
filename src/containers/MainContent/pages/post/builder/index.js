@@ -1,20 +1,25 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col } from "reactstrap";
+import { Row, Col, Button } from "reactstrap";
 
-import { activateAuthLayout, getViewPost, setViewPost, saveViewPost } from "../../../../../store/actions";
+import { activateAuthLayout, getViewPost,  saveViewPost } from "../../../../../store/actions";
 import Breadcrumb from "../_common/Breadcrumb";
 import ActionsMenu from "./ActionsMenu";
 import Board from '../../../../../components/Board'
 // import { test, test2 } from './services'
 
+import useUndo from '../../../../../store/history';
+
 
 function PostBuilder() {
 
-  const post = useSelector(state => state.post.viewPost);
+  const viewPost = useSelector(state => state.post.viewPost);
   const loadingViewPost = useSelector(state => state.post.loadingViewPost);
   const dispatch = useDispatch();
+
+	const { post, setViewPost, undo, redo, clear, canUndo, canRedo } = useUndo({});
+
 
   let { id } = useParams();
 
@@ -24,15 +29,27 @@ function PostBuilder() {
 
   useEffect(() => {
     dispatch(activateAuthLayout());
-  }, [dispatch]);
+	}, [dispatch]);
+	
 
-  const handleChangeTemplate = (t) => dispatch(setViewPost({...post, template: t}))
-	
-	const handlePostUpdate = (updatedPost) => dispatch(setViewPost(updatedPost))		
-	
-	const handlePostSave = () => dispatch(saveViewPost(post))		
+	useEffect(() => {
+    setViewPost(viewPost)
+  }, [setViewPost, viewPost]);
 
+	// const handleChangeTemplate = (t) => dispatch(setViewPost({...post, template: t}))
+	const handleChangeTemplate = (t) => setViewPost({...post, template: t})
 	
+	// const handlePostUpdate = (updatedPost) => dispatch(setViewPost(updatedPost))		
+	const handlePostUpdate = (updatedPost) => setViewPost(updatedPost)		
+	
+
+
+	// const handlePostSave = () => dispatch(saveViewPost(post))		
+
+	const handleClickUndo = () =>{
+
+	}
+
   return (
     <>
     	<div className="content">
@@ -47,11 +64,11 @@ function PostBuilder() {
               </Col>
               <Col sm="6">
                 <div className="float-right d-none d-md-block">
-									{!loadingViewPost ? (
+									{!loadingViewPost && post ? (
 										<ActionsMenu 
 											currentTemplate={post.template}
 											onChangeTemplate={handleChangeTemplate}
-											onClickSave={handlePostSave}									
+											// onClickSave={handlePostSave}									
 										/>
 									) : null}
                 </div>
@@ -61,12 +78,29 @@ function PostBuilder() {
 
           <Row>
             <Col>
-              {!loadingViewPost ? (
+
+
+								<div className="controls">									
+									<button onClick={undo} disabled={!canUndo}>
+										Undo
+									</button>
+									<button onClick={redo} disabled={!canRedo}>
+										Redo
+									</button>
+									<button onClick={clear}>Clear</button>
+								</div>
+								
+								<Button color="success" className="arrow-none waves-effect waves-light" onClick={handleClickUndo}>
+                    <i className="mdi mdi-plus mr-2"></i> Undo
+                </Button>       
+
+              {!loadingViewPost && post ? (
                 <Board
                   onPostUpdated={handlePostUpdate}                  
                   post={post}									
                 />
               ) : null}
+
             </Col>
           </Row>
         </div>

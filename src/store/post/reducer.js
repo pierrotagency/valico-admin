@@ -12,7 +12,7 @@ const initialState = {
     sort: 'created_at-'
 }
 
-const login = (state = initialState, action) => {
+const post = (state = initialState, action) => {
     switch (action.type) {       
         case GET_POSTS:
             state = {
@@ -138,4 +138,4 @@ const login = (state = initialState, action) => {
     return state;
 }
 
-export default login;
+export default post;
