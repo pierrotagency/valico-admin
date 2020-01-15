@@ -32,14 +32,11 @@ function PostBuilder() {
     dispatch(activateAuthLayout());
   }, [dispatch]);
 
-  const handleActionsMenuClick = (e, item, action) => {
-    switch (action) {
-      case "save":
-        // handlePostRemove(e, item)
-        break;
-      default:
-        break;
-    }
+  const handleChangeTemplate = (t) => {
+		console.log(t)
+		
+
+		
   };
 
   return (
@@ -56,7 +53,12 @@ function PostBuilder() {
               </Col>
               <Col sm="6">
                 <div className="float-right d-none d-md-block">
-                  <ActionsMenu item={post} onClick={handleActionsMenuClick} />
+									{!loadingViewPost ? (
+										<ActionsMenu 
+											currentTemplate={post.template}
+											onChangeTemplate={handleChangeTemplate} 										
+										/>
+									) : null}
                 </div>
               </Col>
             </Row>
@@ -70,7 +72,7 @@ function PostBuilder() {
                   onModuleEdit={console.log}
                   onModuleAdded={console.log}
                   onModuleDragEnd={console.log}
-                  onPostSave={console.log}
+                  // onPostSave={console.log}
                   initialPost={post}
                 />
               ) : null}

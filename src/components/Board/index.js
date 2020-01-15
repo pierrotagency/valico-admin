@@ -12,10 +12,10 @@ import {
   removeModule, 
   cloneModule, 
   updateModuleFields,
-  changeTemplate
+  // changeTemplate
  } from './services'
 
- import MenuSettings from './components/MenuSettings';
+//  import MenuSettings from './components/MenuSettings';
 
 import Area from './components/Area'
 
@@ -34,11 +34,11 @@ const Areas = styled.div`
 `
 
 
-const StyledMenuSettings = styled.div`
-  text-align: right;
-  display: block;
-  width: 100%;
-`
+// const StyledMenuSettings = styled.div`
+//   text-align: right;
+//   display: block;
+//   width: 100%;
+// `
 
 function getCoordinates(event) {
   if (event.destination === null) return {}
@@ -61,7 +61,7 @@ function Board({
   onModuleRemove,
   onModuleEdit,
   onModuleAdded,
-  onPostSave,
+  // onPostSave,
   disableModuleDrag
 }) {
 
@@ -119,26 +119,26 @@ function Board({
   }
 
 
-  function handleTemplateChange(templateName) {
-    const postWithSetTemplate = changeTemplate(post,templateName)        
-    setPost(postWithSetTemplate)
-  }
+  // function handleTemplateChange(templateName) {
+  //   const postWithSetTemplate = changeTemplate(post,templateName)        
+  //   setPost(postWithSetTemplate)
+  // }
 
-  function handlePostSave() {
-    onPostSave(post)    
-  }
+  // function handlePostSave() {
+  //   onPostSave(post)    
+  // }
 
 
   return (
     <>
 
-      <StyledMenuSettings>
+      {/* <StyledMenuSettings>
         <MenuSettings                                           
           onChangeTemplate={(templateName) => handleTemplateChange(templateName)}
-          onClickSave={() => handlePostSave()}
+          // onClickSave={() => handlePostSave()}
           currentTemplate={post.template}
         />
-      </StyledMenuSettings>
+      </StyledMenuSettings> */}
 
       <ModuleEditor
         fieldsUpdated={handleModuleFielUpdated}
