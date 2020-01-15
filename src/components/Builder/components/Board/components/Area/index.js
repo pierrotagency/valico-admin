@@ -25,6 +25,9 @@ function Area({
   className
 }) {
 
+  // console.log(content)
+  // return(<></>)
+
   const area = content.find(e => e.name === name)
 
   return (

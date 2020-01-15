@@ -9,7 +9,7 @@ export default function Breadcrumb({
     // const handleOnClick = (e, item) => (typeof(onClick) === 'function') ? onClick(e, item) : false
     
     return (
-        <ol className="breadcrumb">
+        <ol className="breadcrumb" style={{"backgroundColor":"transparent"}}>
             <li key="home" className="breadcrumb-item"><Link to="/"><i className="mdi mdi-home-outline"></i></Link></li>        
             <li key="posts" className="breadcrumb-item"><Link to="/posts">Posts</Link></li>
             {post &&post.path.reverse().map((item, index) => {                

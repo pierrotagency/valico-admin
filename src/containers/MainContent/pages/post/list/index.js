@@ -1,24 +1,21 @@
 import React, {useEffect, useRef} from 'react';
-import { Row, Col, Card, CardBody } from 'reactstrap';
-import { activateAuthLayout, getPosts, getPost, resetPost, setPostEpp, setPostSort, setPostPage } from '../../../../../store/actions';
-// import queryString from 'query-string'
-// import { useLocation, useHistory } from "react-router";
+import { Row, Col, Card, CardBody, Button } from 'reactstrap';
 import { useHistory } from "react-router";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { types } from 'valico-sanmartin'
 
+import { activateAuthLayout, getPosts, getPost, resetPost, setPostEpp, setPostSort, setPostPage } from '../../../../../store/actions';
 import Paginator from '../../../../../components/Paginator';
 import Item from './Item';
 import CardWithLoading from '../../../../../components/CardWithLoading';
-import Breadcrumb from '../components/Breadcrumb';
-import ActionsMenu from '../components/ActionsMenu';
+import Breadcrumb from '../_common/Breadcrumb';
+import ActionsMenu from '../_common/ActionsMenu';
 
 
 function Posts() {
 
-    // const location = useLocation();
     const history = useHistory();
     const posts = useSelector(state => state.post.posts);
     const loadingPosts = useSelector(state => state.post.loadingPosts);
@@ -220,6 +217,11 @@ function Posts() {
                                         post={post} 
                                         onClick={handleActionsMenuClick}
                                     />
+                                </div>
+                                <div className="float-right d-none d-md-block mr-1">
+                                    <Button color="success" className="arrow-none waves-effect waves-light">
+                                        <i className="mdi mdi-plus mr-2"></i> New
+                                    </Button>                                    
                                 </div>
                             </Col>
                         </Row>

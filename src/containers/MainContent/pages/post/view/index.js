@@ -11,7 +11,7 @@ import Settingmenu from '../../../Subpages/Settingmenu';
 
 import img1 from '../../../../../images/products/1.jpg';
 
-import Breadcrumb from '../components/Breadcrumb';
+import Breadcrumb from '../_common/Breadcrumb';
 import CardWithLoading from '../../../../../components/CardWithLoading';
 
 const options = [
@@ -144,14 +144,13 @@ function PostEdit() {
     const ParamsCardWithLoading = CardWithLoading(ParamsCard);
 
     return (
-        <React.Fragment>
-
+        <>
             <div className="content">
                 <div className="container-fluid">
                     <div className="page-title-box">
                         <Row className="align-items-center">
                             <Col sm="6">
-                                <h4 className="page-title">{post?post.name:'Product ' + id}</h4>
+                                <h4 className="page-title">{post?post.name:'Post ' + id}</h4>
                                 <Breadcrumb 
                                     post={post} 
                                     action={'Edit'}                                    
@@ -207,8 +206,9 @@ function PostEdit() {
                         </Col>
                     </Row>
 
-                </div></div>
-        </React.Fragment>
+                </div>
+            </div>
+        </>
     );
 }
 

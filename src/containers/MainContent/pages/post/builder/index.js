@@ -1,125 +1,76 @@
 import React, { useEffect } from 'react';
-import { activateAuthLayout } from '../../../../../store/actions';
-import { connect } from 'react-redux';
-import MenuSettings from './MenuSettings';
-import { Link } from 'react-router-dom';
 import { useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { Row, Col } from 'reactstrap';
 
+// import MenuSettings from './MenuSettings';
+import { activateAuthLayout, getViewPost } from '../../../../../store/actions';
+import Breadcrumb from '../_common/Breadcrumb';
 import Board from '../../../../../components/Builder';
 
 
-const post = {
-    name: "Página 1",
-    template: "Template1",
-    content: [
-      {
-        id: 1,
-        name: 'area1',
-        title: 'Area 1',
-        modules: [
-          {
-            id: 1,                        
-            component: 'Foo',
-            fields: {
-              title: 'Title module 1',
-              subtitle: 'Subtitle module 1'
-            }        
-          },
-          {
-            id: 2,                        
-            component: 'Bar',
-            fields: {
-              title: 'Title module 2',
-              subtitle: 'Subtitle module 2',
-              "tasks": [
-                {
-                  "title": "My first task",
-                  "details": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                  "done": true
-                },
-                {
-                  "title": "My second task",
-                  "details": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur",
-                  "done": false
-                }
-              ]
-            }          
-          }          
-        ]
-      },
-      {
-        id: 2,
-        name: 'area2',
-        title: 'Area 2',
-        modules: [
-          {
-            id: 3,                        
-            component: 'Foo',            
-            fields: {
-              title: 'Title module 3',
-              subtitle: 'Subtitle module 3'
-            }         
-          }
-        ]
-      },
-      {
-        id: 3,
-        name: 'area3',
-        title: 'Area 3',
-        modules: [          
-        ]
-      }
-    ]
-  }
+function PostBuilder() {
 
-
-function PostBuilder({
-  activateAuthLayout
-}) {
-
-  useEffect(() => {
-    activateAuthLayout();
-  },[activateAuthLayout]);
+  const post = useSelector(state => state.post.viewPost);    
+  const loadingViewPost = useSelector(state => state.post.loadingViewPost);
+  const dispatch = useDispatch();
 
   let { id } = useParams();
 
+  useEffect(() => {      
+          
+    dispatch(getViewPost(id))
+
+  },[dispatch, id]);
+
+
+  useEffect(() => {      
+    dispatch(activateAuthLayout())
+  },[dispatch]);
+
   return (
-      <React.Fragment>
+      <>
           <div className="content">
               <div className="container-fluid">
                   <div className="post-title-box">
-                      <div className="row align-items-center">
-                          <div className="col-sm-6">
-                              <h4 className="post-title">Builder</h4>
-                              <ol className="breadcrumb">
-                                  <li className="breadcrumb-item"><Link to="#"><i className="mdi mdi-home-outline"></i></Link></li>
-                                  <li className="breadcrumb-item"><Link to="#">{post.name} {id}</Link></li>
-                                  <li className="breadcrumb-item active">Builder</li>
-                              </ol>
-                          </div>
-                          <div className="col-sm-6">
+                      <Row className="align-items-center">
+                          <Col sm="6">
+                              <h4 className="page-title">{post?post.name:'Post ' + id}</h4>
+                              <Breadcrumb 
+                                  post={post} 
+                                  action={'Builder'}                                    
+                              />
+                          </Col>
+                          <Col sm="6">
                               <div className="float-right d-none d-md-block">
-                                  <MenuSettings                                           
-                                  />
+                                  {/* <Settingmenu /> */}
                               </div>
-                          </div>
-                      </div>
+                          </Col>
+                      </Row>                      
                   </div>
 
-                  <Board                                                                
-                      onModuleRemove={console.log}
-                      onModuleEdit={console.log}
-                      onModuleAdded={console.log}
-                      onModuleDragEnd={console.log} 
-                      onPostSave={console.log}             
-                      initialPost={post}
-                  />
-              
-              </div>
-          </div>
-      </React.Fragment>
+                  <Row>
+                        <Col>
+
+                            {!loadingViewPost ? (                  
+                            <Board                                                                
+                                onModuleRemove={console.log}
+                                onModuleEdit={console.log}
+                                onModuleAdded={console.log}
+                                onModuleDragEnd={console.log} 
+                                onPostSave={console.log}             
+                                initialPost={post}
+                            />
+                            ): null}
+                        
+                        </Col>
+                    </Row>
+
+                </div>
+            </div>
+      </>
   );
 
 }
 
-export default connect(null, { activateAuthLayout })(PostBuilder);
+export default PostBuilder;

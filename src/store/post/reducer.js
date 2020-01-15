@@ -2,9 +2,11 @@ import { GET_POSTS, GET_POSTS_OK, GET_POSTS_ERROR, GET_POST, GET_POST_OK, GET_PO
 
 const initialState = {
     posts: [],    
-    loadingPosts: null,
+    loadingPosts: true,
     post: null,
-    loadingPost: null,
+    loadingPost: true,
+    viewPost: null,
+    loadingViewPost: true,
     epp: 10,
     page: 1,
     sort: 'created_at-'
