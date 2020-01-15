@@ -8,11 +8,12 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { types } from 'valico-sanmartin'
-import Breadcrumb from '../components/Breadcrumb';
+
 import Paginator from '../../../../../components/Paginator';
-import Settingmenu from '../../../Subpages/Settingmenu';
 import Item from './Item';
 import CardWithLoading from '../../../../../components/CardWithLoading';
+import Breadcrumb from '../components/Breadcrumb';
+import ActionsMenu from '../components/ActionsMenu';
 
 
 function Posts() {
@@ -53,24 +54,19 @@ function Posts() {
     useEffect(() => {
         console.log('useEffect id location.search')
         
-        console.log(id)
-        
         if(id){
-            console.log('111111')
             if(!prevAmount || prevAmount.id !== id) {
-                console.log('getPost')
                 dispatch(getPost(id))                
             }            
         }
         else{
-            console.log('resetPost')
             dispatch(resetPost())
         }
         
         dispatch(getPosts(id, page, epp, sort))
         
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dispatch, id, page, epp, sort])
+    }, [dispatch, id, page, epp, sort]) // prevAmount not necesary
 
 
     const handlePostEnter = (e, item) => {
@@ -140,6 +136,23 @@ function Posts() {
         dispatch(setPostPage(newPage))        
     }
 
+    const handleActionsMenuClick = (e, item, action) => {    
+        switch (action) {
+            case 'edit':
+                handlePostEdit(e, item)
+                break;
+            case 'build':
+                handlePostBuild(e, item)
+                break;
+            case 'remove':
+                handlePostRemove(e, item)
+                break;
+            default:
+                break;
+        }                      
+    }
+
+
     const Table = () => {
 
         if(posts && posts.total > 0) {
@@ -203,7 +216,10 @@ function Posts() {
                             </Col>
                             <Col sm="6">
                                 <div className="float-right d-none d-md-block">
-                                    <Settingmenu />
+                                    <ActionsMenu 
+                                        post={post} 
+                                        onClick={handleActionsMenuClick}
+                                    />
                                 </div>
                             </Col>
                         </Row>
