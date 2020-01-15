@@ -11,11 +11,8 @@ import {
   addModule, 
   removeModule, 
   cloneModule, 
-  updateModuleFields,
-  // changeTemplate
- } from './services'
-
-//  import MenuSettings from './components/MenuSettings';
+  updateModuleFields
+} from './services'
 
 import Area from './components/Area'
 
@@ -33,13 +30,6 @@ const Areas = styled.div`
   width: 100%; 
 `
 
-
-// const StyledMenuSettings = styled.div`
-//   text-align: right;
-//   display: block;
-//   width: 100%;
-// `
-
 function getCoordinates(event) {
   if (event.destination === null) return {}
 
@@ -56,89 +46,53 @@ const DroppableBoard = withDroppable(Areas)
 
 
 function Board({
-  initialPost,
-  onModuleDragEnd,
-  onModuleRemove,
-  onModuleEdit,
-  onModuleAdded,
-  // onPostSave,
+  post,
+  onPostUpdated,  
   disableModuleDrag
 }) {
-
-  const [post, setPost] = useState(initialPost)
   
   const [currentModule, setCurrentModule] = useState()
 
-  const handleOnModuleDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveModule, notifyCallback: onModuleDragEnd })
+  const handleOnModuleDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveModule  })
   
+  const handlePostUpdate = (updatedPost) => {
+    if(typeof(onPostUpdated) === 'function'){
+      onPostUpdated(updatedPost)       
+    }
+  }
 
   function handleOnDragEnd({ source, destination }, { moveCallback, notifyCallback }) {
-    const reorderedBoard = moveCallback(post, source, destination)
-    when(notifyCallback)(callback => callback(reorderedBoard, source, destination))
-    setPost(reorderedBoard)
+    const updatedPost = moveCallback(post, source, destination)
+    when(notifyCallback)(callback => callback(updatedPost, source, destination))
+    handlePostUpdate(updatedPost)
   }
 
   function handleModuleAdd(area, module, options = {}) {
-    const postWithNewModule = addModule(post, library, area, module, options)    
-    onModuleAdded(
-      postWithNewModule,
-      postWithNewModule.content.find(({ id }) => id === area.id),
-      module
-    )
-    setPost(postWithNewModule)
+    const updatedPost = addModule(post, library, area, module, options)    
+    handlePostUpdate(updatedPost)
   }
 
   function handleModuleClone(area, module, options = {}) {
-    const postWithNewModule = cloneModule(post, area, module, options)        
-    // onModuleCloned(
-    //   postWithNewModule,
-    //   postWithNewModule.content.find(({ id }) => id === area.id),
-    //   module
-    // )
-    setPost(postWithNewModule)
+    const updatedPost = cloneModule(post, area, module, options)           
+    handlePostUpdate(updatedPost)
   }
 
   function handleModuleRemove(area, module) {
-    const postWithoutModule = removeModule(post, area, module)
-    onModuleRemove(
-      postWithoutModule,
-      postWithoutModule.content.find(({ id }) => id === area.id),
-      module
-    )
-    setPost(postWithoutModule)
+    const updatedPost = removeModule(post, area, module)
+    handlePostUpdate(updatedPost)   
   }
 
   function handleModuleEdit(area, module) {
-    setCurrentModule(module);
+    setCurrentModule(module); // TODO se salva? se tiene que salvar?
   }
 
   function handleModuleFielUpdated(fields) {
-    const postModified = updateModuleFields(post, currentModule, fields)  
-    // console.log(postModified)
-    setPost(postModified)
+    const updatedPost = updateModuleFields(post, currentModule, fields)  
+    handlePostUpdate(updatedPost)
   }
-
-
-  // function handleTemplateChange(templateName) {
-  //   const postWithSetTemplate = changeTemplate(post,templateName)        
-  //   setPost(postWithSetTemplate)
-  // }
-
-  // function handlePostSave() {
-  //   onPostSave(post)    
-  // }
-
 
   return (
     <>
-
-      {/* <StyledMenuSettings>
-        <MenuSettings                                           
-          onChangeTemplate={(templateName) => handleTemplateChange(templateName)}
-          // onClickSave={() => handlePostSave()}
-          currentTemplate={post.template}
-        />
-      </StyledMenuSettings> */}
 
       <ModuleEditor
         fieldsUpdated={handleModuleFielUpdated}

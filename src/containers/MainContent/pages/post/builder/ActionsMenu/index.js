@@ -5,16 +5,12 @@ import { templates } from 'valico-sanmartin'
 
 
 export default function ActionsMenu({     
-    // onClick,
     currentTemplate,
-    onChangeTemplate
+    onChangeTemplate,
+    onClickSave
 }) {
     const [toggle, setToggle] = useState(false);
-
-    // const handleOnClick = (e, i, action) => (typeof(onClick) === 'function') ? onClick(e, i, action) : false
-
     const handleOnChangeTemplate = (t) => (typeof(onChangeTemplate) === 'function') ? onChangeTemplate(t) : false
-
     const handleTogggle = () => setToggle(!toggle)
     
     return (
@@ -26,17 +22,13 @@ export default function ActionsMenu({
                     </DropdownToggle>
                     <DropdownMenu className="language-switch" right>
                         {Object.keys(templates).map((template, i) => (                        
-                            <DropdownItem key={template} onClick={() => handleOnChangeTemplate(template)}>{templates[template].name}</DropdownItem>
-                        ))}
-                        {/* <DropdownItem tag="a" href="#" onClick={(e) => handleOnClick(e, currentTemplate, 'edit')}>Edit</DropdownItem>
-                        <DropdownItem tag="a" href="#" onClick={(e) => handleOnClick(e, currentTemplate, 'build')}>Build</DropdownItem>                    
-                        <div className="dropdown-divider"></div>
-                        <DropdownItem tag="a" href="#" onClick={(e) => handleOnClick(e, currentTemplate, 'remove')}>Remove</DropdownItem> */}
+                            <DropdownItem key={i} onClick={() => handleOnChangeTemplate(template)}>{templates[template].name}</DropdownItem>
+                        ))}                        
                     </DropdownMenu>
                 </Dropdown>
             </div>
             <div className="float-right d-none d-md-block mr-1">
-                <Button color="success" className="arrow-none waves-effect waves-light">
+                <Button color="success" className="arrow-none waves-effect waves-light" onClick={onClickSave}>
                     <i className="mdi mdi-plus mr-2"></i> Save
                 </Button>                                    
             </div>            

@@ -116,16 +116,4 @@ function updateModuleFields(post, module, fields) {
 }
 
 
-
-
-
-// function changeTemplate(post,templateName) {
-  
-//   const template = templateName
-
-//   return { ...post, template }
-// }
-
-
-// export { moveModule, addModule, removeModule, cloneModule, updateModuleFields, changeTemplate }
 export { moveModule, addModule, removeModule, cloneModule, updateModuleFields }

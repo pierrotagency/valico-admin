@@ -1,4 +1,4 @@
-import { GET_POSTS, GET_POSTS_OK, GET_POSTS_ERROR, GET_POST, GET_POST_OK, GET_POST_ERROR, RESET_POST, SET_POST_EPP, SET_POST_SORT, SET_POST_PAGE, GET_VIEW_POST, GET_VIEW_POST_OK, GET_VIEW_POST_ERROR} from './actionTypes';
+import { GET_POSTS, GET_POSTS_OK, GET_POSTS_ERROR, GET_POST, GET_POST_OK, GET_POST_ERROR, SET_VIEW_POST, RESET_POST, SET_POST_EPP, SET_POST_SORT, SET_POST_PAGE, GET_VIEW_POST, GET_VIEW_POST_OK, GET_VIEW_POST_ERROR, SAVE_VIEW_POST, SAVE_VIEW_POST_OK, SAVE_VIEW_POST_ERROR} from './actionTypes';
 
 export const getPosts = (father,page=1,epp=5,sort='name') => {
     return {
@@ -68,6 +68,35 @@ export const getPostOk = (payload) => {
 export const getPostError = (error) => {
     return {
         type: GET_POST_ERROR,
+        payload: error
+    }
+}
+
+export const setViewPost = (payload) => {
+    return {
+        type: SET_VIEW_POST,
+        payload: payload
+    }
+}
+
+export const saveViewPost = (post) => {
+    return {
+        type: SAVE_VIEW_POST,
+        payload: {
+            post: post
+        }
+    }
+}
+
+export const saveViewPostOk = () => {
+    return {
+        type: SAVE_VIEW_POST_OK
+    }
+}
+
+export const saveViewPostError = (error) => {
+    return {
+        type: SAVE_VIEW_POST_ERROR,
         payload: error
     }
 }

@@ -1,4 +1,4 @@
-import { GET_POSTS, GET_POSTS_OK, GET_POSTS_ERROR, GET_POST, GET_POST_OK, GET_POST_ERROR, RESET_POST, SET_POST_EPP, SET_POST_SORT, SET_POST_PAGE, GET_VIEW_POST, GET_VIEW_POST_OK, GET_VIEW_POST_ERROR } from './actionTypes';
+import { GET_POSTS, GET_POSTS_OK, GET_POSTS_ERROR, GET_POST, GET_POST_OK, GET_POST_ERROR, SET_VIEW_POST, RESET_POST, SET_POST_EPP, SET_POST_SORT, SET_POST_PAGE, GET_VIEW_POST, GET_VIEW_POST_OK, GET_VIEW_POST_ERROR, SAVE_VIEW_POST, SAVE_VIEW_POST_OK, SAVE_VIEW_POST_ERROR } from './actionTypes';
 
 const initialState = {
     posts: [],    
@@ -54,6 +54,7 @@ const login = (state = initialState, action) => {
                 loadingPost: false
             }
             break;
+
         case RESET_POST:
             state = {
                 ...state,
@@ -100,6 +101,32 @@ const login = (state = initialState, action) => {
             state = {
                 ...state,
                 viewPost: null,
+                loadingViewPost: false
+            }
+            break;
+
+        case SET_VIEW_POST:
+            state = {
+                ...state,
+                viewPost: action.payload
+            }
+            break;
+
+        case SAVE_VIEW_POST:
+            state = {
+                ...state,                
+                loadingViewPost: true                
+            }
+            break;
+        case SAVE_VIEW_POST_OK:
+            state = {
+                ...state,                
+                loadingViewPost: false
+            }
+            break;
+        case SAVE_VIEW_POST_ERROR:
+            state = {
+                ...state,                
                 loadingViewPost: false
             }
             break;

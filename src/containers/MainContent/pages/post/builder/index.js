@@ -3,21 +3,15 @@ import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col } from "reactstrap";
 
-// import MenuSettings from './MenuSettings';
-import { activateAuthLayout, getViewPost } from "../../../../../store/actions";
+import { activateAuthLayout, getViewPost, setViewPost, saveViewPost } from "../../../../../store/actions";
 import Breadcrumb from "../_common/Breadcrumb";
 import ActionsMenu from "./ActionsMenu";
-
-
 import Board from '../../../../../components/Board'
-
-import { 
-  test, 
-  test2
- } from './services'
+// import { test, test2 } from './services'
 
 
 function PostBuilder() {
+
   const post = useSelector(state => state.post.viewPost);
   const loadingViewPost = useSelector(state => state.post.loadingViewPost);
   const dispatch = useDispatch();
@@ -32,13 +26,13 @@ function PostBuilder() {
     dispatch(activateAuthLayout());
   }, [dispatch]);
 
-  const handleChangeTemplate = (t) => {
-		console.log(t)
-		
+  const handleChangeTemplate = (t) => dispatch(setViewPost({...post, template: t}))
+	
+	const handlePostUpdate = (updatedPost) => dispatch(setViewPost(updatedPost))		
+	
+	const handlePostSave = () => dispatch(saveViewPost(post))		
 
-		
-  };
-
+	
   return (
     <>
     	<div className="content">
@@ -56,7 +50,8 @@ function PostBuilder() {
 									{!loadingViewPost ? (
 										<ActionsMenu 
 											currentTemplate={post.template}
-											onChangeTemplate={handleChangeTemplate} 										
+											onChangeTemplate={handleChangeTemplate}
+											onClickSave={handlePostSave}									
 										/>
 									) : null}
                 </div>
@@ -68,12 +63,8 @@ function PostBuilder() {
             <Col>
               {!loadingViewPost ? (
                 <Board
-                  onModuleRemove={console.log}
-                  onModuleEdit={console.log}
-                  onModuleAdded={console.log}
-                  onModuleDragEnd={console.log}
-                  // onPostSave={console.log}
-                  initialPost={post}
+                  onPostUpdated={handlePostUpdate}                  
+                  post={post}									
                 />
               ) : null}
             </Col>

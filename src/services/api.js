@@ -82,7 +82,36 @@ const apiPost = (action, data) => {
 
             }
             else{
-                const defaultError = 'API response error' 
+                const defaultError = 'API POST response error' 
+                throw defaultError;
+            }
+
+        });
+
+}
+
+
+const apiPut = (action, data) => {
+
+    return api.put(action, data)
+        .then(res => {
+            return res.data;
+        })
+        .catch(err => {
+
+            if(err.response){
+                
+                const { data } = err.response;
+
+                let errDescription = '';
+                if(data[0] && data[0].message) errDescription = data[0].message // pick first validation element of the backend (controller error response)
+                else if(data.error) errDescription = data.error
+                
+                throw errDescription; // TODO check other API response taxonomies         
+
+            }
+            else{
+                const defaultError = 'API PUT response error' 
                 throw defaultError;
             }
 
@@ -114,7 +143,7 @@ const apiGet = (action, data) => {
 
             }
             else{
-                const defaultError = 'API response error' 
+                const defaultError = 'API GET response error' 
                 throw defaultError;
             }
 
@@ -123,4 +152,4 @@ const apiGet = (action, data) => {
 }
 
 
-export { api, apiPost, apiGet};
+export { api, apiPost, apiGet, apiPut };
