@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { DragDropContext } from 'react-beautiful-dnd'
 
 import withDroppable from '../withDroppable'
-import { when, partialRight } from '../../../../helpers/utils'
+import { when, partialRight } from '../../helpers/utils'
 import ModuleHandler from './components/ModuleHandler'
 import ModuleEditor from './components/ModuleEditor'
 import { 

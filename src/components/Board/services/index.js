@@ -5,7 +5,7 @@ import {
   replaceElementOfArray,
   getUuid,
   cloneObject
-} from '../../../../../helpers/utils'
+} from '../../../helpers/utils'
 
 function reorderModulesOnArea(area, reorderModules) {
   return { ...area, modules: reorderModules(area.modules) }

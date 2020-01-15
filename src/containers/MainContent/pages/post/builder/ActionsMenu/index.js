@@ -15,7 +15,7 @@ export default function ActionsMenu({
         <>
             <Dropdown isOpen={toggle} toggle={handleTogggle}>
                 <DropdownToggle color="primary" className="arrow-none waves-effect waves-light">
-                    <i className="mdi mdi-settings mr-2"></i> Actions
+                    <i className="mdi mdi-settings mr-2"></i> ActionsB
                 </DropdownToggle>
                 <DropdownMenu className="language-switch" right>
                     <DropdownItem tag="a" href="#" onClick={(e) => handleOnClick(e, item, 'edit')}>Edit</DropdownItem>

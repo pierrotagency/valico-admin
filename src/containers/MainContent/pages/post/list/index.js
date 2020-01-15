@@ -214,7 +214,7 @@ function Posts() {
                             <Col sm="6">
                                 <div className="float-right d-none d-md-block">
                                     <ActionsMenu 
-                                        post={post} 
+                                        item={post} 
                                         onClick={handleActionsMenuClick}
                                     />
                                 </div>
