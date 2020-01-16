@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Alert,Button } from 'reactstrap';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { checkLogin, clearErrorLogin, clearError } from '../../../store/actions';
+import { checkLogin, clearErrorLogin, clearError, activateNonAuthLayout } from '../../../store/actions';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import logolight from '../../../images/logo-light.png';
 
@@ -20,6 +20,7 @@ class Pageslogin extends Component {
 
     componentDidMount()
     {
+        this.props.activateNonAuthLayout();
         document.body.classList.add('bg-primary');
         this.props.clearErrorLogin();
         this.props.clearError();
@@ -90,7 +91,7 @@ const mapStatetoProps = state => {
     return { user, loginError, loading };
 }
 
-export default withRouter(connect(mapStatetoProps, { checkLogin, clearErrorLogin, clearError })(Pageslogin));
+export default withRouter(connect(mapStatetoProps, { checkLogin, clearErrorLogin, clearError, activateNonAuthLayout })(Pageslogin));
 
 
 

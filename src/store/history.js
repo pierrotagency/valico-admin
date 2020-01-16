@@ -31,7 +31,6 @@ const reducer = (state, action) => {
     case "REDO":
       const next = future[0];
       const newFuture = future.slice(1);
-
       return {
 				...state,
         past: [...past, present],
@@ -83,7 +82,7 @@ const useHistory = initialPresent => {
 
   const clear = useCallback(() => dispatch({ type: "CLEAR" }), []);
 	
-	const init = useCallback( firstState => dispatch({ type: "INIT", firstState }), [ dispatch]);
+	const init = useCallback(firstState => dispatch({ type: "INIT", firstState }), [ dispatch]);
 
   
   return { init, state: state.present, set , undo, redo, clear, canUndo, canRedo };
