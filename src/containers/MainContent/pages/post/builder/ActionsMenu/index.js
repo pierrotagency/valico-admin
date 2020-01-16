@@ -30,7 +30,8 @@ export default function ActionsMenu({
                             onClick={onClickSave}>
                             Save
                         </ButtonWithLoading>                       
-                    </ButtonGroup>     
+                    </ButtonGroup>
+                    {templates[currentTemplate] &&
                     <Dropdown isOpen={toggle} toggle={handleTogggle} className="btn-sm">
                         <DropdownToggle color="primary" className="arrow-none waves-effect waves-light">
                             <i className="mdi mdi-monitor-dashboard mr-2"></i> {templates[currentTemplate].name}
@@ -40,7 +41,8 @@ export default function ActionsMenu({
                                 <DropdownItem key={i} onClick={() => handleOnChangeTemplate(template)}>{templates[template].name}</DropdownItem>
                             ))}                        
                         </DropdownMenu>
-                    </Dropdown>                    
+                    </Dropdown>
+                    } 
                     <ButtonGroup className="mt-2 mt-xl-0 btn-sm">
                         <Button color="secondary" onClick={onClickUndo} disabled={!canUndo}>
                             <i className="mdi mdi-undo mr-2"></i>Undo

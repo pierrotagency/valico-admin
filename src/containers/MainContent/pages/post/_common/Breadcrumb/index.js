@@ -3,10 +3,8 @@ import { Link } from 'react-router-dom';
 
 export default function Breadcrumb({ 
     post,
-    action,
-    // onClick
+    action
 }) {
-    // const handleOnClick = (e, item) => (typeof(onClick) === 'function') ? onClick(e, item) : false
     
     return (
         <ol className="breadcrumb" style={{"backgroundColor":"transparent"}}>

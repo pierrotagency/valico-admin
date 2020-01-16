@@ -81,7 +81,7 @@ function PostBuilder() {
               <Row className="align-items-center">
                 <Col sm="6">
                   <h4 className="page-title">
-                    {post ? post.name : "Post " + id}
+                    {post ? post.name : "..."}
                   </h4>
                   <Breadcrumb post={post} action={"Builder"} />
                 </Col>

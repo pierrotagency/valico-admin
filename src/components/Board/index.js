@@ -143,23 +143,25 @@ function BoardContainer({
     onModuleDragEnd(coordinates)
   }
 
-  const Template = templates[post.template].view;
+  const Template = templates[post.template] ? templates[post.template].view : null;
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <StyledBoard>
         <DroppableBoard droppableId='board-droppable' direction='horizontal' type='BOARD' style={{width:'100%'}}>
           
-          <Template
-              renderModule={renderModule}
-              moduleAdded={handleModuleAdd}              
-              disableModuleDrag={disableModuleDrag}
-              library={library}
-              className={post.template}
-              Area={Area}
-          >
-            {post.content}
+          {Template &&
+            <Template
+                renderModule={renderModule}
+                moduleAdded={handleModuleAdd}              
+                disableModuleDrag={disableModuleDrag}
+                library={library}
+                className={post.template}
+                Area={Area}
+            >
+              {post.content}
           </Template>
+          }
 
         </DroppableBoard>
       </StyledBoard>
