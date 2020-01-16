@@ -2,10 +2,9 @@ import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import styled from 'styled-components'
 
-
-const ModuleTemplate = styled.div`
-  display: inline-block;
-  white-space: normal;
+// need position relative here for positioning toolbox in absolute
+const ModuleHandlerWrapper = styled.div`
+  position: relative;  
 `
 
 const ModuleWrapper = styled.div`
@@ -29,9 +28,7 @@ function Module({ children, index, renderModule, disableModuleDrag, module, libr
         return (
           <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
             
-            {/* acá esta lo del box */}
-            <ModuleTemplate>{renderModule(isDragging)}</ModuleTemplate>           
-            
+            <ModuleHandlerWrapper>{renderModule(isDragging)}</ModuleHandlerWrapper>           
             
             {typeof library[module.component].component !== "undefined" &&
               (

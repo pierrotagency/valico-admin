@@ -4,7 +4,7 @@ import Form from "react-jsonschema-form-bs4";
 // import Form from "react-jsonschema-form"; Original lib form but without BS4 support https://github.com/rjsf-team/react-jsonschema-form/issues/899
 
 import {log} from '../../../../helpers/log'
-import Toggle from 'react-toggle';
+// import Toggle from 'react-toggle';
 import "react-toggle/style.css";
 import './index.scss'
 
@@ -15,13 +15,14 @@ export default function ModuleEditor({
   library
 }) {
 
-  const [live, setLive] = useState(true)
+  // const [live, setLive] = useState(true)
   
   const formSubmit = (e) => fieldsUpdated(e.formData)
 
-  const handleFormChange = (e) => live && formSubmit(e) 
+  // const handleFormChange = (e) => live && formSubmit(e) 
+  const handleFormChange = (e) => formSubmit(e) 
   
-  const handleLiveReloadToggle = (e) => setLive(e.target.checked) 
+  // const handleLiveReloadToggle = (e) => setLive(e.target.checked) 
 
   function validate(formData, errors) {
     if (formData.pass1 !== formData.pass2) {
@@ -40,7 +41,7 @@ export default function ModuleEditor({
           <CardBody>
             {/* <h4 className="mt-0 header-title">{module && module.component}</h4>
             <p className="text-muted mb-4">Fields dynamically loaded according to <code>module</code>.</p> */}
-            <Row className="form-group">                
+            {/* <Row className="form-group">                
               <Col sm="12">              
                 <div className="mb-2 ml-0">
                   <label className="d-flex align-items-center mb-1">
@@ -49,7 +50,7 @@ export default function ModuleEditor({
                   </label>
                 </div>
               </Col>
-            </Row>
+            </Row> */}
             <Row className="form-group">                
               <Col sm="12">
                 <Form schema={library[module.component].schema}

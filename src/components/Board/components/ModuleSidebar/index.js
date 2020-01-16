@@ -1,12 +1,14 @@
 import React from 'react';
 import { Row, Col, Button } from 'reactstrap';
 import { Scrollbars } from 'react-custom-scrollbars';
+// import PerfectScrollbar from 'react-perfect-scrollbar';
 
 import "./index.scss";
 
 
 const ModuleSidebar = ({
     children,
+    module,
     onCloseClick
 }) => {
 
@@ -16,17 +18,17 @@ const ModuleSidebar = ({
         <>            
             <Row>
                 <Col>
-                    <Button color="danger" onClick={handleCloseClick} >
-                        <i className="mdi mdi-backup-restore mr-2"></i>Close
-                    </Button>
+                    <h5 className="m-3">{module ? module.component : 'Module'}</h5>
                 </Col>
+                <Col>
+                    <Button className="btn-rounded close-button m-2 float-right" color="secondary" onClick={handleCloseClick} >
+                        <i className="mdi mdi-close" ></i>
+                    </Button>
+                </Col>                
             </Row>            
             <Row>
                 <Col>
-                    <Scrollbars
-                        className="scrollHeight"
-                        // autoHeight autoHeightMin={100} autoHeightMax={200}
-                    >
+                    <Scrollbars className="scrollHeight">
                         {children}            
                     </Scrollbars>
                 </Col>

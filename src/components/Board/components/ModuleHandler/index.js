@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const StyledModuleHandler = styled.div`  
-  margin-bottom: 0px;
+const StyledModuleHandler = styled.div` 
+  position: absolute;
+  right: 0;
 
   ${({ dragging }) =>
     dragging &&
@@ -11,11 +12,6 @@ const StyledModuleHandler = styled.div`
   `}
 `
 
-const ModuleTitle = styled.div`    
-  font-weight: bold;
-  display: flex;
-  justify-content: space-between;
-`
 
 export default function ModuleHandler({ 
   children: module, 
@@ -25,14 +21,12 @@ export default function ModuleHandler({
   onModuleClone
 }) {
   return (
-    <StyledModuleHandler dragging={dragging}>      
-        <ModuleTitle>             
-          <div className="btn-group mb-2 mb-sm-0">
-              <button type="button" className="btn btn-primary waves-light waves-effect" onClick={() => onModuleClone(module)}><i className="far fa-copy"></i></button>
-              <button type="button" className="btn btn-primary waves-light waves-effect" onClick={() => onModuleEdit(module)}><i className="fas fa-pencil-alt"></i></button>
-              <button type="button" className="btn btn-primary waves-light waves-effect" onClick={() => onModuleRemove(module)}><i className="far fa-trash-alt"></i></button>
-          </div>               
-        </ModuleTitle>      
+    <StyledModuleHandler dragging={dragging}>                      
+      <div className="btn-group mb-2 mb-sm-0">
+          <button type="button" className="btn btn-primary waves-light waves-effect" onClick={() => onModuleClone(module)}><i className="far fa-copy"></i></button>
+          <button type="button" className="btn btn-primary waves-light waves-effect" onClick={() => onModuleEdit(module)}><i className="fas fa-pencil-alt"></i></button>
+          <button type="button" className="btn btn-primary waves-light waves-effect" onClick={() => onModuleRemove(module)}><i className="far fa-trash-alt"></i></button>
+      </div>                         
     </StyledModuleHandler>
   )
 }

@@ -8,6 +8,7 @@ import AreaHandler from '../AreaHandler'
 
 export const StyledArea = styled.div`  
   vertical-align: top;
+  border: 1px dashed #777;
 `
 
 const DroppableArea = withDroppable(styled.div`

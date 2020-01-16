@@ -130,6 +130,7 @@ function Board({
       <RightSidebar visible={currentModule?true:false}>
           <ModuleSidebar
             onCloseClick={handleCloseEditorClick}
+            module={currentModule}
           >
             <ModuleEditor
               fieldsUpdated={handleModuleFielUpdated}
