@@ -10,7 +10,9 @@ export default function ActionsMenu({
     onClickSave,
     onClickUndo,
     onClickRedo,
-    onClickClear
+    onClickClear,
+    canRedo,
+    canUndo
 }) {
     const [toggle, setToggle] = useState(false);
     const handleOnChangeTemplate = (t) => (typeof(onChangeTemplate) === 'function') ? onChangeTemplate(t) : false
@@ -36,10 +38,10 @@ export default function ActionsMenu({
                         </DropdownMenu>
                     </Dropdown>                    
                     <ButtonGroup className="mt-2 mt-xl-0 btn-sm">
-                        <Button color="secondary" onClick={onClickUndo} >
+                        <Button color="secondary" onClick={onClickUndo} disabled={!canUndo}>
                             <i className="mdi mdi-undo mr-2"></i>Undo
                         </Button>
-                        <Button color="secondary" onClick={onClickRedo} >
+                        <Button color="secondary" onClick={onClickRedo} disabled={!canRedo}>
                             <i className="mdi mdi-redo mr-2"></i>Redo
                         </Button>
                     </ButtonGroup>     

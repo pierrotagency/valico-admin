@@ -68,7 +68,7 @@ const useHistory = initialPresent => {
 
   const [state, dispatch] = useReducer(reducer, {...initialState, present: initialPresent});
 
-  const canUndo = state.past.length !== 0;
+  const canUndo = state.past.length > 2;
   const canRedo = state.future.length !== 0;
 
   const undo = useCallback(() => {

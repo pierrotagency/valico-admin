@@ -70,6 +70,8 @@ function PostBuilder() {
 											onClickUndo={handleClickUndo}
 											onClickRedo={handleClickRedo}
 											onClickClear={handleClickClear}
+											canRedo={canRedo}
+											canUndo={canUndo}
 										/>
 									) : null}
                 </div>
