@@ -18,13 +18,13 @@ function PostBuilder() {
   const loadingViewPost = useSelector(state => state.post.loadingViewPost);
   const dispatch = useDispatch();
 
-	const { post, setViewPost, undo, redo, clear, canUndo, canRedo } = useUndo({});
+	const { post, setViewPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
 
 
   let { id } = useParams();
 
   useEffect(() => {
-    dispatch(getViewPost(id));
+		dispatch(getViewPost(id));	
   }, [dispatch, id]);
 
   useEffect(() => {
@@ -33,8 +33,10 @@ function PostBuilder() {
 	
 
 	useEffect(() => {
-    setViewPost(viewPost)
-  }, [setViewPost, viewPost]);
+		setViewPost(viewPost)		
+		init(viewPost)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ setViewPost, viewPost]);
 
 	// const handleChangeTemplate = (t) => dispatch(setViewPost({...post, template: t}))
 	const handleChangeTemplate = (t) => setViewPost({...post, template: t})
@@ -45,6 +47,8 @@ function PostBuilder() {
 
 
 	// const handlePostSave = () => dispatch(saveViewPost(post))		
+
+	const handlePostSave = () => dispatch(saveViewPost(post))		
 
 	const handleClickUndo = () =>{
 
@@ -68,7 +72,7 @@ function PostBuilder() {
 										<ActionsMenu 
 											currentTemplate={post.template}
 											onChangeTemplate={handleChangeTemplate}
-											// onClickSave={handlePostSave}									
+											onClickSave={handlePostSave}									
 										/>
 									) : null}
                 </div>
