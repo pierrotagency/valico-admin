@@ -16,6 +16,10 @@ import {
 
 import Area from './components/Area'
 
+import RightSidebar from '../RightSidebar';
+// import PostBuilderRightSidebar from './components/Sidebar';
+
+
 import { library, templates } from 'valico-sanmartin'
 
 const StyledBoard = styled.div`
@@ -91,15 +95,13 @@ function Board({
     handlePostUpdate(updatedPost)
   }
 
+  function handleCloseEditorClick() {
+    setCurrentModule(); 
+  }
+  
+
   return (
     <>
-
-      <ModuleEditor
-        fieldsUpdated={handleModuleFielUpdated}
-        module={currentModule}
-        library={library}
-      >
-      </ModuleEditor>
 
       <BoardContainer
         onModuleDragEnd={handleOnModuleDragEnd}      
@@ -123,6 +125,17 @@ function Board({
       >
         {post}
       </BoardContainer>
+
+
+      <RightSidebar visible={currentModule?true:false}>
+          {/* <PostBuilderRightSidebar /> */}
+          <ModuleEditor
+            fieldsUpdated={handleModuleFielUpdated}
+            module={currentModule}
+            library={library}
+            onCloseClick={handleCloseEditorClick}
+          />          
+      </RightSidebar>
 
     </>
   )

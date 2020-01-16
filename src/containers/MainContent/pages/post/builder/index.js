@@ -11,6 +11,7 @@ import ActionsMenu from "./ActionsMenu";
 import Board from '../../../../../components/Board'
 // import { test, test2 } from './services'
 
+
 import useUndo from '../../../../../store/history';
 
 
@@ -117,6 +118,9 @@ function PostBuilder() {
             </Row>
           </div>
         </div>
+
+        
+        
       </Hotkeys>
     </>
   );
