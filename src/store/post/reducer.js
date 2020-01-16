@@ -7,6 +7,7 @@ const initialState = {
     loadingPost: true,
     viewPost: null,
     loadingViewPost: true,
+    savingPost: false,
     epp: 10,
     page: 1,
     sort: 'created_at-'
@@ -115,19 +116,19 @@ const post = (state = initialState, action) => {
         case SAVE_VIEW_POST:
             state = {
                 ...state,                
-                loadingViewPost: true                
+                savingPost: true                
             }
             break;
         case SAVE_VIEW_POST_OK:
             state = {
                 ...state,                
-                loadingViewPost: false
+                savingPost: false
             }
             break;
         case SAVE_VIEW_POST_ERROR:
             state = {
                 ...state,                
-                loadingViewPost: false
+                savingPost: false
             }
             break;
 

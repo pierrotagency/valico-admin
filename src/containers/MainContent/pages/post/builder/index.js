@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, Button } from "reactstrap";
+import { Row, Col } from "reactstrap";
+
+import Hotkeys from 'react-hot-keys';
 
 import { activateAuthLayout, getViewPost,  saveViewPost } from "../../../../../store/actions";
 import Breadcrumb from "../_common/Breadcrumb";
@@ -16,6 +18,7 @@ function PostBuilder() {
 
   const viewPost = useSelector(state => state.post.viewPost);
   const loadingViewPost = useSelector(state => state.post.loadingViewPost);
+  const savingPost = useSelector(state => state.post.savingPost);
   const dispatch = useDispatch();
 
 	const { state: post, set: setViewPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
@@ -46,51 +49,75 @@ function PostBuilder() {
 
 	const handleClickUndo = () => undo();
 	const handleClickRedo = () => redo();
-	const handleClickClear = () => clear();
+  const handleClickClear = () => clear();
+  
+  const onKeyDown = (keyName, e, handle) => {
+    // console.log("test:onKeyDown", keyName, e, handle)    
+    switch (keyName) {
+      case "ctrl+z":
+        undo();
+        break;
+      case "ctrl+shift+z":
+        redo();
+        break;
+      case "ctrl+s":
+        handlePostSave();
+        break;
+      default:
+        break;
+    }
+    
+  }
 
   return (
     <>
-    	<div className="content">
-        <div className="container-fluid">
-          <div className="post-title-box">
-            <Row className="align-items-center">
-              <Col sm="6">
-                <h4 className="page-title">
-                  {post ? post.name : "Post " + id}
-                </h4>
-                <Breadcrumb post={post} action={"Builder"} />
-              </Col>
-              <Col sm="6">
-                <div className="float-right d-none d-md-block">
-									{!loadingViewPost && post ? (
-										<ActionsMenu 
-											currentTemplate={post.template}
-											onChangeTemplate={handleChangeTemplate}
-											onClickSave={handlePostSave}
-											onClickUndo={handleClickUndo}
-											onClickRedo={handleClickRedo}
-											onClickClear={handleClickClear}
-											canRedo={canRedo}
-											canUndo={canUndo}
-										/>
-									) : null}
-                </div>
+    <Hotkeys 
+        keyName="shift+a,alt+s,ctrl+s,ctrl+z" 
+        onKeyDown={onKeyDown}       
+      >
+        <div className="content">
+          <div className="container-fluid">
+            <div className="post-title-box">
+              <Row className="align-items-center">
+                <Col sm="6">
+                  <h4 className="page-title">
+                    {post ? post.name : "Post " + id}
+                  </h4>
+                  <Breadcrumb post={post} action={"Builder"} />
+                </Col>
+                <Col sm="6">
+                  <div className="float-right d-none d-md-block">
+                    {!loadingViewPost && post ? (
+                      <ActionsMenu 
+                        currentTemplate={post.template}
+                        onChangeTemplate={handleChangeTemplate}
+                        onClickSave={handlePostSave}
+                        onClickUndo={handleClickUndo}
+                        onClickRedo={handleClickRedo}
+                        onClickClear={handleClickClear}
+                        canRedo={canRedo}
+                        canUndo={canUndo}
+                        savingPost={savingPost}
+                      />
+                    ) : null}
+                  </div>
+                </Col>
+              </Row>
+            </div>
+
+            <Row>
+              <Col>
+                {!loadingViewPost && post ? (
+                  <Board
+                    onPostUpdated={handlePostUpdate}                  
+                    post={post}									
+                  />
+                ) : null}
               </Col>
             </Row>
           </div>
-
-          <Row>
-            <Col>
-              {!loadingViewPost && post ? (
-                <Board
-                  onPostUpdated={handlePostUpdate}                  
-                  post={post}									
-                />
-              ) : null}
-            </Col>
-          </Row>
         </div>
-      </div>
+      </Hotkeys>
     </>
   );
 }

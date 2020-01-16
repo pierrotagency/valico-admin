@@ -1,4 +1,4 @@
-import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
+import { takeEvery, fork, put, all, call, delay } from 'redux-saga/effects';
 
 import { GET_POSTS, GET_POST, GET_VIEW_POST, SAVE_VIEW_POST } from './actionTypes';
 import { getPostsOk, getPostsError, getViewPostOk, getViewPostError, getPostOk, getPostError, saveViewPostOk, saveViewPostError  } from './actions';
@@ -57,8 +57,7 @@ export function* watchGetViewPost() {
 
 function* saveViewPost({ payload: { post } }) {
     
-    console.log(post)
-    // if (process.env.NODE_ENV === 'development') yield delay(500)
+    yield delay(1500)
 
     try {
         const response = yield call(apiPut, '/posts/' + post.uuid, { post });           

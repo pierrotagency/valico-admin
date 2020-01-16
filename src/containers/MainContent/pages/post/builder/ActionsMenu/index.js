@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Button, ButtonGroup } from 'reactstrap';
 
+import ButtonWithLoading from '../../../../../../components/ButtonWithLoading'
+
 import { templates } from 'valico-sanmartin'
 
 
@@ -12,7 +14,8 @@ export default function ActionsMenu({
     onClickRedo,
     onClickClear,
     canRedo,
-    canUndo
+    canUndo,
+    savingPost
 }) {
     const [toggle, setToggle] = useState(false);
     const handleOnChangeTemplate = (t) => (typeof(onChangeTemplate) === 'function') ? onChangeTemplate(t) : false
@@ -21,11 +24,12 @@ export default function ActionsMenu({
     return (
         <>
             <div className="float-right d-none d-md-block">
-                <div class="btn-toolbar " role="toolbar" aria-label="Toolbar">                    
+                <div className="btn-toolbar " role="toolbar" aria-label="Toolbar">                    
                     <ButtonGroup className="mt-2 mt-xl-0 btn-sm">
-                        <Button color="success" className="" onClick={onClickSave}>
-                            <i className="mdi mdi-content-save mr-2"></i>Save
-                        </Button> 
+                        <ButtonWithLoading color="success" isLoading={savingPost} iconClass="mdi mdi-content-save"
+                            onClick={onClickSave}>
+                            Save
+                        </ButtonWithLoading>                       
                     </ButtonGroup>     
                     <Dropdown isOpen={toggle} toggle={handleTogggle} className="btn-sm">
                         <DropdownToggle color="primary" className="arrow-none waves-effect waves-light">
