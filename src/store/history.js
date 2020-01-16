@@ -86,7 +86,7 @@ const useHistory = initialPresent => {
 	const init = useCallback( firstState => dispatch({ type: "INIT", firstState }), [ dispatch]);
 
   
-  return { post: state.present, setViewPost: set, init, undo, redo, clear, canUndo, canRedo };
+  return { init, state: state.present, set , undo, redo, clear, canUndo, canRedo };
 }
 
 export default useHistory;

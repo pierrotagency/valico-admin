@@ -18,7 +18,7 @@ function PostBuilder() {
   const loadingViewPost = useSelector(state => state.post.loadingViewPost);
   const dispatch = useDispatch();
 
-	const { post, setViewPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
+	const { state: post, set: setViewPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
 
 
   let { id } = useParams();
@@ -38,21 +38,15 @@ function PostBuilder() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ setViewPost, viewPost]);
 
-	// const handleChangeTemplate = (t) => dispatch(setViewPost({...post, template: t}))
 	const handleChangeTemplate = (t) => setViewPost({...post, template: t})
 	
-	// const handlePostUpdate = (updatedPost) => dispatch(setViewPost(updatedPost))		
 	const handlePostUpdate = (updatedPost) => setViewPost(updatedPost)		
 	
-
-
-	// const handlePostSave = () => dispatch(saveViewPost(post))		
-
 	const handlePostSave = () => dispatch(saveViewPost(post))		
 
-	const handleClickUndo = () =>{
-
-	}
+	const handleClickUndo = () => undo();
+	const handleClickRedo = () => redo();
+	const handleClickClear = () => clear();
 
   return (
     <>
@@ -72,7 +66,10 @@ function PostBuilder() {
 										<ActionsMenu 
 											currentTemplate={post.template}
 											onChangeTemplate={handleChangeTemplate}
-											onClickSave={handlePostSave}									
+											onClickSave={handlePostSave}
+											onClickUndo={handleClickUndo}
+											onClickRedo={handleClickRedo}
+											onClickClear={handleClickClear}
 										/>
 									) : null}
                 </div>
@@ -82,29 +79,12 @@ function PostBuilder() {
 
           <Row>
             <Col>
-
-
-								<div className="controls">									
-									<button onClick={undo} disabled={!canUndo}>
-										Undo
-									</button>
-									<button onClick={redo} disabled={!canRedo}>
-										Redo
-									</button>
-									<button onClick={clear}>Clear</button>
-								</div>
-								
-								<Button color="success" className="arrow-none waves-effect waves-light" onClick={handleClickUndo}>
-                    <i className="mdi mdi-plus mr-2"></i> Undo
-                </Button>       
-
               {!loadingViewPost && post ? (
                 <Board
                   onPostUpdated={handlePostUpdate}                  
                   post={post}									
                 />
               ) : null}
-
             </Col>
           </Row>
         </div>

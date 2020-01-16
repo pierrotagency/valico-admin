@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Button } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Button, ButtonGroup } from 'reactstrap';
 
 import { templates } from 'valico-sanmartin'
 
@@ -7,7 +7,10 @@ import { templates } from 'valico-sanmartin'
 export default function ActionsMenu({     
     currentTemplate,
     onChangeTemplate,
-    onClickSave
+    onClickSave,
+    onClickUndo,
+    onClickRedo,
+    onClickClear
 }) {
     const [toggle, setToggle] = useState(false);
     const handleOnChangeTemplate = (t) => (typeof(onChangeTemplate) === 'function') ? onChangeTemplate(t) : false
@@ -16,21 +19,36 @@ export default function ActionsMenu({
     return (
         <>
             <div className="float-right d-none d-md-block">
-                <Dropdown isOpen={toggle} toggle={handleTogggle}>
-                    <DropdownToggle color="primary" className="arrow-none waves-effect waves-light">
-                        <i className="mdi mdi-monitor-dashboard mr-2"></i> {templates[currentTemplate].name}
-                    </DropdownToggle>
-                    <DropdownMenu className="language-switch" right>
-                        {Object.keys(templates).map((template, i) => (                        
-                            <DropdownItem key={i} onClick={() => handleOnChangeTemplate(template)}>{templates[template].name}</DropdownItem>
-                        ))}                        
-                    </DropdownMenu>
-                </Dropdown>
-            </div>
-            <div className="float-right d-none d-md-block mr-1">
-                <Button color="success" className="arrow-none waves-effect waves-light" onClick={onClickSave}>
-                    <i className="mdi mdi-plus mr-2"></i> Save
-                </Button>                                    
+                <div class="btn-toolbar " role="toolbar" aria-label="Toolbar">                    
+                    <ButtonGroup className="mt-2 mt-xl-0 btn-sm">
+                        <Button color="success" className="" onClick={onClickSave}>
+                            <i className="mdi mdi-content-save mr-2"></i>Save
+                        </Button> 
+                    </ButtonGroup>     
+                    <Dropdown isOpen={toggle} toggle={handleTogggle} className="btn-sm">
+                        <DropdownToggle color="primary" className="arrow-none waves-effect waves-light">
+                            <i className="mdi mdi-monitor-dashboard mr-2"></i> {templates[currentTemplate].name}
+                        </DropdownToggle>
+                        <DropdownMenu className="language-switch" right>
+                            {Object.keys(templates).map((template, i) => (                        
+                                <DropdownItem key={i} onClick={() => handleOnChangeTemplate(template)}>{templates[template].name}</DropdownItem>
+                            ))}                        
+                        </DropdownMenu>
+                    </Dropdown>                    
+                    <ButtonGroup className="mt-2 mt-xl-0 btn-sm">
+                        <Button color="secondary" onClick={onClickUndo} >
+                            <i className="mdi mdi-undo mr-2"></i>Undo
+                        </Button>
+                        <Button color="secondary" onClick={onClickRedo} >
+                            <i className="mdi mdi-redo mr-2"></i>Redo
+                        </Button>
+                    </ButtonGroup>     
+                    <ButtonGroup className="mt-2 mt-xl-0 btn-sm">
+                        <Button color="danger" onClick={onClickClear} >
+                            <i className="mdi mdi-backup-restore mr-2"></i>Clear
+                        </Button>
+                    </ButtonGroup>     
+                </div>                        
             </div>            
         </>
     )

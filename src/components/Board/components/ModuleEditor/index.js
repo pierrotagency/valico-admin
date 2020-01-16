@@ -27,13 +27,11 @@ export default function ModuleEditor({
     if (formData.pass1 !== formData.pass2) {
       errors.pass2.addError("Passwords don't match");
     }
-    console.log(errors)
     return errors;
   }
 
   const formSubmit = (e) =>{
     fieldsUpdated(e.formData)
-    console.log(e.formData)
   }
 
   const handleFormChange = (e) => {
