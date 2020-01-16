@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Row, Col, Card, CardBody, Button } from 'reactstrap';
+import { Row, Col, Card, CardBody } from 'reactstrap';
 import Form from "react-jsonschema-form-bs4";
 // import Form from "react-jsonschema-form"; Original lib form but without BS4 support https://github.com/rjsf-team/react-jsonschema-form/issues/899
 
@@ -12,8 +12,7 @@ import './index.scss'
 export default function ModuleEditor({ 
   module,
   fieldsUpdated,
-  library,
-  onCloseClick
+  library
 }) {
 
   const [live, setLive] = useState(true)
@@ -23,8 +22,6 @@ export default function ModuleEditor({
   const handleFormChange = (e) => live && formSubmit(e) 
   
   const handleLiveReloadToggle = (e) => setLive(e.target.checked) 
-
-  const handleCloseClick = () => (typeof(onCloseClick) === 'function') ? onCloseClick() : false
 
   function validate(formData, errors) {
     if (formData.pass1 !== formData.pass2) {
@@ -36,10 +33,6 @@ export default function ModuleEditor({
   return (
     <>
 
-      <Button color="danger" onClick={handleCloseClick} >
-          <i className="mdi mdi-backup-restore mr-2"></i>Close
-      </Button>
-        
       {module &&     
 
 

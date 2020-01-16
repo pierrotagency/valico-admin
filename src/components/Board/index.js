@@ -17,7 +17,7 @@ import {
 import Area from './components/Area'
 
 import RightSidebar from '../RightSidebar';
-// import PostBuilderRightSidebar from './components/Sidebar';
+import ModuleSidebar from './components/ModuleSidebar';
 
 
 import { library, templates } from 'valico-sanmartin'
@@ -128,13 +128,16 @@ function Board({
 
 
       <RightSidebar visible={currentModule?true:false}>
-          {/* <PostBuilderRightSidebar /> */}
-          <ModuleEditor
-            fieldsUpdated={handleModuleFielUpdated}
-            module={currentModule}
-            library={library}
+          <ModuleSidebar
             onCloseClick={handleCloseEditorClick}
-          />          
+          >
+            <ModuleEditor
+              fieldsUpdated={handleModuleFielUpdated}
+              module={currentModule}
+              library={library}
+              
+            />       
+          </ModuleSidebar>   
       </RightSidebar>
 
     </>
