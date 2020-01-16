@@ -1,5 +1,6 @@
 import React from 'react';
 import { Row, Col, Button } from 'reactstrap';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import "./index.scss";
 
@@ -9,33 +10,30 @@ const ModuleSidebar = ({
     onCloseClick
 }) => {
 
-
-     const handleCloseClick = () => (typeof(onCloseClick) === 'function') ? onCloseClick() : false
-
+    const handleCloseClick = () => (typeof(onCloseClick) === 'function') ? onCloseClick() : false
 
     return (
-        <>
-            
-
-        <Button color="danger" onClick={handleCloseClick} >
-            <i className="mdi mdi-backup-restore mr-2"></i>Close
-        </Button>
-            
-            <div className="px-4 pt-4">
-            
-                <div>
-                    <h5 className="font-14">Clients</h5>
-
-                    {children}            
-
-                </div>
-
-            </div>
-        
+        <>            
+            <Row>
+                <Col>
+                    <Button color="danger" onClick={handleCloseClick} >
+                        <i className="mdi mdi-backup-restore mr-2"></i>Close
+                    </Button>
+                </Col>
+            </Row>            
+            <Row>
+                <Col>
+                    <Scrollbars
+                        className="scrollHeight"
+                        // autoHeight autoHeightMin={100} autoHeightMax={200}
+                    >
+                        {children}            
+                    </Scrollbars>
+                </Col>
+            </Row>        
         </>
     );
 
 }
-
 
 export default ModuleSidebar;
