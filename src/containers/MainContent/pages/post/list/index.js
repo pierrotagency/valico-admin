@@ -71,9 +71,9 @@ function Posts() {
         history.push('/posts/'+item.uuid)
     }
 
-    const handlePostEdit = (e, item) => {        
+    const handlePostView = (e, item) => {        
         e.preventDefault()        
-        history.push('/posts/'+item.uuid+'/edit')
+        history.push('/posts/'+item.uuid+'/view')
     }
 
     const handlePostBuild = (e, item) => {        
@@ -136,7 +136,7 @@ function Posts() {
     const handleActionsMenuClick = (e, item, action) => {    
         switch (action) {
             case 'edit':
-                handlePostEdit(e, item)
+                handlePostView(e, item)
                 break;
             case 'build':
                 handlePostBuild(e, item)
@@ -169,7 +169,7 @@ function Posts() {
                                 {posts.data.map((post, index) => <Item 
                                     item={post} key={index} types={types}
                                     onEnter={handlePostEnter} 
-                                    onEditClick={handlePostEdit}
+                                    onEditClick={handlePostView}
                                     onBuildClick={handlePostBuild}
                                     onRemoveClick={handlePostRemove}
                                 ></Item>)}                                                

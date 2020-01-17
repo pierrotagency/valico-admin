@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col } from "reactstrap";
+import { useHistory } from "react-router";
 
 import Hotkeys from 'react-hot-keys';
 
@@ -16,6 +17,9 @@ import useUndo from '../../../../../store/history';
 
 
 function PostBuilder() {
+
+  // const location = useLocation();
+  const history = useHistory();
 
   const viewPost = useSelector(state => state.post.viewPost);
   const loadingViewPost = useSelector(state => state.post.loadingViewPost);
@@ -48,9 +52,12 @@ function PostBuilder() {
 	
 	const handlePostSave = () => dispatch(saveViewPost(post))		
 
-	const handleClickUndo = () => undo();
-	const handleClickRedo = () => redo();
-  const handleClickClear = () => clear();
+	const handleClickUndo = () => undo()
+	const handleClickRedo = () => redo()
+  const handleClickClear = () => clear()
+  
+  const handleClickView = () => history.push('/posts/'+id+'/view')    
+  
   
   const onKeyDown = (keyName, e, handle) => {
     // console.log("test:onKeyDown", keyName, e, handle)    
@@ -96,6 +103,7 @@ function PostBuilder() {
                         onClickUndo={handleClickUndo}
                         onClickRedo={handleClickRedo}
                         onClickClear={handleClickClear}
+                        onClickView={handleClickView}
                         canRedo={canRedo}
                         canUndo={canUndo}
                         savingPost={savingPost}

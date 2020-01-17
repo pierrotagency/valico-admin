@@ -13,6 +13,7 @@ export default function ActionsMenu({
     onClickUndo,
     onClickRedo,
     onClickClear,
+    onClickView,
     canRedo,
     canUndo,
     savingPost
@@ -26,14 +27,14 @@ export default function ActionsMenu({
             <div className="float-right d-none d-md-block">
                 <div className="btn-toolbar " role="toolbar" aria-label="Toolbar">                    
                     <ButtonGroup className="mt-2 mt-xl-0 btn-sm">
-                        <ButtonWithLoading color="success" isLoading={savingPost} iconClass="mdi mdi-content-save"
+                        <ButtonWithLoading color="primary" isLoading={savingPost} iconClass="mdi mdi-content-save"
                             onClick={onClickSave}>
                             Save
                         </ButtonWithLoading>                       
                     </ButtonGroup>
                     {templates[currentTemplate] &&
                     <Dropdown isOpen={toggle} toggle={handleTogggle} className="btn-sm">
-                        <DropdownToggle color="primary" className="arrow-none waves-effect waves-light">
+                        <DropdownToggle color="default" className="arrow-none waves-effect waves-light">
                             <i className="mdi mdi-monitor-dashboard mr-2"></i> {templates[currentTemplate].name}
                         </DropdownToggle>
                         <DropdownMenu className="language-switch" right>
@@ -44,18 +45,22 @@ export default function ActionsMenu({
                     </Dropdown>
                     } 
                     <ButtonGroup className="mt-2 mt-xl-0 btn-sm">
+                        <Button color="danger" onClick={onClickClear} >
+                            <i className="mdi mdi-backup-restore mr-2"></i>
+                        </Button>
                         <Button color="secondary" onClick={onClickUndo} disabled={!canUndo}>
-                            <i className="mdi mdi-undo mr-2"></i>Undo
+                            <i className="mdi mdi-undo mr-2"></i>
                         </Button>
                         <Button color="secondary" onClick={onClickRedo} disabled={!canRedo}>
-                            <i className="mdi mdi-redo mr-2"></i>Redo
-                        </Button>
+                            <i className="mdi mdi-redo mr-2"></i>
+                        </Button>                    
+                        
                     </ButtonGroup>     
                     <ButtonGroup className="mt-2 mt-xl-0 btn-sm">
-                        <Button color="danger" onClick={onClickClear} >
-                            <i className="mdi mdi-backup-restore mr-2"></i>Clear
+                        <Button color="default" onClick={onClickView} >
+                            <i className="mdi mdi-config mr-2"></i>Properties
                         </Button>
-                    </ButtonGroup>     
+                    </ButtonGroup>
                 </div>                        
             </div>            
         </>

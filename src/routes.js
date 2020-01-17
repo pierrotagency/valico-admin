@@ -124,7 +124,7 @@ const routes = [
     { path: '/pages-blank', component: Pagesblank },
     
     { path: '/posts/:id/builder', component: PostBuilder },
-    { path: '/posts/:id/edit', component: PostView },
+    { path: '/posts/:id/view', component: PostView },
     { path: '/posts/:id?', component: PostList },
 
 

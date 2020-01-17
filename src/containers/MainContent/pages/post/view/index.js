@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
-import Select from 'react-select';
 // import queryString from 'query-string'
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +12,7 @@ import img1 from '../../../../../images/products/1.jpg';
 
 import Breadcrumb from '../_common/Breadcrumb';
 import CardWithLoading from '../../../../../components/CardWithLoading';
+import Select from '../../../../../components/Select';
 
 const options = [
     { value: 'Alaska', label: 'Alaska' },
@@ -25,7 +25,7 @@ const options = [
 
 
 function PostEdit() {
-  
+
     // const location = useLocation();
     // const history = useHistory();
 
@@ -69,26 +69,26 @@ function PostEdit() {
                 <Card>
                     <CardBody>
 
-                        <h4 className="mt-0 header-title">Basic Information</h4>
-                        <p className="text-muted mb-4">Fill all information below</p>
+                        <h4 className="mt-0 header-title">Basic Properties</h4>
+                        <p className="text-muted mb-4">Common to all posts</p>
 
                         <form>
                             <Row>
                                 <Col sm="6">
                                     <div className="form-group">
-                                        <label htmlFor="productname">Product Name</label>
-                                        <input id="productname" name="productname" type="text" className="form-control" />
+                                        <label htmlFor="name">Name</label>
+                                        <input id="name" name="name" type="text" className="form-control" />
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="manufacturername">Manufacturer Name</label>
-                                        <input id="manufacturername" name="manufacturername" type="text" className="form-control" />
+                                        <label htmlFor="slug">Slug</label>
+                                        <input id="slug" name="slug" type="text" className="form-control" />
                                     </div>
                                 </Col>
 
                                 <Col sm="6">
                                     <div className="form-group">
-                                        <label htmlFor="productdesc">Product Description</label>
-                                        <textarea className="form-control" id="productdesc" rows="5"></textarea>
+                                        <label htmlFor="description">Description</label>
+                                        <textarea className="form-control" id="description" rows="5"></textarea>
                                     </div>
                                 </Col>
                             </Row>
@@ -115,14 +115,18 @@ function PostEdit() {
                                     <div className="form-group">
                                         <label className="control-label">Features</label>
 
-                                        <Select options={options} />
+                                        <Select 
+                                            options={options} 
+                                            placeholder={''}                                        
+                                        />
+
 
                                     </div>
                                 </Col>
 
                                 <Col sm="6">
                                     <div className="form-group">
-                                        <label>Product Image</label> <br />
+                                        <label>Image</label> <br />
                                         <img src={img1} alt="product img" className="img-fluid rounded" style={{ maxWidth: "200px" }} />
                                         <br />
                                         <button type="button" className="btn btn-info mt-2 waves-effect waves-light">Change Image</button>
