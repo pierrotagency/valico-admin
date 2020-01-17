@@ -113,8 +113,8 @@ function PostEdit() {
             [name]: value
         })
 
-        const handleSelectChange = (name, value) => setInput({
-            ...input,
+        const handleSelectChange = (name, value) => setPost({
+            ...post,
             [name]: value.value
         })
     
@@ -180,7 +180,9 @@ function PostEdit() {
                                 <Select 
                                     name="taxonomy"
                                     options={taxonomyOptions} 
-                                    placeholder={''}                                        
+                                    placeholder={''}           
+                                    onChange={handleSelectChange}
+                                    value={taxonomyOptions.find(item => item.value === input.taxonomy)}                               
                                 />
                             </div>
                             <div className="form-group">
@@ -188,7 +190,9 @@ function PostEdit() {
                                 <Select 
                                     name="template"
                                     options={templateOptions} 
-                                    placeholder={''}                                        
+                                    placeholder={''}              
+                                    onChange={handleSelectChange}
+                                    value={templateOptions.find(item => item.value === input.template)}                              
                                 />
                             </div>
                         </Col>
