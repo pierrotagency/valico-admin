@@ -5,6 +5,8 @@ import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 // import { useLocation, useHistory } from "react-router";
 
+import {log} from '../../../../../helpers/log'
+
 import { activateAuthLayout, getViewPost } from '../../../../../store/actions';
 import Settingmenu from '../../../Subpages/Settingmenu';
 
@@ -14,14 +16,18 @@ import Breadcrumb from '../_common/Breadcrumb';
 import CardWithLoading from '../../../../../components/CardWithLoading';
 import Select from '../../../../../components/Select';
 
-const options = [
-    { value: 'Alaska', label: 'Alaska' },
-    { value: 'Hawaii', label: 'Hawaii' },
-    { value: 'California', label: 'California' },
-    { value: 'Nevada', label: 'Nevada' },
-    { value: 'Oregon', label: 'Oregon' },
-    { value: 'Washington', label: 'Washington' }
-];
+import { templates } from 'valico-sanmartin'
+
+// const templateOptions = [
+//     { value: 'Alaska', label: 'Alaska' },
+//     { value: 'Hawaii', label: 'Hawaii' },
+//     { value: 'California', label: 'California' },
+//     { value: 'Nevada', label: 'Nevada' },
+//     { value: 'Oregon', label: 'Oregon' },
+//     { value: 'Washington', label: 'Washington' }
+// ];
+
+
 
 
 function PostEdit() {
@@ -36,6 +42,9 @@ function PostEdit() {
     let { id } = useParams();
 
 
+    const templateOptions = Object.keys(templates).map((template) => ({ value: template, label: templates[template].name }))
+        
+    
     // const changeUrlParam = (params) => {        
 
     //     let qs = queryString.parse(location.search)
@@ -95,28 +104,12 @@ function PostEdit() {
 
                             <Row>
                                 <Col sm="6">
+                                
                                     <div className="form-group">
-                                        <label htmlFor="manufacturerbrand">Manufacturer Brand</label>
-                                        <input id="manufacturerbrand" name="manufacturerbrand" type="text" className="form-control" />
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="price">Price</label>
-                                        <input id="price" name="price" type="text" className="form-control" />
-                                    </div>
-
-                                    <div className="form-group">
-                                        <label className="control-label">Category</label>
-                                        <select className="form-control select2">
-                                            <option>Select</option>
-                                            <option value="AK">Alaska</option>
-                                            <option value="HI">Hawaii</option>
-                                        </select>
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="control-label">Features</label>
+                                        <label className="control-label">Template</label>
 
                                         <Select 
-                                            options={options} 
+                                            options={templateOptions} 
                                             placeholder={''}                                        
                                         />
 
