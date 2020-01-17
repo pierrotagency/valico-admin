@@ -1,27 +1,19 @@
-import React, { useState } from 'react'
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Button, ButtonGroup } from 'reactstrap';
+import React from 'react'
+import { Button, ButtonGroup } from 'reactstrap';
 
 import ButtonWithLoading from '../../../../../../components/ButtonWithLoading'
 
-import { templates } from 'valico-sanmartin'
-
 
 export default function ActionsMenu({     
-    currentTemplate,
-    onChangeTemplate,
     onClickSave,
     onClickUndo,
     onClickRedo,
     onClickClear,
-    onClickView,
+    onClickBuilder,
     canRedo,
     canUndo,
     savingPost
-}) {
-    const [toggle, setToggle] = useState(false);
-    const handleOnChangeTemplate = (t) => (typeof(onChangeTemplate) === 'function') ? onChangeTemplate(t) : false
-    const handleTogggle = () => setToggle(!toggle)
-    
+}) {    
     return (
         <>
             <div className="float-right d-none d-md-block">
@@ -32,18 +24,7 @@ export default function ActionsMenu({
                             Save
                         </ButtonWithLoading>                       
                     </ButtonGroup>
-                    {templates[currentTemplate] &&
-                    <Dropdown isOpen={toggle} toggle={handleTogggle} className="btn-sm">
-                        <DropdownToggle color="default" className="arrow-none waves-effect waves-light">
-                            <i className="mdi mdi-monitor-dashboard mr-2"></i> {templates[currentTemplate].name}
-                        </DropdownToggle>
-                        <DropdownMenu className="language-switch" right>
-                            {Object.keys(templates).map((template, i) => (                        
-                                <DropdownItem key={i} onClick={() => handleOnChangeTemplate(template)}>{templates[template].name}</DropdownItem>
-                            ))}                        
-                        </DropdownMenu>
-                    </Dropdown>
-                    } 
+
                     <ButtonGroup className="mt-2 mt-xl-0 btn-sm">
                         <Button color="danger" onClick={onClickClear} >
                             <i className="mdi mdi-backup-restore"></i>
@@ -57,8 +38,8 @@ export default function ActionsMenu({
                         
                     </ButtonGroup>     
                     <ButtonGroup className="mt-2 mt-xl-0 btn-sm">
-                        <Button color="default" onClick={onClickView} >
-                            <i className="mdi mdi-config mr-2"></i>Properties
+                        <Button color="primary" onClick={onClickBuilder} >
+                            <i className="mdi mdi-config mr-2"></i>Builder
                         </Button>
                     </ButtonGroup>
                 </div>                        

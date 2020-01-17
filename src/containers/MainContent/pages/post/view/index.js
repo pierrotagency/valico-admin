@@ -3,26 +3,36 @@ import { Row, Col } from 'reactstrap';
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import Toggle from 'react-toggle';
+import Hotkeys from 'react-hot-keys';
+import { useHistory } from "react-router";
 
 // import {log} from '../../../../../helpers/log'
 
-import { activateAuthLayout, getViewPost } from '../../../../../store/actions';
-import Settingmenu from '../../../Subpages/Settingmenu';
+import ActionsMenu from "./ActionsMenu";
 
 import img1 from '../../../../../images/products/1.jpg';
 
 import Breadcrumb from '../_common/Breadcrumb';
 import CardWithLoading from '../../../../../components/CardWithLoading';
-import Select from '../../../../../components/Select';
+import { Select, Input } from '../../../../../components/Form';
+
 
 import { templates, taxonomies, types } from 'valico-sanmartin'
 
+import { activateAuthLayout, getViewPost,  saveViewPost } from "../../../../../store/actions";
+
+import useUndo from '../../../../../store/history';
 
 function PostEdit() {
 
-    const post = useSelector(state => state.post.viewPost);    
-    const loadingPost = useSelector(state => state.post.loadingViewPost);
+    const viewPost = useSelector(state => state.post.viewPost);    
+    const loadingViewPost = useSelector(state => state.post.loadingViewPost);
+    const savingPost = useSelector(state => state.post.savingPost);
     const dispatch = useDispatch();
+
+    const history = useHistory();
+
+    const { state: post, set: setViewPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
 
     let { id } = useParams();
 
@@ -31,23 +41,84 @@ function PostEdit() {
     const typeOptions = Object.keys(types).map((type) => ({ value: type, label: types[type].name }))
         
 
-    useEffect(() => {      
-        dispatch(activateAuthLayout())
-        // window.addEventListener('popstate', (event) => {
-        // alert("You message");
-        // });
-    },[dispatch]);
+    useEffect(() => {
+            dispatch(getViewPost(id));	
+    }, [dispatch, id]);
 
-    useEffect(() => {      
+    useEffect(() => {
+        dispatch(activateAuthLayout());
+        }, [dispatch]);
         
-        dispatch(getViewPost(id))
 
-    },[dispatch, id]);
+        useEffect(() => {
+            setViewPost(viewPost)		
+            init(viewPost)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ setViewPost, viewPost]);
 
 
+    // const handlePostUpdate = (updatedPost) => setViewPost(updatedPost)		
+	
+	const handlePostSave = () => dispatch(saveViewPost(post))		
+
+	const handleClickUndo = () => undo()
+	const handleClickRedo = () => redo()
+    const handleClickClear = () => clear()
+    
+    const handleClickBuilder = () => history.push('/posts/'+id+'/builder')    
+    
+    
+    const onKeyDown = (keyName, e, handle) => {
+        // console.log("test:onKeyDown", keyName, e, handle)    
+        switch (keyName) {
+        case "ctrl+z":
+            undo();
+            break;
+        case "ctrl+shift+z":
+            redo();
+            break;
+        case "ctrl+s":
+            handlePostSave();
+            break;
+        default:
+            break;
+        }
+        
+    }
+
+    
     const [live, setLive] = useState(true)
     const handleAllowChildsToggle = (e) => setLive(e.target.checked) 
 
+
+    // const [input, setInput] = useState({
+    //     name: '',
+    //     slug: 'ssss'
+    // })
+
+    // const handleInputChange = (e) => setInput({
+    //     ...input,
+    //     [e.currentTarget.name]: e.currentTarget.value
+    // })
+    
+
+    // const handleInputChange = (e) => setViewPost({
+    //     ...post,
+    //     [e.currentTarget.name]: e.currentTarget.value
+    // })
+
+    // const handleInputChange = (e) => setViewPost({
+    //     ...post,
+    //     [e.currentTarget.name]: e.currentTarget.value
+    // })
+
+    const handleInputChange = (name,value) => setViewPost({
+        ...post,
+        [name]: value
+    })
+
+    
+    
 
     const ParamsCard = () => {    
         
@@ -56,52 +127,45 @@ function PostEdit() {
                 <h4 className="mt-0 header-title">Basic Properties</h4>
                 <p className="text-muted mb-4">Common to all posts</p>
 
-                <form>
-                    <Row>
-                        <Col sm="6">
-                            <div className="form-group">
-                                <label htmlFor="name">Name</label>
-                                <input id="name" name="name" type="text" className="form-control" />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="slug">Slug</label>
-                                <input id="slug" name="slug" type="text" className="form-control" />
-                            </div>
-                        </Col>
-                        <Col sm="6">                                 
-                            <div className="form-group">
-                                <label className="control-label">Type</label>
-                                <Select 
-                                    options={typeOptions} 
-                                    placeholder={''}                                        
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label className="control-label">Taxonomy</label>
-                                <Select 
-                                    options={taxonomyOptions} 
-                                    placeholder={''}                                        
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label className="control-label">Template</label>
-                                <Select 
-                                    options={templateOptions} 
-                                    placeholder={''}                                        
-                                />
-                            </div>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col sm="6">
-                        </Col>
-                        <Col sm="6">
-                        </Col>
-                    </Row>
+                <Row>
+                    <Col sm="6">
+                        
+                        <Input key="name1" name="name" label="Name" value={post ? post.name : ''} />
 
-                    <button type="submit" className="btn btn-success mr-1 waves-effect waves-light">Save Changes</button>
-                    <button type="submit" className="btn btn-secondary waves-effect">Cancel</button>
-                </form>
+                        <Input key="slug1" name="slug" label="Slug" value={post ? post.slug : ''} />
+
+                    </Col>
+                    <Col sm="6">                                 
+                        <div className="form-group">
+                            <label className="control-label">Type</label>
+                            <Select 
+                                options={typeOptions} 
+                                placeholder={''}                                        
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label className="control-label">Taxonomy</label>
+                            <Select 
+                                options={taxonomyOptions} 
+                                placeholder={''}                                        
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label className="control-label">Template</label>
+                            <Select 
+                                options={templateOptions} 
+                                placeholder={''}                                        
+                            />
+                        </div>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm="6">
+                    </Col>
+                    <Col sm="6">
+                    </Col>
+                </Row>
+
             </>
         )
 
@@ -114,44 +178,39 @@ function PostEdit() {
                 <h4 className="mt-0 header-title">Childs</h4>
                 <p className="text-muted mb-4">sdsdaa</p>
 
-                <form>
+                <Row>
+                    <Col sm="6">
+                        <label className="d-flex align-items-center mb-1">
+                            <Toggle defaultChecked={live} aria-label='Allow Childs' icons={false} onChange={handleAllowChildsToggle} />
+                            <span className="ml-2">Allow creating child pages for this page</span>
+                        </label>
+                        
+                    </Col>
+                    <Col sm="6">                                 
+                        <div className="form-group">
+                            <label className="control-label">Type</label>
+                            <Select 
+                                options={typeOptions} 
+                                placeholder={''}                                        
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label className="control-label">Taxonomy</label>
+                            <Select 
+                                options={taxonomyOptions} 
+                                placeholder={''}                                        
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label className="control-label">Template</label>
+                            <Select 
+                                options={templateOptions} 
+                                placeholder={''}                                        
+                            />
+                        </div>
+                    </Col>
+                </Row>
 
-                    <Row>
-                        <Col sm="6">
-                            <label className="d-flex align-items-center mb-1">
-                                <Toggle defaultChecked={live} aria-label='Allow Childs' icons={false} onChange={handleAllowChildsToggle} />
-                                <span className="ml-2">Allow creating child pages for this page</span>
-                            </label>
-                            
-                        </Col>
-                        <Col sm="6">                                 
-                            <div className="form-group">
-                                <label className="control-label">Type</label>
-                                <Select 
-                                    options={typeOptions} 
-                                    placeholder={''}                                        
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label className="control-label">Taxonomy</label>
-                                <Select 
-                                    options={taxonomyOptions} 
-                                    placeholder={''}                                        
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label className="control-label">Template</label>
-                                <Select 
-                                    options={templateOptions} 
-                                    placeholder={''}                                        
-                                />
-                            </div>
-                        </Col>
-                    </Row>
-
-                    <button type="submit" className="btn btn-success mr-1 waves-effect waves-light">Save Changes</button>
-                    <button type="submit" className="btn btn-secondary waves-effect">Cancel</button>
-                </form>
             </>
         )
 
@@ -164,36 +223,31 @@ function PostEdit() {
                 <h4 className="mt-0 header-title">Meta Data</h4>
                 <p className="text-muted mb-4">SEO and Social Sharing</p>
 
-                <form>
-                    <Row>
-                        <Col sm="6">
-                            <div className="form-group">
-                                <label htmlFor="metatitle">Meta Title</label>
-                                <input id="metatitle" name="productname" type="text" className="form-control" />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="metakeywords">Meta Keywords</label>
-                                <input id="metakeywords" name="manufacturername" type="text" className="form-control" />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="metadescription">Meta Description</label>
-                                <textarea className="form-control" id="metadescription" rows="5"></textarea>
-                            </div>
-                        </Col>
-                        <Col sm="6">
-                            <div className="form-group">
-                                <label>Image</label> <br />
-                                <img src={img1} alt="product img" className="img-fluid rounded" style={{ maxWidth: "200px" }} />
-                                <br />
-                                <button type="button" className="btn btn-info mt-2 waves-effect waves-light">Change Image</button>
-                            </div>
-                        </Col>
-                    </Row>
+                <Row>
+                    <Col sm="6">
+                        <div className="form-group">
+                            <label htmlFor="metatitle">Meta Title</label>
+                            <input id="metatitle" name="productname" type="text" className="form-control" />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="metakeywords">Meta Keywords</label>
+                            <input id="metakeywords" name="manufacturername" type="text" className="form-control" />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="metadescription">Meta Description</label>
+                            <textarea className="form-control" id="metadescription" rows="5"></textarea>
+                        </div>
+                    </Col>
+                    <Col sm="6">
+                        <div className="form-group">
+                            <label>Image</label> <br />
+                            <img src={img1} alt="product img" className="img-fluid rounded" style={{ maxWidth: "200px" }} />
+                            <br />
+                            <button type="button" className="btn btn-info mt-2 waves-effect waves-light">Change Image</button>
+                        </div>
+                    </Col>
+                </Row>
 
-                    <button type="submit" className="btn btn-success mr-1 waves-effect waves-light">Save Changes</button>
-                    <button type="submit" className="btn btn-secondary waves-effect">Cancel</button>
-
-                </form>
             </>
         )
 
@@ -206,6 +260,10 @@ function PostEdit() {
 
     return (
         <>
+        <Hotkeys 
+            keyName="shift+a,alt+s,ctrl+s,ctrl+z" 
+            onKeyDown={onKeyDown}       
+        >
             <div className="content">
                 <div className="container-fluid">
                     <div className="page-title-box">
@@ -218,25 +276,38 @@ function PostEdit() {
                                 />
                             </Col>
                             <Col sm="6">
-                                <div className="float-right d-none d-md-block">
-                                    <Settingmenu />
-                                </div>
+                            <div className="float-right d-none d-md-block">
+                                {!loadingViewPost && post ? (
+                                <ActionsMenu                                     
+                                    onClickSave={handlePostSave}
+                                    onClickUndo={handleClickUndo}
+                                    onClickRedo={handleClickRedo}
+                                    onClickClear={handleClickClear}
+                                    onClickBuilder={handleClickBuilder}
+                                    canRedo={canRedo}
+                                    canUndo={canUndo}
+                                    savingPost={savingPost}
+                                />
+                                ) : null}
+                            </div>
                             </Col>
                         </Row>
                     </div>
 
                     <Row>
                         <Col>
-
-                            <ParamsCardWithLoading isLoading={loadingPost} />   
-                            <ChildsCardWithLoading isLoading={loadingPost} />   
-                            <MetaCardWithLoading isLoading={loadingPost} />   
+                            {/* <form noValidate> */}
+                                <ParamsCardWithLoading isLoading={loadingViewPost} />   
+                                <ChildsCardWithLoading isLoading={loadingViewPost} />   
+                                <MetaCardWithLoading isLoading={loadingViewPost} />   
+                            {/* </form> */}
 
                         </Col>
                     </Row>
 
                 </div>
             </div>
+        </Hotkeys>
         </>
     );
 }
