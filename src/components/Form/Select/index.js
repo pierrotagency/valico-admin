@@ -10,7 +10,11 @@ const customStyles = {
 };
 
 // export default function SuperSelect(props) {
-export default (props) => {
+export default ({name, onChange, ...props}) => {
+
+
+    const handleOnChange = (e) => (typeof(onChange) === 'function') ? onChange(name,e) : false
+
     return (
         <Select 
             {...props}
@@ -32,6 +36,7 @@ export default (props) => {
                     neutral90: '#f00' // 
                 },
                 })}
+            onChange={handleOnChange}
         />
     )
 }

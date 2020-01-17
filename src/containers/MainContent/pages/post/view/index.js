@@ -108,10 +108,18 @@ function PostEdit() {
             slug: ''
         })
 
-        const handleInputChange = (name,value) => setInput({
+        const handleInputChange = (name, value) => setInput({
             ...input,
             [name]: value
         })
+
+        const handleSelectChange = (name, value) => setInput({
+            ...input,
+            [name]: value.value
+        })
+    
+
+        
 
         const handleInputBlur = (name) => {
             console.log('blur ', name)
@@ -160,13 +168,17 @@ function PostEdit() {
                             <div className="form-group">
                                 <label className="control-label">Type</label>
                                 <Select 
+                                    name="type"
                                     options={typeOptions} 
-                                    placeholder={''}                                        
+                                    placeholder={''}
+                                    onChange={handleSelectChange}
+                                    value={typeOptions.find(item => item.value === input.type)}                                     
                                 />
                             </div>
                             <div className="form-group">
                                 <label className="control-label">Taxonomy</label>
                                 <Select 
+                                    name="taxonomy"
                                     options={taxonomyOptions} 
                                     placeholder={''}                                        
                                 />
@@ -174,6 +186,7 @@ function PostEdit() {
                             <div className="form-group">
                                 <label className="control-label">Template</label>
                                 <Select 
+                                    name="template"
                                     options={templateOptions} 
                                     placeholder={''}                                        
                                 />
