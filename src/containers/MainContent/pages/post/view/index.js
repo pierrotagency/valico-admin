@@ -6,6 +6,9 @@ import Toggle from 'react-toggle';
 import Hotkeys from 'react-hot-keys';
 import { useHistory } from "react-router";
 
+import { useForm } from "react-hook-form"
+
+
 // import {log} from '../../../../../helpers/log'
 
 import ActionsMenu from "./ActionsMenu";
@@ -91,10 +94,7 @@ function PostEdit() {
     const handleAllowChildsToggle = (e) => setLive(e.target.checked) 
 
 
-    // const [input, setInput] = useState({
-    //     name: '',
-    //     slug: 'ssss'
-    // })
+    
 
     // const handleInputChange = (e) => setInput({
     //     ...input,
@@ -112,27 +112,70 @@ function PostEdit() {
     //     [e.currentTarget.name]: e.currentTarget.value
     // })
 
-    const handleInputChange = (name,value) => setViewPost({
-        ...post,
-        [name]: value
-    })
 
+    
     
     
 
     const ParamsCard = () => {    
+
+        const { register, handleSubmit, errors } = useForm(); // initialise the hook
+        const onSubmit = data => {
+        console.log(data);
+        };
+
+
+        const [input, setInput] = useState({
+            name: '1111',
+            slug: '2222'
+        })
+
+        const handleInputChange = (name,value) => setInput({
+            ...input,
+            [name]: value
+        })
+
         
         return (           
             <>
+
+            
+                
                 <h4 className="mt-0 header-title">Basic Properties</h4>
                 <p className="text-muted mb-4">Common to all posts</p>
+
+
+                <form onSubmit={handleSubmit(onSubmit)}>
+                                        <input name="firstname" ref={register} /> {/* register an input */}
+
+                                        <input name="lastname" ref={register({ required: true })} />
+                                        {errors.lastname && 'Last name is required.'}
+
+                                        <input name="age" ref={register({ pattern: /\d+/ })} />
+                                        {errors.age && 'Please enter number for age.'}
+
+                                    <input type="submit" />
+                            </form>
+                            
+
 
                 <Row>
                     <Col sm="6">
                         
-                        <Input key="name1" name="name" label="Name" value={post ? post.name : ''} />
+                        <Input key="nameinput"
+                            name="name" 
+                            label="Name" 
+                            onChange={handleInputChange} 
+                            value={input.name}
+                        />
 
-                        <Input key="slug1" name="slug" label="Slug" value={post ? post.slug : ''} />
+                        <Input key="sluginput" 
+                            name="slug" 
+                            label="Slug" 
+                            onChange={handleInputChange}
+                            value={input.slug}
+                        
+                        />
 
                     </Col>
                     <Col sm="6">                                 
@@ -264,6 +307,9 @@ function PostEdit() {
             keyName="shift+a,alt+s,ctrl+s,ctrl+z" 
             onKeyDown={onKeyDown}       
         >
+
+
+
             <div className="content">
                 <div className="container-fluid">
                     <div className="page-title-box">
@@ -296,11 +342,17 @@ function PostEdit() {
 
                     <Row>
                         <Col>
-                            {/* <form noValidate> */}
-                                <ParamsCardWithLoading isLoading={loadingViewPost} />   
-                                <ChildsCardWithLoading isLoading={loadingViewPost} />   
-                                <MetaCardWithLoading isLoading={loadingViewPost} />   
-                            {/* </form> */}
+
+
+                                   
+
+            
+                            
+                            <ParamsCard  />   
+                            {/* <ParamsCardWithLoading isLoading={loadingViewPost} />    */}
+                            <ChildsCardWithLoading isLoading={loadingViewPost} />   
+                            <MetaCardWithLoading isLoading={loadingViewPost} />   
+                        
 
                         </Col>
                     </Row>

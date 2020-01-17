@@ -51,6 +51,7 @@
     "react-draft-wysiwyg": "^1.14.4",
     "react-dropzone": "^10.2.1",
     "react-fontawesome": "^1.7.1",
+    "react-hook-form": "^4.5.5",
     "react-hot-keys": "^2.4.5",
     "react-image-lightbox": "^5.1.1",
     "react-input-mask": "^2.0.4",

@@ -1,19 +1,12 @@
-import React, { useState }  from 'react';
+import React  from 'react';
 import PropTypes from 'prop-types';
 
 
-const Input = ({label, isInvalid, isValid, message, className, name, onChange, type, value, ...props}) => {
+const Input = ({label, isInvalid, isValid, message, className, name, onChange, onBlur, value, ...props}) => {
 
     const inputClass = className + " form-control" + ((isValid) ? " is-valid" : "") + ((isInvalid) ? " is-invalid" : "") 
-    
-    const [input, setInput] = useState(value)
 
-    // const handleInputChange = (e) => setInput({
-    //     ...input,
-    //     [e.currentTarget.name]: e.currentTarget.value
-    // })
-
-    const handleInputChange = (e) => setInput(e.currentTarget.value)
+  console.log(props)
 
     return (
         <div className="form-group position-relative">
@@ -21,10 +14,13 @@ const Input = ({label, isInvalid, isValid, message, className, name, onChange, t
             <input 
                 {...props} 
                 key={name}
-                name={name}                
-                className={inputClass}                 
-                onChange={handleInputChange}       
-                value={input}         
+                name={name}      
+                id={name}                
+                className={inputClass} 
+                type="text"
+                onChange={(e) => onChange(name, e.target.value)}
+                // onBlur={() => onBlur(name)}
+                value={value}
             />
             {isValid && message !== '' && <div className="valid-tooltip">{message}</div>}
             {isInvalid && message !== '' && <div className="invalid-tooltip">{message}</div>}
@@ -43,7 +39,6 @@ Input.propTypes = {
     isInvalid: PropTypes.bool,
     message: PropTypes.string,
     className: PropTypes.string,    
-};
-
+  };
 
 export default Input;
