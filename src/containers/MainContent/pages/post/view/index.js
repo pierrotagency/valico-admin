@@ -6,7 +6,7 @@ import Toggle from 'react-toggle';
 import Hotkeys from 'react-hot-keys';
 import { useHistory } from "react-router";
 
-import { useForm } from "react-hook-form"
+// import { useForm } from "react-hook-form"
 
 
 // import {log} from '../../../../../helpers/log'
@@ -35,7 +35,7 @@ function PostEdit() {
 
     const history = useHistory();
 
-    const { state: post, set: setViewPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
+    const { state: post, set: setPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
 
     let { id } = useParams();
 
@@ -54,13 +54,13 @@ function PostEdit() {
         
 
     useEffect(() => {
-        setViewPost(viewPost)		
+        setPost(viewPost)		
         init(viewPost)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ setViewPost, viewPost]);
+    }, [ setPost, viewPost]);
 
 
-    // const handlePostUpdate = (updatedPost) => setViewPost(updatedPost)		
+    // const handlePostUpdate = (updatedPost) => setPost(updatedPost)		
 	
 	const handlePostSave = () => dispatch(saveViewPost(post))		
 
@@ -94,27 +94,12 @@ function PostEdit() {
     const handleAllowChildsToggle = (e) => setLive(e.target.checked) 
 
 
-
-    // const handleInputChange = (e) => setInput({
-    //     ...input,
-    //     [e.currentTarget.name]: e.currentTarget.value
-    // })
-    
-    // const handleInputChange = (e) => setViewPost({
-    //     ...post,
-    //     [e.currentTarget.name]: e.currentTarget.value
-    // })
-
-    
-    
-    
-
     const ParamsCard = () => {    
 
-        const { register, handleSubmit, errors } = useForm(); // initialise the hook
-        const onSubmit = data => {
-        console.log(data);
-        };
+        // const { register, handleSubmit, errors } = useForm(); // initialise the hook
+        // const onSubmit = data => {
+        // console.log(data);
+        // };
 
 
 
@@ -128,93 +113,76 @@ function PostEdit() {
             [name]: value
         })
 
-        // const handleInputBlur = (name) => setViewPost({
-        //     ...post,
-        //     [name]: input[name]
-        // })
-
         const handleInputBlur = (name) => {
             console.log('blur ', name)
             console.log(input[name])
+            setPost(input)
         }
 
-
+        useEffect(() => {
+            console.log('useEffect')
+            setInput(post)     
+            // eslint-disable-next-line react-hooks/exhaustive-deps   
+        }, [post]);
 
         
         return (           
             <>
 
-            
-                
                 <h4 className="mt-0 header-title">Basic Properties</h4>
                 <p className="text-muted mb-4">Common to all posts</p>
 
+                {input &&
 
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <input name="firstname" ref={register} /> {/* register an input */}
+                    <Row>
 
-                    <input name="lastname" ref={register({ required: true })} />
-                    {errors.lastname && 'Last name is required.'}
-
-                    <input name="age" ref={register({ pattern: /\d+/ })} />
-                    {errors.age && 'Please enter number for age.'}
-
-                    <input type="submit" />
-                </form>
+                        <Col sm="6">
                             
-
-
-                <Row>
-                    <Col sm="6">
-                        
-                        <Input key="nameinput"
-                            name="name" 
-                            label="Name" 
-                            onChange={handleInputChange} 
-                            onBlur={handleInputBlur} 
-                            value={input.name}
-                        />
-
-                        <Input key="sluginput" 
-                            name="slug" 
-                            label="Slug" 
-                            onBlur={handleInputBlur} 
-                            onChange={handleInputChange}
-                            value={input.slug}
-                        
-                        />
-
-                    </Col>
-                    <Col sm="6">                                 
-                        <div className="form-group">
-                            <label className="control-label">Type</label>
-                            <Select 
-                                options={typeOptions} 
-                                placeholder={''}                                        
+                            <Input key="nameinput"
+                                name="name" 
+                                label="Name" 
+                                onChange={handleInputChange} 
+                                onBlur={handleInputBlur} 
+                                value={input.name}
                             />
-                        </div>
-                        <div className="form-group">
-                            <label className="control-label">Taxonomy</label>
-                            <Select 
-                                options={taxonomyOptions} 
-                                placeholder={''}                                        
+
+                            <Input key="sluginput" 
+                                name="slug" 
+                                label="Slug" 
+                                onBlur={handleInputBlur} 
+                                onChange={handleInputChange}
+                                value={input.slug}                            
                             />
-                        </div>
-                        <div className="form-group">
-                            <label className="control-label">Template</label>
-                            <Select 
-                                options={templateOptions} 
-                                placeholder={''}                                        
-                            />
-                        </div>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col sm="6">
-                    </Col>
-                    <Col sm="6">
-                    </Col>
-                </Row>
+
+                        </Col>
+
+                        <Col sm="6">                                 
+                            <div className="form-group">
+                                <label className="control-label">Type</label>
+                                <Select 
+                                    options={typeOptions} 
+                                    placeholder={''}                                        
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label className="control-label">Taxonomy</label>
+                                <Select 
+                                    options={taxonomyOptions} 
+                                    placeholder={''}                                        
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label className="control-label">Template</label>
+                                <Select 
+                                    options={templateOptions} 
+                                    placeholder={''}                                        
+                                />
+                            </div>
+                        </Col>
+                    </Row>
+
+                    
+                }
 
             </>
         )
@@ -355,8 +323,7 @@ function PostEdit() {
 
             
                             
-                            <ParamsCard  />   
-                            {/* <ParamsCardWithLoading isLoading={loadingViewPost} />    */}
+                            <ParamsCardWithLoading isLoading={loadingViewPost} />   
                             <ChildsCardWithLoading isLoading={loadingViewPost} />   
                             <MetaCardWithLoading isLoading={loadingViewPost} />   
                         
