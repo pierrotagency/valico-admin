@@ -6,7 +6,8 @@ const Input = ({label, isInvalid, isValid, message, className, name, onChange, o
 
     const inputClass = className + " form-control" + ((isValid) ? " is-valid" : "") + ((isInvalid) ? " is-invalid" : "") 
 
-  console.log(props)
+    const handleOnBlur = (t) => (typeof(onBlur) === 'function') ? onBlur(name) : false
+    const handleOnChange = (v) => (typeof(onChange) === 'function') ? onChange(name,v) : false
 
     return (
         <div className="form-group position-relative">
@@ -18,8 +19,8 @@ const Input = ({label, isInvalid, isValid, message, className, name, onChange, o
                 id={name}                
                 className={inputClass} 
                 type="text"
-                onChange={(e) => onChange(name, e.target.value)}
-                // onBlur={() => onBlur(name)}
+                onChange={(e) => handleOnChange(e.target.value)}
+                onBlur={handleOnBlur}
                 value={value}
             />
             {isValid && message !== '' && <div className="valid-tooltip">{message}</div>}
@@ -39,6 +40,6 @@ Input.propTypes = {
     isInvalid: PropTypes.bool,
     message: PropTypes.string,
     className: PropTypes.string,    
-  };
+};
 
 export default Input;

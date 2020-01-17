@@ -45,17 +45,17 @@ function PostEdit() {
         
 
     useEffect(() => {
-            dispatch(getViewPost(id));	
+        dispatch(getViewPost(id));	
     }, [dispatch, id]);
 
     useEffect(() => {
         dispatch(activateAuthLayout());
-        }, [dispatch]);
+    }, [dispatch]);
         
 
-        useEffect(() => {
-            setViewPost(viewPost)		
-            init(viewPost)
+    useEffect(() => {
+        setViewPost(viewPost)		
+        init(viewPost)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ setViewPost, viewPost]);
 
@@ -94,24 +94,16 @@ function PostEdit() {
     const handleAllowChildsToggle = (e) => setLive(e.target.checked) 
 
 
-    
 
     // const handleInputChange = (e) => setInput({
     //     ...input,
     //     [e.currentTarget.name]: e.currentTarget.value
     // })
     
-
     // const handleInputChange = (e) => setViewPost({
     //     ...post,
     //     [e.currentTarget.name]: e.currentTarget.value
     // })
-
-    // const handleInputChange = (e) => setViewPost({
-    //     ...post,
-    //     [e.currentTarget.name]: e.currentTarget.value
-    // })
-
 
     
     
@@ -125,15 +117,28 @@ function PostEdit() {
         };
 
 
+
         const [input, setInput] = useState({
-            name: '1111',
-            slug: '2222'
+            name: '',
+            slug: ''
         })
 
         const handleInputChange = (name,value) => setInput({
             ...input,
             [name]: value
         })
+
+        // const handleInputBlur = (name) => setViewPost({
+        //     ...post,
+        //     [name]: input[name]
+        // })
+
+        const handleInputBlur = (name) => {
+            console.log('blur ', name)
+            console.log(input[name])
+        }
+
+
 
         
         return (           
@@ -146,16 +151,16 @@ function PostEdit() {
 
 
                 <form onSubmit={handleSubmit(onSubmit)}>
-                                        <input name="firstname" ref={register} /> {/* register an input */}
+                    <input name="firstname" ref={register} /> {/* register an input */}
 
-                                        <input name="lastname" ref={register({ required: true })} />
-                                        {errors.lastname && 'Last name is required.'}
+                    <input name="lastname" ref={register({ required: true })} />
+                    {errors.lastname && 'Last name is required.'}
 
-                                        <input name="age" ref={register({ pattern: /\d+/ })} />
-                                        {errors.age && 'Please enter number for age.'}
+                    <input name="age" ref={register({ pattern: /\d+/ })} />
+                    {errors.age && 'Please enter number for age.'}
 
-                                    <input type="submit" />
-                            </form>
+                    <input type="submit" />
+                </form>
                             
 
 
@@ -166,12 +171,14 @@ function PostEdit() {
                             name="name" 
                             label="Name" 
                             onChange={handleInputChange} 
+                            onBlur={handleInputBlur} 
                             value={input.name}
                         />
 
                         <Input key="sluginput" 
                             name="slug" 
                             label="Slug" 
+                            onBlur={handleInputBlur} 
                             onChange={handleInputChange}
                             value={input.slug}
                         
