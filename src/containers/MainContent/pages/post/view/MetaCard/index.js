@@ -9,7 +9,7 @@ export default function MetaCard ({post, setPost}) {
 
     const [input, setInput] = useState({
         meta_title: '',
-        meta_keywords: '',
+        meta_keywords: [],
         meta_description: '',
         meta_image: null     
     })
@@ -19,16 +19,9 @@ export default function MetaCard ({post, setPost}) {
         // eslint-disable-next-line react-hooks/exhaustive-deps   
     }, [post]);
 
-    
     const handleInputChange = (name, value) => setInput({...input, [name]: value})
     const handleInputBlur = (name) => setPost(input)
-
-
-    const handleTagsChange = (name, value) => {
-        console.log(value)
-    }
-
-    // const handleOnChange = (e) => (typeof(onChange) === 'function') ? onChange(name,e) : false
+    const handleTagsChange = (name, value) => setPost({...input, [name]: value})
         
     return (           
         <>

@@ -1,4 +1,4 @@
-import React, { useState }  from 'react';
+import React, { useState, useEffect }  from 'react';
 import CreatableSelect from 'react-select/creatable';
 
 const customStyles = {
@@ -21,19 +21,49 @@ const createOption = (label, isNew=false) => ({
     isNew: isNew
 });
 
-const defaultOptions = [
+let defaultOptions = [
     createOption('One'),
     createOption('Two'),
     createOption('Three'),
 ];
 
-export default function Tags({label, name, onChange, value, isDisabled, ...props}) {
+function mergeArrays(...arrays) {
+    let jointArray = []
+
+    arrays.forEach(array => {
+        jointArray = [...jointArray, ...array]
+    })
+    const uniqueArray = jointArray.filter((item,index) => jointArray.indexOf(item) === index)
+    return uniqueArray
+}
+
+export default function Tags({label, name, onChange, value, isDisabled, options, ...props}) {
 
     const [ state, setState ] = useState({
         isLoading: false,
         options: defaultOptions,
-        value: value,
+        value: null,
     });
+
+  
+    // useEffect(() => {
+    //     setState({
+    //         ...state,            
+    //         value: value,
+    //     });
+    // // eslint-disable-next-line react-hooks/exhaustive-deps   
+    // }, [value]);
+
+    useEffect(() => {
+        setState({
+            ...state,  
+            value: value,          
+            options: mergeArrays([...state.options, ...(options || []), ...(value || [])]),
+        });
+    // eslint-disable-next-line react-hooks/exhaustive-deps   
+    }, [options, value]);
+
+    
 
     const handleChange = (newValue, actionMeta) => {
         // console.log(`action: ${actionMeta.action}`);
@@ -61,6 +91,9 @@ export default function Tags({label, name, onChange, value, isDisabled, ...props
         
     };
 
+    // const options = [...state.options, ...value];
+
+
     return (
         <div className="form-group position-relative">
             <label>{label}</label>
@@ -74,7 +107,6 @@ export default function Tags({label, name, onChange, value, isDisabled, ...props
                 onCreateOption={handleCreate}
                 options={state.options}
                 value={state.value}
-                defaultValue={state.value}
                 styles={customStyles}            
                 theme={(theme) => ({
                     ...theme,

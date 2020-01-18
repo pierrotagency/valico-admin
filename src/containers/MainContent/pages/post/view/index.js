@@ -15,7 +15,7 @@ import { activateAuthLayout, getViewPost,  saveViewPost } from "../../../../../s
 import useUndo from '../../../../../store/history';
 
 
-function PostEdit() {
+function PostView() {
 
     const viewPost = useSelector(state => state.post.viewPost);    
     const loadingViewPost = useSelector(state => state.post.loadingViewPost);
@@ -130,4 +130,4 @@ function PostEdit() {
     );
 }
 
-export default PostEdit
+export default PostView
