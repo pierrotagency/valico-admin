@@ -121,7 +121,8 @@ const post = (state = initialState, action) => {
             break;
         case SAVE_VIEW_POST_OK:
             state = {
-                ...state,                
+                ...state,      
+                viewPost: action.payload,          
                 savingPost: false
             }
             break;

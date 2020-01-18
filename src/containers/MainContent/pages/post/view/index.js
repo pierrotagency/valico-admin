@@ -11,7 +11,7 @@ import CardWithLoading from '../../../../../components/CardWithLoading';
 import ParamsCard from './ParamsCard';
 import MetaCard from './MetaCard';
 import ChildsCard from './ChildsCard';
-import { activateAuthLayout, getViewPost, saveViewPost, getTags } from "../../../../../store/actions";
+import { activateAuthLayout, getViewPost, saveViewPost, getTags, addLocalTags } from "../../../../../store/actions";
 import useUndo from '../../../../../store/history';
 
 
@@ -56,7 +56,16 @@ function PostView() {
 
     // const handlePostUpdate = (updatedPost) => setPost(updatedPost)		
 	
-	const handlePostSave = () => dispatch(saveViewPost(post))		
+    const handlePostSave = () => {
+        
+        dispatch(saveViewPost(post))		
+
+        // let newTags = post.meta_keywords.filter(tag => tag.isNew)
+        //     newTags.forEach(function(i){ delete i.isNew });
+        // if(newTags.length>0) dispatch(addLocalTags(newTags))
+    
+    }
+    
 
 	const handleClickUndo = () => undo()
 	const handleClickRedo = () => redo()
@@ -141,7 +150,7 @@ function PostView() {
                                 isLoading={loadingViewPost} 
                                 post={post}
                                 setPost={setPost}
-                                tags={tags}                                
+                                tags={tags}                  
                             />   
                         
                         </Col>

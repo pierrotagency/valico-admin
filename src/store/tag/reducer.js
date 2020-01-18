@@ -1,4 +1,4 @@
-import { GET_TAGS, GET_TAGS_OK, GET_TAGS_ERROR, ADD_TAGS, ADD_TAGS_OK, ADD_TAGS_ERROR } from './actionTypes';
+import { GET_TAGS, GET_TAGS_OK, GET_TAGS_ERROR, ADD_TAGS, ADD_TAGS_OK, ADD_TAGS_ERROR, ADD_LOCAL_TAGS } from './actionTypes';
 
 const initialState = {
     tags: [],    
@@ -28,6 +28,13 @@ const tag = (state = initialState, action) => {
             }
             break;
 
+        case ADD_LOCAL_TAGS:
+            state = {
+                ...state,   
+                tags: [...state.tags, ...action.payload.tags]
+            }
+            break;
+
         case ADD_TAGS:
             state = {
                 ...state,                
@@ -36,7 +43,8 @@ const tag = (state = initialState, action) => {
             break;
         case ADD_TAGS_OK:
             state = {
-                ...state,                
+                ...state,           
+                tags: [...state.tags, action.payload],     
                 saving: false
             }
             break;

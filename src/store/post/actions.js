@@ -88,9 +88,10 @@ export const saveViewPost = (post) => {
     }
 }
 
-export const saveViewPostOk = () => {
+export const saveViewPostOk = (payload) => {
     return {
-        type: SAVE_VIEW_POST_OK
+        type: SAVE_VIEW_POST_OK,
+        payload: payload
     }
 }
 

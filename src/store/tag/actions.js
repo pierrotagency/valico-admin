@@ -1,4 +1,4 @@
-import { GET_TAGS, GET_TAGS_OK, GET_TAGS_ERROR, ADD_TAGS, ADD_TAGS_OK, ADD_TAGS_ERROR} from './actionTypes';
+import { GET_TAGS, GET_TAGS_OK, GET_TAGS_ERROR, ADD_TAGS, ADD_TAGS_OK, ADD_TAGS_ERROR, ADD_LOCAL_TAGS} from './actionTypes';
 
 export const getTags = () => {
     return {
@@ -39,5 +39,15 @@ export const addTagsError = (error) => {
     return {
         type: ADD_TAGS_ERROR,
         payload: error
+    }
+}
+
+
+export const addLocalTags = (tags) => {
+    return {
+        type: ADD_LOCAL_TAGS,
+        payload: {
+            tags: tags
+        }
     }
 }

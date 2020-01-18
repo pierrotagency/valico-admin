@@ -14,7 +14,6 @@ const customStyles = {
     })
 };
 
-
 const createOption = (label, isNew=false) => ({
     label,
     value: label.toLowerCase().replace(/\W/g, ''),
@@ -45,15 +44,6 @@ export default function Tags({label, name, onChange, value, isDisabled, options,
         value: null,
     });
 
-  
-    // useEffect(() => {
-    //     setState({
-    //         ...state,            
-    //         value: value,
-    //     });
-    // // eslint-disable-next-line react-hooks/exhaustive-deps   
-    // }, [value]);
-
     useEffect(() => {
         setState({
             ...state,  
@@ -63,15 +53,9 @@ export default function Tags({label, name, onChange, value, isDisabled, options,
     // eslint-disable-next-line react-hooks/exhaustive-deps   
     }, [options, value]);
 
-    
-
     const handleChange = (newValue, actionMeta) => {
-        // console.log(`action: ${actionMeta.action}`);
-        
         setState({...state, value: newValue });
-
         if(typeof(onChange) === 'function') onChange(name, newValue) 
-
     };
 
     const handleCreate = (inputValue) => {        
@@ -86,13 +70,9 @@ export default function Tags({label, name, onChange, value, isDisabled, options,
             options: [...state.options, newOption],
             value: newValue,
         });
-
         if(typeof(onChange) === 'function') onChange(name, newValue) 
-        
+
     };
-
-    // const options = [...state.options, ...value];
-
 
     return (
         <div className="form-group position-relative">
