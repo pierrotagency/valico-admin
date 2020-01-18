@@ -22,9 +22,9 @@ const createOption = (label, isNew=false) => ({
 });
 
 let defaultOptions = [
-    createOption('One'),
-    createOption('Two'),
-    createOption('Three'),
+    // createOption('One'),
+    // createOption('Two'),
+    // createOption('Three'),
 ];
 
 function mergeArrays(...arrays) {

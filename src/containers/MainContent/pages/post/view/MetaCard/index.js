@@ -5,7 +5,7 @@ import { Input, Tags } from '../../../../../../components/Form';
 import img1 from '../../../../../../images/products/1.jpg';
 
 
-export default function MetaCard ({post, setPost}) {
+export default function MetaCard ({post, setPost, tags}) {
 
     const [input, setInput] = useState({
         meta_title: '',
@@ -13,7 +13,7 @@ export default function MetaCard ({post, setPost}) {
         meta_description: '',
         meta_image: null     
     })
-
+   
     useEffect(() => {
         setInput(post)     
         // eslint-disable-next-line react-hooks/exhaustive-deps   
@@ -46,6 +46,7 @@ export default function MetaCard ({post, setPost}) {
                             label="Keywords" 
                             onChange={handleTagsChange}                             
                             value={input.meta_keywords || []}
+                            options={tags}
                         />
 
                         <div className="form-group">

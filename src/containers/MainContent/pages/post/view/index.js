@@ -11,7 +11,7 @@ import CardWithLoading from '../../../../../components/CardWithLoading';
 import ParamsCard from './ParamsCard';
 import MetaCard from './MetaCard';
 import ChildsCard from './ChildsCard';
-import { activateAuthLayout, getViewPost,  saveViewPost } from "../../../../../store/actions";
+import { activateAuthLayout, getViewPost, saveViewPost, getTags } from "../../../../../store/actions";
 import useUndo from '../../../../../store/history';
 
 
@@ -22,11 +22,19 @@ function PostView() {
     const savingPost = useSelector(state => state.post.savingPost);
     const dispatch = useDispatch();
 
+    const tags = useSelector(state => state.tag.tags);    
+    
     const history = useHistory();
 
     const { state: post, set: setPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
 
     let { id } = useParams();
+
+    useEffect(() => {      
+        console.log('2222222')
+        if(tags.length===0) dispatch(getTags())
+        // eslint-disable-next-line react-hooks/exhaustive-deps  
+    },[]);
 
 
     useEffect(() => {
@@ -37,6 +45,7 @@ function PostView() {
         dispatch(activateAuthLayout());
     }, [dispatch]);
         
+
 
     useEffect(() => {
         setPost(viewPost)		
@@ -116,9 +125,24 @@ function PostView() {
                     <Row>
                         <Col>
 
-                            <ParamsCardWithLoading isLoading={loadingViewPost} post={post} setPost={setPost} />   
-                            <ChildsCardWithLoading isLoading={loadingViewPost} post={post} setPost={setPost} />   
-                            <MetaCardWithLoading isLoading={loadingViewPost}  post={post} setPost={setPost}/>   
+                            <ParamsCardWithLoading 
+                                isLoading={loadingViewPost}
+                                post={post}
+                                setPost={setPost}                                
+                            />   
+                            
+                            <ChildsCardWithLoading 
+                                isLoading={loadingViewPost}
+                                post={post}
+                                setPost={setPost}
+                            />   
+                            
+                            <MetaCardWithLoading                                
+                                isLoading={loadingViewPost} 
+                                post={post}
+                                setPost={setPost}
+                                tags={tags}                                
+                            />   
                         
                         </Col>
                     </Row>
