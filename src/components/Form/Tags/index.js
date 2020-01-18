@@ -45,18 +45,17 @@ export default function Tags(name, onChange, props) {
     
     const handleCreate = (inputValue) => {
         
-        setState({...state, isLoading: true });
+        // setState({...state, isLoading: true });
 
         // setTimeout(() => {
             
             const newOption = createOption(inputValue);
-            console.log(newOption);
-            
+
             setState({
                 ...state,
                 isLoading: false,
                 options: [...state.options, newOption],
-                value: newOption,
+                value: [...state.value, newOption],
             });
         // }, 1000);
 
