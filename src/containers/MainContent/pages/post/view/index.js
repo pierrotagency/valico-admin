@@ -30,12 +30,10 @@ function PostView() {
 
     let { id } = useParams();
 
-    useEffect(() => {      
-        console.log('2222222')
+    useEffect(() => {             
         if(tags.length===0) dispatch(getTags())
         // eslint-disable-next-line react-hooks/exhaustive-deps  
     },[]);
-
 
     useEffect(() => {
         dispatch(getViewPost(id));	
@@ -45,8 +43,6 @@ function PostView() {
         dispatch(activateAuthLayout());
     }, [dispatch]);
         
-
-
     useEffect(() => {
         setPost(viewPost)		
         init(viewPost)
@@ -54,18 +50,20 @@ function PostView() {
     }, [ setPost, viewPost]);
 
 
-    // const handlePostUpdate = (updatedPost) => setPost(updatedPost)		
-	
     const handlePostSave = () => {
         
         dispatch(saveViewPost(post))		
 
-        // let newTags = post.meta_keywords.filter(tag => tag.isNew)
-        //     newTags.forEach(function(i){ delete i.isNew });
-        // if(newTags.length>0) dispatch(addLocalTags(newTags))
+        // add created tags to local Redux so i dont't have to request all the tag list from server
+        const newTags = Object.keys(post.meta_keywords).reduce((object, key) => {
+            if (key !== 'isNew') {
+                object[key] = post.meta_keywords[key]
+            }
+            return object
+        }, {})
+        if(newTags.length>0) dispatch(addLocalTags(newTags))
     
     }
-    
 
 	const handleClickUndo = () => undo()
 	const handleClickRedo = () => redo()
