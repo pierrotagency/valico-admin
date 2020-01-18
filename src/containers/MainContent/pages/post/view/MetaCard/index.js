@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Alert } from 'reactstrap';
 
-import { Input, Tags } from '../../../../../../components/Form';
+import { Input, Tags, TextArea } from '../../../../../../components/Form';
 import img1 from '../../../../../../images/products/1.jpg';
 
 
@@ -49,10 +49,15 @@ export default function MetaCard ({post, setPost, tags}) {
                             options={tags}
                         />
 
-                        <div className="form-group">
-                            <label htmlFor="metadescription">Meta Description</label>
-                            <textarea className="form-control" id="metadescription" rows="5"></textarea>
-                        </div>
+                        <TextArea
+                            name="meta_description" 
+                            label="Description" 
+                            rows="4"
+                            onChange={handleInputChange} 
+                            onBlur={handleInputBlur} 
+                            value={input.meta_description || ''}
+                        />
+                        
                     </Col>
                     <Col sm="6">
                         <div className="form-group">
