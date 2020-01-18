@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { types } from 'valico-sanmartin'
 
-import { activateAuthLayout, getPosts, getPost, resetPost, setPostEpp, setPostSort, setPostPage } from '../../../../../store/actions';
+import { activateAuthLayout, getPosts, getPost, resetPost, setPostEpp, setPostSort, setPostPage, getTags } from '../../../../../store/actions';
 import Paginator from '../../../../../components/Paginator';
 import Item from './Item';
 import CardWithLoading from '../../../../../components/CardWithLoading';
@@ -46,6 +46,8 @@ function Posts() {
 
     useEffect(() => {      
         dispatch(activateAuthLayout())
+
+        dispatch(getTags())
     },[dispatch]);
 
     useEffect(() => {

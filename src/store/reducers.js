@@ -9,6 +9,7 @@ import loginReducer from './auth/login/reducer';
 import forgetReducer from './auth/forgetpwd/reducer';
 
 import postReducer from './post/reducer';
+import tagReducer from './tag/reducer';
 
 
 const rootReducer = combineReducers({
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
     account: accountReducer,
     login: loginReducer,
     forget: forgetReducer,
-    post: postReducer
+    post: postReducer,
+    tag: tagReducer
 });
 
 
