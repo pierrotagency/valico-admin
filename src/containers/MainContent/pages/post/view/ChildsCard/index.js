@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'reactstrap';
-import Toggle from 'react-toggle';
 
 import { templates, taxonomies, types } from 'valico-sanmartin'
 
-import { Select } from '../../../../../../components/Form';
+import { Select, Toggle } from '../../../../../../components/Form';
 
 export default function ChildsCard({post, setPost}) {
 
@@ -12,11 +11,11 @@ export default function ChildsCard({post, setPost}) {
     const taxonomyOptions = Object.keys(taxonomies).map((taxonomy) => ({ value: taxonomy, label: taxonomies[taxonomy].name }))
     const typeOptions = Object.keys(types).map((type) => ({ value: type, label: types[type].name }))
     
-
     const [input, setInput] = useState({
         childs_template: '',
         childs_type: '',
-        childs_taxonomy: ''
+        childs_taxonomy: '',
+        childs_allowed: false
     })
 
     useEffect(() => {
@@ -24,15 +23,9 @@ export default function ChildsCard({post, setPost}) {
         // eslint-disable-next-line react-hooks/exhaustive-deps   
     }, [post]);
 
-    
     const handleSelectChange = (name, value) => setPost({...post, [name]: value.value})
+    const handleSwitchToggle = (name, value) => setPost({...post, [name]: value})
     
-    const [live, setLive] = useState(true)
-    const handleAllowChildsToggle = (e) => setLive(e.target.checked) 
-    
-
-    // const handleOnChange = (e) => (typeof(onChange) === 'function') ? onChange(name,e) : false
-        
     return (           
         <>
             <h4 className="mt-0 header-title">Childs</h4>
@@ -43,10 +36,13 @@ export default function ChildsCard({post, setPost}) {
                 <Row>
 
                     <Col sm="6">
-                        <label className="d-flex align-items-center mb-1">
-                            <Toggle defaultChecked={live} aria-label='Allow Childs' icons={false} onChange={handleAllowChildsToggle} />
-                            <span className="ml-2">Allow creating child pages for this page</span>
-                        </label>
+
+                        <Toggle 
+                            name="childs_allowed"
+                            checked={input.childs_allowed}
+                            label='Allow Childs'
+                            onChange={handleSwitchToggle}
+                        />
                         
                     </Col>
 

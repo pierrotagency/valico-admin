@@ -34,11 +34,8 @@ export default function ParamsCard({post, setPost}) {
             <p className="text-muted mb-4">Common to all posts</p>
 
             {input &&
-
                 <Row>
-
                     <Col sm="6">
-                        
                         <Input
                             name="name" 
                             label="Name" 
@@ -46,7 +43,6 @@ export default function ParamsCard({post, setPost}) {
                             onBlur={handleInputBlur} 
                             value={input.name}
                         />
-
                         <Input 
                             name="slug" 
                             label="Slug" 
@@ -54,9 +50,7 @@ export default function ParamsCard({post, setPost}) {
                             onChange={handleInputChange}
                             value={input.slug}                            
                         />
-
                     </Col>
-
                     <Col sm="6">                                 
                         <div className="form-group">
                             <label className="control-label">Type</label>
@@ -90,8 +84,6 @@ export default function ParamsCard({post, setPost}) {
                         </div>
                     </Col>
                 </Row>
-
-                
             }
 
         </>
