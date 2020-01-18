@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'reactstrap';
 
-import {Input } from '../../../../../../components/Form';
+import { Input, Tags } from '../../../../../../components/Form';
 import img1 from '../../../../../../images/products/1.jpg';
 
 
@@ -55,6 +55,9 @@ export default function MetaCard ({post, setPost}) {
                             <label htmlFor="metakeywords">Meta Keywords</label>
                             <input id="metakeywords" name="manufacturername" type="text" className="form-control" />
                         </div>
+
+                        <Tags />
+
                         <div className="form-group">
                             <label htmlFor="metadescription">Meta Description</label>
                             <textarea className="form-control" id="metadescription" rows="5"></textarea>
