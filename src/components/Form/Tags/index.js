@@ -1,4 +1,4 @@
-import React, { useState }  from 'react';
+import React, { useState, useEffect }  from 'react';
 import CreatableSelect from 'react-select/creatable';
 
 const customStyles = {
@@ -15,9 +15,10 @@ const customStyles = {
 };
 
 
-const createOption = (label) => ({
+const createOption = (label, isNew=false) => ({
     label,
     value: label.toLowerCase().replace(/\W/g, ''),
+    isNew: isNew
 });
 
 const defaultOptions = [
@@ -31,9 +32,8 @@ export default function Tags(name, onChange, props) {
     const [ state, setState ] = useState({
         isLoading: false,
         options: defaultOptions,
-        value: undefined,
+        value: null,
     });
-
 
     const handleChange = (newValue, actionMeta) => {
         
@@ -41,27 +41,24 @@ export default function Tags(name, onChange, props) {
         console.log(`action: ${actionMeta.action}`);
         
         setState({...state, value: newValue });
+
+        if(typeof(onChange) === 'function') onChange(name, newValue) 
+
     };
-    
-    const handleCreate = (inputValue) => {
-        
+
+    const handleCreate = (inputValue) => {        
         // setState({...state, isLoading: true });
 
-        // setTimeout(() => {
-            
-            const newOption = createOption(inputValue);
+        const newOption = createOption(inputValue,true);
 
-            setState({
-                ...state,
-                isLoading: false,
-                options: [...state.options, newOption],
-                value: [...state.value, newOption],
-            });
-        // }, 1000);
-
+        setState({
+            ...state,
+            isLoading: false,
+            options: [...state.options, newOption],
+            value: [...(state.value || [])  , newOption],
+        });
+        
     };
-
-    // const handleOnChange = (e) => (typeof(onChange) === 'function') ? onChange(name,e) : false
 
     return (
         <CreatableSelect
