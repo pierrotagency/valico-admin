@@ -10,8 +10,7 @@ function useForm(stateSchema, validationSchema = {}) {
 
 
     const [disable, setDisable] = useState(true);
-    const [isDirty, setIsDirty] = useState(false);
-
+   
   // Disable button in initial render.
     useEffect(() => {
         setDisable(true);
@@ -20,11 +19,11 @@ function useForm(stateSchema, validationSchema = {}) {
   // For every changed in our state this will be fired
   // To be able to disable the button
     useEffect(() => {
-        if (isDirty) {
-            setDisable(validateState());
-        }
+        
+        if(state) Object.keys(stateSchema).forEach(v => doValidate(v))
+
     // eslint-disable-next-line react-hooks/exhaustive-deps   
-    }, [state, isDirty]);
+    }, [state]);
 
   // Used to disable submit button if there's an error in state
   // or the required field in state has no value.
@@ -46,37 +45,52 @@ function useForm(stateSchema, validationSchema = {}) {
 
 
     const handleOnChange = useCallback((name,value) => {
-        setIsDirty(true);
-
-        let error = "";
-        if (validationSchema[name].required) {            
-            if(Array.isArray(value)){
-                if(value.length===0){
-                    error = "This is required field.";    
-                }
-            }
-            else if (!value) {
-                error = "This is required field.";
-            }
-        }
-
-        if (validationSchema[name].validator !== null && typeof validationSchema[name].validator === "object") {
-            if (value && !validationSchema[name].validator.regEx.test(value)) {
-                error = validationSchema[name].validator.error;
-            }
-        }
-
+      
         setState(prevState => ({
             ...prevState,
             [name]: value
         }));
 
-        setErrors(prevState => ({
-            ...prevState,
-            [name]: error 
-        }));
-
+        doValidate(name,value)
+        // eslint-disable-next-line react-hooks/exhaustive-deps   
     },[validationSchema]);
+
+
+    const doValidate = (name,value=null) => {
+        
+        if(!value) value = state[name];
+
+        let error = "";
+
+        if(validationSchema[name]){
+
+            if (validationSchema[name].required) {            
+                if(Array.isArray(value)){
+                    if(value.length===0){
+                        error = "This is required field.";    
+                    }
+                }
+                else if (!value) {
+                    error = "This is required field.";
+                }
+            }
+
+            if (validationSchema[name].validator !== null && typeof validationSchema[name].validator === "object") {
+                if (value && !validationSchema[name].validator.regEx.test(value)) {
+                    error = validationSchema[name].validator.error;
+                }
+            }
+
+            setErrors(prevState => ({
+                ...prevState,
+                [name]: error 
+            }));
+
+        }
+
+    }
+
+
 
     const isValid = async () => {
         
