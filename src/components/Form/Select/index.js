@@ -23,6 +23,7 @@ export default ({name, onChange, ...props}) => {
     return (
         <Select 
             {...props}
+            isClearable
             styles={customStyles}            
             theme={(theme) => ({
                 ...theme,

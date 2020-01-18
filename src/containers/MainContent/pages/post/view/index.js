@@ -63,10 +63,7 @@ function PostView() {
     const savingPost = useSelector(state => state.post.savingPost);
     const dispatch = useDispatch();
 
-    const templateOptions = Object.keys(templates).map((template) => ({ value: template, label: templates[template].name }))
-    const taxonomyOptions = Object.keys(taxonomies).map((taxonomy) => ({ value: taxonomy, label: taxonomies[taxonomy].name }))
-    const typeOptions = Object.keys(types).map((type) => ({ value: type, label: types[type].name }))
-    
+
     const tags = useSelector(state => state.tag.tags);    
     
     const history = useHistory();
@@ -103,8 +100,7 @@ function PostView() {
 
 
     useEffect(() => {
-        console.log('PostView useEffect post')
-        console.log(post)
+        console.log('PostView useEffect post')        
         setState(post)
         // eslint-disable-next-line react-hooks/exhaustive-deps  
     }, [post]);
@@ -157,7 +153,7 @@ function PostView() {
 
     const handleInputChange = (name, value) => handleOnChange(name, value)
     const handleSwitchToggle = (name, value) => handleOnChange(name, value)
-    const handleSelectChange = (name, value) => handleFieldUpdated(name, value.value)
+    const handleSelectChange = (name, value) => handleFieldUpdated(name, value?value.value:null)
     const handleInputBlur = (name, value) => handleFieldUpdated(name,value) 
 
     const handleFieldUpdated = (name, value) => {
@@ -167,6 +163,14 @@ function PostView() {
         // eslint-disable-next-line react-hooks/exhaustive-deps   
     }
 
+
+    const templateOptions = Object.keys(templates).map((template) => ({ value: template, label: templates[template].name }))
+    const taxonomyOptions = Object.keys(taxonomies).map((taxonomy) => ({ value: taxonomy, label: taxonomies[taxonomy].name }))
+    const typeOptions = Object.keys(types).map((type) => ({ value: type, label: types[type].name }))
+    
+    const typeValue = state && state.childs_type ? typeOptions.find(item => item.value === state.childs_type) : null
+    const templateValue = state && state.childs_template ? templateOptions.find(item => item.value === state.childs_template) : null
+    const taxonomyValue = state && state.childs_taxonomy ? taxonomyOptions.find(item => item.value === state.childs_taxonomy) : null
 
     return (
         <>
@@ -254,7 +258,7 @@ function PostView() {
                                                     options={typeOptions} 
                                                     placeholder={''}
                                                     onChange={handleSelectChange}
-                                                    value={typeOptions.find(item => item.value === state.childs_type)}                                     
+                                                    value={typeValue}                                     
                                                 />
                                             </div>
                                             <div className="form-group">
@@ -264,7 +268,7 @@ function PostView() {
                                                     options={taxonomyOptions} 
                                                     placeholder={''}           
                                                     onChange={handleSelectChange}
-                                                    value={taxonomyOptions.find(item => item.value === state.childs_taxonomy)}                               
+                                                    value={taxonomyValue}                               
                                                 />
                                             </div>
                                             <div className="form-group">
@@ -274,7 +278,7 @@ function PostView() {
                                                     options={templateOptions} 
                                                     placeholder={''}              
                                                     onChange={handleSelectChange}
-                                                    value={templateOptions.find(item => item.value === state.childs_template)}                              
+                                                    value={templateValue}                              
                                                 />
                                             </div>
                                         </Col>
