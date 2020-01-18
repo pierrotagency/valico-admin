@@ -1,6 +1,8 @@
 import React, { useState, useEffect }  from 'react';
 import CreatableSelect from 'react-select/creatable';
 
+import './index.scss'
+
 const customStyles = {
     control: base => ({
         ...base,
@@ -38,7 +40,7 @@ function mergeArrays(...arrays) {
 
 export default function Tags({label, name, isInvalid, isValid, message, className, onChange, value, isDisabled, options, ...props}) {
 
-    const inputClass = className + " form-control" + ((isValid) ? " is-valid" : "") + ((isInvalid) ? " is-invalid" : "") 
+    const inputClass = (className?className:'') + "tag form-control" + ((isValid) ? " is-valid" : "") + ((isInvalid) ? " is-invalid" : "") 
 
     const [ state, setState ] = useState({
         isLoading: false,
@@ -81,6 +83,7 @@ export default function Tags({label, name, isInvalid, isValid, message, classNam
             <label>{label}</label>
             <CreatableSelect
                 {...props}
+                key={name}
                 isMulti
                 isClearable
                 isDisabled={state.isLoading || isDisabled}

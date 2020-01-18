@@ -23,6 +23,7 @@ function useForm(stateSchema, validationSchema = {}) {
         if (isDirty) {
             setDisable(validateState());
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps   
     }, [state, isDirty]);
 
   // Used to disable submit button if there's an error in state
@@ -30,6 +31,7 @@ function useForm(stateSchema, validationSchema = {}) {
   // Wrapped in useCallback to cached the function to avoid intensive memory leaked
   // in every re-render in component
     const validateState = useCallback(() => {
+
         const hasErrorInState = Object.keys(validationSchema).some(key => {
             const isInputFieldRequired = validationSchema[key].required;
             const stateValue = state[key]; // state value
@@ -39,7 +41,8 @@ function useForm(stateSchema, validationSchema = {}) {
         });
 
         return hasErrorInState;
-    }, [state, validationSchema]);
+    
+    }, [state, errors, validationSchema]);
 
 
     const handleOnChange = useCallback((name,value) => {
@@ -75,8 +78,12 @@ function useForm(stateSchema, validationSchema = {}) {
 
     },[validationSchema]);
 
-    const isValid = () => {        
-        return validateState()
+    const isValid = async () => {
+        
+        const res = await validateState()
+
+        console.log(res)
+        return res;
     }
 
     return { state, setState, errors, disable, handleOnChange, isValid };

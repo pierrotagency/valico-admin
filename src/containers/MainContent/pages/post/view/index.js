@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { Row, Col } from 'reactstrap';
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,9 +8,9 @@ import { useHistory } from "react-router";
 import ActionsMenu from "./ActionsMenu";
 import Breadcrumb from '../_common/Breadcrumb';
 import CardWithLoading from '../../../../../components/CardWithLoading';
-import ParamsCard from './ParamsCard';
+// import ParamsCard from './ParamsCard';
 import MetaCard from './MetaCard';
-import ChildsCard from './ChildsCard';
+// import ChildsCard from './ChildsCard';
 import { activateAuthLayout, getViewPost, saveViewPost, getTags, addLocalTags } from "../../../../../store/actions";
 import useUndo from '../../../../../store/history';
 
@@ -27,10 +27,12 @@ function PostView() {
     const history = useHistory();
 
     const { state: post, set: setPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
+    // const [ post, setPost] = useState({});
 
     let { id } = useParams();
 
-    useEffect(() => {             
+    useEffect(() => {       
+        console.log('RENDER PostView')      
         if(tags.length===0) dispatch(getTags())
         // eslint-disable-next-line react-hooks/exhaustive-deps  
     },[]);
@@ -44,14 +46,16 @@ function PostView() {
     }, [dispatch]);
         
     useEffect(() => {
+        console.log('PostView useEffect viewPost')
         setPost(viewPost)		
         init(viewPost)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ setPost, viewPost]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps  
+    }, [viewPost]);
 
 
     const handlePostSave = () => {
-        
+        console.log('handlePostSave')
+
         dispatch(saveViewPost(post))		
 
         // add created tags to local Redux so i dont't have to request all the tag list from server
@@ -89,9 +93,17 @@ function PostView() {
         
     }
 
-    const ParamsCardWithLoading = CardWithLoading(ParamsCard);
-    const ChildsCardWithLoading = CardWithLoading(ChildsCard);
+    // const ParamsCardWithLoading = CardWithLoading(ParamsCard);
+    // const ChildsCardWithLoading = CardWithLoading(ChildsCard);
     const MetaCardWithLoading = CardWithLoading(MetaCard);
+
+
+    const handleFieldUpdated = (name, value) => {
+        setPost({...post, [name]: value})
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps   
+    }
+
 
     return (
         <>
@@ -132,7 +144,7 @@ function PostView() {
                     <Row>
                         <Col>
 
-                            <ParamsCardWithLoading 
+                            {/* <ParamsCardWithLoading 
                                 isLoading={loadingViewPost}
                                 post={post}
                                 setPost={setPost}                                
@@ -142,12 +154,12 @@ function PostView() {
                                 isLoading={loadingViewPost}
                                 post={post}
                                 setPost={setPost}
-                            />   
+                            />    */}
                             
                             <MetaCardWithLoading                                
                                 isLoading={loadingViewPost} 
                                 post={post}
-                                setPost={setPost}
+                                fieldUpdated={handleFieldUpdated}
                                 tags={tags}                  
                             />   
                         

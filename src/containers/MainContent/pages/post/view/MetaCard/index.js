@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Row, Col, Alert } from 'reactstrap';
 
 import { Input, Tags, TextArea } from '../../../../../../components/Form';
@@ -32,9 +32,10 @@ const validationStateSchema = {
     }
 };
 
-export default function MetaCard ({post, setPost, tags}) {
+const MetaCard = React.memo(({post, fieldUpdated, tags}) => {
+// export default function MetaCard ({post, setPost, tags}) {
 
-    const { state, setState, errors, handleOnChange, isValid, disable } = useForm(stateSchema, validationStateSchema);
+    const { state, setState, errors, handleOnChange  } = useForm(stateSchema, validationStateSchema);
 
     // const [state, setState] = useState({
     //     meta_title: '',
@@ -42,8 +43,15 @@ export default function MetaCard ({post, setPost, tags}) {
     //     meta_description: '',
     //     meta_image: null     
     // })
+    useEffect(() => {        
+        console.log('RENDER MetaCard')       
+        // eslint-disable-next-line react-hooks/exhaustive-deps   
+    }, []);
+
 
     useEffect(() => {
+        
+        console.log('MetaCard useEffect []')
         setState(post)     
         // eslint-disable-next-line react-hooks/exhaustive-deps   
     }, [post]);
@@ -54,17 +62,17 @@ export default function MetaCard ({post, setPost, tags}) {
     
     const handleInputBlur = (name, value) => fieldUpdated(name,value) 
 
-    const fieldUpdated = (name, value) => {
-        console.log('fieldUpdated')
+    // const fieldUpdated = (name, value) => {
+    //     console.log('fieldUpdated')
+    //     handleOnChange(name, value)
+    //     setPost({...post, [name]: value})
+    // }
 
-        handleOnChange(name, value)
+    // const fieldUpdated = useCallback((name, value) => {
+    //     setPost({...post, [name]: value})
 
-        if(isValid()){
-            console.log('VALID')
-            setPost({...post, [name]: value})
-        }
-        
-    }
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps   
+    // }, []);
 
         
     return (           
@@ -90,7 +98,7 @@ export default function MetaCard ({post, setPost, tags}) {
                         <Tags 
                             name="meta_keywords" 
                             label="Keywords" 
-                            onChange={handleInputChange}                             
+                            onChange={handleInputBlur}                             
                             value={state.meta_keywords || []}
                             options={tags}
                             isInvalid={errors.meta_keywords!==''}
@@ -125,4 +133,7 @@ export default function MetaCard ({post, setPost, tags}) {
         </>
     )
 
-}
+})
+
+
+export default MetaCard
