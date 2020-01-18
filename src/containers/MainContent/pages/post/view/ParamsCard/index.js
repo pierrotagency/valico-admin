@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col } from 'reactstrap';
+import { Row, Col , Alert} from 'reactstrap';
 
 import { templates, taxonomies, types } from 'valico-sanmartin'
 
@@ -33,7 +33,7 @@ export default function ParamsCard({post, setPost}) {
             <h4 className="mt-0 header-title">Basic Properties</h4>
             <p className="text-muted mb-4">Common to all posts</p>
 
-            {input &&
+            {input ?
                 <Row>
                     <Col sm="6">
                         <Input
@@ -84,6 +84,8 @@ export default function ParamsCard({post, setPost}) {
                         </div>
                     </Col>
                 </Row>
+            :
+                <Alert color="danger" className="bg-white border border-danger">Couldn't get post info</Alert>
             }
 
         </>

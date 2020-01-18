@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col } from 'reactstrap';
+import { Row, Col, Alert } from 'reactstrap';
 
 import { templates, taxonomies, types } from 'valico-sanmartin'
 
@@ -31,7 +31,7 @@ export default function ChildsCard({post, setPost}) {
             <h4 className="mt-0 header-title">Childs</h4>
             <p className="text-muted mb-4">sdadaasdaa</p>
 
-            {input &&
+            {input ?
 
                 <Row>
 
@@ -79,8 +79,8 @@ export default function ChildsCard({post, setPost}) {
                         </div>
                     </Col>
                 </Row>
-
-                
+            :
+                <Alert color="danger" className="bg-white border border-danger">Couldn't get post info</Alert>                             
             }
 
         </>

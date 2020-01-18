@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col } from 'reactstrap';
+import { Row, Col, Alert } from 'reactstrap';
 
 import { Input, Tags } from '../../../../../../components/Form';
 import img1 from '../../../../../../images/products/1.jpg';
@@ -23,6 +23,11 @@ export default function MetaCard ({post, setPost}) {
     const handleInputChange = (name, value) => setInput({...input, [name]: value})
     const handleInputBlur = (name) => setPost(input)
 
+
+    const handleTagsChange = (name, value) => {
+        console.log(value)
+    }
+
     // const handleOnChange = (e) => (typeof(onChange) === 'function') ? onChange(name,e) : false
         
     return (           
@@ -30,7 +35,7 @@ export default function MetaCard ({post, setPost}) {
             <h4 className="mt-0 header-title">Meta Data</h4>
             <p className="text-muted mb-4">SEO and Social Sharing</p>
 
-            {input &&
+            {input ?
 
                 <Row>
                     <Col sm="6">
@@ -43,20 +48,12 @@ export default function MetaCard ({post, setPost}) {
                             value={input.meta_title || ''}
                         />
 
-                        <Input
+                        <Tags 
                             name="meta_keywords" 
                             label="Keywords" 
-                            onChange={handleInputChange} 
-                            onBlur={handleInputBlur} 
-                            value={input.meta_keywords || ''}
+                            onChange={handleTagsChange}                             
+                            value={input.meta_keywords || []}
                         />
-
-                        <div className="form-group">
-                            <label htmlFor="metakeywords">Meta Keywords</label>
-                            <input id="metakeywords" name="manufacturername" type="text" className="form-control" />
-                        </div>
-
-                        <Tags />
 
                         <div className="form-group">
                             <label htmlFor="metadescription">Meta Description</label>
@@ -72,8 +69,8 @@ export default function MetaCard ({post, setPost}) {
                         </div>
                     </Col>
                 </Row>
-
-                
+            :
+                <Alert color="danger" className="bg-white border border-danger">Couldn't get post info</Alert>                
             }
 
         </>
