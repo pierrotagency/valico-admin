@@ -36,7 +36,9 @@ function mergeArrays(...arrays) {
     return uniqueArray
 }
 
-export default function Tags({label, name, onChange, value, isDisabled, options, ...props}) {
+export default function Tags({label, name, isInvalid, isValid, message, className, onChange, value, isDisabled, options, ...props}) {
+
+    const inputClass = className + " form-control" + ((isValid) ? " is-valid" : "") + ((isInvalid) ? " is-invalid" : "") 
 
     const [ state, setState ] = useState({
         isLoading: false,
@@ -105,7 +107,10 @@ export default function Tags({label, name, onChange, value, isDisabled, options,
                         neutral90: '#f00' // 
                     },
                 })}
-                />
+                className={inputClass}
+            />
+            {isValid && message !== '' && <div className="valid-tooltip">{message}</div>}
+            {isInvalid && message !== '' && <div className="invalid-tooltip">{message}</div>}
         </div>
     )
 }

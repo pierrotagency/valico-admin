@@ -6,7 +6,7 @@ const Input = ({label, isInvalid, isValid, message, className, name, onChange, o
 
     const inputClass = className + " form-control" + ((isValid) ? " is-valid" : "") + ((isInvalid) ? " is-invalid" : "") 
 
-    const handleOnBlur = (t) => (typeof(onBlur) === 'function') ? onBlur(name) : false
+    const handleOnBlur = (v) => (typeof(onBlur) === 'function') ? onBlur(name,v) : false
     const handleOnChange = (v) => (typeof(onChange) === 'function') ? onChange(name,v) : false
 
     return (
@@ -20,7 +20,7 @@ const Input = ({label, isInvalid, isValid, message, className, name, onChange, o
                 className={inputClass} 
                 type="text"
                 onChange={(e) => handleOnChange(e.target.value)}
-                onBlur={handleOnBlur}
+                onBlur={(e) => handleOnBlur(e.target.value)}
                 value={value}
             />
             {isValid && message !== '' && <div className="valid-tooltip">{message}</div>}

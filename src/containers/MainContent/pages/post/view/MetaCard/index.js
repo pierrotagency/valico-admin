@@ -4,31 +4,75 @@ import { Row, Col, Alert } from 'reactstrap';
 import { Input, Tags, TextArea } from '../../../../../../components/Form';
 import img1 from '../../../../../../images/products/1.jpg';
 
+import useForm from '../../../../../../components/Form/useForm';
+
+const stateSchema = {
+    meta_title: '',
+    meta_description: '',
+    meta_keywords: []
+};
+
+const validationStateSchema = {
+    meta_title: {
+        required: true,
+        validator: {
+            regEx: /^[a-zA-Z]+$/,
+            error: 'Invalid first name format.',
+        },
+    },
+    meta_description: {
+        required: true,
+        validator: {
+            regEx: /^[a-zA-Z]+$/,
+            error: 'Invalid last name format.',
+        },
+    },
+    meta_keywords: {
+        required: true
+    }
+};
 
 export default function MetaCard ({post, setPost, tags}) {
 
-    const [input, setInput] = useState({
-        meta_title: '',
-        meta_keywords: [],
-        meta_description: '',
-        meta_image: null     
-    })
-   
+    const { state, setState, errors, handleOnChange, isValid, disable } = useForm(stateSchema, validationStateSchema);
+
+    // const [state, setState] = useState({
+    //     meta_title: '',
+    //     meta_keywords: [],
+    //     meta_description: '',
+    //     meta_image: null     
+    // })
+
     useEffect(() => {
-        setInput(post)     
+        setState(post)     
         // eslint-disable-next-line react-hooks/exhaustive-deps   
     }, [post]);
 
-    const handleInputChange = (name, value) => setInput({...input, [name]: value})
-    const handleInputBlur = (name) => setPost(input)
-    const handleTagsChange = (name, value) => setPost({...input, [name]: value})
+    // const handleInputChange = (name, value) => setState({...state, [name]: value})
+
+    const handleInputChange = (name, value) => handleOnChange(name, value)
+    
+    const handleInputBlur = (name, value) => fieldUpdated(name,value) 
+
+    const fieldUpdated = (name, value) => {
+        console.log('fieldUpdated')
+
+        handleOnChange(name, value)
+
+        if(isValid()){
+            console.log('VALID')
+            setPost({...post, [name]: value})
+        }
+        
+    }
+
         
     return (           
         <>
             <h4 className="mt-0 header-title">Meta Data</h4>
             <p className="text-muted mb-4">SEO and Social Sharing</p>
 
-            {input ?
+            {state ?
 
                 <Row>
                     <Col sm="6">
@@ -38,15 +82,19 @@ export default function MetaCard ({post, setPost, tags}) {
                             label="Title" 
                             onChange={handleInputChange} 
                             onBlur={handleInputBlur} 
-                            value={input.meta_title || ''}
+                            value={state.meta_title || ''}
+                            isInvalid={errors.meta_title!==''}
+                            message={errors.meta_title}
                         />
 
                         <Tags 
                             name="meta_keywords" 
                             label="Keywords" 
-                            onChange={handleTagsChange}                             
-                            value={input.meta_keywords || []}
+                            onChange={handleInputChange}                             
+                            value={state.meta_keywords || []}
                             options={tags}
+                            isInvalid={errors.meta_keywords!==''}
+                            message={errors.meta_keywords}
                         />
 
                         <TextArea
@@ -55,7 +103,9 @@ export default function MetaCard ({post, setPost, tags}) {
                             rows="4"
                             onChange={handleInputChange} 
                             onBlur={handleInputBlur} 
-                            value={input.meta_description || ''}
+                            value={state.meta_description || ''}
+                            isInvalid={errors.meta_description!==''}
+                            message={errors.meta_description}
                         />
                         
                     </Col>

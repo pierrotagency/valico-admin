@@ -6,7 +6,7 @@ const TextArea = ({label, isInvalid, isValid, message, className, name, onChange
 
     const inputClass = className + " form-control" + ((isValid) ? " is-valid" : "") + ((isInvalid) ? " is-invalid" : "") 
 
-    const handleOnBlur = (t) => (typeof(onBlur) === 'function') ? onBlur(name) : false
+    const handleOnBlur = (v) => (typeof(onBlur) === 'function') ? onBlur(name,v) : false
     const handleOnChange = (v) => (typeof(onChange) === 'function') ? onChange(name,v) : false
 
     return (
@@ -19,7 +19,7 @@ const TextArea = ({label, isInvalid, isValid, message, className, name, onChange
                 id={name}                
                 className={inputClass}
                 onChange={(e) => handleOnChange(e.target.value)}
-                onBlur={handleOnBlur}
+                onBlur={(e) => handleOnBlur(e.target.value)}
                 value={value}                              
             ></textarea>
             {isValid && message !== '' && <div className="valid-tooltip">{message}</div>}
