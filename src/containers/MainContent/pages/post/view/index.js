@@ -30,7 +30,7 @@ function PostView() {
 
     const { state: post, set: setPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
 
-    const { form, setForm, errors, handleOnChange, disable } = useForm(fields, validations);
+    const { form, setForm, errors, handleOnChange, saveDisabled } = useForm(fields, validations);
 
     let { id } = useParams();
 
@@ -59,8 +59,8 @@ function PostView() {
 
 
     const handlePostSave = () => {
-        console.log('handlePostSave')
-
+        if(saveDisabled) return false
+        
         dispatch(saveViewPost(post))		
 
         // add created tags to local Redux so i dont't have to request all the tag list from server
@@ -140,7 +140,7 @@ function PostView() {
                                     onClickBuilder={handleClickBuilder}
                                     canRedo={canRedo}
                                     canUndo={canUndo}
-                                    canSave={!disable}
+                                    canSave={!saveDisabled}
                                     savingPost={savingPost}
                                 />
                                 ) : null}

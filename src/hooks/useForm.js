@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 function useForm(formSchema, validationSchema = {}) {
 
     const [form, setForm] = useState({});
-    const [disable, setDisable] = useState(true);
+    const [saveDisabled, setSaveDisabled] = useState(true);
     
     // generate errors state array with every field (empty)
     let errorsSchema = {...formSchema}
@@ -50,7 +50,7 @@ function useForm(formSchema, validationSchema = {}) {
             return errors[name].invalid;
         });
 
-        setDisable(isInvalid);
+        setSaveDisabled(isInvalid);
 
     }, [errors, validationSchema]);
 
@@ -97,7 +97,7 @@ function useForm(formSchema, validationSchema = {}) {
     }
 
 
-    return { setForm, form, errors, disable, handleOnChange };
+    return { setForm, form, errors, saveDisabled, handleOnChange };
 }
 
 export default useForm;
