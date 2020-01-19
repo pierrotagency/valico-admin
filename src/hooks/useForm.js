@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 
 
-function useForm(stateSchema, validationSchema = {}) {
+function useForm(formSchema, validationSchema = {}) {
 
-    const [state, setState] = useState(stateSchema);
+    const [form, setForm] = useState(formSchema);
 
-    let errorsSchema = {...stateSchema}
+    let errorsSchema = {...formSchema}
     Object.keys(errorsSchema).forEach(v => errorsSchema[v] = '')
     const [errors, setErrors] = useState(errorsSchema);
 
@@ -17,37 +17,37 @@ function useForm(stateSchema, validationSchema = {}) {
         setDisable(true);
     }, []);
 
-  // For every changed in our state this will be fired
+  // For every changed in our form this will be fired
   // To be able to disable the button
     useEffect(() => {
         
-        if(state) Object.keys(stateSchema).forEach(v => doValidate(v))
+        if(form) Object.keys(formSchema).forEach(v => doValidate(v))
 
     // eslint-disable-next-line react-hooks/exhaustive-deps   
-    }, [state]);
+    }, [form]);
 
-  // Used to disable submit button if there's an error in state
-  // or the required field in state has no value.
+  // Used to disable submit button if there's an error in form
+  // or the required field in form has no value.
   // Wrapped in useCallback to cached the function to avoid intensive memory leaked
   // in every re-render in component
     const validateState = useCallback(() => {
 
         const hasErrorInState = Object.keys(validationSchema).some(key => {
             const isInputFieldRequired = validationSchema[key].required;
-            const stateValue = state[key]; // state value
-            const stateError = errors[key]; // state error
+            const formValue = form[key]; // form value
+            const formError = errors[key]; // form error
 
-            return (isInputFieldRequired && !stateValue) || stateError;
+            return (isInputFieldRequired && !formValue) || formError;
         });
 
         return hasErrorInState;
     
-    }, [state, errors, validationSchema]);
+    }, [form, errors, validationSchema]);
 
 
     const handleOnChange = useCallback((name,value) => {
       
-        setState(prevState => ({
+        setForm(prevState => ({
             ...prevState,
             [name]: value
         }));
@@ -59,7 +59,7 @@ function useForm(stateSchema, validationSchema = {}) {
 
     const doValidate = (name,value=null) => {
         
-        if(!value) value = state[name];
+        if(!value) value = form[name];
 
         let error = "";
 
@@ -101,7 +101,7 @@ function useForm(stateSchema, validationSchema = {}) {
         return res;
     }
 
-    return { state, setState, errors, disable, handleOnChange, isValid };
+    return { form, setForm, errors, disable, handleOnChange, isValid };
 }
 
 export default useForm;

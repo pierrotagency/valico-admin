@@ -30,34 +30,27 @@ function PostView() {
 
     const { state: post, set: setPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
 
-    const { state, setState, errors, handleOnChange  } = useForm(fields, validations);
+    const { form, setForm, errors, handleOnChange  } = useForm(fields, validations);
 
     let { id } = useParams();
 
     useEffect(() => {       
-        console.log('RENDER PostView')      
-        if(tags.length===0) dispatch(getTags())
-        // eslint-disable-next-line react-hooks/exhaustive-deps  
-    },[]);
+        dispatch(activateAuthLayout());        
+        dispatch(getTags())        
+    },[dispatch]);
 
     useEffect(() => {
         dispatch(getViewPost(id));	
     }, [dispatch, id]);
 
-    useEffect(() => {
-        dispatch(activateAuthLayout());
-    }, [dispatch]);
-        
     useEffect(() => {       
         setPost(viewPost)		
         init(viewPost)
         // eslint-disable-next-line react-hooks/exhaustive-deps  
     }, [viewPost]);
 
-    useEffect(() => {        
-        setState(post)
-        // eslint-disable-next-line react-hooks/exhaustive-deps  
-    }, [post]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps  
+    useEffect(() => setForm(post), [post]);
 
 
     const handlePostSave = () => {
@@ -158,7 +151,7 @@ function PostView() {
                                     <p className="text-muted mb-4">Common to all posts</p>
 
                                     <ParamsCard
-                                        state={state}                                    
+                                        form={form}                                    
                                         errors={errors}
                                         handleInputChange={handleInputChange}
                                         handleSelectChange={handleSelectChange}
@@ -176,7 +169,7 @@ function PostView() {
                                     <p className="text-muted mb-4">sdadaasdaa</p>
 
                                     <ChildsCard
-                                        state={state}
+                                        form={form}
                                         errors={errors}
                                         handleSwitchToggle={handleSwitchToggle}
                                         handleSelectChange={handleSelectChange}                                
@@ -193,7 +186,7 @@ function PostView() {
                                     <p className="text-muted mb-4">SEO and Social Sharing</p>
 
                                     <MetaCard
-                                        state={state}                                    
+                                        form={form}                                    
                                         errors={errors}
                                         handleInputChange={handleInputChange}
                                         handleInputBlur={handleInputBlur}

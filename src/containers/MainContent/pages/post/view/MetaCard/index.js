@@ -5,9 +5,9 @@ import { Input, Tags, TextArea } from '../../../../../../components/Form';
 import img1 from '../../../../../../images/products/1.jpg';
 
 
-export default function MetaCard ({handleInputChange, handleInputBlur, state, errors, tags }) {
+export default function MetaCard ({handleInputChange, handleInputBlur, form, errors, tags }) {
 
-    if(!state) return(<Alert color="danger" className="bg-white border border-danger">Couldn't get post info</Alert>)
+    if(!form) return(<Alert color="danger" className="bg-white border border-danger">Couldn't get post info</Alert>)
 
     return (                  
         <Row>
@@ -17,7 +17,7 @@ export default function MetaCard ({handleInputChange, handleInputBlur, state, er
                     label="Title" 
                     onChange={handleInputChange} 
                     onBlur={handleInputBlur} 
-                    value={state.meta_title || ''}
+                    value={form.meta_title || ''}
                     isInvalid={errors.meta_title!==''}
                     message={errors.meta_title}
                 />
@@ -25,7 +25,7 @@ export default function MetaCard ({handleInputChange, handleInputBlur, state, er
                     name="meta_keywords" 
                     label="Keywords" 
                     onChange={handleInputBlur}                             
-                    value={state.meta_keywords || []}
+                    value={form.meta_keywords || []}
                     options={tags}
                     isInvalid={errors.meta_keywords!==''}
                     message={errors.meta_keywords}
@@ -36,7 +36,7 @@ export default function MetaCard ({handleInputChange, handleInputBlur, state, er
                     rows="4"
                     onChange={handleInputChange} 
                     onBlur={handleInputBlur} 
-                    value={state.meta_description || ''}
+                    value={form.meta_description || ''}
                     isInvalid={errors.meta_description!==''}
                     message={errors.meta_description}
                 />                                        

@@ -3,14 +3,14 @@ import { Row, Col , Alert} from 'reactstrap';
 
 import { Select, Input } from '../../../../../../components/Form';
 
-export default function ParamsCard({ state, handleInputChange, handleSelectChange, handleInputBlur, typeOptions, taxonomyOptions, templateOptions, errors }) {
+export default function ParamsCard({ form, handleInputChange, handleSelectChange, handleInputBlur, typeOptions, taxonomyOptions, templateOptions, errors }) {
 
-    const typeValue = state && state.type ? typeOptions.find(item => item.value === state.type) : null
-    const templateValue = state && state.template ? templateOptions.find(item => item.value === state.template) : null
-    const taxonomyValue = state && state.taxonomy ? taxonomyOptions.find(item => item.value === state.taxonomy) : null
+    const typeValue = form && form.type ? typeOptions.find(item => item.value === form.type) : null
+    const templateValue = form && form.template ? templateOptions.find(item => item.value === form.template) : null
+    const taxonomyValue = form && form.taxonomy ? taxonomyOptions.find(item => item.value === form.taxonomy) : null
 
 
-    if(!state) return(<Alert color="danger" className="bg-white border border-danger">Couldn't get post info</Alert>)
+    if(!form) return(<Alert color="danger" className="bg-white border border-danger">Couldn't get post info</Alert>)
 
     return (           
         <Row>
@@ -20,7 +20,7 @@ export default function ParamsCard({ state, handleInputChange, handleSelectChang
                     label="Name" 
                     onChange={handleInputChange} 
                     onBlur={handleInputBlur} 
-                    value={state.name || ''}
+                    value={form.name || ''}
                     isInvalid={errors.name!==''}
                     message={errors.name}
                 />
@@ -29,7 +29,7 @@ export default function ParamsCard({ state, handleInputChange, handleSelectChang
                     label="Slug" 
                     onBlur={handleInputBlur} 
                     onChange={handleInputChange}
-                    value={state.slug || ''} 
+                    value={form.slug || ''} 
                     isInvalid={errors.slug!==''}
                     message={errors.slug}                           
                 />
