@@ -13,7 +13,7 @@ import Board from '../../../../../components/Board'
 // import { test, test2 } from './services'
 
 
-import useUndo from '../../../../../store/history';
+import useUndo from '../../../../../hooks/useUndo';
 
 
 function PostBuilder() {

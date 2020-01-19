@@ -7,77 +7,17 @@ import { useHistory } from "react-router";
 
 import { templates, taxonomies, types } from 'valico-sanmartin'
 
-import ActionsMenu from "./ActionsMenu";
 import Breadcrumb from '../_common/Breadcrumb';
 import { activateAuthLayout, getViewPost, saveViewPost, getTags, addLocalTags } from "../../../../../store/actions";
-import useUndo from '../../../../../store/history';
-import useForm from '../../../../../components/Form/useForm';
+import useUndo from '../../../../../hooks/useUndo';
+import useForm from '../../../../../hooks/useForm';
+
+import ActionsMenu from "./ActionsMenu";
 import MetaCard from './MetaCard';
 import ChildsCard from './ChildsCard';
 import ParamsCard from './ParamsCard';
+import { fields, validations } from './formSchema'
 
-const stateSchema = {
-    name: '',
-    slug: '',
-    template: null,
-    type: null,
-    taxonomy: null,
-    meta_title: '',
-    meta_description: '',
-    meta_keywords: [],
-    childs_template: null,
-    childs_type: null,
-    childs_taxonomy: null,
-    childs_allowed: false
-};
-
-const validationStateSchema = {
-    name: {
-        required: true
-    },
-    slug: {
-        required: true,
-        validator: {
-            regEx: /^[a-zA-Z]+$/,
-            error: 'Invalid slug format.',
-        },
-    },
-    type: {
-        required: true
-    },
-    taxonomy: {
-        required: true
-    },
-    template: {
-        required: true
-    },
-    childs_template: {
-        required: true
-    },
-    childs_type: {
-        required: true
-    },
-    childs_taxonomy: {
-        required: true
-    },
-    meta_title: {
-        required: true,
-        validator: {
-            regEx: /^[a-zA-Z]+$/,
-            error: 'Invalid first name format.',
-        },
-    },
-    meta_description: {
-        required: true,
-        validator: {
-            regEx: /^[a-zA-Z]+$/,
-            error: 'Invalid last name format.',
-        },
-    },
-    meta_keywords: {
-        required: true
-    }
-};
 
 function PostView() {
 
@@ -90,7 +30,7 @@ function PostView() {
 
     const { state: post, set: setPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
 
-    const { state, setState, errors, handleOnChange  } = useForm(stateSchema, validationStateSchema);
+    const { state, setState, errors, handleOnChange  } = useForm(fields, validations);
 
     let { id } = useParams();
 
@@ -143,21 +83,19 @@ function PostView() {
     const handleClickBuilder = () => history.push('/posts/'+id+'/builder')    
     
     const onKeyDown = (keyName, e, handle) => {
-        // console.log("test:onKeyDown", keyName, e, handle)    
         switch (keyName) {
-        case "ctrl+z":
-            undo();
-            break;
-        case "ctrl+shift+z":
-            redo();
-            break;
-        case "ctrl+s":
-            handlePostSave();
-            break;
-        default:
-            break;
+            case "ctrl+z":
+                undo();
+                break;
+            case "ctrl+shift+z":
+                redo();
+                break;
+            case "ctrl+s":
+                handlePostSave();
+                break;
+            default:
+                break;
         }
-        
     }
 
     const handleInputChange = (name, value) => handleOnChange(name, value)
@@ -173,7 +111,6 @@ function PostView() {
     const templateOptions = Object.keys(templates).map((template) => ({ value: template, label: templates[template].name }))
     const taxonomyOptions = Object.keys(taxonomies).map((taxonomy) => ({ value: taxonomy, label: taxonomies[taxonomy].name }))
     const typeOptions = Object.keys(types).map((type) => ({ value: type, label: types[type].name }))
-    
     
 
     return (
