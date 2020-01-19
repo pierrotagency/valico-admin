@@ -5,31 +5,27 @@ function useForm(formSchema, validationSchema = {}) {
 
     const [form, setForm] = useState({});
     const [disable, setDisable] = useState(true);
-    const [firstRun, setFirstRun] = useState(true)
-
+    
     // generate errors state array with every field (empty)
     let errorsSchema = {...formSchema}
     Object.keys(errorsSchema).forEach(v => errorsSchema[v] = {invalid: false, message: ''})    
     const [errors, setErrors] = useState(errorsSchema)
 
-    // run the first time the form object has data
+    
     useEffect(() => {
-        if(firstRun && form && !(Object.keys(form).length === 0 && form.constructor === Object)){
-            console.log('>>>>>>>>>>')
-            setFirstRun(false)
-            checkAllFields()
-            
+        if(form && !(Object.keys(form).length === 0 && form.constructor === Object)){
+            checkAllFields() 
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps 
     }, [form]);
-
 
     useEffect(() => {
         validateState()
     // eslint-disable-next-line react-hooks/exhaustive-deps 
     }, [errors]);
 
-    const checkAllFields = () => {
+
+    const checkAllFields = () => {        
         let tmpErrors = errors; 
 
         Object.keys(validationSchema).forEach(name => {
@@ -56,11 +52,11 @@ function useForm(formSchema, validationSchema = {}) {
 
         setDisable(isInvalid);
 
-    }, [form, errors, validationSchema]);
+    }, [errors, validationSchema]);
 
 
     const handleOnChange = useCallback((name,value) => {
-     
+    
         setForm(prevState => ({ ...prevState, [name]: value }));
 
         const error = getErrors(name, value)

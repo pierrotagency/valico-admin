@@ -49,8 +49,13 @@ function PostView() {
         // eslint-disable-next-line react-hooks/exhaustive-deps  
     }, [viewPost]);
 
+    // refresh Form object ONLY when theres a real object to fill
+    useEffect(() => {
+        if(post && !(Object.keys(post).length === 0 && post.constructor === Object)){                 
+            setForm(post)        
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps  
-    useEffect(() => setForm(post), [post]);
+    }, [post]);
 
 
     const handlePostSave = () => {
