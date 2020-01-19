@@ -3,77 +3,87 @@ import { useState, useEffect, useCallback } from "react";
 
 function useForm(formSchema, validationSchema = {}) {
 
-    const [form, setForm] = useState(formSchema);
-
-    let errorsSchema = {...formSchema}
-    Object.keys(errorsSchema).forEach(v => errorsSchema[v] = '')
-    const [errors, setErrors] = useState(errorsSchema);
-
-
+    const [form, setForm] = useState({});
     const [disable, setDisable] = useState(true);
-   
-  // Disable button in initial render.
-    useEffect(() => {
-        setDisable(true);
-    }, []);
+    const [firstRun, setFirstRun] = useState(true)
 
-  // For every changed in our form this will be fired
-  // To be able to disable the button
-    useEffect(() => {
-        
-        if(form) Object.keys(formSchema).forEach(v => doValidate(v))
+    // generate errors state array with every field (empty)
+    let errorsSchema = {...formSchema}
+    Object.keys(errorsSchema).forEach(v => errorsSchema[v] = {invalid: false, message: ''})    
+    const [errors, setErrors] = useState(errorsSchema)
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps   
+    // run the first time the form object has data
+    useEffect(() => {
+        if(firstRun && form && !(Object.keys(form).length === 0 && form.constructor === Object)){
+            console.log('>>>>>>>>>>')
+            setFirstRun(false)
+            checkAllFields()
+            
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps 
     }, [form]);
 
-  // Used to disable submit button if there's an error in form
-  // or the required field in form has no value.
-  // Wrapped in useCallback to cached the function to avoid intensive memory leaked
-  // in every re-render in component
-    const validateState = useCallback(() => {
+    useEffect(() => {
+        setDisable(validateState());
+    // eslint-disable-next-line react-hooks/exhaustive-deps 
+    }, [errors]);
 
-        const hasErrorInState = Object.keys(validationSchema).some(key => {
-            const isInputFieldRequired = validationSchema[key].required;
-            const formValue = form[key]; // form value
-            const formError = errors[key]; // form error
-
-            return (isInputFieldRequired && !formValue) || formError;
-        });
-
-        return hasErrorInState;
     
-    }, [form, errors, validationSchema]);
+    const checkAllFields = () => {
+        let tmpErrors = errors; 
+
+        Object.keys(validationSchema).forEach(name => {
+            const error = getErrors(name)
+            
+            tmpErrors = {...tmpErrors, 
+                [name]: {
+                    invalid: (error !== ''), 
+                    message: error 
+                }
+            }
+
+        })
+
+        setErrors(prevState => ({...prevState, ...tmpErrors}));
+    }
+
+
+    const validateState = useCallback(() => {
+        return Object.keys(validationSchema).some(name => {
+            return errors[name].invalid;
+        });
+    }, [form, validationSchema]);
 
 
     const handleOnChange = useCallback((name,value) => {
-      
-        setForm(prevState => ({
-            ...prevState,
-            [name]: value
+        console.log('handleOnChange')
+
+        setForm(prevState => ({ ...prevState, [name]: value }));
+
+        const error = getErrors(name, value)
+        setErrors(prevState => ({...prevState, 
+            [name]: {
+                invalid: (error !== ''), 
+                message: error 
+            }
         }));
 
-        doValidate(name,value)
         // eslint-disable-next-line react-hooks/exhaustive-deps   
     },[validationSchema]);
 
 
-    const doValidate = (name,value=null) => {
-        
-        if(!value) value = form[name];
+    const getErrors = (name,value=null) => {
+        let error = '';
 
-        let error = "";
+        if(!value && form) value = form[name];
 
         if(validationSchema[name]){
 
             if (validationSchema[name].required) {            
-                if(Array.isArray(value)){
-                    if(value.length===0){
-                        error = "This is required field.";    
-                    }
-                }
-                else if (!value) {
-                    error = "This is required field.";
-                }
+                if(Array.isArray(value) && value.length===0)
+                    error = "This is required field.";                                        
+                else if (!value)
+                    error = "This is required field.";                
             }
 
             if (validationSchema[name].validator !== null && typeof validationSchema[name].validator === "object") {
@@ -82,26 +92,13 @@ function useForm(formSchema, validationSchema = {}) {
                 }
             }
 
-            setErrors(prevState => ({
-                ...prevState,
-                [name]: error 
-            }));
-
         }
 
+        return error;
     }
 
 
-
-    const isValid = async () => {
-        
-        const res = await validateState()
-
-        console.log(res)
-        return res;
-    }
-
-    return { form, setForm, errors, disable, handleOnChange, isValid };
+    return { setForm, form, errors, disable, handleOnChange, checkAllFields };
 }
 
 export default useForm;

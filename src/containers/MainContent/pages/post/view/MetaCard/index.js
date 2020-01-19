@@ -18,8 +18,8 @@ export default function MetaCard ({handleInputChange, handleInputBlur, form, err
                     onChange={handleInputChange} 
                     onBlur={handleInputBlur} 
                     value={form.meta_title || ''}
-                    isInvalid={errors.meta_title!==''}
-                    message={errors.meta_title}
+                    isInvalid={errors.meta_title.invalid}
+                    message={errors.meta_title.message}
                 />
                 <Tags 
                     name="meta_keywords" 
@@ -27,8 +27,8 @@ export default function MetaCard ({handleInputChange, handleInputBlur, form, err
                     onChange={handleInputBlur}                             
                     value={form.meta_keywords || []}
                     options={tags}
-                    isInvalid={errors.meta_keywords!==''}
-                    message={errors.meta_keywords}
+                    isInvalid={errors.meta_keywords.invalid}
+                    message={errors.meta_keywords.message}
                 />
                 <TextArea
                     name="meta_description" 
@@ -37,8 +37,8 @@ export default function MetaCard ({handleInputChange, handleInputBlur, form, err
                     onChange={handleInputChange} 
                     onBlur={handleInputBlur} 
                     value={form.meta_description || ''}
-                    isInvalid={errors.meta_description!==''}
-                    message={errors.meta_description}
+                    isInvalid={errors.meta_description.invalid}
+                    message={errors.meta_description.message}
                 />                                        
             </Col>
             <Col sm="6">

@@ -30,8 +30,8 @@ export default function ChildsCard({ form, errors, handleSwitchToggle, handleSel
                     placeholder={''}
                     onChange={handleSelectChange}
                     value={childsTypeValue}
-                    isInvalid={errors.childs_type!==''}
-                    message={errors.childs_type}                                
+                    isInvalid={errors.childs_type.invalid}
+                    message={errors.childs_type.message}                                
                 />                                                                                    
                 <Select 
                     name="childs_taxonomy"
@@ -40,8 +40,8 @@ export default function ChildsCard({ form, errors, handleSwitchToggle, handleSel
                     placeholder={''}           
                     onChange={handleSelectChange}
                     value={childsTaxonomyValue}
-                    isInvalid={errors.childs_taxonomy!==''}
-                    message={errors.childs_taxonomy}                               
+                    isInvalid={errors.childs_taxonomy.invalid}
+                    message={errors.childs_taxonomy.message}                               
                 />                                                                          
                 <Select 
                     name="childs_template"
@@ -50,8 +50,8 @@ export default function ChildsCard({ form, errors, handleSwitchToggle, handleSel
                     placeholder={''}              
                     onChange={handleSelectChange}
                     value={childsTemplateValue}
-                    isInvalid={errors.childs_template!==''}
-                    message={errors.childs_template}                             
+                    isInvalid={errors.childs_template.invalid}
+                    message={errors.childs_template.message}                             
                 />                                           
             </Col>
         </Row>

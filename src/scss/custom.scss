@@ -304,7 +304,12 @@ div[id^="pagination"]   {
 }
 
 
+// REB Fix to disabling buttons
 
-
-
+button.btn.disabled,
+button.btn:disabled{
+  opacity: 0.25;
+  cursor: default;
+  pointer-events: none;
+}
 

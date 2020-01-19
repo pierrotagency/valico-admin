@@ -3,7 +3,6 @@ import Layout from './components/Layout/';
 import { withRouter, Route, Switch, BrowserRouter as Router, Redirect, useLocation } from 'react-router-dom';
 
 import routes from './routes';
-import './custom.css';
 import './App.scss';
 
 import { isUserAuthenticated } from './helpers/auth';
