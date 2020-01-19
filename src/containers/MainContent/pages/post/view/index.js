@@ -260,37 +260,31 @@ function PostView() {
                                                 message={errors.slug}                           
                                             />
                                         </Col>
-                                        <Col sm="6">                                 
-                                            <div className="form-group">
-                                                <label className="control-label">Type</label>
-                                                <Select 
-                                                    name="type"
-                                                    options={typeOptions} 
-                                                    placeholder={''}
-                                                    onChange={handleSelectChange}
-                                                    value={typeValue}
-                                                />
-                                            </div>
-                                            <div className="form-group">
-                                                <label className="control-label">Taxonomy</label>
-                                                <Select 
-                                                    name="taxonomy"
-                                                    options={taxonomyOptions} 
-                                                    placeholder={''}           
-                                                    onChange={handleSelectChange}
-                                                    value={taxonomyValue}
-                                                />
-                                            </div>
-                                            <div className="form-group">
-                                                <label className="control-label">Template</label>
-                                                <Select 
-                                                    name="template"
-                                                    options={templateOptions} 
-                                                    placeholder={''}              
-                                                    onChange={handleSelectChange}
-                                                    value={templateValue}
-                                                />
-                                            </div>
+                                        <Col sm="6">                                                                         
+                                            <Select 
+                                                name="type"
+                                                label="Type" 
+                                                options={typeOptions} 
+                                                placeholder={''}
+                                                onChange={handleSelectChange}
+                                                value={typeValue}
+                                            />                                            
+                                            <Select 
+                                                name="taxonomy"
+                                                label="Taxonomy" 
+                                                options={taxonomyOptions} 
+                                                placeholder={''}           
+                                                onChange={handleSelectChange}
+                                                value={taxonomyValue}
+                                            />
+                                            <Select 
+                                                name="template"
+                                                label="Template" 
+                                                options={templateOptions} 
+                                                placeholder={''}              
+                                                onChange={handleSelectChange}
+                                                value={templateValue}
+                                            />
                                         </Col>
                                     </Row>
                                 :
@@ -305,11 +299,8 @@ function PostView() {
                                 <p className="text-muted mb-4">sdadaasdaa</p>
 
                                 {state ?
-
                                     <Row>
-
                                         <Col sm="6">
-
                                             <Toggle 
                                                 name="childs_allowed"
                                                 checked={state.childs_allowed || false}
@@ -318,38 +309,31 @@ function PostView() {
                                             />
                                             
                                         </Col>
-
-                                        <Col sm="6">                                 
-                                            <div className="form-group">
-                                                <label className="control-label">Type</label>
-                                                <Select 
-                                                    name="childs_type"
-                                                    options={typeOptions} 
-                                                    placeholder={''}
-                                                    onChange={handleSelectChange}
-                                                    value={childsTypeValue}                                     
-                                                />
-                                            </div>
-                                            <div className="form-group">
-                                                <label className="control-label">Taxonomy</label>
-                                                <Select 
-                                                    name="childs_taxonomy"
-                                                    options={taxonomyOptions} 
-                                                    placeholder={''}           
-                                                    onChange={handleSelectChange}
-                                                    value={childsTaxonomyValue}                               
-                                                />
-                                            </div>
-                                            <div className="form-group">
-                                                <label className="control-label">Template</label>
-                                                <Select 
-                                                    name="childs_template"
-                                                    options={templateOptions} 
-                                                    placeholder={''}              
-                                                    onChange={handleSelectChange}
-                                                    value={childsTemplateValue}                              
-                                                />
-                                            </div>
+                                        <Col sm="6">                                                                             
+                                            <Select 
+                                                name="childs_type"
+                                                label="Childs Type"
+                                                options={typeOptions} 
+                                                placeholder={''}
+                                                onChange={handleSelectChange}
+                                                value={childsTypeValue}                                     
+                                            />                                                                                    
+                                            <Select 
+                                                name="childs_taxonomy"
+                                                label="Childs Taxonomy"
+                                                options={taxonomyOptions} 
+                                                placeholder={''}           
+                                                onChange={handleSelectChange}
+                                                value={childsTaxonomyValue}                               
+                                            />                                                                          
+                                            <Select 
+                                                name="childs_template"
+                                                label="Childs Tempplate"
+                                                options={templateOptions} 
+                                                placeholder={''}              
+                                                onChange={handleSelectChange}
+                                                value={childsTemplateValue}                              
+                                            />                                           
                                         </Col>
                                     </Row>
                                 :
@@ -364,10 +348,8 @@ function PostView() {
                                 <p className="text-muted mb-4">SEO and Social Sharing</p>
 
                                 {state ?
-
                                     <Row>
                                         <Col sm="6">
-
                                             <Input
                                                 name="meta_title" 
                                                 label="Title" 
@@ -377,7 +359,6 @@ function PostView() {
                                                 isInvalid={errors.meta_title!==''}
                                                 message={errors.meta_title}
                                             />
-
                                             <Tags 
                                                 name="meta_keywords" 
                                                 label="Keywords" 
@@ -387,7 +368,6 @@ function PostView() {
                                                 isInvalid={errors.meta_keywords!==''}
                                                 message={errors.meta_keywords}
                                             />
-
                                             <TextArea
                                                 name="meta_description" 
                                                 label="Description" 
@@ -397,8 +377,7 @@ function PostView() {
                                                 value={state.meta_description || ''}
                                                 isInvalid={errors.meta_description!==''}
                                                 message={errors.meta_description}
-                                            />
-                                            
+                                            />                                        
                                         </Col>
                                         <Col sm="6">
                                             <div className="form-group">

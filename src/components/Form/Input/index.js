@@ -11,7 +11,7 @@ const Input = ({label, isInvalid, isValid, message, className, name, onChange, o
 
     return (
         <div className="form-group position-relative">
-            <label>{label}</label>
+            {label ? <label>{label}</label> : null}
             <input 
                 {...props} 
                 key={name}

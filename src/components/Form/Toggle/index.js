@@ -10,7 +10,7 @@ export default ({ label, name, checked, onChange, ...props }) => {
     return (
         <label className="d-flex align-items-center mb-1">
             <Toggle key={name} checked={checked} aria-label={label} icons={false} onChange={handleOnChange} />
-            <span className="ml-2">{label}</span>
+            {label ? <span className="ml-2">{label}</span> : null }
         </label>       
     )
 }

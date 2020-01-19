@@ -80,7 +80,7 @@ export default function Tags({label, name, isInvalid, isValid, message, classNam
 
     return (
         <div className="form-group position-relative">
-            <label>{label}</label>
+            {label ? <label>{label}</label> : null}
             <CreatableSelect
                 {...props}
                 key={name}
