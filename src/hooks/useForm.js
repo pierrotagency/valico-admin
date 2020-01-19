@@ -23,12 +23,12 @@ function useForm(formSchema, validationSchema = {}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps 
     }, [form]);
 
+
     useEffect(() => {
-        setDisable(validateState());
+        validateState()
     // eslint-disable-next-line react-hooks/exhaustive-deps 
     }, [errors]);
 
-    
     const checkAllFields = () => {
         let tmpErrors = errors; 
 
@@ -49,15 +49,18 @@ function useForm(formSchema, validationSchema = {}) {
 
 
     const validateState = useCallback(() => {
-        return Object.keys(validationSchema).some(name => {
+
+        const isInvalid = Object.keys(validationSchema).some(name => {
             return errors[name].invalid;
         });
-    }, [form, validationSchema]);
+
+        setDisable(isInvalid);
+
+    }, [form, errors, validationSchema]);
 
 
     const handleOnChange = useCallback((name,value) => {
-        console.log('handleOnChange')
-
+     
         setForm(prevState => ({ ...prevState, [name]: value }));
 
         const error = getErrors(name, value)
@@ -98,7 +101,7 @@ function useForm(formSchema, validationSchema = {}) {
     }
 
 
-    return { setForm, form, errors, disable, handleOnChange, checkAllFields };
+    return { setForm, form, errors, disable, handleOnChange };
 }
 
 export default useForm;

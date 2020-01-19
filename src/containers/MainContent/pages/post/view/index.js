@@ -30,7 +30,7 @@ function PostView() {
 
     const { state: post, set: setPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
 
-    const { form, setForm, errors, handleOnChange, disable, checkAllFields  } = useForm(fields, validations);
+    const { form, setForm, errors, handleOnChange, disable } = useForm(fields, validations);
 
     let { id } = useParams();
 
