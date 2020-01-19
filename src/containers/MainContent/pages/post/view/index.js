@@ -174,14 +174,7 @@ function PostView() {
     const taxonomyOptions = Object.keys(taxonomies).map((taxonomy) => ({ value: taxonomy, label: taxonomies[taxonomy].name }))
     const typeOptions = Object.keys(types).map((type) => ({ value: type, label: types[type].name }))
     
-    const childsTypeValue = state && state.childs_type ? typeOptions.find(item => item.value === state.childs_type) : null
-    const childsTemplateValue = state && state.childs_template ? templateOptions.find(item => item.value === state.childs_template) : null
-    const childsTaxonomyValue = state && state.childs_taxonomy ? taxonomyOptions.find(item => item.value === state.childs_taxonomy) : null
-
-    const typeValue = state && state.type ? typeOptions.find(item => item.value === state.type) : null
-    const templateValue = state && state.template ? templateOptions.find(item => item.value === state.template) : null
-    const taxonomyValue = state && state.taxonomy ? taxonomyOptions.find(item => item.value === state.taxonomy) : null
-
+    
 
     return (
         <>
@@ -191,6 +184,7 @@ function PostView() {
         >
             <div className="content">
                 <div className="container-fluid">
+                    
                     <div className="page-title-box">
                         <Row className="align-items-center">
                             <Col sm="6">
@@ -221,66 +215,56 @@ function PostView() {
 
                     <Row>
                         <Col>
-
                             <Card>
-                            <CardBody>
-                                <h4 className="mt-0 header-title">Basic Properties</h4>
-                                <p className="text-muted mb-4">Common to all posts</p>
+                                <CardBody>
+                                    <h4 className="mt-0 header-title">Basic Properties</h4>
+                                    <p className="text-muted mb-4">Common to all posts</p>
 
-                                <ParamsCard
-                                    state={state}                                    
-                                    errors={errors}
-                                    handleInputChange={handleInputChange}
-                                    handleSelectChange={handleSelectChange}
-                                    handleInputBlur={handleInputBlur}
-                                    typeOptions={typeOptions}
-                                    taxonomyOptions={taxonomyOptions}
-                                    templateOptions={templateOptions}                                    
-                                    typeValue={typeValue}
-                                    taxonomyValue={taxonomyValue}
-                                    templateValue={templateValue}
-                                />
-                                    
-                            </CardBody>
+                                    <ParamsCard
+                                        state={state}                                    
+                                        errors={errors}
+                                        handleInputChange={handleInputChange}
+                                        handleSelectChange={handleSelectChange}
+                                        handleInputBlur={handleInputBlur}
+                                        typeOptions={typeOptions}
+                                        taxonomyOptions={taxonomyOptions}
+                                        templateOptions={templateOptions}                                                                        
+                                    />
+                                        
+                                </CardBody>
                             </Card>
                             <Card>
+                                <CardBody>
+                                    <h4 className="mt-0 header-title">Childs</h4>
+                                    <p className="text-muted mb-4">sdadaasdaa</p>
 
-                            <CardBody>
-                                <h4 className="mt-0 header-title">Childs</h4>
-                                <p className="text-muted mb-4">sdadaasdaa</p>
+                                    <ChildsCard
+                                        state={state}
+                                        errors={errors}
+                                        handleSwitchToggle={handleSwitchToggle}
+                                        handleSelectChange={handleSelectChange}                                
+                                        typeOptions={typeOptions}
+                                        taxonomyOptions={taxonomyOptions}                                    
+                                        templateOptions={templateOptions}                                    
+                                    />
 
-                                <ChildsCard
-                                    state={state}
-                                    errors={errors}
-                                    handleSwitchToggle={handleSwitchToggle}
-                                    handleSelectChange={handleSelectChange}
-                                    childsTypeValue={childsTypeValue}
-                                    typeOptions={typeOptions}
-                                    taxonomyOptions={taxonomyOptions}
-                                    childsTaxonomyValue={childsTaxonomyValue}
-                                    templateOptions={templateOptions}
-                                    childsTemplateValue={childsTemplateValue}
-                                />
-
-                            </CardBody>
+                                </CardBody>
                             </Card>
-
                             <Card>
-                            <CardBody>
-                                <h4 className="mt-0 header-title">Meta Data</h4>
-                                <p className="text-muted mb-4">SEO and Social Sharing</p>
+                                <CardBody>
+                                    <h4 className="mt-0 header-title">Meta Data</h4>
+                                    <p className="text-muted mb-4">SEO and Social Sharing</p>
 
-                                <MetaCard
-                                    state={state}                                    
-                                    errors={errors}
-                                    handleInputChange={handleInputChange}
-                                    handleInputBlur={handleInputBlur}
-                                    tags={tags}
-                                />
+                                    <MetaCard
+                                        state={state}                                    
+                                        errors={errors}
+                                        handleInputChange={handleInputChange}
+                                        handleInputBlur={handleInputBlur}
+                                        tags={tags}
+                                    />
 
-                            </CardBody>
+                                </CardBody>
                             </Card>
-                        
                         </Col>
                     </Row>
 

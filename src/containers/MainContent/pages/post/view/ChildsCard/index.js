@@ -3,7 +3,11 @@ import { Row, Col , Alert } from 'reactstrap';
 
 import { Select, Toggle } from '../../../../../../components/Form';
 
-export default function ChildsCard({ state, errors, handleSwitchToggle, handleSelectChange, childsTypeValue, typeOptions, taxonomyOptions, childsTaxonomyValue, templateOptions, childsTemplateValue }) {
+export default function ChildsCard({ state, errors, handleSwitchToggle, handleSelectChange, typeOptions, taxonomyOptions, templateOptions }) {
+
+    const childsTypeValue = state && state.childs_type ? typeOptions.find(item => item.value === state.childs_type) : null
+    const childsTemplateValue = state && state.childs_template ? templateOptions.find(item => item.value === state.childs_template) : null
+    const childsTaxonomyValue = state && state.childs_taxonomy ? taxonomyOptions.find(item => item.value === state.childs_taxonomy) : null
 
     if(!state) return(<Alert color="danger" className="bg-white border border-danger">Couldn't get post info</Alert>)
 

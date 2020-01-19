@@ -3,7 +3,12 @@ import { Row, Col , Alert} from 'reactstrap';
 
 import { Select, Input } from '../../../../../../components/Form';
 
-export default function ParamsCard({ state, handleInputChange, handleSelectChange, handleInputBlur, typeOptions, taxonomyOptions, templateOptions, errors, typeValue, taxonomyValue, templateValue }) {
+export default function ParamsCard({ state, handleInputChange, handleSelectChange, handleInputBlur, typeOptions, taxonomyOptions, templateOptions, errors }) {
+
+    const typeValue = state && state.type ? typeOptions.find(item => item.value === state.type) : null
+    const templateValue = state && state.template ? templateOptions.find(item => item.value === state.template) : null
+    const taxonomyValue = state && state.taxonomy ? taxonomyOptions.find(item => item.value === state.taxonomy) : null
+
 
     if(!state) return(<Alert color="danger" className="bg-white border border-danger">Couldn't get post info</Alert>)
 
