@@ -25,6 +25,13 @@ import img1 from '../../../../../images/products/1.jpg';
 import useForm from '../../../../../components/Form/useForm';
 
 const stateSchema = {
+    
+    name: '',
+    slug: '',
+    template: null,
+    type: null,
+    taxonomy: null,
+
     meta_title: '',
     meta_description: '',
     meta_keywords: [],
@@ -37,6 +44,16 @@ const stateSchema = {
 };
 
 const validationStateSchema = {
+    name: {
+        required: true
+    },
+    slug: {
+        required: true,
+        validator: {
+            regEx: /^[a-zA-Z]+$/,
+            error: 'Invalid slug format.',
+        },
+    },
     meta_title: {
         required: true,
         validator: {
@@ -168,9 +185,14 @@ function PostView() {
     const taxonomyOptions = Object.keys(taxonomies).map((taxonomy) => ({ value: taxonomy, label: taxonomies[taxonomy].name }))
     const typeOptions = Object.keys(types).map((type) => ({ value: type, label: types[type].name }))
     
-    const typeValue = state && state.childs_type ? typeOptions.find(item => item.value === state.childs_type) : null
-    const templateValue = state && state.childs_template ? templateOptions.find(item => item.value === state.childs_template) : null
-    const taxonomyValue = state && state.childs_taxonomy ? taxonomyOptions.find(item => item.value === state.childs_taxonomy) : null
+    const childsTypeValue = state && state.childs_type ? typeOptions.find(item => item.value === state.childs_type) : null
+    const childsTemplateValue = state && state.childs_template ? templateOptions.find(item => item.value === state.childs_template) : null
+    const childsTaxonomyValue = state && state.childs_taxonomy ? taxonomyOptions.find(item => item.value === state.childs_taxonomy) : null
+
+    const typeValue = state && state.type ? typeOptions.find(item => item.value === state.type) : null
+    const templateValue = state && state.template ? templateOptions.find(item => item.value === state.template) : null
+    const taxonomyValue = state && state.taxonomy ? taxonomyOptions.find(item => item.value === state.taxonomy) : null
+
 
     return (
         <>
@@ -211,24 +233,71 @@ function PostView() {
                     <Row>
                         <Col>
 
-                            {/* <ParamsCardWithLoading 
-                                isLoading={loadingViewPost}
-                                post={post}
-                                setPost={setPost}                                
-                            />   
-                            
-                            <ChildsCardWithLoading 
-                                isLoading={loadingViewPost}
-                                post={post}
-                                setPost={setPost}
-                            />    */}
-                            
-                            {/* <MetaCardWithLoading                                
-                                isLoading={loadingViewPost} 
-                                post={post}
-                                fieldUpdated={handleFieldUpdated}
-                                tags={tags}                  
-                            />    */}
+                            <Card>
+                            <CardBody>
+                                <h4 className="mt-0 header-title">Basic Properties</h4>
+                                <p className="text-muted mb-4">Common to all posts</p>
+
+                                {state ?
+                                    <Row>
+                                        <Col sm="6">
+                                            <Input
+                                                name="name" 
+                                                label="Name" 
+                                                onChange={handleInputChange} 
+                                                onBlur={handleInputBlur} 
+                                                value={state.name || ''}
+                                                isInvalid={errors.name!==''}
+                                                message={errors.name}
+                                            />
+                                            <Input 
+                                                name="slug" 
+                                                label="Slug" 
+                                                onBlur={handleInputBlur} 
+                                                onChange={handleInputChange}
+                                                value={state.slug || ''} 
+                                                isInvalid={errors.slug!==''}
+                                                message={errors.slug}                           
+                                            />
+                                        </Col>
+                                        <Col sm="6">                                 
+                                            <div className="form-group">
+                                                <label className="control-label">Type</label>
+                                                <Select 
+                                                    name="type"
+                                                    options={typeOptions} 
+                                                    placeholder={''}
+                                                    onChange={handleSelectChange}
+                                                    value={typeValue}
+                                                />
+                                            </div>
+                                            <div className="form-group">
+                                                <label className="control-label">Taxonomy</label>
+                                                <Select 
+                                                    name="taxonomy"
+                                                    options={taxonomyOptions} 
+                                                    placeholder={''}           
+                                                    onChange={handleSelectChange}
+                                                    value={taxonomyValue}
+                                                />
+                                            </div>
+                                            <div className="form-group">
+                                                <label className="control-label">Template</label>
+                                                <Select 
+                                                    name="template"
+                                                    options={templateOptions} 
+                                                    placeholder={''}              
+                                                    onChange={handleSelectChange}
+                                                    value={templateValue}
+                                                />
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                :
+                                    <Alert color="danger" className="bg-white border border-danger">Couldn't get post info</Alert>
+                                }
+                            </CardBody>
+                            </Card>
 
                             <Card>
                             <CardBody>
@@ -258,7 +327,7 @@ function PostView() {
                                                     options={typeOptions} 
                                                     placeholder={''}
                                                     onChange={handleSelectChange}
-                                                    value={typeValue}                                     
+                                                    value={childsTypeValue}                                     
                                                 />
                                             </div>
                                             <div className="form-group">
@@ -268,7 +337,7 @@ function PostView() {
                                                     options={taxonomyOptions} 
                                                     placeholder={''}           
                                                     onChange={handleSelectChange}
-                                                    value={taxonomyValue}                               
+                                                    value={childsTaxonomyValue}                               
                                                 />
                                             </div>
                                             <div className="form-group">
@@ -278,7 +347,7 @@ function PostView() {
                                                     options={templateOptions} 
                                                     placeholder={''}              
                                                     onChange={handleSelectChange}
-                                                    value={templateValue}                              
+                                                    value={childsTemplateValue}                              
                                                 />
                                             </div>
                                         </Col>
@@ -286,7 +355,6 @@ function PostView() {
                                 :
                                     <Alert color="danger" className="bg-white border border-danger">Couldn't get post info</Alert>                             
                                 }
-
                             </CardBody>
                             </Card>
 
