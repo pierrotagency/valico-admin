@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Row, Col, Card, CardBody, Alert } from 'reactstrap';
+import { Row, Col, Card, CardBody } from 'reactstrap';
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import Hotkeys from 'react-hot-keys';
@@ -11,9 +11,10 @@ import ActionsMenu from "./ActionsMenu";
 import Breadcrumb from '../_common/Breadcrumb';
 import { activateAuthLayout, getViewPost, saveViewPost, getTags, addLocalTags } from "../../../../../store/actions";
 import useUndo from '../../../../../store/history';
-import { Input, Tags, TextArea, Select, Toggle } from '../../../../../components/Form';
-import img1 from '../../../../../images/products/1.jpg';
 import useForm from '../../../../../components/Form/useForm';
+import MetaCard from './MetaCard';
+import ChildsCard from './ChildsCard';
+import ParamsCard from './ParamsCard';
 
 const stateSchema = {
     name: '',
@@ -40,6 +41,24 @@ const validationStateSchema = {
             regEx: /^[a-zA-Z]+$/,
             error: 'Invalid slug format.',
         },
+    },
+    type: {
+        required: true
+    },
+    taxonomy: {
+        required: true
+    },
+    template: {
+        required: true
+    },
+    childs_template: {
+        required: true
+    },
+    childs_type: {
+        required: true
+    },
+    childs_taxonomy: {
+        required: true
     },
     meta_title: {
         required: true,
@@ -208,107 +227,41 @@ function PostView() {
                                 <h4 className="mt-0 header-title">Basic Properties</h4>
                                 <p className="text-muted mb-4">Common to all posts</p>
 
-                                {state ?
-                                    <Row>
-                                        <Col sm="6">
-                                            <Input
-                                                name="name" 
-                                                label="Name" 
-                                                onChange={handleInputChange} 
-                                                onBlur={handleInputBlur} 
-                                                value={state.name || ''}
-                                                isInvalid={errors.name!==''}
-                                                message={errors.name}
-                                            />
-                                            <Input 
-                                                name="slug" 
-                                                label="Slug" 
-                                                onBlur={handleInputBlur} 
-                                                onChange={handleInputChange}
-                                                value={state.slug || ''} 
-                                                isInvalid={errors.slug!==''}
-                                                message={errors.slug}                           
-                                            />
-                                        </Col>
-                                        <Col sm="6">                                                                         
-                                            <Select 
-                                                name="type"
-                                                label="Type" 
-                                                options={typeOptions} 
-                                                placeholder={''}
-                                                onChange={handleSelectChange}
-                                                value={typeValue}
-                                            />                                            
-                                            <Select 
-                                                name="taxonomy"
-                                                label="Taxonomy" 
-                                                options={taxonomyOptions} 
-                                                placeholder={''}           
-                                                onChange={handleSelectChange}
-                                                value={taxonomyValue}
-                                            />
-                                            <Select 
-                                                name="template"
-                                                label="Template" 
-                                                options={templateOptions} 
-                                                placeholder={''}              
-                                                onChange={handleSelectChange}
-                                                value={templateValue}
-                                            />
-                                        </Col>
-                                    </Row>
-                                :
-                                    <Alert color="danger" className="bg-white border border-danger">Couldn't get post info</Alert>
-                                }
+                                <ParamsCard
+                                    state={state}                                    
+                                    errors={errors}
+                                    handleInputChange={handleInputChange}
+                                    handleSelectChange={handleSelectChange}
+                                    handleInputBlur={handleInputBlur}
+                                    typeOptions={typeOptions}
+                                    taxonomyOptions={taxonomyOptions}
+                                    templateOptions={templateOptions}                                    
+                                    typeValue={typeValue}
+                                    taxonomyValue={taxonomyValue}
+                                    templateValue={templateValue}
+                                />
+                                    
                             </CardBody>
                             </Card>
-
                             <Card>
+
                             <CardBody>
                                 <h4 className="mt-0 header-title">Childs</h4>
                                 <p className="text-muted mb-4">sdadaasdaa</p>
 
-                                {state ?
-                                    <Row>
-                                        <Col sm="6">
-                                            <Toggle 
-                                                name="childs_allowed"
-                                                checked={state.childs_allowed || false}
-                                                label='Allow Childs'
-                                                onChange={handleSwitchToggle}
-                                            />
-                                            
-                                        </Col>
-                                        <Col sm="6">                                                                             
-                                            <Select 
-                                                name="childs_type"
-                                                label="Childs Type"
-                                                options={typeOptions} 
-                                                placeholder={''}
-                                                onChange={handleSelectChange}
-                                                value={childsTypeValue}                                     
-                                            />                                                                                    
-                                            <Select 
-                                                name="childs_taxonomy"
-                                                label="Childs Taxonomy"
-                                                options={taxonomyOptions} 
-                                                placeholder={''}           
-                                                onChange={handleSelectChange}
-                                                value={childsTaxonomyValue}                               
-                                            />                                                                          
-                                            <Select 
-                                                name="childs_template"
-                                                label="Childs Tempplate"
-                                                options={templateOptions} 
-                                                placeholder={''}              
-                                                onChange={handleSelectChange}
-                                                value={childsTemplateValue}                              
-                                            />                                           
-                                        </Col>
-                                    </Row>
-                                :
-                                    <Alert color="danger" className="bg-white border border-danger">Couldn't get post info</Alert>                             
-                                }
+                                <ChildsCard
+                                    state={state}
+                                    errors={errors}
+                                    handleSwitchToggle={handleSwitchToggle}
+                                    handleSelectChange={handleSelectChange}
+                                    childsTypeValue={childsTypeValue}
+                                    typeOptions={typeOptions}
+                                    taxonomyOptions={taxonomyOptions}
+                                    childsTaxonomyValue={childsTaxonomyValue}
+                                    templateOptions={templateOptions}
+                                    childsTemplateValue={childsTemplateValue}
+                                />
+
                             </CardBody>
                             </Card>
 
@@ -317,50 +270,14 @@ function PostView() {
                                 <h4 className="mt-0 header-title">Meta Data</h4>
                                 <p className="text-muted mb-4">SEO and Social Sharing</p>
 
-                                {state ?
-                                    <Row>
-                                        <Col sm="6">
-                                            <Input
-                                                name="meta_title" 
-                                                label="Title" 
-                                                onChange={handleInputChange} 
-                                                onBlur={handleInputBlur} 
-                                                value={state.meta_title || ''}
-                                                isInvalid={errors.meta_title!==''}
-                                                message={errors.meta_title}
-                                            />
-                                            <Tags 
-                                                name="meta_keywords" 
-                                                label="Keywords" 
-                                                onChange={handleInputBlur}                             
-                                                value={state.meta_keywords || []}
-                                                options={tags}
-                                                isInvalid={errors.meta_keywords!==''}
-                                                message={errors.meta_keywords}
-                                            />
-                                            <TextArea
-                                                name="meta_description" 
-                                                label="Description" 
-                                                rows="4"
-                                                onChange={handleInputChange} 
-                                                onBlur={handleInputBlur} 
-                                                value={state.meta_description || ''}
-                                                isInvalid={errors.meta_description!==''}
-                                                message={errors.meta_description}
-                                            />                                        
-                                        </Col>
-                                        <Col sm="6">
-                                            <div className="form-group">
-                                                <label>Image</label> <br />
-                                                <img src={img1} alt="product img" className="img-fluid rounded" style={{ maxWidth: "200px" }} />
-                                                <br />
-                                                <button type="button" className="btn btn-info mt-2 waves-effect waves-light">Change Image</button>
-                                            </div>
-                                        </Col>
-                                    </Row>
-                                :
-                                    <Alert color="danger" className="bg-white border border-danger">Couldn't get post info</Alert>                
-                                }
+                                <MetaCard
+                                    state={state}                                    
+                                    errors={errors}
+                                    handleInputChange={handleInputChange}
+                                    handleInputBlur={handleInputBlur}
+                                    tags={tags}
+                                />
+
                             </CardBody>
                             </Card>
                         

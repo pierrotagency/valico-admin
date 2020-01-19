@@ -46,6 +46,7 @@ export default ({label, name, isInvalid, isValid, message, className, onChange, 
                     },
                     })}
                 onChange={handleOnChange}
+                className={inputClass}
             />
             {isValid && message !== '' && <div className="valid-tooltip">{message}</div>}
             {isInvalid && message !== '' && <div className="invalid-tooltip">{message}</div>}
