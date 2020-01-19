@@ -5,42 +5,29 @@ import { useDispatch, useSelector } from "react-redux";
 import Hotkeys from 'react-hot-keys';
 import { useHistory } from "react-router";
 
-import ActionsMenu from "./ActionsMenu";
-import Breadcrumb from '../_common/Breadcrumb';
-// import CardWithLoading from '../../../../../components/CardWithLoading';
-// import ParamsCard from './ParamsCard';
-// import MetaCard from './MetaCard';
-// import ChildsCard from './ChildsCard';
-
-
 import { templates, taxonomies, types } from 'valico-sanmartin'
 
-
+import ActionsMenu from "./ActionsMenu";
+import Breadcrumb from '../_common/Breadcrumb';
 import { activateAuthLayout, getViewPost, saveViewPost, getTags, addLocalTags } from "../../../../../store/actions";
 import useUndo from '../../../../../store/history';
-
 import { Input, Tags, TextArea, Select, Toggle } from '../../../../../components/Form';
 import img1 from '../../../../../images/products/1.jpg';
-
 import useForm from '../../../../../components/Form/useForm';
 
 const stateSchema = {
-    
     name: '',
     slug: '',
     template: null,
     type: null,
     taxonomy: null,
-
     meta_title: '',
     meta_description: '',
     meta_keywords: [],
-
     childs_template: null,
     childs_type: null,
     childs_taxonomy: null,
     childs_allowed: false
-
 };
 
 const validationStateSchema = {
@@ -79,17 +66,12 @@ function PostView() {
     const loadingViewPost = useSelector(state => state.post.loadingViewPost);
     const savingPost = useSelector(state => state.post.savingPost);
     const dispatch = useDispatch();
-
-
-    const tags = useSelector(state => state.tag.tags);    
-    
+    const tags = useSelector(state => state.tag.tags);        
     const history = useHistory();
 
     const { state: post, set: setPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
-    // const [ post, setPost] = useState({});
 
     const { state, setState, errors, handleOnChange  } = useForm(stateSchema, validationStateSchema);
-
 
     let { id } = useParams();
 
@@ -107,17 +89,13 @@ function PostView() {
         dispatch(activateAuthLayout());
     }, [dispatch]);
         
-    useEffect(() => {
-        console.log('PostView useEffect viewPost')
+    useEffect(() => {       
         setPost(viewPost)		
         init(viewPost)
-
         // eslint-disable-next-line react-hooks/exhaustive-deps  
     }, [viewPost]);
 
-
-    useEffect(() => {
-        console.log('PostView useEffect post')        
+    useEffect(() => {        
         setState(post)
         // eslint-disable-next-line react-hooks/exhaustive-deps  
     }, [post]);
@@ -163,11 +141,6 @@ function PostView() {
         
     }
 
-    // const ParamsCardWithLoading = CardWithLoading(ParamsCard);
-    // const ChildsCardWithLoading = CardWithLoading(ChildsCard);
-    // const MetaCardWithLoading = CardWithLoading(MetaCard);
-
-
     const handleInputChange = (name, value) => handleOnChange(name, value)
     const handleSwitchToggle = (name, value) => handleOnChange(name, value)
     const handleSelectChange = (name, value) => handleFieldUpdated(name, value?value.value:null)
@@ -176,10 +149,7 @@ function PostView() {
     const handleFieldUpdated = (name, value) => {
         handleOnChange(name, value)
         setPost({...post, [name]: value})
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps   
     }
-
 
     const templateOptions = Object.keys(templates).map((template) => ({ value: template, label: templates[template].name }))
     const taxonomyOptions = Object.keys(taxonomies).map((taxonomy) => ({ value: taxonomy, label: taxonomies[taxonomy].name }))
