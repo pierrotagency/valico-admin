@@ -85,8 +85,7 @@ function useForm(fileds, validations = {}) {
                     const result = await rule.method({
                         value: value,
                         name: name,
-                        objectId: (form.id ? form.id : null),
-                        objectUuid: (form.uuid ? form.uuid : null),
+                        form: (form ? form : null)                        
                     })
 
                     if(result.validated){
