@@ -1,69 +1,60 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
+
+import usePrevious from './usePrevious'
 
 
 function useForm(fileds, validations = {}) {
 
     const [form, setForm] = useState({});
     const [saveDisabled, setSaveDisabled] = useState(true);
+
+    const prevForm = usePrevious(form);
     
     // generate errors state array with every field (empty)
     let errorsSchema = {...fileds}
     Object.keys(errorsSchema).forEach(v => errorsSchema[v] = {invalid: false, message: ''})    
     const [errors, setErrors] = useState(errorsSchema)
 
-    // const [firstTime, setFirstTime] = useState(true)
-
-    function usePrevious(value) {
-        const ref = useRef();
-        useEffect(() => {
-            ref.current = value;
-        });
-        return ref.current;
-    }
-
+    
     useEffect(() => {
-        // if(firstTime && form && Object.keys(form).length > 0){
-        if(form && Object.keys(form).length > 0){
-
-            const doValidate = async() => await validateForm()                              
-            doValidate();
-
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps 
+        const doValidate = async() => await validateForm()                              
+        doValidate();
+        // eslint-disable-next-line react-hooks/exhaustive-deps 
     }, [form]);
 
     useEffect(() => {
         checkDisabled()
-    // eslint-disable-next-line react-hooks/exhaustive-deps 
+        // eslint-disable-next-line react-hooks/exhaustive-deps 
     }, [errors]);
 
 
-
     const validateForm = async() => {   
-        console.log('validateForm')
-
-        console.log(form)
-
         let tmpErrors = errors; 
 
-        await Object.keys(validations).forEach(async name => {
-            const error = await validate(name)
-            
-            tmpErrors = {...tmpErrors, 
-                [name]: {
-                    invalid: (error !== ''), 
-                    message: error 
-                }
-            }
+        if(!form || Object.keys(form).length === 0){
+            console.log('Empty form, wont validate')
+            return false
+        }
 
+        await Object.keys(validations).forEach(async name => {
+
+            if(form[name] !== prevForm[name]){
+                
+                const error = await validate(name)            
+                tmpErrors = {...tmpErrors, 
+                    [name]: {
+                        invalid: (error !== ''), 
+                        message: error 
+                    }
+                }
+                
+            }
+            
         })
 
-        console.log(tmpErrors)
         setErrors(prevState => ({...prevState, ...tmpErrors}));
     }
     
-
-
 
     const checkDisabled = useCallback(() => {
 
@@ -94,6 +85,8 @@ function useForm(fileds, validations = {}) {
 
     const validate = async (name, value=null) => {
         let error = ''
+
+        console.log('validating ', name, '...')
 
         if(!value && form) value = form[name];
 
