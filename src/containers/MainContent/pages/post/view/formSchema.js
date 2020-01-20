@@ -1,15 +1,30 @@
 import { api } from '../../../../../services/api';
 
 
-const validateSlug = async (params) =>{
+const fields = {
+    name: '',
+    slug: '',
+    template: null,
+    type: null,
+    taxonomy: null,
+    meta_title: '',
+    meta_description: '',
+    meta_keywords: [],
+    childs_template: null,
+    childs_type: null,
+    childs_taxonomy: null,
+    childs_allowed: false
+};
+
+const validateUniqueSlug = async (params) =>{
     
-    const { value, objectUuid } = params;
+    const { value, form } = params;
 
     return await api.post('/posts/exists/slug/', {
         slug: value
     })
     .then(res => {
-        const result = ( res.data && res.data.found && res.data.id !== objectUuid ) ? false : true    
+        const result = ( res.data && res.data.found && res.data.id !== form.uuid ) ? false : true    
         return {
             validated: true,
             valid: result            
@@ -39,7 +54,7 @@ const validations = {
             },
             {
                 type: 'remote',
-                method: validateSlug,
+                method: validateUniqueSlug,
                 message: 'Slug already exists.',
             },
         ]
@@ -52,55 +67,7 @@ const validations = {
     },
     template: {
         required: true
-    },
-    childs_template: {
-        required: true
-    },
-    childs_type: {
-        required: true
-    },
-    childs_taxonomy: {
-        required: true
-    },
-    meta_title: {
-        required: true,
-        rules: [
-            {
-                type: 'regex',
-                regex: /^[a-zA-Z]+$/,
-                message: 'Invalid meta Title.',
-            },
-        ]
-    },
-    meta_description: {
-        required: true,
-        rules: [
-            {
-                type: 'regex',
-                regex: /^[a-zA-Z]+$/,
-                message: 'Invalid meta descripcion.',
-            },
-        ]
-    },
-    meta_keywords: {
-        required: true
-    }
-};
-
-
-const fields = {
-    name: '',
-    slug: '',
-    template: null,
-    type: null,
-    taxonomy: null,
-    meta_title: '',
-    meta_description: '',
-    meta_keywords: [],
-    childs_template: null,
-    childs_type: null,
-    childs_taxonomy: null,
-    childs_allowed: false
+    }   
 };
 
 export { fields, validations } 
