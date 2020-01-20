@@ -25,28 +25,8 @@ const FileUpload = ({url, method, onProgress, onLoad, onError, onAbort, ...props
 
     }
 
-    const onSubmit = (e) => {
-        console.log('onSubmit')
-
-        e.preventDefault();
-
-        setProgress(0)        
-        setHasError(false)
-
-        _doUpload()
-
-    }
-
-
-
-    // const _getFormData = () => {
-    //     return new FormData(ReactDom.findDOMNode(this.refs.form));
-    // }
-
     const _doUpload = () => {
-        console.log('_doUpload')
-
-        // const form = _getFormData();
+        
         const req = new XMLHttpRequest();
 
         req.open(method, url);
@@ -113,19 +93,25 @@ const FileUpload = ({url, method, onProgress, onLoad, onError, onAbort, ...props
             req.abort();
         });
 
-        const myFile = document.querySelector("input[type=file]").files[0];
-
         const data = new FormData();
-            data.append("file", myFile);
+
+            data.append("file", inputRef.current.files[0]);
             data.append("otherStuff", "stuff from a text input");
 
         req.send(data);
         
     }
 
+    const handleFileSelected = () => {
+
+        setProgress(0)        
+        setHasError(false)
+
+        _doUpload()
+
+    }
 
     const progressRenderer = () => {
-        console.log('progressRenderer')
 
         if (hasError || progress > -1) {
             const barStyle = {};
@@ -153,7 +139,7 @@ const FileUpload = ({url, method, onProgress, onLoad, onError, onAbort, ...props
                         className="cancelButton"
                         onClick={cancelUpload}
                     >
-                        <span>&times;</span>
+                        Cancel
                     </button>
                     <div style={{ clear: "left" }}>{message}</div>
                 </div>
@@ -167,19 +153,18 @@ const FileUpload = ({url, method, onProgress, onLoad, onError, onAbort, ...props
     const progessElement = progressRenderer();
 
     return (
-        <div>
-            <form   
-                ref={inputRef}             
-                method="post"
-                onSubmit={onSubmit}
-            >
-                <div>
-                    <input type="file" name="file"  />
-                </div>
-                <input type="submit" />
-            </form>
+        <>
+
+            <input 
+                type="file" 
+                name="file"
+                ref={inputRef}
+                onChange={handleFileSelected}
+            />
+            
             {progessElement}
-        </div>
+
+        </>
     )
 
 }
