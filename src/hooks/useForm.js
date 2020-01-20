@@ -1,35 +1,53 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 
-function useForm(formSchema, validationSchema = {}) {
+function useForm(fileds, validations = {}) {
 
     const [form, setForm] = useState({});
     const [saveDisabled, setSaveDisabled] = useState(true);
     
     // generate errors state array with every field (empty)
-    let errorsSchema = {...formSchema}
+    let errorsSchema = {...fileds}
     Object.keys(errorsSchema).forEach(v => errorsSchema[v] = {invalid: false, message: ''})    
     const [errors, setErrors] = useState(errorsSchema)
 
-    
+    // const [firstTime, setFirstTime] = useState(true)
+
+    function usePrevious(value) {
+        const ref = useRef();
+        useEffect(() => {
+            ref.current = value;
+        });
+        return ref.current;
+    }
+
     useEffect(() => {
-        if(form && !(Object.keys(form).length === 0 && form.constructor === Object)){
-            checkAllFields() 
+        // if(firstTime && form && Object.keys(form).length > 0){
+        if(form && Object.keys(form).length > 0){
+
+            const doValidate = async() => await validateForm()                              
+            doValidate();
+
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps 
     }, [form]);
 
     useEffect(() => {
-        validateState()
+        checkDisabled()
     // eslint-disable-next-line react-hooks/exhaustive-deps 
     }, [errors]);
 
 
-    const checkAllFields = () => {        
+
+    const validateForm = async() => {   
+        console.log('validateForm')
+
+        console.log(form)
+
         let tmpErrors = errors; 
 
-        Object.keys(validationSchema).forEach(name => {
-            const error = getErrors(name)
+        await Object.keys(validations).forEach(async name => {
+            const error = await validate(name)
             
             tmpErrors = {...tmpErrors, 
                 [name]: {
@@ -40,26 +58,29 @@ function useForm(formSchema, validationSchema = {}) {
 
         })
 
+        console.log(tmpErrors)
         setErrors(prevState => ({...prevState, ...tmpErrors}));
     }
+    
 
 
-    const validateState = useCallback(() => {
 
-        const isInvalid = Object.keys(validationSchema).some(name => {
+    const checkDisabled = useCallback(() => {
+
+        const isInvalid = Object.keys(validations).some(name => {
             return errors[name].invalid;
         });
 
         setSaveDisabled(isInvalid);
 
-    }, [errors, validationSchema]);
+    }, [errors, validations]);
 
 
-    const handleOnChange = useCallback((name,value) => {
+    const handleOnChange = useCallback(async(name,value) => {
     
         setForm(prevState => ({ ...prevState, [name]: value }));
 
-        const error = getErrors(name, value)
+        const error = await validate(name, value)
         setErrors(prevState => ({...prevState, 
             [name]: {
                 invalid: (error !== ''), 
@@ -68,28 +89,68 @@ function useForm(formSchema, validationSchema = {}) {
         }));
 
         // eslint-disable-next-line react-hooks/exhaustive-deps   
-    },[validationSchema]);
+    },[validations]);
 
 
-    const getErrors = (name,value=null) => {
-        let error = '';
+    const validate = async (name, value=null) => {
+        let error = ''
 
         if(!value && form) value = form[name];
 
-        if(validationSchema[name]){
+        if(validations[name]){
 
-            if (validationSchema[name].required) {            
+            if (validations[name].required) {            
                 if(Array.isArray(value) && value.length===0)
-                    error = "This is required field.";                                        
+                    return "This is required field.";                                        
                 else if (!value)
-                    error = "This is required field.";                
+                    return "This is required field.";                
+            }
+            else{
+                if(value==='') return ''
             }
 
-            if (validationSchema[name].validator !== null && typeof validationSchema[name].validator === "object") {
-                if (value && !validationSchema[name].validator.regEx.test(value)) {
-                    error = validationSchema[name].validator.error;
-                }
+            const { rules } = validations[name];
+
+            if (rules && Array.isArray(rules)){
+
+                rules.every(async rule => {
+                    
+                    // console.log(rule)
+                    // console.log(value)
+
+                    if (rule.regEx && !rule.regEx.test(value)) {
+                        error = rule.message;
+                        return false
+                    }
+
+                    if (rule.method) {
+
+                        const result = await rule.method(value)
+
+                        if(result.validated){
+
+                            console.log('validated', result)
+                            
+                            if(!result.valid){                                                                
+                                error = rule.message;
+                                return false
+                            }
+                        }
+                        else{                             
+                            console.error(`Couldnt validate ([${name}] = ${value})`  )
+                            console.error(result.message  )
+                            error = `Couldnt validate ([${name}] = ${value})`
+                            return false
+                        }
+                        
+                    }
+
+                    return true 
+                
+                })
+
             }
+            
 
         }
 
@@ -97,7 +158,7 @@ function useForm(formSchema, validationSchema = {}) {
     }
 
 
-    return { setForm, form, errors, saveDisabled, handleOnChange };
+    return { setForm, form, errors, saveDisabled, handleOnChange, validateForm};
 }
 
 export default useForm;

@@ -1,28 +1,50 @@
-export const fields = {
-    name: '',
-    slug: '',
-    template: null,
-    type: null,
-    taxonomy: null,
-    meta_title: '',
-    meta_description: '',
-    meta_keywords: [],
-    childs_template: null,
-    childs_type: null,
-    childs_taxonomy: null,
-    childs_allowed: false
-};
+import { api } from '../../../../../services/api';
 
-export const validations = {
+
+const validateSlug = async(slug) =>{
+    
+    return api.post('/posts/exists/slug/', {
+        slug: slug
+    })
+    .then(res => {
+
+        let result = true;
+        if(res.data && res.data.found) result = false    
+
+        return {
+            validated: true,
+            valid: result            
+        }
+
+    })
+    .catch(err => {
+        
+        return {
+            validated: false,
+            message: err.response
+        }
+        
+    });
+    
+}
+
+
+const validations = {
     name: {
         required: true
     },
     slug: {
         required: true,
-        validator: {
-            regEx: /^[a-zA-Z]+$/,
-            error: 'Invalid slug format.',
-        },
+        rules: [
+            {
+                regEx: /^[a-zA-Z0-9_.-]+$/,
+                message: 'Invalid slug format.',
+            },
+            {
+                method: validateSlug,
+                message: 'Slug already exists.',
+            },
+        ]
     },
     type: {
         required: true
@@ -44,19 +66,41 @@ export const validations = {
     },
     meta_title: {
         required: true,
-        validator: {
-            regEx: /^[a-zA-Z]+$/,
-            error: 'Invalid first name format.',
-        },
+        rules: [
+            {
+                regEx: /^[a-zA-Z]+$/,
+                message: 'Invalid first name format.',
+            },
+        ]
     },
     meta_description: {
         required: true,
-        validator: {
-            regEx: /^[a-zA-Z]+$/,
-            error: 'Invalid last name format.',
-        },
+        rules: [
+            {
+                regEx: /^[a-zA-Z]+$/,
+                message: 'Invalid last name format.',
+            },
+        ]
     },
     meta_keywords: {
         required: true
     }
 };
+
+
+const fields = {
+    name: '',
+    slug: '',
+    template: null,
+    type: null,
+    taxonomy: null,
+    meta_title: '',
+    meta_description: '',
+    meta_keywords: [],
+    childs_template: null,
+    childs_type: null,
+    childs_taxonomy: null,
+    childs_allowed: false
+};
+
+export { fields, validations } 

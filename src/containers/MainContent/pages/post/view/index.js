@@ -30,7 +30,7 @@ function PostView() {
 
     const { state: post, set: setPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
 
-    const { form, setForm, errors, handleOnChange, saveDisabled } = useForm(fields, validations);
+    const { form, setForm, errors, handleOnChange, saveDisabled, validateForm} = useForm(fields, validations);
 
     let { id } = useParams();
 
@@ -51,9 +51,17 @@ function PostView() {
 
     // refresh Form object ONLY when theres a real object to fill
     useEffect(() => {
-        if(post && !(Object.keys(post).length === 0 && post.constructor === Object)){                 
-            setForm(post)        
+        if(post && Object.keys(post).length > 1){                 
+            setForm(post)       
         }
+
+        
+        // async function test() {
+        //     if(form && Object.keys(form).length > 1) await validateForm()     
+        // }
+        // test();
+
+
     // eslint-disable-next-line react-hooks/exhaustive-deps  
     }, [post]);
 
