@@ -2,8 +2,6 @@ import React from 'react';
 import { Row, Col, Alert } from 'reactstrap';
 
 import { Input, Tags, TextArea, FileUpload } from '../../../../../../components/Form';
-import img1 from '../../../../../../images/products/1.jpg';
-
 
 export default function MetaCard ({handleInputChange, handleInputBlur, form, errors, tags }) {
 
@@ -42,13 +40,7 @@ export default function MetaCard ({handleInputChange, handleInputBlur, form, err
                 />                                        
             </Col>
             <Col sm="6">
-                <div className="form-group">
-                    <label>Image</label> <br />
-                    <img src={img1} alt="product img" className="img-fluid rounded" style={{ maxWidth: "200px" }} />
-                    <br />
-                    <button type="button" className="btn btn-info mt-2 waves-effect waves-light">Change Image</button>
-                </div>
-
+                
                 <FileUpload key='ex1' url='http://localhost:3333/api/v1/media/upload' method='post'
                     onProgress={(e, request, progress) => {console.log('progress', e, request, progress);}}
                     onLoad={ (e, request) => {console.log('load', e, request);}}

@@ -4,6 +4,9 @@ import PropTypes from "prop-types";
 
 import "./index.scss";
 
+import img1 from '../../../images/products/1.jpg';
+
+
 
 const FileUpload = ({url, method, onProgress, onLoad, onError, onAbort, ...props}) => {
 
@@ -25,7 +28,7 @@ const FileUpload = ({url, method, onProgress, onLoad, onError, onAbort, ...props
 
     }
 
-    const _doUpload = () => {
+    const doUpload = () => {
         
         const req = new XMLHttpRequest();
 
@@ -107,7 +110,7 @@ const FileUpload = ({url, method, onProgress, onLoad, onError, onAbort, ...props
         setProgress(0)        
         setHasError(false)
 
-        _doUpload()
+        doUpload()
 
     }
 
@@ -150,16 +153,31 @@ const FileUpload = ({url, method, onProgress, onLoad, onError, onAbort, ...props
 
     }
 
+    const handleOpenDialog = () => {
+        inputRef.current.click()   
+    }
+
+
     const progessElement = progressRenderer();
 
     return (
         <>
-
+            <div className="form-group">
+                <label>Image</label> <br />
+                <img src={img1} alt="product img" className="img-fluid rounded" style={{ maxWidth: "200px" }} />
+                <br />
+                <button type="button" 
+                    className="btn btn-info mt-2 waves-effect waves-light"
+                    onClick={handleOpenDialog}
+                    >Change Image</button>
+            </div>
+            
             <input 
                 type="file" 
                 name="file"
                 ref={inputRef}
                 onChange={handleFileSelected}
+                style={{display:'none'}}
             />
             
             {progessElement}
