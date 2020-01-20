@@ -12,7 +12,7 @@ class FileUpload extends React.Component {
 
     constructor(props) {
         super(props);
-        
+
         this.proxy = new EventEmitter();
 
         this.state = {
@@ -66,9 +66,12 @@ class FileUpload extends React.Component {
     }
 
     _doUpload() {
+
         const form = this._getFormData();
         const req = new XMLHttpRequest();
+
         req.open(this.props.method, this.props.url);
+
 
         req.addEventListener("load", e => {
 
@@ -93,6 +96,7 @@ class FileUpload extends React.Component {
             
         }, false);
 
+
         req.addEventListener("error", e => {
             
             this.setState({hasError: true}, () => {
@@ -100,6 +104,7 @@ class FileUpload extends React.Component {
             });
 
         }, false);
+
 
         req.upload.addEventListener("progress", e => {
             
@@ -115,6 +120,7 @@ class FileUpload extends React.Component {
 
         }, false);
 
+
         req.addEventListener("abort", e => {
 
             this.setState({progress: -1}, () => {
@@ -122,6 +128,7 @@ class FileUpload extends React.Component {
             });
 
         }, false);
+
 
         this.proxy.once("abort", () => {
             req.abort();
@@ -149,7 +156,6 @@ FileUpload.defaultProps = {
 
     formRenderer: onSubmit => (
         <form
-            className="_react_fileupload_form_content"
             ref="form"
             method="post"
             onSubmit={onSubmit}
@@ -178,15 +184,15 @@ FileUpload.defaultProps = {
             }
 
             return (
-                <div className="_react_fileupload_progress_content">
+                <div>
                     <div className="progressWrapper">
                         <div
-                        className="_react_fileupload_progress_bar progressBar"
+                        className="progressBar"
                         style={barStyle}
                         />
                     </div>
                     <button
-                        className="_react_fileupload_progress_cancel cancelButton"
+                        className="cancelButton"
                         onClick={cancelHandler}
                     >
                         <span>&times;</span>
