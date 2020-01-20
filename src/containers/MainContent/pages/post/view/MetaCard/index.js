@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Alert } from 'reactstrap';
 
-import { Input, Tags, TextArea } from '../../../../../../components/Form';
+import { Input, Tags, TextArea, FileUpload } from '../../../../../../components/Form';
 import img1 from '../../../../../../images/products/1.jpg';
 
 
@@ -48,6 +48,14 @@ export default function MetaCard ({handleInputChange, handleInputBlur, form, err
                     <br />
                     <button type="button" className="btn btn-info mt-2 waves-effect waves-light">Change Image</button>
                 </div>
+
+                <FileUpload key='ex1' url='http://localhost:3333/api/v1/media/upload' method='post'
+                    onProgress={(e, request, progress) => {console.log('progress', e, request, progress);}}
+                    onLoad={ (e, request) => {console.log('load', e, request);}}
+                    onError={ (e, request) => {console.log('error', e, request);}}
+                    onAbort={ (e, request) => {console.log('abort', e, request);}}
+                />
+                
             </Col>
         </Row>
     )
