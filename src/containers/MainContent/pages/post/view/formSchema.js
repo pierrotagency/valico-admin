@@ -1,31 +1,25 @@
 import { api } from '../../../../../services/api';
 
 
-const validateSlug = async value =>{
+const validateSlug = async (params) =>{
     
-    console.log('>>>>> validateSlug', value)
+    const { value, objectUuid } = params;
 
     return await api.post('/posts/exists/slug/', {
         slug: value
     })
     .then(res => {
-
-        let result = true;
-        if(res.data && res.data.found) result = false    
-
+        const result = ( res.data && res.data.found && res.data.id !== objectUuid ) ? false : true    
         return {
             validated: true,
             valid: result            
         }
-
     })
-    .catch(err => {
-        
+    .catch(err => {        
         return {
             validated: false,
             message: err.response
-        }
-        
+        }        
     });
     
 }

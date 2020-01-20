@@ -30,43 +30,28 @@ function useForm(fileds, validations = {}) {
 
 
     const validateForm = () => {   
-        // let tmpErrors = errors; 
-
-        if(!form || Object.keys(form).length === 0){
-            console.log('Empty form, wont validate')
-            return false
-        }
-
+        
+        if(!form || Object.keys(form).length === 0) return false
+        
         Object.keys(validations).forEach(async (name) => {
             if (form[name] !== prevForm[name]) { // only validate the fields that changed
-                const error = await validate(name, form[name]);
-                console.log(error); // TODO s sjd ajkdj kad jkasd jsakl jdaskld jakl djakl djaks jlk
-                
+                const error = await validate(name, form[name]);                
+                const valid = (typeof error === 'undefined' || error === '') ? true:false
+
                 setErrors(prevState => ({...prevState, [name]: {
-                    invalid: (error !== ''),
+                    invalid: !valid,
                     message: error
                 }}));
 
-                // tmpErrors = {
-                // ...tmpErrors,
-                //     [name]: {
-                //         invalid: (error !== ''),
-                //         message: error
-                //     }
-                // };
             }
         })
 
-        // setErrors(prevState => ({...prevState, ...tmpErrors}));
     }
     
 
     const checkDisabled = useCallback(() => {
 
-        const isInvalid = Object.keys(validations).some(name => {
-            return errors[name].invalid;
-        });
-
+        const isInvalid = Object.keys(validations).some(name => errors[name].invalid)
         setSaveDisabled(isInvalid);
 
     }, [errors, validations]);
@@ -80,47 +65,40 @@ function useForm(fileds, validations = {}) {
     },[validations]);
 
 
-    const checkRules = (rules, value) => {
+    const checkRules = (name, rules, value) => {
         return Promise.all(
             
-            
             rules.map(async rule => {
-                
-                console.log(rule)
-                // console.log(value)
 
                 if (rule.type === 'regex') {
 
                     if(!rule.regex.test(value)){
-                        console.log('1111')
                         return rule.message;                            
                     }
                     else{
-                        return 'OK1'
+                        return ''
                     }
                     
                 }
                 else if (rule.type === 'remote') {
-                    console.log('about to execute method...')
                     
-                    const result = await rule.method(value)
-
-                    console.log(result)
+                    const result = await rule.method({
+                        value: value,
+                        name: name,
+                        objectId: (form.id ? form.id : null),
+                        objectUuid: (form.uuid ? form.uuid : null),
+                    })
 
                     if(result.validated){
-
-                        console.log('validated', result)
-                        
                         if(!result.valid){                                                                                            
                             return rule.message;
                         }
                         else{
-                            return 'OK2'
+                            return ''
                         }
                     }
-                    else{                                                     
-                        console.log(result.message  )
-                        return `Couldnt validate ${value})`
+                    else{                                                                             
+                        return `Couldnt validate ${name} with value ${value})`
                     }
                     
                 }
@@ -131,41 +109,28 @@ function useForm(fileds, validations = {}) {
     }
 
 
-
     const validate = async(name, value) => {
-        let error = ''
-
-        console.log(`validating ${name} with value (${value})...`)
+        // console.log(`validating ${name} with value (${value})...`)
         
-        if(validations[name]){
+        if(!validations[name]) return ''
 
-            const { rules, required } = validations[name];
+        const { rules, required } = validations[name];
 
-            if (required) {            
-                if(Array.isArray(value) && value.length===0)
-                    return "This is required field.";                                        
-                else if (!value)
-                    return "This is required field.";                
-            }
-            else{
-                if(value==='') return ''
-            }
+        if (required) {            
+            if(Array.isArray(value) && value.length===0)
+                return "This is required field.";                                        
+            else if (!value)
+                return "This is required field.";                
+        }
+        else{
+            if(value==='') return ''
+        }
 
-            if (rules && Array.isArray(rules)){
-
-                const hasError = await checkRules(rules, value)
-
-                console.log(hasError)
-
-                console.log('returning {', error , '}')
-
-
-                return hasError[0]
- 
-                
-            }
+        if (rules && Array.isArray(rules)){
+            const hasError = await checkRules(name, rules, value)
+            var errors = hasError.filter(el => el !== null && el !== '')
             
-
+            return errors[0] || ''
         }
 
         return ''
