@@ -1,10 +1,12 @@
 import { api } from '../../../../../services/api';
 
 
-const validateSlug = async(slug) =>{
+const validateSlug = async(value) =>{
     
-    return api.post('/posts/exists/slug/', {
-        slug: slug
+    console.log('validateSlug', value)
+     
+    api.post('/posts/exists/slug/', {
+        slug: value
     })
     .then(res => {
 

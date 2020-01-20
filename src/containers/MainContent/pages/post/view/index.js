@@ -54,14 +54,6 @@ function PostView() {
         if(post && Object.keys(post).length > 1){                 
             setForm(post)       
         }
-
-        
-        // async function test() {
-        //     if(form && Object.keys(form).length > 1) await validateForm()     
-        // }
-        // test();
-
-
     // eslint-disable-next-line react-hooks/exhaustive-deps  
     }, [post]);
 

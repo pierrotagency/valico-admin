@@ -29,30 +29,34 @@ function useForm(fileds, validations = {}) {
 
 
     const validateForm = async() => {   
-        let tmpErrors = errors; 
+        // let tmpErrors = errors; 
 
         if(!form || Object.keys(form).length === 0){
             console.log('Empty form, wont validate')
             return false
         }
 
-        await Object.keys(validations).forEach(async name => {
+        Object.keys(validations).forEach(async (name) => {
+            if (form[name] !== prevForm[name]) { // only validate the fields that changed
+                const error = await validate(name, form[name]);
+                console.log(error); // TODO s sjd ajkdj kad jkasd jsakl jdaskld jakl djakl djaks jlk
+                
+                setErrors(prevState => ({...prevState, [name]: {
+                    invalid: (error !== ''),
+                    message: error
+                }}));
 
-            if(form[name] !== prevForm[name]){
-                
-                const error = await validate(name)            
-                tmpErrors = {...tmpErrors, 
-                    [name]: {
-                        invalid: (error !== ''), 
-                        message: error 
-                    }
-                }
-                
+                // tmpErrors = {
+                // ...tmpErrors,
+                //     [name]: {
+                //         invalid: (error !== ''),
+                //         message: error
+                //     }
+                // };
             }
-            
         })
 
-        setErrors(prevState => ({...prevState, ...tmpErrors}));
+        // setErrors(prevState => ({...prevState, ...tmpErrors}));
     }
     
 
@@ -71,28 +75,20 @@ function useForm(fileds, validations = {}) {
     
         setForm(prevState => ({ ...prevState, [name]: value }));
 
-        const error = await validate(name, value)
-        setErrors(prevState => ({...prevState, 
-            [name]: {
-                invalid: (error !== ''), 
-                message: error 
-            }
-        }));
-
         // eslint-disable-next-line react-hooks/exhaustive-deps   
     },[validations]);
 
 
-    const validate = async (name, value=null) => {
+    const validate = async (name, value) => {
         let error = ''
 
-        console.log('validating ', name, '...')
-
-        if(!value && form) value = form[name];
-
+        console.log(`validating ${name} with value (${value})...`)
+        
         if(validations[name]){
 
-            if (validations[name].required) {            
+            const { rules, required } = validations[name];
+
+            if (required) {            
                 if(Array.isArray(value) && value.length===0)
                     return "This is required field.";                                        
                 else if (!value)
@@ -102,21 +98,24 @@ function useForm(fileds, validations = {}) {
                 if(value==='') return ''
             }
 
-            const { rules } = validations[name];
-
             if (rules && Array.isArray(rules)){
 
-                rules.every(async rule => {
+                await rules.some(async rule => {
                     
                     // console.log(rule)
                     // console.log(value)
 
-                    if (rule.regEx && !rule.regEx.test(value)) {
-                        error = rule.message;
-                        return false
-                    }
+                    if (rule.regEx) {
 
-                    if (rule.method) {
+                        if(!rule.regEx.test(value)){
+                            error = rule.message;
+                            return true
+                        }
+                        else{
+                            return false
+                        }
+                        
+                    } else if (rule.method) {
 
                         const result = await rule.method(value)
 
@@ -126,19 +125,22 @@ function useForm(fileds, validations = {}) {
                             
                             if(!result.valid){                                                                
                                 error = rule.message;
-                                return false
+                                return true
                             }
                         }
                         else{                             
-                            console.error(`Couldnt validate ([${name}] = ${value})`  )
-                            console.error(result.message  )
+                            console.log(`Couldnt validate ([${name}] = ${value})`  )
+                            console.log(result.message  )
                             error = `Couldnt validate ([${name}] = ${value})`
-                            return false
+                            return true
                         }
                         
                     }
+                    else{
+                        return false 
+                    }
 
-                    return true 
+                    
                 
                 })
 
@@ -147,11 +149,13 @@ function useForm(fileds, validations = {}) {
 
         }
 
+        console.log('returning {', error , '}')
+
         return error;
     }
 
 
-    return { setForm, form, errors, saveDisabled, handleOnChange, validateForm};
+    return { setForm, form, errors, saveDisabled, handleOnChange};
 }
 
 export default useForm;
