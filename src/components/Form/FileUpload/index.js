@@ -1,96 +1,75 @@
-"use strict";
-
 import { EventEmitter } from "events";
-import React from "react";
+import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
-import ReactDom from "react-dom";
-// import objectAssign from 'object-assign';
 
 import "./index.scss";
 
-class FileUpload extends React.Component {
 
-    constructor(props) {
-        super(props);
+const FileUpload = ({url, method, onProgress, onLoad, onError, onAbort, ...props}) => {
 
-        this.proxy = new EventEmitter();
+    const [ progress, setProgress ] = useState(-1)
+    const [ hasError, setHasError ] = useState(false)
 
-        this.state = {
-            progress: -1,
-            hasError: false
-        };
+    const proxy = new EventEmitter();
+
+    const inputRef = useRef(null)  
+    
+
+    const cancelUpload = () => {
+        console.log('cancelUpload')
+
+        proxy.emit("abort");
+
+        setProgress(-1)        
+        setHasError(false)
+
     }
 
-    cancelUpload() {
-        this.proxy.emit("abort");
+    const onSubmit = (e) => {
+        console.log('onSubmit')
 
-        this.setState({
-            progress: -1,
-            hasError: false
-        });
-    }
-
-    onSubmit(e) {
         e.preventDefault();
 
-        this.setState({
-            progress: 0,
-            hasError: false
-        },
-            this._doUpload
-        );
+        setProgress(0)        
+        setHasError(false)
+
+        _doUpload()
+
     }
 
-    render() {
-        
-        const formElement = this.props.formRenderer(this.onSubmit.bind(this));
-        const progessElement = this.props.progressRenderer(
-            this.state.progress,
-            this.state.hasError,
-            this.cancelUpload.bind(this)
-        );
 
-        return (
-            <div>
-                {formElement}
-                {progessElement}
-            </div>
-        );
-    }
 
-    _getFormData() {
-        if (this.props.formGetter) {
-            return this.props.formGetter();
-        }
-        return new FormData(ReactDom.findDOMNode(this.refs.form));
-    }
+    // const _getFormData = () => {
+    //     return new FormData(ReactDom.findDOMNode(this.refs.form));
+    // }
 
-    _doUpload() {
+    const _doUpload = () => {
+        console.log('_doUpload')
 
-        const form = this._getFormData();
+        // const form = _getFormData();
         const req = new XMLHttpRequest();
 
-        req.open(this.props.method, this.props.url);
+        req.open(method, url);
 
 
         req.addEventListener("load", e => {
 
-            this.proxy.removeAllListeners(["abort"]);
-            const newState = { progress: 100 };
-
+            proxy.removeAllListeners(["abort"]);
+            
             if (req.status >= 200 && req.status <= 299) {
             
-                this.setState(newState, () => {
-                    this.props.onLoad(e, req);
-                });
+                setProgress(100)        
+                setHasError(false)
+
+                onLoad(e, req);
 
             }
             else {
-                newState.hasError = true;
-            
-                this.setState(newState, () => {
-                    this.props.onError(e, req);
-                });
+                            
+                setProgress(100)        
+                setHasError(true)
+
+                onError(e, req);
 
             }
             
@@ -99,75 +78,54 @@ class FileUpload extends React.Component {
 
         req.addEventListener("error", e => {
             
-            this.setState({hasError: true}, () => {
-                this.props.onError(e, req);
-            });
+            setHasError(true)
+
+            onError(e, req);
 
         }, false);
 
 
         req.upload.addEventListener("progress", e => {
             
-            let progress = 0;
+            let prog = 0;
             
             if (e.total !== 0) {
-                progress = parseInt((e.loaded / e.total) * 100, 10);
+                prog = parseInt((e.loaded / e.total) * 100, 10);
             }
             
-            this.setState({progress}, () => {
-                this.props.onProgress(e, req, progress);
-            });
+            setProgress(prog)        
+            
+            onProgress(e, req, prog);
 
         }, false);
 
 
         req.addEventListener("abort", e => {
 
-            this.setState({progress: -1}, () => {
-                this.props.onAbort(e, req);
-            });
+            setProgress(-1)   
 
+            onAbort(e, req);
+            
         }, false);
 
 
-        this.proxy.once("abort", () => {
+        proxy.once("abort", () => {
             req.abort();
         });
 
-        this.props.beforeSend(req).send(this.props.formCustomizer(form));
+        const myFile = document.querySelector("input[type=file]").files[0];
+
+        const data = new FormData();
+            data.append("file", myFile);
+            data.append("otherStuff", "stuff from a text input");
+
+        req.send(data);
+        
     }
-}
 
-FileUpload.propTypes = {
-    url: PropTypes.string.isRequired,
-    method: PropTypes.string.isRequired,
-    formGetter: PropTypes.func,
-    formRenderer: PropTypes.func,
-    progressRenderer: PropTypes.func,
-    formCustomizer: PropTypes.func,
-    beforeSend: PropTypes.func,
-    onProgress: PropTypes.func,
-    onLoad: PropTypes.func,
-    onError: PropTypes.func,
-    onAbort: PropTypes.func
-};
 
-FileUpload.defaultProps = {
-
-    formRenderer: onSubmit => (
-        <form
-            ref="form"
-            method="post"
-            onSubmit={onSubmit}
-        >
-            <div>
-                <input type="file" name="file" />
-            </div>
-            <input type="submit" />
-        </form>
-    ),
-
-    progressRenderer: (progress, hasError, cancelHandler) => {
+    const progressRenderer = () => {
+        console.log('progressRenderer')
 
         if (hasError || progress > -1) {
             const barStyle = {};
@@ -193,7 +151,7 @@ FileUpload.defaultProps = {
                     </div>
                     <button
                         className="cancelButton"
-                        onClick={cancelHandler}
+                        onClick={cancelUpload}
                     >
                         <span>&times;</span>
                     </button>
@@ -204,14 +162,35 @@ FileUpload.defaultProps = {
 
         return "";
 
-    },
+    }
 
-    formCustomizer: form => form,
-    beforeSend: request => request,
-    onProgress: (e, request, progress) => {},
-    onLoad: (e, request) => {},
-    onError: (e, request) => {},
-    onAbort: (e, request) => {}
+    const progessElement = progressRenderer();
+
+    return (
+        <div>
+            <form   
+                ref={inputRef}             
+                method="post"
+                onSubmit={onSubmit}
+            >
+                <div>
+                    <input type="file" name="file"  />
+                </div>
+                <input type="submit" />
+            </form>
+            {progessElement}
+        </div>
+    )
+
+}
+
+FileUpload.propTypes = {
+    url: PropTypes.string.isRequired,
+    method: PropTypes.string.isRequired,    
+    onProgress: PropTypes.func,
+    onLoad: PropTypes.func,
+    onError: PropTypes.func,
+    onAbort: PropTypes.func
 };
 
 export default FileUpload;
