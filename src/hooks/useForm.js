@@ -17,8 +17,9 @@ function useForm(fileds, validations = {}) {
 
     
     useEffect(() => {
-        const doValidate = async() => await validateForm()                              
-        doValidate();
+        // const doValidate = async() => await validateForm()                              
+        // doValidate();
+        validateForm()  
         // eslint-disable-next-line react-hooks/exhaustive-deps 
     }, [form]);
 
@@ -28,7 +29,7 @@ function useForm(fileds, validations = {}) {
     }, [errors]);
 
 
-    const validateForm = async() => {   
+    const validateForm = () => {   
         // let tmpErrors = errors; 
 
         if(!form || Object.keys(form).length === 0){
@@ -79,7 +80,59 @@ function useForm(fileds, validations = {}) {
     },[validations]);
 
 
-    const validate = async (name, value) => {
+    const checkRules = (rules, value) => {
+        return Promise.all(
+            
+            
+            rules.map(async rule => {
+                
+                console.log(rule)
+                // console.log(value)
+
+                if (rule.type === 'regex') {
+
+                    if(!rule.regex.test(value)){
+                        console.log('1111')
+                        return rule.message;                            
+                    }
+                    else{
+                        return 'OK1'
+                    }
+                    
+                }
+                else if (rule.type === 'remote') {
+                    console.log('about to execute method...')
+                    
+                    const result = await rule.method(value)
+
+                    console.log(result)
+
+                    if(result.validated){
+
+                        console.log('validated', result)
+                        
+                        if(!result.valid){                                                                                            
+                            return rule.message;
+                        }
+                        else{
+                            return 'OK2'
+                        }
+                    }
+                    else{                                                     
+                        console.log(result.message  )
+                        return `Couldnt validate ${value})`
+                    }
+                    
+                }
+                
+            })
+
+        )
+    }
+
+
+
+    const validate = async(name, value) => {
         let error = ''
 
         console.log(`validating ${name} with value (${value})...`)
@@ -100,58 +153,22 @@ function useForm(fileds, validations = {}) {
 
             if (rules && Array.isArray(rules)){
 
-                await rules.some(async rule => {
-                    
-                    // console.log(rule)
-                    // console.log(value)
+                const hasError = await checkRules(rules, value)
 
-                    if (rule.regEx) {
+                console.log(hasError)
 
-                        if(!rule.regEx.test(value)){
-                            error = rule.message;
-                            return true
-                        }
-                        else{
-                            return false
-                        }
-                        
-                    } else if (rule.method) {
+                console.log('returning {', error , '}')
 
-                        const result = await rule.method(value)
 
-                        if(result.validated){
-
-                            console.log('validated', result)
-                            
-                            if(!result.valid){                                                                
-                                error = rule.message;
-                                return true
-                            }
-                        }
-                        else{                             
-                            console.log(`Couldnt validate ([${name}] = ${value})`  )
-                            console.log(result.message  )
-                            error = `Couldnt validate ([${name}] = ${value})`
-                            return true
-                        }
-                        
-                    }
-                    else{
-                        return false 
-                    }
-
-                    
+                return hasError[0]
+ 
                 
-                })
-
             }
             
 
         }
 
-        console.log('returning {', error , '}')
-
-        return error;
+        return ''
     }
 
 

@@ -1,11 +1,11 @@
 import { api } from '../../../../../services/api';
 
 
-const validateSlug = async(value) =>{
+const validateSlug = async value =>{
     
-    console.log('validateSlug', value)
-     
-    api.post('/posts/exists/slug/', {
+    console.log('>>>>> validateSlug', value)
+
+    return await api.post('/posts/exists/slug/', {
         slug: value
     })
     .then(res => {
@@ -39,10 +39,12 @@ const validations = {
         required: true,
         rules: [
             {
-                regEx: /^[a-zA-Z0-9_.-]+$/,
+                type: 'regex',
+                regex: /^[a-zA-Z0-9_.-]+$/,
                 message: 'Invalid slug format.',
             },
             {
+                type: 'remote',
                 method: validateSlug,
                 message: 'Slug already exists.',
             },
@@ -70,8 +72,9 @@ const validations = {
         required: true,
         rules: [
             {
-                regEx: /^[a-zA-Z]+$/,
-                message: 'Invalid first name format.',
+                type: 'regex',
+                regex: /^[a-zA-Z]+$/,
+                message: 'Invalid meta Title.',
             },
         ]
     },
@@ -79,8 +82,9 @@ const validations = {
         required: true,
         rules: [
             {
-                regEx: /^[a-zA-Z]+$/,
-                message: 'Invalid last name format.',
+                type: 'regex',
+                regex: /^[a-zA-Z]+$/,
+                message: 'Invalid meta descripcion.',
             },
         ]
     },
