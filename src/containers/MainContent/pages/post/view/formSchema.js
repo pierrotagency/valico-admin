@@ -75,23 +75,9 @@ const validations = {
             {
                 type: 'backend',
                 object: {
-                    types: ['image'],
+                    file: 'required|file|file_ext:png,gif,jpg,jpeg,tiff,bmp|file_size:1mb|file_types:image'
                 },
-                message: 'xxxxxxx image',
-            },
-            {
-                type: 'backend',
-                object: {
-                    size: '1mb',
-                },
-                message: 'xxxxxxx size',
-            },
-            {
-                type: 'backend',
-                object: {
-                    extnames: ['jpg', 'png', 'gif']
-                },
-                message: 'xxxxxxx extensions',
+                messages: ['xxxxxxx extensions'],
             }
         ]        
     }

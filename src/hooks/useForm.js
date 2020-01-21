@@ -101,6 +101,8 @@ function useForm(fileds, validations = {}) {
                     }
                     
                 }
+
+                // rule.type === 'backend' is handled in the backend when the request is made
                 
             })
 
@@ -135,8 +137,20 @@ function useForm(fileds, validations = {}) {
         return ''
     }
 
+    const parseBackendValidations = () => {
+        
+        let res = {}
+        if(validations['meta_image'] && validations['meta_image'].rules){
+            validations['meta_image'].rules
+                .filter(el => el.type === 'backend')
+                .map(el => res = {...res, ...el.object})
+        }
 
-    return { setForm, form, errors, saveDisabled, handleOnChange};
+        return res 
+    }
+
+
+    return { setForm, form, errors, saveDisabled, handleOnChange, parseBackendValidations};
 }
 
 export default useForm;

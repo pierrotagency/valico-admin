@@ -30,7 +30,7 @@ function PostView() {
 
     const { state: post, set: setPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
 
-    const { form, setForm, errors, handleOnChange, saveDisabled } = useForm(fields, validations);
+    const { form, setForm, errors, handleOnChange, saveDisabled, parseBackendValidations } = useForm(fields, validations);
 
     let { id } = useParams();
 
@@ -197,7 +197,7 @@ function PostView() {
                                         handleInputChange={handleInputChange}
                                         handleInputBlur={handleInputBlur}
                                         tags={tags}
-                                        validations={validations}
+                                        parseBackendValidations={parseBackendValidations}
                                     />
 
                                 </CardBody>

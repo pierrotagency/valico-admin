@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { Progress, Button, Row, Col } from 'reactstrap';
 
 
-const FileUpload = ({label, name, value, className, isInvalid, isValid, message, url, method, onProgress, onChange, onError, onAbort, remoteValidations={}, ...props}) => {
+const FileUpload = ({label, name, value, className, isInvalid, isValid, message, url, method, onProgress, onChange, onError, onAbort, backendValidations={}, ...props}) => {
 
     const [ progress, setProgress ] = useState(-1)
     const [ hasError, setHasError ] = useState(false)
@@ -63,7 +63,7 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
         const req = new XMLHttpRequest();
 
         data.append("file", file);
-        data.append("validations", JSON.stringify(remoteValidations));
+        data.append("validations", JSON.stringify(backendValidations));
 
         req.open(method, url);
 
@@ -81,9 +81,14 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
     const addRequestBinds = (req) => {
             
         req.addEventListener("load", e => {
+            console.log('load')
 
             proxy.removeAllListeners(["abort"]);
             
+
+            console.log(req.status)
+
+
             if (req.status >= 200 && req.status <= 299) { // OK
             
                 const response = JSON.parse(req.response)
@@ -95,9 +100,15 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
                 callOnChange(response);
 
             }
-            else if(req.status === 422){ // Validation
+            else if(req.status === 422 || req.status === 400){ // Validation
 
-                const response = JSON.parse(req.response)
+                let response = JSON.parse(req.response)
+
+                // TODO should be ARRAY or not?
+                
+                if(Array.isArray(response) && response.length > 0) response = response[0]
+                
+                console.log(response)
 
                 setProgress(-1)        
                 setHasError(true)
