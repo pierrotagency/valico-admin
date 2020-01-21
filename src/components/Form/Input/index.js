@@ -33,7 +33,6 @@ const Input = ({label, isInvalid, isValid, message, className, name, onChange, o
 Input.propTypes = {
     label: PropTypes.string,
     name: PropTypes.string,
-    error: PropTypes.any,
     required: PropTypes.any,
     onChange: PropTypes.func,
     isValid: PropTypes.bool,

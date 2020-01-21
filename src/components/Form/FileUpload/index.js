@@ -2,16 +2,15 @@ import { EventEmitter } from "events";
 import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 
+import { Progress, Button, Row, Col } from 'reactstrap';
+
 import "./index.scss";
 
-import img1 from '../../../images/products/1.jpg';
 
-
-
-const FileUpload = ({url, method, onProgress, onLoad, onError, onAbort, ...props}) => {
+const FileUpload = ({label, name, className, isInvalid, isValid, message, url, method, onProgress, onChange, onError, onAbort, ...props}) => {
 
     const [ progress, setProgress ] = useState(-1)
-    const [ hasError, setHasError ] = useState(false)
+    const [ uploadError, setHasError ] = useState(false)
 
     const proxy = new EventEmitter();
 
@@ -44,7 +43,7 @@ const FileUpload = ({url, method, onProgress, onLoad, onError, onAbort, ...props
                 setProgress(100)        
                 setHasError(false)
 
-                onLoad(e, req);
+                onChange(e, req);
 
             }
             else {
@@ -114,73 +113,65 @@ const FileUpload = ({url, method, onProgress, onLoad, onError, onAbort, ...props
 
     }
 
-    const progressRenderer = () => {
-
-        if (hasError || progress > -1) {
-            const barStyle = {};
-            barStyle.width = `${progress}%`;
-
-            let message = <span>Uploading ...</span>;
-            if (hasError) {
-                barStyle.backgroundColor = "#d9534f";
-                message = (
-                    <span style={{ color: "#a94442" }}>Failed to upload ...</span>
-                );
-            } else if (progress === 100) {
-                message = <span>Successfully uploaded</span>;
-            }
-
-            return (
-                <div>
-                    <div className="progressWrapper">
-                        <div
-                        className="progressBar"
-                        style={barStyle}
-                        />
-                    </div>
-                    <button
-                        className="cancelButton"
-                        onClick={cancelUpload}
-                    >
-                        Cancel
-                    </button>
-                    <div style={{ clear: "left" }}>{message}</div>
-                </div>
-            );
-        }
-
-        return "";
-
-    }
 
     const handleOpenDialog = () => {
         inputRef.current.click()   
     }
 
 
-    const progessElement = progressRenderer();
+    const inputClass = className + " form-control" + ((isValid || uploadError) ? " is-valid" : "") + ((isInvalid || uploadError) ? " is-invalid" : "") 
+
 
     return (
         <>
-            <div className="form-group">
-                <label>Image</label> <br />
-                <img src={img1} alt="product img" className="img-fluid rounded" style={{ maxWidth: "200px" }} />
-                <br />
-                <button type="button" 
-                    className="btn btn-info mt-2 waves-effect waves-light"
-                    onClick={handleOpenDialog}
-                    >Change Image</button>
+            <div className="form-group position-relative">
+                {label ? <label>{label}</label> : null}           
+                
+                <Row>
+                    <Col sm="8">
+                        <input                                                 
+                            type="text"                
+                            defaultValue="some-file-name.pdf"
+                            className={inputClass} 
+                            disabled={true}
+                        />
+                        {isValid && message !== '' && <div className="valid-tooltip">{message}</div>}
+                        {isInvalid && message !== '' && <div className="invalid-tooltip">{message || "Failed to upload"}</div>}
+                        {progress > -1 && progress <= 100 && !isInvalid && !isValid ? 
+                            <Progress className="mt-2" style={{ height: '5px' }} color={progress===100?"success":"purple"} value={progress} />   
+                            :
+                            null
+                        }
+                    </Col>                
+                    <Col sm="4">
+                        
+                        {progress > -1 && progress < 100 ?                                                                                                
+                            <Button color="danger"
+                                onClick={cancelUpload} >
+                                <i className="mdi mdi-cancel mr-2"></i>Cancel
+                            </Button>                                          
+                        :
+                            <Button color="secondary"
+                                onClick={handleOpenDialog} >
+                                <i className="mdi mdi-file-upload mr-2"></i>Select
+                            </Button>  
+                        }
+                        
+                    </Col>
+                </Row>
+                
+
             </div>
             
             <input 
                 type="file" 
-                name="file"
+                name={name ? name : 'file'}
                 ref={inputRef}
                 onChange={handleFileSelected}
                 style={{display:'none'}}
             />
             
-            {progessElement}
+            
 
         </>
     )
@@ -191,9 +182,16 @@ FileUpload.propTypes = {
     url: PropTypes.string.isRequired,
     method: PropTypes.string.isRequired,    
     onProgress: PropTypes.func,
-    onLoad: PropTypes.func,
+    onChange: PropTypes.func,
     onError: PropTypes.func,
-    onAbort: PropTypes.func
+    onAbort: PropTypes.func,
+    label: PropTypes.string,
+    name: PropTypes.string,
+    isValid: PropTypes.bool,
+    isInvalid: PropTypes.bool,
+    message: PropTypes.string,
+    className: PropTypes.string,    
 };
+
 
 export default FileUpload;

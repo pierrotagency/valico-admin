@@ -41,11 +41,18 @@ export default function MetaCard ({handleInputChange, handleInputBlur, form, err
             </Col>
             <Col sm="6">
                 
-                <FileUpload key='ex1' url='http://localhost:3333/api/v1/media/upload' method='post'
+                <FileUpload 
+                    name="file"
+                    label="Cover Image"
+                    key='ex1' 
+                    url='http://localhost:3333/api/v1/media/upload'
+                    method='post'
                     onProgress={(e, request, progress) => {console.log('progress', e, request, progress);}}
-                    onLoad={ (e, request) => {console.log('load', e, request);}}
+                    onChange={ (e, request) => {console.log('onChange', e, request);}}
                     onError={ (e, request) => {console.log('error', e, request);}}
-                    onAbort={ (e, request) => {console.log('abort', e, request);}}
+                    onAbort={ (e, request) => {console.log('abort', e, request);}}                    
+                    isInvalid={false}
+                    message="errors.meta_keywords.message"
                 />
                 
             </Col>
