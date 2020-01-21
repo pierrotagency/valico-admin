@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,7 +16,7 @@ import ActionsMenu from "./ActionsMenu";
 import MetaCard from './MetaCard';
 import ChildsCard from './ChildsCard';
 import ParamsCard from './ParamsCard';
-import { fields, validations } from './formSchema'
+import { fieldsSchema, validationsSchema } from './formSchema'
 
 
 function PostView() {
@@ -24,15 +24,33 @@ function PostView() {
     const viewPost = useSelector(state => state.post.viewPost);    
     const loadingViewPost = useSelector(state => state.post.loadingViewPost);
     const savingPost = useSelector(state => state.post.savingPost);
+    const savingPostError = useSelector(state => state.post.savingPostError);
     const dispatch = useDispatch();
     const tags = useSelector(state => state.tag.tags);        
     const history = useHistory();
 
+    // const [ validations, setValidations ] = useState(validationsSchema)
+
     const { state: post, set: setPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
 
-    const { form, setForm, errors, handleOnChange, saveDisabled, parseBackendValidations } = useForm(fields, validations);
+
+
+
+    const { form, setForm, errors, handleOnChange, saveDisabled, parseBackendValidations } = useForm(fieldsSchema, validationsSchema);
 
     let { id } = useParams();
+
+
+    // useEffect(() => {       
+    //     console.log(savingPostError)
+        
+    //     setValidations(errors)
+        
+        
+    // },[savingPostError, errors]);
+
+    
+
 
     useEffect(() => {       
         dispatch(activateAuthLayout());        
@@ -158,7 +176,7 @@ function PostView() {
 
                                     <ParamsCard
                                         form={form}                                    
-                                        errors={errors}
+                                        validations={errors}
                                         handleInputChange={handleInputChange}
                                         handleSelectChange={handleSelectChange}
                                         handleInputBlur={handleInputBlur}
@@ -176,7 +194,7 @@ function PostView() {
 
                                     <ChildsCard
                                         form={form}
-                                        errors={errors}
+                                        validations={errors}
                                         handleSwitchToggle={handleSwitchToggle}
                                         handleSelectChange={handleSelectChange}                                
                                         typeOptions={typeOptions}
@@ -193,7 +211,7 @@ function PostView() {
 
                                     <MetaCard
                                         form={form}                                    
-                                        errors={errors}
+                                        validations={errors}
                                         handleInputChange={handleInputChange}
                                         handleInputBlur={handleInputBlur}
                                         tags={tags}

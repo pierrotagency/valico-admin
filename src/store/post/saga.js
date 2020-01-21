@@ -57,8 +57,6 @@ export function* watchGetViewPost() {
 
 function* saveViewPost({ payload: { post } }) {
     
-    yield delay(1500)
-
     try {
         const response = yield call(apiPut, '/posts/' + post.uuid, { post });           
         yield put(saveViewPostOk(response));        

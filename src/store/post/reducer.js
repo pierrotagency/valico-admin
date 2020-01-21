@@ -116,20 +116,23 @@ const post = (state = initialState, action) => {
         case SAVE_VIEW_POST:
             state = {
                 ...state,                
-                savingPost: true                
+                savingPost: true,       
+                savingPostError: null     
             }
             break;
         case SAVE_VIEW_POST_OK:
             state = {
                 ...state,      
                 viewPost: action.payload,          
-                savingPost: false
+                savingPost: false,
+                savingPostError: null
             }
             break;
         case SAVE_VIEW_POST_ERROR:
             state = {
                 ...state,                
-                savingPost: false
+                savingPost: false,
+                savingPostError: action.payload
             }
             break;
 

@@ -1,7 +1,7 @@
 import { api } from '../../../../../services/api';
 
 
-const fields = {
+const fieldsSchema = {
     name: '',
     slug: '',
     template: null,
@@ -41,7 +41,7 @@ const validateUniqueSlug = async (params) =>{
 }
 
 
-const validations = {
+const validationsSchema = {
     name: {
         required: true
     },
@@ -83,4 +83,4 @@ const validations = {
     }
 };
 
-export { fields, validations } 
+export {fieldsSchema, validationsSchema } 

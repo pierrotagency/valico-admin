@@ -28,13 +28,29 @@ api.interceptors.response.use((response) => {
     return response
 }, 
 error => {
-    console.log('Axios interceptor response error: ', error)
+    console.log('API interceptor response error.')
     
     const originalRequest = error.config;
 
+    if (error.response.status === 422) { // validation 
+        console.log('API: 422 - Validation thing')
+        
+        if(error.response && error.response.data){            
+            const { data } = error.response;
+                // data.code = 422;
+            return Promise.reject(data);
+        }
+        else{
 
-    if (error.response.status === 401 && !originalRequest._retry) {
+            const defaultError = 'API response error'             
+            return Promise.reject(defaultError);
+        }
+
+    }
+    else if (error.response.status === 401 && !originalRequest._retry) { // refresh token
         originalRequest._retry = true;
+
+        console.log('API: 401 - Refreshing token')
 
         return axios.post('/auth/token/refresh',
         {
@@ -99,21 +115,12 @@ const apiPut = (action, data) => {
         })
         .catch(err => {
 
-            if(err.response){
-                
-                const { data } = err.response;
+            console.log(err)
 
-                let errDescription = '';
-                if(data[0] && data[0].message) errDescription = data[0].message // pick first validation element of the backend (controller error response)
-                else if(data.error) errDescription = data.error
-                
-                throw errDescription; // TODO check other API response taxonomies         
+            throw {                
+                validations: err
+            };
 
-            }
-            else{
-                const defaultError = 'API PUT response error' 
-                throw defaultError;
-            }
 
         });
 

@@ -3,7 +3,7 @@ import { Row, Col , Alert} from 'reactstrap';
 
 import { Select, Input } from '../../../../../../components/Form';
 
-export default function ParamsCard({ form, handleInputChange, handleSelectChange, handleInputBlur, typeOptions, taxonomyOptions, templateOptions, errors }) {
+export default function ParamsCard({ form, handleInputChange, handleSelectChange, handleInputBlur, typeOptions, taxonomyOptions, templateOptions, validations }) {
 
     const typeValue = form && form.type ? typeOptions.find(item => item.value === form.type) : null
     const templateValue = form && form.template ? templateOptions.find(item => item.value === form.template) : null
@@ -21,8 +21,8 @@ export default function ParamsCard({ form, handleInputChange, handleSelectChange
                     onChange={handleInputChange} 
                     onBlur={handleInputBlur} 
                     value={form.name || ''}
-                    isInvalid={errors.name.invalid}
-                    message={errors.name.message}
+                    isInvalid={validations.name.invalid}
+                    message={validations.name.message}
                 />
                 <Input 
                     name="slug" 
@@ -30,8 +30,8 @@ export default function ParamsCard({ form, handleInputChange, handleSelectChange
                     onBlur={handleInputBlur} 
                     onChange={handleInputChange}
                     value={form.slug || ''} 
-                    isInvalid={errors.slug.invalid}
-                    message={errors.slug.message}                           
+                    isInvalid={validations.slug.invalid}
+                    message={validations.slug.message}                           
                 />
             </Col>
             <Col sm="6">                                                                         
@@ -42,8 +42,8 @@ export default function ParamsCard({ form, handleInputChange, handleSelectChange
                     placeholder={''}
                     onChange={handleSelectChange}
                     value={typeValue}
-                    isInvalid={errors.type.invalid}
-                    message={errors.type.message}
+                    isInvalid={validations.type.invalid}
+                    message={validations.type.message}
                 />                                            
                 <Select 
                     name="taxonomy"
@@ -52,8 +52,8 @@ export default function ParamsCard({ form, handleInputChange, handleSelectChange
                     placeholder={''}           
                     onChange={handleSelectChange}
                     value={taxonomyValue}
-                    isInvalid={errors.taxonomy.invalid}
-                    message={errors.taxonomy.message}
+                    isInvalid={validations.taxonomy.invalid}
+                    message={validations.taxonomy.message}
                 />
                 <Select 
                     name="template"
@@ -62,8 +62,8 @@ export default function ParamsCard({ form, handleInputChange, handleSelectChange
                     placeholder={''}              
                     onChange={handleSelectChange}
                     value={templateValue}
-                    isInvalid={errors.template.invalid}
-                    message={errors.template.message}
+                    isInvalid={validations.template.invalid}
+                    message={validations.template.message}
                 />
             </Col>
         </Row>

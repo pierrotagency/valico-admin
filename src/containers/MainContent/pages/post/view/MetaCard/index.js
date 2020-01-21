@@ -3,7 +3,7 @@ import { Row, Col, Alert } from 'reactstrap';
 
 import { Input, Tags, TextArea, FileUpload } from '../../../../../../components/Form';
 
-export default function MetaCard ({ handleInputChange, handleInputBlur, form, errors, tags, parseBackendValidations }) {
+export default function MetaCard ({ handleInputChange, handleInputBlur, form, validations, tags, parseBackendValidations }) {
 
     if(!form) return(<Alert color="danger" className="bg-white border border-danger">Couldn't get post info</Alert>)
 
@@ -16,8 +16,8 @@ export default function MetaCard ({ handleInputChange, handleInputBlur, form, er
                     onChange={handleInputChange} 
                     onBlur={handleInputBlur} 
                     value={form.meta_title || ''}
-                    isInvalid={errors.meta_title.invalid}
-                    message={errors.meta_title.message}
+                    isInvalid={validations.meta_title.invalid}
+                    message={validations.meta_title.message}
                 />
                 <Tags 
                     name="meta_keywords" 
@@ -25,8 +25,8 @@ export default function MetaCard ({ handleInputChange, handleInputBlur, form, er
                     onChange={handleInputBlur}                             
                     value={form.meta_keywords || []}
                     options={tags}
-                    isInvalid={errors.meta_keywords.invalid}
-                    message={errors.meta_keywords.message}
+                    isInvalid={validations.meta_keywords.invalid}
+                    message={validations.meta_keywords.message}
                 />
                 <TextArea
                     name="meta_description" 
@@ -35,8 +35,8 @@ export default function MetaCard ({ handleInputChange, handleInputBlur, form, er
                     onChange={handleInputChange} 
                     onBlur={handleInputBlur} 
                     value={form.meta_description || ''}
-                    isInvalid={errors.meta_description.invalid}
-                    message={errors.meta_description.message}
+                    isInvalid={validations.meta_description.invalid}
+                    message={validations.meta_description.message}
                 />                                        
             </Col>
             <Col sm="6">
@@ -54,7 +54,7 @@ export default function MetaCard ({ handleInputChange, handleInputBlur, form, er
                     // onError={ (e, request) => {console.log('error', e, request);}}
                     // onAbort={ (e, request) => {console.log('abort', e, request);}}                    
                     // isInvalid={false}
-                    // message="errors.meta_keywords.message"
+                    // message="validations.meta_keywords.message"
                 />
                 
             </Col>

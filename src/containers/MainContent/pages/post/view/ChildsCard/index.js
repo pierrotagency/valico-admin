@@ -3,7 +3,7 @@ import { Row, Col , Alert } from 'reactstrap';
 
 import { Select, Toggle } from '../../../../../../components/Form';
 
-export default function ChildsCard({ form, errors, handleSwitchToggle, handleSelectChange, typeOptions, taxonomyOptions, templateOptions }) {
+export default function ChildsCard({ form, validations, handleSwitchToggle, handleSelectChange, typeOptions, taxonomyOptions, templateOptions }) {
 
     const childsTypeValue = form && form.childs_type ? typeOptions.find(item => item.value === form.childs_type) : null
     const childsTemplateValue = form && form.childs_template ? templateOptions.find(item => item.value === form.childs_template) : null
@@ -30,8 +30,8 @@ export default function ChildsCard({ form, errors, handleSwitchToggle, handleSel
                     placeholder={''}
                     onChange={handleSelectChange}
                     value={childsTypeValue}
-                    isInvalid={errors.childs_type.invalid}
-                    message={errors.childs_type.message}                                
+                    isInvalid={validations.childs_type.invalid}
+                    message={validations.childs_type.message}                                
                 />                                                                                    
                 <Select 
                     name="childs_taxonomy"
@@ -40,8 +40,8 @@ export default function ChildsCard({ form, errors, handleSwitchToggle, handleSel
                     placeholder={''}           
                     onChange={handleSelectChange}
                     value={childsTaxonomyValue}
-                    isInvalid={errors.childs_taxonomy.invalid}
-                    message={errors.childs_taxonomy.message}                               
+                    isInvalid={validations.childs_taxonomy.invalid}
+                    message={validations.childs_taxonomy.message}                               
                 />                                                                          
                 <Select 
                     name="childs_template"
@@ -50,8 +50,8 @@ export default function ChildsCard({ form, errors, handleSwitchToggle, handleSel
                     placeholder={''}              
                     onChange={handleSelectChange}
                     value={childsTemplateValue}
-                    isInvalid={errors.childs_template.invalid}
-                    message={errors.childs_template.message}                             
+                    isInvalid={validations.childs_template.invalid}
+                    message={validations.childs_template.message}                             
                 />                                           
             </Col>
         </Row>
