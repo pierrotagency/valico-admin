@@ -1,4 +1,4 @@
-// import { EventEmitter } from "events";
+import { EventEmitter } from "events";
 import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 
@@ -11,10 +11,8 @@ const FileUpload = ({label, name, className, isInvalid, isValid, message, url, m
     const [ hasError, setHasError ] = useState(false)
     const [ error, setError ] = useState(null)
 
-
-    // const proxy = new EventEmitter();
-    const req = new XMLHttpRequest();
-
+    const proxy = new EventEmitter();
+    
     const inputRef = useRef(null)  
 
     const callOnProgress = (e, req, prog) => (typeof(onProgress) === 'function') ? onProgress(e, req, prog) : false
@@ -23,9 +21,9 @@ const FileUpload = ({label, name, className, isInvalid, isValid, message, url, m
     const cancelUpload = () => {
         console.log('cancelUpload')
 
-        // proxy.emit("abort");
+        proxy.emit("abort");
 
-        req.abort()
+        // req.abort()
 
         setProgress(-1)        
         setHasError(false)
@@ -47,89 +45,90 @@ const FileUpload = ({label, name, className, isInvalid, isValid, message, url, m
 
     const doUpload = () => {
 
+        const data = new FormData();
+        const req = new XMLHttpRequest();
+
+        data.append("file", inputRef.current.files[0]);
+        data.append("validations", JSON.stringify(remoteValidations));
+
         req.open(method, url);
 
-        // proxy.once("abort", () => {
-        //     console.log('proxy abort')
-        //     req.abort();
-        // });
+        proxy.once("abort", () => {
+            console.log('proxy abort')
+            req.abort();
+        });
 
-        const data = new FormData();
-            data.append("file", inputRef.current.files[0]);
-            data.append("validations", JSON.stringify(remoteValidations));
-        
+        addRequestBinds(req)
+
         req.send(data);
         
     }
 
-
-
-    req.addEventListener("load", e => {
-
-        console.log(req.status)
-        console.log(req)
-
-        // proxy.removeAllListeners(["abort"]);
-        
-        
-        if (req.status >= 200 && req.status <= 299) { // OK
-        
-            setProgress(100)        
-            setHasError(false)
-
-            onChange(e, req);
-
-        }
-        else if(req.status === 422){ // Validation
-
-            const response = JSON.parse(req.response)
-
-            console.log(response)
-
-            setProgress(-1)        
-            setHasError(true)
-            setError(response.message)
-
-            onError(e, req);
-
-        }
-        else { // Error
+    const addRequestBinds = (req) => {
             
-            setProgress(100)        
-            setHasError(true)
+        req.addEventListener("load", e => {
 
+            proxy.removeAllListeners(["abort"]);
+            
+            if (req.status >= 200 && req.status <= 299) { // OK
+            
+                setProgress(100)        
+                setHasError(false)
+
+                onChange(e, req);
+
+            }
+            else if(req.status === 422){ // Validation
+
+                const response = JSON.parse(req.response)
+
+                setProgress(-1)        
+                setHasError(true)
+                setError(response.message)
+
+                onError(e, req);
+
+            }
+            else { // Error
+                
+                setProgress(100)        
+                setHasError(true)
+
+                onError(e, req);
+
+            }
+            
+        }, false);
+
+        req.addEventListener("error", e => {
+            
+            console.log('error', e)
+
+            setHasError(true)
             onError(e, req);
 
-        }
-        
-    }, false);
+        }, false);
 
-    req.addEventListener("error", e => {
-        
-        console.log('error', e)
+        req.upload.addEventListener("progress", e => {
+            
+            const prog = (e.total !== 0) ? parseInt((e.loaded / e.total) * 100, 10) : 0
+            
+            setProgress(prog)        
+            callOnProgress(e, req, prog);
 
-        setHasError(true)
-        onError(e, req);
-
-    }, false);
-
-    req.upload.addEventListener("progress", e => {
-        
-        const prog = (e.total !== 0) ? parseInt((e.loaded / e.total) * 100, 10) : 0
-        
-        setProgress(prog)        
-        callOnProgress(e, req, prog);
-
-    }, false);
+        }, false);
 
 
-    req.addEventListener("abort", e => {
-        console.log('req abort')
+        req.addEventListener("abort", e => {
+            console.log('req abort')
 
-        setProgress(-1)   
-        onAbort(e, req);
+            setProgress(-1)   
+            onAbort(e, req);
 
-    }, false);
+        }, false);
+
+    }
+
 
     const inputClass = className + " form-control" + ((isValid || hasError) ? " is-valid" : "") + ((isInvalid || hasError) ? " is-invalid" : "") 
 
