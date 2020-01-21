@@ -10,6 +10,7 @@ const fields = {
     meta_title: '',
     meta_description: '',
     meta_keywords: [],
+    meta_image: null,
     childs_template: null,
     childs_type: null,
     childs_taxonomy: null,

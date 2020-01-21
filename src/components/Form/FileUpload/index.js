@@ -1,22 +1,29 @@
 import { EventEmitter } from "events";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import { Progress, Button, Row, Col } from 'reactstrap';
 
 
-const FileUpload = ({label, name, className, isInvalid, isValid, message, url, method, onProgress, onChange, onError, onAbort, remoteValidations={}, ...props}) => {
+const FileUpload = ({label, name, value, className, isInvalid, isValid, message, url, method, onProgress, onChange, onError, onAbort, remoteValidations={}, ...props}) => {
 
     const [ progress, setProgress ] = useState(-1)
     const [ hasError, setHasError ] = useState(false)
     const [ error, setError ] = useState(null)
+    const [ filename, setFilename ] = useState('')
 
     const proxy = new EventEmitter();
     
     const inputRef = useRef(null)  
 
     const callOnProgress = (e, req, prog) => (typeof(onProgress) === 'function') ? onProgress(e, req, prog) : false
+    const callOnChange = (data) => (typeof(onChange) === 'function') ? onChange(name, data) : false
     
+    useEffect(() => {       
+        const name = value.name ? value.name : ''
+        setFilename(name)
+    },[value]);
+
 
     const cancelUpload = () => {
         console.log('cancelUpload')
@@ -39,16 +46,20 @@ const FileUpload = ({label, name, className, isInvalid, isValid, message, url, m
         setProgress(0)        
         setHasError(false)
 
-        doUpload()
+        const file = inputRef.current.files[0]
+
+        setFilename(file.name)
+        
+        doUpload(file)
 
     }
 
-    const doUpload = () => {
+    const doUpload = (file) => {
 
         const data = new FormData();
         const req = new XMLHttpRequest();
 
-        data.append("file", inputRef.current.files[0]);
+        data.append("file", file);
         data.append("validations", JSON.stringify(remoteValidations));
 
         req.open(method, url);
@@ -72,10 +83,14 @@ const FileUpload = ({label, name, className, isInvalid, isValid, message, url, m
             
             if (req.status >= 200 && req.status <= 299) { // OK
             
+                const response = JSON.parse(req.response)
+
                 setProgress(100)        
                 setHasError(false)
 
-                onChange(e, req);
+                setFilename(response.name)
+
+                callOnChange(response);
 
             }
             else if(req.status === 422){ // Validation
@@ -140,7 +155,7 @@ const FileUpload = ({label, name, className, isInvalid, isValid, message, url, m
                     <Col sm="8">
                         <input                                                 
                             type="text"                
-                            defaultValue="some-file-name.pdf"
+                            defaultValue={filename}
                             className={inputClass} 
                             disabled={true}
                         />
@@ -187,14 +202,14 @@ const FileUpload = ({label, name, className, isInvalid, isValid, message, url, m
 }
 
 FileUpload.propTypes = {
+    name: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
     method: PropTypes.string.isRequired,    
     onProgress: PropTypes.func,
     onChange: PropTypes.func,
     onError: PropTypes.func,
     onAbort: PropTypes.func,
-    label: PropTypes.string,
-    name: PropTypes.string,
+    label: PropTypes.string,    
     isValid: PropTypes.bool,
     isInvalid: PropTypes.bool,
     message: PropTypes.string,
