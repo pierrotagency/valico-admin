@@ -16,8 +16,11 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
     
     const inputRef = useRef(null)  
 
-    const callOnProgress = (e, req, prog) => (typeof(onProgress) === 'function') ? onProgress(e, req, prog) : false
+    const callOnProgress = (prog) => (typeof(onProgress) === 'function') ? onProgress(name, prog) : false
     const callOnChange = (data) => (typeof(onChange) === 'function') ? onChange(name, data) : false
+    const callOnError = (e) => (typeof(onError) === 'function') ? onError(name, e) : false
+    const callOnAbort = () => (typeof(onAbort) === 'function') ? onAbort(name) : false
+
     
     useEffect(() => {       
         const name = value.name ? value.name : ''
@@ -87,7 +90,6 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
 
                 setProgress(100)        
                 setHasError(false)
-
                 setFilename(response.name)
 
                 callOnChange(response);
@@ -101,7 +103,7 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
                 setHasError(true)
                 setError(response.message)
 
-                onError(e, req);
+                callOnError(e);
 
             }
             else { // Error
@@ -109,18 +111,17 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
                 setProgress(100)        
                 setHasError(true)
 
-                onError(e, req);
+                callOnError(e);
 
             }
             
         }, false);
 
-        req.addEventListener("error", e => {
-            
+        req.addEventListener("error", e => {            
             console.log('error', e)
 
             setHasError(true)
-            onError(e, req);
+            callOnError(e);
 
         }, false);
 
@@ -129,7 +130,7 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
             const prog = (e.total !== 0) ? parseInt((e.loaded / e.total) * 100, 10) : 0
             
             setProgress(prog)        
-            callOnProgress(e, req, prog);
+            callOnProgress(prog);
 
         }, false);
 
@@ -138,7 +139,7 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
             console.log('req abort')
 
             setProgress(-1)   
-            onAbort(e, req);
+            callOnAbort();
 
         }, false);
 
@@ -148,45 +149,39 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
     const inputClass = className + " form-control" + ((isValid || hasError) ? " is-valid" : "") + ((isInvalid || hasError) ? " is-invalid" : "") 
 
     return (
-        <>
-            <div className="form-group position-relative">
-                {label ? <label>{label}</label> : null}           
-                <Row>
-                    <Col sm="8">
-                        <input                                                 
-                            type="text"                
-                            defaultValue={filename}
-                            className={inputClass} 
-                            disabled={true}
-                        />
-                        {isValid && message !== '' && <div className="valid-tooltip">{message}</div>}
-                        {isInvalid && message !== '' && <div className="invalid-tooltip">{message}</div>}
-                        {hasError && <div className="invalid-tooltip">{error || "Failed to upload"}</div>}
-                        {progress > -1 && progress <= 100 && !isInvalid && !isValid ? 
-                            <Progress className="mt-2" style={{ height: '5px' }} color={progress===100?"success":"purple"} value={progress} />   
-                            :
-                            null
-                        }
-                    </Col>                
-                    <Col sm="4">
-                        
-                        {progress > -1 && progress < 100 ?                                                                                                
-                            <Button color="danger"
-                                onClick={cancelUpload} >
-                                <i className="mdi mdi-cancel mr-2"></i>Cancel
-                            </Button>                                          
+        <div className="form-group position-relative">
+            {label ? <label>{label}</label> : null}           
+            <Row>
+                <Col sm="8">
+                    <input                                                 
+                        type="text"                
+                        defaultValue={filename}
+                        className={inputClass} 
+                        disabled={true}
+                    />
+                    {isValid && message !== '' && <div className="valid-tooltip">{message}</div>}
+                    {isInvalid && message !== '' && <div className="invalid-tooltip">{message}</div>}
+                    {hasError && <div className="invalid-tooltip">{error || "Failed to upload"}</div>}
+                    {progress > -1 && progress <= 100 && !isInvalid && !isValid ? 
+                        <Progress className="mt-2" style={{ height: '5px' }} color={progress===100?"success":"purple"} value={progress} />   
                         :
-                            <Button color="secondary"
-                                onClick={handleOpenDialog} >
-                                <i className="mdi mdi-file-upload mr-2"></i>Select
-                            </Button>  
-                        }
-                        
-                    </Col>
-                </Row>
-                
-
-            </div>
+                        null
+                    }
+                </Col>                
+                <Col sm="4">                        
+                    {progress > -1 && progress < 100 ?                                                                                                
+                        <Button color="danger"
+                            onClick={cancelUpload} >
+                            <i className="mdi mdi-cancel mr-2"></i>Cancel
+                        </Button>                                          
+                    :
+                        <Button color="secondary"
+                            onClick={handleOpenDialog} >
+                            <i className="mdi mdi-file-upload mr-2"></i>Select
+                        </Button>  
+                    }                        
+                </Col>
+            </Row>
             
             <input 
                 type="file" 
@@ -195,8 +190,7 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
                 onChange={handleFileSelected}
                 style={{display:'none'}}
             />
-            
-        </>
+        </div>
     )
 
 }

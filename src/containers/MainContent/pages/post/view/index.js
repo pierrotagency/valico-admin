@@ -197,6 +197,7 @@ function PostView() {
                                         handleInputChange={handleInputChange}
                                         handleInputBlur={handleInputBlur}
                                         tags={tags}
+                                        validations={validations}
                                     />
 
                                 </CardBody>

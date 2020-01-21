@@ -3,9 +3,22 @@ import { Row, Col, Alert } from 'reactstrap';
 
 import { Input, Tags, TextArea, FileUpload } from '../../../../../../components/Form';
 
-export default function MetaCard ({handleInputChange, handleInputBlur, form, errors, tags }) {
+export default function MetaCard ({ handleInputChange, handleInputBlur, form, errors, tags, validations }) {
 
     if(!form) return(<Alert color="danger" className="bg-white border border-danger">Couldn't get post info</Alert>)
+
+
+    const parseBackendRules = () => {
+        
+        let res = {}
+        if(validations['meta_image'] && validations['meta_image'].rules){
+            validations['meta_image'].rules
+                .filter(el => el.type === 'backend')
+                .map(el => res = {...res, ...el.object})
+        }
+
+        return res 
+    }
 
     return (                  
         <Row>
@@ -45,14 +58,15 @@ export default function MetaCard ({handleInputChange, handleInputBlur, form, err
                     name="meta_image"
                     label="Cover Image"
                     key='ex1' 
-                    url='http://localhost:3333/api/v1/media/upload'
+                    url='http://localhost:3333/api/v1/media/file/upload'
                     method='post'
-                    remoteValidations={{
-                        types: ['image'],
-                        size: '1mb',
-                        extnames: ['jpg', 'png', 'gif']
-                    }}
-                    // onProgress={(e, request, progress) => {console.log('progress', e, request, progress);}}
+                    remoteValidations={parseBackendRules('meta_image')}
+                    // remoteValidations={{
+                    //     types: ['image'],
+                    //     size: '1mb',
+                    //     extnames: ['jpg', 'png', 'gif']
+                    // }}
+                    // onProgress={(e, request, progress) => {console.log('progress', name, progress);}}
                     onChange={handleInputBlur}
                     value={form.meta_image || {}}
                     // onError={ (e, request) => {console.log('error', e, request);}}

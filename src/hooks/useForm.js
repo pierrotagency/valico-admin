@@ -80,7 +80,7 @@ function useForm(fileds, validations = {}) {
                     }
                     
                 }
-                else if (rule.type === 'remote') {
+                else if (rule.type === 'function') {
                     
                     const result = await rule.method({
                         value: value,

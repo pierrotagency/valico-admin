@@ -54,7 +54,7 @@ const validations = {
                 message: 'Invalid slug format.',
             },
             {
-                type: 'remote',
+                type: 'function',
                 method: validateUniqueSlug,
                 message: 'Slug already exists.',
             },
@@ -68,7 +68,33 @@ const validations = {
     },
     template: {
         required: true
-    }   
+    },
+    meta_image: {
+        required: true,
+        rules: [
+            {
+                type: 'backend',
+                object: {
+                    types: ['image'],
+                },
+                message: 'xxxxxxx image',
+            },
+            {
+                type: 'backend',
+                object: {
+                    size: '1mb',
+                },
+                message: 'xxxxxxx size',
+            },
+            {
+                type: 'backend',
+                object: {
+                    extnames: ['jpg', 'png', 'gif']
+                },
+                message: 'xxxxxxx extensions',
+            }
+        ]        
+    }
 };
 
 export { fields, validations } 
