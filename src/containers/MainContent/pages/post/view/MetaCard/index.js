@@ -47,6 +47,11 @@ export default function MetaCard ({handleInputChange, handleInputBlur, form, err
                     key='ex1' 
                     url='http://localhost:3333/api/v1/media/upload'
                     method='post'
+                    remoteValidations={{
+                        types: ['image'],
+                        size: '1mb',
+                        extnames: ['jpg', 'png', 'gif']
+                    }}
                     // onProgress={(e, request, progress) => {console.log('progress', e, request, progress);}}
                     onChange={ (e, request) => {console.log('onChange', e, request);}}
                     onError={ (e, request) => {console.log('error', e, request);}}

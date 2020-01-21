@@ -1,16 +1,16 @@
-import { EventEmitter } from "events";
+// import { EventEmitter } from "events";
 import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 
 import { Progress, Button, Row, Col } from 'reactstrap';
 
-import "./index.scss";
 
-
-const FileUpload = ({label, name, className, isInvalid, isValid, message, url, method, onProgress, onChange, onError, onAbort, ...props}) => {
+const FileUpload = ({label, name, className, isInvalid, isValid, message, url, method, onProgress, onChange, onError, onAbort, remoteValidations={}, ...props}) => {
 
     const [ progress, setProgress ] = useState(-1)
-    const [ uploadError, setHasError ] = useState(false)
+    const [ hasError, setHasError ] = useState(false)
+    const [ error, setError ] = useState(null)
+
 
     // const proxy = new EventEmitter();
     const req = new XMLHttpRequest();
@@ -46,7 +46,7 @@ const FileUpload = ({label, name, className, isInvalid, isValid, message, url, m
     }
 
     const doUpload = () => {
-         
+
         req.open(method, url);
 
         // proxy.once("abort", () => {
@@ -56,9 +56,9 @@ const FileUpload = ({label, name, className, isInvalid, isValid, message, url, m
 
         const data = new FormData();
             data.append("file", inputRef.current.files[0]);
-            data.append("sideField", "filename or something");
+            data.append("validations", JSON.stringify(remoteValidations));
         
-            req.send(data);
+        req.send(data);
         
     }
 
@@ -71,7 +71,8 @@ const FileUpload = ({label, name, className, isInvalid, isValid, message, url, m
 
         // proxy.removeAllListeners(["abort"]);
         
-        if (req.status >= 200 && req.status <= 299) {
+        
+        if (req.status >= 200 && req.status <= 299) { // OK
         
             setProgress(100)        
             setHasError(false)
@@ -79,8 +80,21 @@ const FileUpload = ({label, name, className, isInvalid, isValid, message, url, m
             onChange(e, req);
 
         }
-        else {
-                        
+        else if(req.status === 422){ // Validation
+
+            const response = JSON.parse(req.response)
+
+            console.log(response)
+
+            setProgress(-1)        
+            setHasError(true)
+            setError(response.message)
+
+            onError(e, req);
+
+        }
+        else { // Error
+            
             setProgress(100)        
             setHasError(true)
 
@@ -117,7 +131,7 @@ const FileUpload = ({label, name, className, isInvalid, isValid, message, url, m
 
     }, false);
 
-    const inputClass = className + " form-control" + ((isValid || uploadError) ? " is-valid" : "") + ((isInvalid || uploadError) ? " is-invalid" : "") 
+    const inputClass = className + " form-control" + ((isValid || hasError) ? " is-valid" : "") + ((isInvalid || hasError) ? " is-invalid" : "") 
 
     return (
         <>
@@ -132,7 +146,8 @@ const FileUpload = ({label, name, className, isInvalid, isValid, message, url, m
                             disabled={true}
                         />
                         {isValid && message !== '' && <div className="valid-tooltip">{message}</div>}
-                        {isInvalid && message !== '' && <div className="invalid-tooltip">{message || "Failed to upload"}</div>}
+                        {isInvalid && message !== '' && <div className="invalid-tooltip">{message}</div>}
+                        {hasError && <div className="invalid-tooltip">{error || "Failed to upload"}</div>}
                         {progress > -1 && progress <= 100 && !isInvalid && !isValid ? 
                             <Progress className="mt-2" style={{ height: '5px' }} color={progress===100?"success":"purple"} value={progress} />   
                             :
