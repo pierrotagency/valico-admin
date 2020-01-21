@@ -12,96 +12,28 @@ const FileUpload = ({label, name, className, isInvalid, isValid, message, url, m
     const [ progress, setProgress ] = useState(-1)
     const [ uploadError, setHasError ] = useState(false)
 
-    const proxy = new EventEmitter();
+    // const proxy = new EventEmitter();
+    const req = new XMLHttpRequest();
 
     const inputRef = useRef(null)  
+
+    const callOnProgress = (e, req, prog) => (typeof(onProgress) === 'function') ? onProgress(e, req, prog) : false
     
 
     const cancelUpload = () => {
         console.log('cancelUpload')
 
-        proxy.emit("abort");
+        // proxy.emit("abort");
+
+        req.abort()
 
         setProgress(-1)        
         setHasError(false)
 
     }
 
-    const doUpload = () => {
-        
-        const req = new XMLHttpRequest();
-
-        req.open(method, url);
-
-
-        req.addEventListener("load", e => {
-
-            proxy.removeAllListeners(["abort"]);
-            
-            if (req.status >= 200 && req.status <= 299) {
-            
-                setProgress(100)        
-                setHasError(false)
-
-                onChange(e, req);
-
-            }
-            else {
-                            
-                setProgress(100)        
-                setHasError(true)
-
-                onError(e, req);
-
-            }
-            
-        }, false);
-
-
-        req.addEventListener("error", e => {
-            
-            setHasError(true)
-
-            onError(e, req);
-
-        }, false);
-
-
-        req.upload.addEventListener("progress", e => {
-            
-            let prog = 0;
-            
-            if (e.total !== 0) {
-                prog = parseInt((e.loaded / e.total) * 100, 10);
-            }
-            
-            setProgress(prog)        
-            
-            onProgress(e, req, prog);
-
-        }, false);
-
-
-        req.addEventListener("abort", e => {
-
-            setProgress(-1)   
-
-            onAbort(e, req);
-            
-        }, false);
-
-
-        proxy.once("abort", () => {
-            req.abort();
-        });
-
-        const data = new FormData();
-
-            data.append("file", inputRef.current.files[0]);
-            data.append("otherStuff", "stuff from a text input");
-
-        req.send(data);
-        
+    const handleOpenDialog = () => {
+        inputRef.current.click()   
     }
 
     const handleFileSelected = () => {
@@ -113,20 +45,84 @@ const FileUpload = ({label, name, className, isInvalid, isValid, message, url, m
 
     }
 
+    const doUpload = () => {
+         
+        req.open(method, url);
 
-    const handleOpenDialog = () => {
-        inputRef.current.click()   
+        // proxy.once("abort", () => {
+        //     console.log('proxy abort')
+        //     req.abort();
+        // });
+
+        const data = new FormData();
+            data.append("file", inputRef.current.files[0]);
+            data.append("sideField", "filename or something");
+        
+            req.send(data);
+        
     }
 
 
-    const inputClass = className + " form-control" + ((isValid || uploadError) ? " is-valid" : "") + ((isInvalid || uploadError) ? " is-invalid" : "") 
 
+    req.addEventListener("load", e => {
+
+        console.log(req.status)
+        console.log(req)
+
+        // proxy.removeAllListeners(["abort"]);
+        
+        if (req.status >= 200 && req.status <= 299) {
+        
+            setProgress(100)        
+            setHasError(false)
+
+            onChange(e, req);
+
+        }
+        else {
+                        
+            setProgress(100)        
+            setHasError(true)
+
+            onError(e, req);
+
+        }
+        
+    }, false);
+
+    req.addEventListener("error", e => {
+        
+        console.log('error', e)
+
+        setHasError(true)
+        onError(e, req);
+
+    }, false);
+
+    req.upload.addEventListener("progress", e => {
+        
+        const prog = (e.total !== 0) ? parseInt((e.loaded / e.total) * 100, 10) : 0
+        
+        setProgress(prog)        
+        callOnProgress(e, req, prog);
+
+    }, false);
+
+
+    req.addEventListener("abort", e => {
+        console.log('req abort')
+
+        setProgress(-1)   
+        onAbort(e, req);
+
+    }, false);
+
+    const inputClass = className + " form-control" + ((isValid || uploadError) ? " is-valid" : "") + ((isInvalid || uploadError) ? " is-invalid" : "") 
 
     return (
         <>
             <div className="form-group position-relative">
                 {label ? <label>{label}</label> : null}           
-                
                 <Row>
                     <Col sm="8">
                         <input                                                 
@@ -171,8 +167,6 @@ const FileUpload = ({label, name, className, isInvalid, isValid, message, url, m
                 style={{display:'none'}}
             />
             
-            
-
         </>
     )
 
@@ -192,6 +186,5 @@ FileUpload.propTypes = {
     message: PropTypes.string,
     className: PropTypes.string,    
 };
-
 
 export default FileUpload;
