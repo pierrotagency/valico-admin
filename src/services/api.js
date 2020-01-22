@@ -38,7 +38,7 @@ error => {
             const res = {
                 code: error.response.status,
                 type: 'validation',
-                validations: error.response.data
+                validations: Array.isArray(error.response.data) ? error.response.data : []
             }
             return Promise.reject(res);
         }
