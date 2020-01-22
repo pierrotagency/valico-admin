@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 import { getLoggedInUser, isUserAuthenticated } from '../helpers/auth';
-
 import {store} from '../store';
 import { refreshToken } from '../store/actions';
 
@@ -96,7 +95,6 @@ error => {
 });
 
 
-
 const apiPost = (action, data) => {
 
     return api.post(action, data)
@@ -104,23 +102,8 @@ const apiPost = (action, data) => {
             return res.data;
         })
         .catch(err => {
-
-            if(err.response){
-                
-                const { data } = err.response;
-
-                let errDescription = '';
-                if(data[0] && data[0].message) errDescription = data[0].message // pick first validation element of the backend (controller error response)
-                else if(data.error) errDescription = data.error
-                
-                throw errDescription; // TODO check other API response taxonomies         
-
-            }
-            else{
-                const defaultError = 'API POST response error' 
-                throw defaultError;
-            }
-
+            console.log(err)
+            throw err            
         });
 
 }
@@ -133,15 +116,11 @@ const apiPut = (action, data) => {
             return res.data;
         })
         .catch(err => {
-
             console.log(err)
-
             throw err
-
         });
 
 }
-
 
 
 const apiGet = (action, data) => {
@@ -154,21 +133,24 @@ const apiGet = (action, data) => {
         })
         .catch(err => {
 
-            if(err.response){
-                
-                const { data } = err.response;
+            console.log(err)
+            throw err
 
-                let errDescription = '';
-                if(data[0] && data[0].message) errDescription = data[0].message // pick first validation element of the backend (controller error response)
-                else if(data.error) errDescription = data.error
+            // if(err.response){
                 
-                throw errDescription; // TODO check other API response taxonomies         
+            //     const { data } = err.response;
 
-            }
-            else{
-                const defaultError = 'API GET response error' 
-                throw defaultError;
-            }
+            //     let errDescription = '';
+            //     if(data[0] && data[0].message) errDescription = data[0].message // pick first validation element of the backend (controller error response)
+            //     else if(data.error) errDescription = data.error
+                
+            //     throw errDescription; // TODO check other API response taxonomies         
+
+            // }
+            // else{
+            //     const defaultError = 'API GET response error' 
+            //     throw defaultError;
+            // }
 
         });
 
