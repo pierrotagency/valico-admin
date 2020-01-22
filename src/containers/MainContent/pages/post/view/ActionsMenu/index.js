@@ -9,9 +9,10 @@ export default function ActionsMenu({
     onClickUndo,
     onClickRedo,
     onClickClear,
-    onClickBuilder,
+    // onClickBuilder,
     canRedo,
     canUndo,
+    canClear,
     canSave,
     savingPost
 }) {    
@@ -30,7 +31,8 @@ export default function ActionsMenu({
                     </ButtonGroup>
                     <ButtonGroup className="mt-2 mt-xl-0 btn-sm">
                         <Button color="danger" 
-                            onClick={onClickClear} >
+                            onClick={onClickClear}
+                            disabled={!canClear}>
                             <i className="mdi mdi-backup-restore"></i>
                         </Button>
                         <Button color="secondary" 
@@ -44,12 +46,12 @@ export default function ActionsMenu({
                             <i className="mdi mdi-redo"></i>
                         </Button>                                            
                     </ButtonGroup>     
-                    <ButtonGroup className="mt-2 mt-xl-0 btn-sm">
+                    {/* <ButtonGroup className="mt-2 mt-xl-0 btn-sm">
                         <Button color="primary"
                             onClick={onClickBuilder} >
                             <i className="mdi mdi-config mr-2"></i>Builder
                         </Button>
-                    </ButtonGroup>
+                    </ButtonGroup> */}
                 </div>                        
             </div>            
         </>

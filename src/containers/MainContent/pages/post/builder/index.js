@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col } from "reactstrap";
-import { useHistory } from "react-router";
-
+// import { useHistory } from "react-router";
 import Hotkeys from 'react-hot-keys';
 
 import { activateAuthLayout, getViewPost,  saveViewPost } from "../../../../../store/actions";
@@ -11,15 +10,13 @@ import Breadcrumb from "../_common/Breadcrumb";
 import ActionsMenu from "./ActionsMenu";
 import Board from '../../../../../components/Board'
 // import { test, test2 } from './services'
-
-
 import useBack from '../../../../../hooks/useBack';
 
 
 function PostBuilder() {
 
   // const location = useLocation();
-  const history = useHistory();
+  // const history = useHistory();
 
   const viewPost = useSelector(state => state.post.viewPost);
   const loadingViewPost = useSelector(state => state.post.loadingViewPost);
@@ -56,7 +53,7 @@ function PostBuilder() {
 	const handleClickRedo = () => redo()
   const handleClickClear = () => clear()
   
-  const handleClickView = () => history.push('/posts/'+id+'/view')    
+  // const handleClickView = () => history.push('/posts/'+id+'/view')    
   
   
   const onKeyDown = (keyName, e, handle) => {
@@ -103,9 +100,10 @@ function PostBuilder() {
                         onClickUndo={handleClickUndo}
                         onClickRedo={handleClickRedo}
                         onClickClear={handleClickClear}
-                        onClickView={handleClickView}
+                        // onClickView={handleClickView}
                         canRedo={canRedo}
                         canUndo={canUndo}
+                        canClear={canUndo}
                         savingPost={savingPost}
                       />
                     ) : null}

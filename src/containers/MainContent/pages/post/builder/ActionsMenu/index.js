@@ -13,9 +13,10 @@ export default function ActionsMenu({
     onClickUndo,
     onClickRedo,
     onClickClear,
-    onClickView,
+    // onClickView,
     canRedo,
     canUndo,
+    canClear,
     savingPost
 }) {
     const [toggle, setToggle] = useState(false);
@@ -45,7 +46,7 @@ export default function ActionsMenu({
                     </Dropdown>
                     } 
                     <ButtonGroup className="mt-2 mt-xl-0 btn-sm">
-                        <Button color="danger" onClick={onClickClear} >
+                        <Button color="danger" onClick={onClickClear} disabled={!canClear}>
                             <i className="mdi mdi-backup-restore"></i>
                         </Button>
                         <Button color="secondary" onClick={onClickUndo} disabled={!canUndo}>
@@ -56,11 +57,11 @@ export default function ActionsMenu({
                         </Button>                    
                         
                     </ButtonGroup>     
-                    <ButtonGroup className="mt-2 mt-xl-0 btn-sm">
+                    {/* <ButtonGroup className="mt-2 mt-xl-0 btn-sm">
                         <Button color="default" onClick={onClickView} >
                             <i className="mdi mdi-config mr-2"></i>Properties
                         </Button>
-                    </ButtonGroup>
+                    </ButtonGroup> */}
                 </div>                        
             </div>            
         </>

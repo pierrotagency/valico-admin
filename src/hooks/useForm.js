@@ -25,9 +25,7 @@ function useForm(fileds, validations = {}) {
     useEffect(() => {
         // const doValidate = async() => await validateForm()                              
         // doValidate();
-       
         if(dirty) validateForm()  
-       
         // eslint-disable-next-line react-hooks/exhaustive-deps 
     }, [form]);
 
@@ -61,13 +59,18 @@ function useForm(fileds, validations = {}) {
 
     const checkDisabled = useCallback(() => {
 
+        if(!dirty){ // if nothing has been touched in the form, dont enable the save
+            setSaveDisabled(true)
+            return true
+        }
+
         const isInvalid = Object.keys(validations)
             .some(name => errors[name].invalid 
                     && errors[name].origin === 'frontend'
             )
         setSaveDisabled(isInvalid);
 
-    }, [errors, validations]);
+    }, [errors, validations, dirty]);
 
 
     const handleOnChange = useCallback(async(name,value) => {

@@ -141,6 +141,7 @@ function Form() {
                                     // onClickBuilder={handleClickBuilder}
                                     canRedo={canRedo}
                                     canUndo={canUndo}
+                                    canClear={canUndo}
                                     canSave={!saveDisabled}
                                     savingPost={savingPost}
                                 />
