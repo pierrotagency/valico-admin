@@ -182,7 +182,7 @@ function useForm(fileds, validations = {}) {
             }               
         })
 
-        backErrors.map(err => {
+        backErrors.forEach(err => {
         
             newErrors = {
                 ...newErrors, 

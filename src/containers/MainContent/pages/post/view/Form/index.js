@@ -1,25 +1,24 @@
 import React, { useEffect } from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
-import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import Hotkeys from 'react-hot-keys';
-import { useHistory } from "react-router";
+// import { useHistory } from "react-router";
 
 import { templates, taxonomies, types } from 'valico-sanmartin'
 
-import Breadcrumb from '../_common/Breadcrumb';
-import { activateAuthLayout, getViewPost, saveViewPost, getTags, addLocalTags } from "../../../../../store/actions";
-import useUndo from '../../../../../hooks/useUndo';
-import useForm from '../../../../../hooks/useForm';
+import Breadcrumb from '../../_common/Breadcrumb';
+import { saveViewPost, addLocalTags } from "../../../../../../store/actions";
+import useUndo from '../../../../../../hooks/useUndo';
+import useForm from '../../../../../../hooks/useForm';
 
-import ActionsMenu from "./ActionsMenu";
-import MetaCard from './MetaCard';
-import ChildsCard from './ChildsCard';
-import ParamsCard from './ParamsCard';
+import ActionsMenu from "../ActionsMenu";
+import MetaCard from '../MetaCard';
+import ChildsCard from '../ChildsCard';
+import ParamsCard from '../ParamsCard';
 import { fieldsSchema, validationsSchema } from './formSchema'
 
 
-function PostView() {
+function Form() {
 
     const viewPost = useSelector(state => state.post.viewPost);    
     const loadingViewPost = useSelector(state => state.post.loadingViewPost);
@@ -27,13 +26,11 @@ function PostView() {
     const savingPostError = useSelector(state => state.post.savingPostError);
     const dispatch = useDispatch();
     const tags = useSelector(state => state.tag.tags);        
-    const history = useHistory();
+    // const history = useHistory();
 
     const { state: post, set: setPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
 
     const { form, setForm, errors, handleOnChange, saveDisabled, setBackendErrors, parseBackendValidations } = useForm(fieldsSchema, validationsSchema);
-
-    let { id } = useParams();
 
     // add backend validations to stack of errors
     useEffect(() => {       
@@ -43,14 +40,7 @@ function PostView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps  
     },[savingPostError]);
 
-    useEffect(() => {       
-        dispatch(activateAuthLayout());        
-        dispatch(getTags())        
-    },[dispatch]);
 
-    useEffect(() => {
-        dispatch(getViewPost(id));	
-    }, [dispatch, id]);
 
     useEffect(() => {       
         setPost(viewPost)		
@@ -88,7 +78,7 @@ function PostView() {
 	const handleClickRedo = () => redo()
     const handleClickClear = () => clear()
     
-    const handleClickBuilder = () => history.push('/posts/'+id+'/builder')    
+    // const handleClickBuilder = () => history.push('/posts/'+id+'/builder')    
     
     const onKeyDown = (keyName, e, handle) => {
         switch (keyName) {
@@ -133,7 +123,7 @@ function PostView() {
                     <div className="page-title-box">
                         <Row className="align-items-center">
                             <Col sm="6">
-                                <h4 className="page-title">{post?post.name:'Post ' + id}</h4>
+                                <h4 className="page-title">{post?post.name:''}</h4>
                                 <Breadcrumb 
                                     post={post} 
                                     action={'Edit'}                                    
@@ -141,13 +131,13 @@ function PostView() {
                             </Col>
                             <Col sm="6">
                             <div className="float-right d-none d-md-block">
-                                {!loadingViewPost && post ? (
+                                {!loadingViewPost ? (
                                 <ActionsMenu                                     
                                     onClickSave={handlePostSave}
                                     onClickUndo={handleClickUndo}
                                     onClickRedo={handleClickRedo}
                                     onClickClear={handleClickClear}
-                                    onClickBuilder={handleClickBuilder}
+                                    // onClickBuilder={handleClickBuilder}
                                     canRedo={canRedo}
                                     canUndo={canUndo}
                                     canSave={!saveDisabled}
@@ -222,4 +212,4 @@ function PostView() {
     );
 }
 
-export default PostView
+export default Form

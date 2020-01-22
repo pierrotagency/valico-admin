@@ -43,7 +43,8 @@ import Pages500 from './containers/MainContent/pages/pages-500';
 
 
 import PostList from './containers/MainContent/pages/post/list';
-import PostView from './containers/MainContent/pages/post/view';
+import PostEdit from './containers/MainContent/pages/post/view/edit';
+import PostNew from './containers/MainContent/pages/post/view/new';
 import PostBuilder from './containers/MainContent/pages/post/builder';
 
 import Emailtemplatebasic from './containers/MainContent/email/email-template-basic';
@@ -124,8 +125,10 @@ const routes = [
     { path: '/pages-blank', component: Pagesblank },
     
     { path: '/posts/:id/builder', component: PostBuilder },
-    { path: '/posts/:id/view', component: PostView },
+    { path: '/posts/:id/view', component: PostEdit },
+    { path: '/posts/new', component: PostNew },
     { path: '/posts/:id?', component: PostList },
+    
 
 
     { path: '/pages-timeline', component: Pagestimeline },

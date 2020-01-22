@@ -1,4 +1,4 @@
-import { GET_POSTS, GET_POSTS_OK, GET_POSTS_ERROR, GET_POST, GET_POST_OK, GET_POST_ERROR, SET_VIEW_POST, RESET_POST, SET_POST_EPP, SET_POST_SORT, SET_POST_PAGE, GET_VIEW_POST, GET_VIEW_POST_OK, GET_VIEW_POST_ERROR, SAVE_VIEW_POST, SAVE_VIEW_POST_OK, SAVE_VIEW_POST_ERROR} from './actionTypes';
+import { GET_POSTS, GET_POSTS_OK, GET_POSTS_ERROR, GET_POST, GET_POST_OK, GET_POST_ERROR, SET_VIEW_POST, RESET_POST, SET_POST_EPP, SET_POST_SORT, SET_POST_PAGE, GET_VIEW_POST, GET_VIEW_POST_OK, GET_VIEW_POST_ERROR, SAVE_VIEW_POST, SAVE_VIEW_POST_OK, SAVE_VIEW_POST_ERROR, CREATE_BLANK_POST} from './actionTypes';
 
 export const getPosts = (father,page=1,epp=5,sort='name') => {
     return {
@@ -126,6 +126,13 @@ export const setPostSort = (payload) => {
 export const setPostPage = (payload) => {
     return {
         type: SET_POST_PAGE,
+        payload: payload
+    }
+}
+
+export const createBlankPost = (payload) => {
+    return {
+        type: CREATE_BLANK_POST,
         payload: payload
     }
 }

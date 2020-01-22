@@ -18,3 +18,5 @@ export const SAVE_VIEW_POST_ERROR = 'save_view_post_error';
 export const SET_POST_EPP = 'set_post_epp';
 export const SET_POST_SORT = 'set_post_sort';
 export const SET_POST_PAGE = 'set_post_page';
+
+export const CREATE_BLANK_POST = 'create_blank_post';
