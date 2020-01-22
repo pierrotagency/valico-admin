@@ -1,8 +1,8 @@
 import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
 
-import { GET_POSTS, GET_POST, GET_VIEW_POST, SAVE_VIEW_POST } from './actionTypes';
-import { getPostsOk, getPostsError, getViewPostOk, getViewPostError, getPostOk, getPostError, saveViewPostOk, saveViewPostError  } from './actions';
-import { apiGet, apiPut } from '../../services/api';
+import { GET_POSTS, GET_POST, GET_VIEW_POST, SAVE_VIEW_POST, STORE_VIEW_POST } from './actionTypes';
+import { getPostsOk, getPostsError, getViewPostOk, getViewPostError, getPostOk, getPostError, saveViewPostOk, saveViewPostError, storeViewPostOk, storeViewPostError  } from './actions';
+import { apiGet, apiPut, apiPost } from '../../services/api';
 
 
 function* getPosts({ payload: { father, page, epp, sort } }) {
@@ -67,11 +67,26 @@ export function* watchSaveViewPost() {
     yield takeEvery(SAVE_VIEW_POST, saveViewPost)
 }
 
+
+function* storeViewPost({ payload: { post, validations } }) {
+    try {
+        const response = yield call(apiPost, '/posts', { ...post, _validations: validations });           
+        yield put(storeViewPostOk(response));        
+    } catch (error) {        
+        yield put(storeViewPostError(error));
+    }
+}
+export function* watchStoreViewPost() {
+    yield takeEvery(STORE_VIEW_POST, storeViewPost)
+}
+
+
 export default function* loginSaga() {
     yield all([        
         fork(watchGetPosts),
         fork(watchGetPost),
         fork(watchGetViewPost),
-        fork(watchSaveViewPost)
+        fork(watchSaveViewPost),
+        fork(watchStoreViewPost)
     ]);
 }

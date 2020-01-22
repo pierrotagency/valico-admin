@@ -20,3 +20,6 @@ export const SET_POST_SORT = 'set_post_sort';
 export const SET_POST_PAGE = 'set_post_page';
 
 export const CREATE_BLANK_POST = 'create_blank_post';
+export const STORE_VIEW_POST = 'store_view_post';
+export const STORE_VIEW_POST_OK = 'store_view_post_ok';
+export const STORE_VIEW_POST_ERROR = 'store_view_post_error';

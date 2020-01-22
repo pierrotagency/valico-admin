@@ -7,7 +7,7 @@ import Hotkeys from 'react-hot-keys';
 import { templates, taxonomies, types } from 'valico-sanmartin'
 
 import Breadcrumb from '../../_common/Breadcrumb';
-import { saveViewPost, addLocalTags } from "../../../../../../store/actions";
+import { saveViewPost, storeViewPost, addLocalTags } from "../../../../../../store/actions";
 import useBack from '../../../../../../hooks/useBack';
 import useForm from '../../../../../../hooks/useForm';
 
@@ -61,7 +61,14 @@ function Form() {
         if(saveDisabled) return false
         
         const fieldsToAddToValidation = Object.keys(validationSchema)
-        dispatch(saveViewPost(post,parseBackendValidations(fieldsToAddToValidation,true)))		
+
+        if(isNew){
+            dispatch( storeViewPost(post, parseBackendValidations(fieldsToAddToValidation,true)) )		
+        }
+        else{
+            dispatch( saveViewPost(post, parseBackendValidations(fieldsToAddToValidation, true)) )		
+        }
+        
 
         // add created tags to local Redux so i dont't have to request all the tag list from server
         const newTags = Object.keys(post.meta_keywords).reduce((object, key) => {
@@ -109,7 +116,6 @@ function Form() {
     const templateOptions = Object.keys(templates).map((template) => ({ value: template, label: templates[template].name }))
     const taxonomyOptions = Object.keys(taxonomies).map((taxonomy) => ({ value: taxonomy, label: taxonomies[taxonomy].name }))
     const typeOptions = Object.keys(types).map((type) => ({ value: type, label: types[type].name }))
-    
     
     const isNew = ( post && post.uuid ) ?  false : true;
 
