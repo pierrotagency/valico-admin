@@ -145,7 +145,7 @@ function useForm(fileds, validations = {}) {
         return ''
     }
 
-    const parseBackendValidations = (fields=[]) => {
+    const parseBackendValidations = (fields=[],forSubmit=false) => {
         
         let res = {
             objects: {},
@@ -156,7 +156,7 @@ function useForm(fileds, validations = {}) {
 
             if(validations[field] && validations[field].rules){
                 validations[field].rules
-                    .filter(el => el.type === 'backend' && el.onSubmit)
+                    .filter(el => el.type === 'backend' && (el.onSubmit || !forSubmit))
                     .forEach(el => {
                         res.objects = {...res.objects, ...(el.object?el.object:{})}
                         res.messages = {...res.messages, ...(el.messages?el.messages:{})}

@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { Progress, Button, Row, Col } from 'reactstrap';
 
 
-const FileUpload = ({label, name, value, className, isInvalid, isValid, message, url, method, onProgress, onChange, onError, onAbort, backendValidations={}, ...props}) => {
+const FileUpload = ({label, name, value, className, isInvalid, isValid, message, url, method, onProgress, onChange, onError, onAbort, backendValidations=null, ...props}) => {
 
     const [ progress, setProgress ] = useState(-1)
     const [ hasError, setHasError ] = useState(false)
@@ -63,7 +63,11 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
         const req = new XMLHttpRequest();
 
         data.append("fileobj", file);
-        data.append("_validations", JSON.stringify(backendValidations));
+        
+        if(backendValidations){
+            data.append("_validations", JSON.stringify(backendValidations));
+        }
+        
 
         req.open(method, url);
 

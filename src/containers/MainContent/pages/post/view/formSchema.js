@@ -99,4 +99,4 @@ const validationsSchema = {
     }
 };
 
-export {fieldsSchema, validationsSchema } 
+export { fieldsSchema, validationsSchema } 

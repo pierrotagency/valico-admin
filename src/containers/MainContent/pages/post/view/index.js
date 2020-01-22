@@ -80,7 +80,7 @@ function PostView() {
         if(saveDisabled) return false
         
         const fieldsToAddToValidation = Object.keys(validationsSchema)
-        dispatch(saveViewPost(post,parseBackendValidations(fieldsToAddToValidation)))		
+        dispatch(saveViewPost(post,parseBackendValidations(fieldsToAddToValidation,true)))		
 
         // add created tags to local Redux so i dont't have to request all the tag list from server
         const newTags = Object.keys(post.meta_keywords).reduce((object, key) => {
