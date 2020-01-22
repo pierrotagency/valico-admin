@@ -36,7 +36,7 @@ function Form() {
 
     // add backend validations to stack of errors
     useEffect(() => {       
-        if(savingPostError && savingPostError.validations){
+        if(savingPostError && savingPostError.validations){ // if the ajax response is an error, check if the response has validations attached and add them to state
             setBackendErrors(savingPostError.validations)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps  
