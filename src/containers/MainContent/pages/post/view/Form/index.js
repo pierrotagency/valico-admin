@@ -8,7 +8,7 @@ import { templates, taxonomies, types } from 'valico-sanmartin'
 
 import Breadcrumb from '../../_common/Breadcrumb';
 import { saveViewPost, addLocalTags } from "../../../../../../store/actions";
-import useUndo from '../../../../../../hooks/useUndo';
+import useBack from '../../../../../../hooks/useBack';
 import useForm from '../../../../../../hooks/useForm';
 
 import ActionsMenu from "../ActionsMenu";
@@ -28,9 +28,9 @@ function Form() {
     const tags = useSelector(state => state.tag.tags);        
 
     const dispatch = useDispatch();
-    // const history = useUndo();
+    // const history = useBack();
 
-    const { state: post, set: setPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
+    const { state: post, set: setPost, init, undo, redo, clear, canUndo, canRedo } = useBack({});
 
     const { form, setForm, errors, handleOnChange, saveDisabled, setBackendErrors, parseBackendValidations } = useForm(fieldSchema, validationSchema, virgin);
 
@@ -42,7 +42,7 @@ function Form() {
     // eslint-disable-next-line react-hooks/exhaustive-deps  
     },[savingPostError]);
 
-    
+
 
     useEffect(() => {       
         setPost(viewPost)		

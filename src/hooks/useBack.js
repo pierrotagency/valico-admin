@@ -64,7 +64,7 @@ const reducer = (state, action) => {
   }
 };
 
-const useHistory = initialPresent => {
+const useBack = initialPresent => {
 
   const [state, dispatch] = useReducer(reducer, {...initialState, present: initialPresent});
 
@@ -89,4 +89,4 @@ const useHistory = initialPresent => {
   return { init, state: state.present, set , undo, redo, clear, canUndo, canRedo };
 }
 
-export default useHistory;
+export default useBack;

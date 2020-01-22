@@ -13,7 +13,7 @@ import Board from '../../../../../components/Board'
 // import { test, test2 } from './services'
 
 
-import useUndo from '../../../../../hooks/useUndo';
+import useBack from '../../../../../hooks/useBack';
 
 
 function PostBuilder() {
@@ -26,7 +26,7 @@ function PostBuilder() {
   const savingPost = useSelector(state => state.post.savingPost);
   const dispatch = useDispatch();
 
-	const { state: post, set: setViewPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
+	const { state: post, set: setViewPost, init, undo, redo, clear, canUndo, canRedo } = useBack({});
 
 
   let { id } = useParams();
