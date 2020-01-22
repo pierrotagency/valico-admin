@@ -14,7 +14,8 @@ export default function ActionsMenu({
     canUndo,
     canClear,
     canSave,
-    savingPost
+    savingPost,
+    saveLabel
 }) {    
     return (
         <>
@@ -26,7 +27,7 @@ export default function ActionsMenu({
                             isLoading={savingPost} 
                             onClick={onClickSave} 
                             disabled={!canSave}>
-                            Save
+                            {saveLabel}
                         </ButtonWithLoading>                       
                     </ButtonGroup>
                     <ButtonGroup className="mt-2 mt-xl-0 btn-sm">

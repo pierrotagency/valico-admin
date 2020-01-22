@@ -31,7 +31,7 @@ function Form() {
 
     const { state: post, set: setPost, init, undo, redo, clear, canUndo, canRedo } = useBack({});
 
-    const { form, setForm, errors, handleOnChange, saveDisabled, setBackendErrors, parseBackendValidations } = useForm(fieldSchema, validationSchema);
+    const { form, setForm, errors, handleOnChange, saveDisabled, setBackendErrors, parseBackendValidations, setDirty } = useForm(fieldSchema, validationSchema);
 
 
     // add backend validations to stack of errors
@@ -70,6 +70,9 @@ function Form() {
         }
         
 
+
+        setDirty(false)
+        
         // add created tags to local Redux so i dont't have to request all the tag list from server
         const newTags = Object.keys(post.meta_keywords).reduce((object, key) => {
             if (key !== 'isNew') {
@@ -78,6 +81,7 @@ function Form() {
             return object
         }, {})
         if(newTags.length>0) dispatch(addLocalTags(newTags))
+
     
     }
 
@@ -151,6 +155,7 @@ function Form() {
                                     canClear={canUndo}
                                     canSave={!saveDisabled}
                                     savingPost={savingPost}
+                                    saveLabel={isNew?'Create':'Save'}
                                 />
                                 ) : null}
                             </div>

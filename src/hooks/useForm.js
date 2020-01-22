@@ -8,7 +8,7 @@ function useForm(fileds, validations = {}) {
     const [form, setForm] = useState({});
     const [saveDisabled, setSaveDisabled] = useState(true);
 
-    const [dirty, setdirty] = useState(false);
+    const [dirty, setDirty] = useState(false);
 
     const prevForm = usePrevious(form);
     
@@ -58,6 +58,7 @@ function useForm(fileds, validations = {}) {
     
 
     const checkDisabled = useCallback(() => {
+        console.log('checkDisabled', dirty)
 
         if(!dirty){ // if nothing has been touched in the form, dont enable the save
             setSaveDisabled(true)
@@ -75,7 +76,7 @@ function useForm(fileds, validations = {}) {
 
     const handleOnChange = useCallback(async(name,value) => {
 
-        setdirty(true)
+        setDirty(true)
     
         setForm(prevState => ({ ...prevState, [name]: value }));
 
@@ -220,7 +221,7 @@ function useForm(fileds, validations = {}) {
     }
 
 
-    return { setForm, form, errors, saveDisabled, handleOnChange, parseBackendValidations, setBackendErrors};
+    return { setForm, form, errors, saveDisabled, handleOnChange, parseBackendValidations, setBackendErrors, dirty, setDirty};
 }
 
 export default useForm;
