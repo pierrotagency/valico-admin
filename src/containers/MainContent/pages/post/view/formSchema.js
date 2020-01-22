@@ -43,7 +43,19 @@ const validateUniqueSlug = async (params) =>{
 
 const validationsSchema = {
     name: {
-        required: true
+        required: true,
+        rules: [
+            {
+                onSubmit: true,
+                type: 'backend',
+                object: {
+                    name: 'required|min:6'
+                },
+                messages: {
+                    'name.min': 'Shorty nammme'
+                },
+            }
+        ]
     },
     slug: {
         required: true,
@@ -73,11 +85,15 @@ const validationsSchema = {
         required: true,
         rules: [
             {
+                onSubmit: false, 
                 type: 'backend',
                 object: {
-                    file: 'required|file|file_ext:png,gif,jpg,jpeg,tiff,bmp|file_size:1mb|file_types:image'
+                    fileobj: 'required|file|file_ext:png,jpg,gif|file_size:1mb|file_types:image'
                 },
-                messages: ['xxxxxxx extensions'],
+                messages: {
+                    'fileobj.file_ext': 'Wrong extension',
+                    'fileobj.file_size': 'Too heavy'
+                },
             }
         ]        
     }

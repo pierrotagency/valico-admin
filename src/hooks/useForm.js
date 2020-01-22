@@ -12,7 +12,11 @@ function useForm(fileds, validations = {}) {
     
     // generate errors state array with every field (empty)
     let errorsSchema = {...fileds}
-    Object.keys(errorsSchema).forEach(v => errorsSchema[v] = {invalid: false, message: ''})    
+    Object.keys(errorsSchema).forEach(v => errorsSchema[v] = {
+        invalid: false,
+        message: '',
+        origin: 'frontend'
+    })    
     const [errors, setErrors] = useState(errorsSchema)
 
     
@@ -40,7 +44,8 @@ function useForm(fileds, validations = {}) {
 
                 setErrors(prevState => ({...prevState, [name]: {
                     invalid: !valid,
-                    message: error
+                    message: error,
+                    origin: 'frontend'
                 }}));
 
             }
@@ -51,7 +56,10 @@ function useForm(fileds, validations = {}) {
 
     const checkDisabled = useCallback(() => {
 
-        const isInvalid = Object.keys(validations).some(name => errors[name].invalid)
+        const isInvalid = Object.keys(validations)
+            .some(name => errors[name].invalid 
+                    && errors[name].origin === 'frontend'
+            )
         setSaveDisabled(isInvalid);
 
     }, [errors, validations]);
@@ -137,20 +145,31 @@ function useForm(fileds, validations = {}) {
         return ''
     }
 
-    const parseBackendValidations = () => {
+    const parseBackendValidations = (fields=[]) => {
         
-        let res = {}
-        if(validations['meta_image'] && validations['meta_image'].rules){
-            validations['meta_image'].rules
-                .filter(el => el.type === 'backend')
-                .map(el => res = {...res, ...el.object})
+        let res = {
+            objects: {},
+            messages: {}
         }
 
-        return res 
+        fields.forEach(field => {
+
+            if(validations[field] && validations[field].rules){
+                validations[field].rules
+                    .filter(el => el.type === 'backend' && el.onSubmit)
+                    .forEach(el => {
+                        res.objects = {...res.objects, ...(el.object?el.object:{})}
+                        res.messages = {...res.messages, ...(el.messages?el.messages:{})}
+                    })
+            }
+
+        })
+        
+        return res
     }
 
 
-    return { setForm, form, errors, saveDisabled, handleOnChange, parseBackendValidations};
+    return { setForm, form, errors, setErrors, saveDisabled, handleOnChange, parseBackendValidations};
 }
 
 export default useForm;

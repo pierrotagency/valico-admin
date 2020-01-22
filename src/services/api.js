@@ -35,15 +35,23 @@ error => {
     if (error.response.status === 422) { // validation 
         console.log('API: 422 - Validation thing')
         
-        if(error.response && error.response.data){            
-            const { data } = error.response;
-                // data.code = 422;
-            return Promise.reject(data);
+        if(error.response && error.response.data){                        
+            const res = {
+                code: error.response.status,
+                type: 'validation',
+                validations: error.response.data
+            }
+            return Promise.reject(res);
         }
         else{
 
-            const defaultError = 'API response error'             
-            return Promise.reject(defaultError);
+            
+            const res = {
+                code: error.response.status,
+                type: 'validation',
+                message: 'API validation response error' 
+            }
+            return Promise.reject(res);
         }
 
     }
@@ -71,6 +79,17 @@ error => {
             }
         })
         
+    }
+    else if(error.response.status === 500){
+
+        const res = {
+            code: error.response.status,
+            type: 'error',
+            message: error.response.statusText,
+            details: error.response.data.error ? error.response.data.error.message : error.response.data.message,
+            where: error.response.data.error ? error.response.data.error.frames[0].file + '... line: ' + error.response.data.error.frames[0].line : null
+        }
+        return Promise.reject(res);
     }
 
     return Promise.reject(error);
@@ -117,10 +136,7 @@ const apiPut = (action, data) => {
 
             console.log(err)
 
-            throw {                
-                validations: err
-            };
-
+            throw err
 
         });
 

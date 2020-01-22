@@ -47,7 +47,7 @@ export default function MetaCard ({ handleInputChange, handleInputBlur, form, va
                     key='ex1' 
                     url='http://localhost:3333/api/v1/media/file/upload'
                     method='post'
-                    backendValidations={parseBackendValidations('meta_image')}                   
+                    backendValidations={parseBackendValidations(['meta_image'])}                   
                     // onProgress={(e, request, progress) => {console.log('progress', name, progress);}}
                     onChange={handleInputBlur}
                     value={form.meta_image || {}}

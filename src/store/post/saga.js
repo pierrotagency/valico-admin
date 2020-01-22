@@ -1,4 +1,4 @@
-import { takeEvery, fork, put, all, call, delay } from 'redux-saga/effects';
+import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
 
 import { GET_POSTS, GET_POST, GET_VIEW_POST, SAVE_VIEW_POST } from './actionTypes';
 import { getPostsOk, getPostsError, getViewPostOk, getViewPostError, getPostOk, getPostError, saveViewPostOk, saveViewPostError  } from './actions';
@@ -55,13 +55,11 @@ export function* watchGetViewPost() {
     yield takeEvery(GET_VIEW_POST, getViewPost)
 }
 
-function* saveViewPost({ payload: { post } }) {
-    
+function* saveViewPost({ payload: { post, validations } }) {
     try {
-        const response = yield call(apiPut, '/posts/' + post.uuid, { post });           
+        const response = yield call(apiPut, '/posts/' + post.uuid, { ...post, _validations: validations });           
         yield put(saveViewPostOk(response));        
-    } catch (error) {
-        console.log(error)
+    } catch (error) {        
         yield put(saveViewPostError(error));
     }
 }

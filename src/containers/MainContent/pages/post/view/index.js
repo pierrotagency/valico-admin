@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,28 +29,28 @@ function PostView() {
     const tags = useSelector(state => state.tag.tags);        
     const history = useHistory();
 
-    // const [ validations, setValidations ] = useState(validationsSchema)
-
     const { state: post, set: setPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
 
-
-
-
-    const { form, setForm, errors, handleOnChange, saveDisabled, parseBackendValidations } = useForm(fieldsSchema, validationsSchema);
+    const { form, setForm, errors, setErrors, handleOnChange, saveDisabled, parseBackendValidations } = useForm(fieldsSchema, validationsSchema);
 
     let { id } = useParams();
 
-
-    // useEffect(() => {       
-    //     console.log(savingPostError)
+    // add backend validations to stack of errors
+    useEffect(() => {       
         
-    //     setValidations(errors)
+        if(savingPostError && savingPostError.validations){
+            savingPostError.validations.map(err => setErrors(prevState => ({
+                ...prevState, 
+                [err.field]: {
+                    invalid: true,
+                    message: err.message,
+                    origin: 'backend'
+                }
+            })))
+        }
         
-        
-    // },[savingPostError, errors]);
-
-    
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps  
+    },[savingPostError]);
 
     useEffect(() => {       
         dispatch(activateAuthLayout());        
@@ -79,7 +79,8 @@ function PostView() {
     const handlePostSave = () => {
         if(saveDisabled) return false
         
-        dispatch(saveViewPost(post))		
+        const fieldsToAddToValidation = Object.keys(validationsSchema)
+        dispatch(saveViewPost(post,parseBackendValidations(fieldsToAddToValidation)))		
 
         // add created tags to local Redux so i dont't have to request all the tag list from server
         const newTags = Object.keys(post.meta_keywords).reduce((object, key) => {

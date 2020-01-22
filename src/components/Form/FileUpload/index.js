@@ -62,8 +62,8 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
         const data = new FormData();
         const req = new XMLHttpRequest();
 
-        data.append("file", file);
-        data.append("validations", JSON.stringify(backendValidations));
+        data.append("fileobj", file);
+        data.append("_validations", JSON.stringify(backendValidations));
 
         req.open(method, url);
 

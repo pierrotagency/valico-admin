@@ -79,11 +79,12 @@ export const setViewPost = (payload) => {
     }
 }
 
-export const saveViewPost = (post) => {
+export const saveViewPost = (post, validations) => {
     return {
         type: SAVE_VIEW_POST,
         payload: {
-            post: post
+            post: post,
+            validations: validations
         }
     }
 }
