@@ -3,10 +3,12 @@ import { useState, useEffect, useCallback } from "react";
 import usePrevious from './usePrevious'
 
 
-function useForm(fileds, validations = {}, virgin) {
+function useForm(fileds, validations = {}) {
 
     const [form, setForm] = useState({});
     const [saveDisabled, setSaveDisabled] = useState(true);
+
+    const [dirty, setdirty] = useState(false);
 
     const prevForm = usePrevious(form);
     
@@ -23,7 +25,9 @@ function useForm(fileds, validations = {}, virgin) {
     useEffect(() => {
         // const doValidate = async() => await validateForm()                              
         // doValidate();
-        validateForm()  
+       
+        if(dirty) validateForm()  
+       
         // eslint-disable-next-line react-hooks/exhaustive-deps 
     }, [form]);
 
@@ -34,8 +38,6 @@ function useForm(fileds, validations = {}, virgin) {
 
 
     const validateForm = () => {   
-        
-        // if(virgin) return false; 
 
         if(!form || Object.keys(form).length === 0) return false
         
@@ -46,7 +48,7 @@ function useForm(fileds, validations = {}, virgin) {
                 const valid = (typeof error === 'undefined' || error === '') ? true:false
 
                 setErrors(prevState => ({...prevState, [name]: {
-                    invalid: !valid && !virgin,
+                    invalid: !valid,
                     message: error,
                     origin: 'frontend'
                 }}));
@@ -69,6 +71,8 @@ function useForm(fileds, validations = {}, virgin) {
 
 
     const handleOnChange = useCallback(async(name,value) => {
+
+        setdirty(true)
     
         setForm(prevState => ({ ...prevState, [name]: value }));
 

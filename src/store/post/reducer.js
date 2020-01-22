@@ -10,8 +10,7 @@ const initialState = {
     savingPost: false,
     epp: 10,
     page: 1,
-    sort: 'created_at-',
-    virgin: true
+    sort: 'created_at-'
 }
 
 const post = (state = initialState, action) => {
@@ -90,8 +89,7 @@ const post = (state = initialState, action) => {
         case GET_VIEW_POST:
             state = {
                 ...state,                
-                loadingViewPost: true,
-                virgin: false                
+                loadingViewPost: true        
             }
             break;
 
@@ -99,8 +97,7 @@ const post = (state = initialState, action) => {
             state = {
                 ...state,
                 viewPost: action.payload,
-                loadingViewPost: false,
-                virgin: false
+                loadingViewPost: false
             }
             break;
     
@@ -108,8 +105,7 @@ const post = (state = initialState, action) => {
             state = {
                 ...state,
                 viewPost: null,
-                loadingViewPost: false,
-                virgin: false
+                loadingViewPost: false
             }
             break;
 
@@ -117,16 +113,14 @@ const post = (state = initialState, action) => {
             state = {
                 ...state,
                 viewPost: action.payload,
-                loadingViewPost: false,
-                virgin: true
+                loadingViewPost: false
             }
             break;
 
         case SET_VIEW_POST:
             state = {
                 ...state,
-                viewPost: action.payload,
-                virgin: false
+                viewPost: action.payload
             }
             break;
 
@@ -142,16 +136,14 @@ const post = (state = initialState, action) => {
                 ...state,      
                 viewPost: action.payload,          
                 savingPost: false,
-                savingPostError: null,
-                virgin: false
+                savingPostError: null
             }
             break;
         case SAVE_VIEW_POST_ERROR:
             state = {
                 ...state,                
                 savingPost: false,
-                savingPostError: action.payload,
-                virgin: false
+                savingPostError: action.payload
             }
             break;
 

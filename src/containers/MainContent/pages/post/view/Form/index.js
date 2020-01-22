@@ -23,8 +23,7 @@ function Form() {
     const viewPost = useSelector(state => state.post.viewPost);    
     const loadingViewPost = useSelector(state => state.post.loadingViewPost);
     const savingPost = useSelector(state => state.post.savingPost);
-    const savingPostError = useSelector(state => state.post.savingPostError);
-    const virgin = useSelector(state => state.post.virgin);    
+    const savingPostError = useSelector(state => state.post.savingPostError);    
     const tags = useSelector(state => state.tag.tags);        
 
     const dispatch = useDispatch();
@@ -32,7 +31,7 @@ function Form() {
 
     const { state: post, set: setPost, init, undo, redo, clear, canUndo, canRedo } = useBack({});
 
-    const { form, setForm, errors, handleOnChange, saveDisabled, setBackendErrors, parseBackendValidations } = useForm(fieldSchema, validationSchema, virgin);
+    const { form, setForm, errors, handleOnChange, saveDisabled, setBackendErrors, parseBackendValidations } = useForm(fieldSchema, validationSchema);
 
     // add backend validations to stack of errors
     useEffect(() => {       
