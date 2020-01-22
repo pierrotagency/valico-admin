@@ -27,12 +27,12 @@ api.interceptors.response.use((response) => {
     return response
 }, 
 error => {
-    console.log('API interceptor response error.')
+    console.log('API ITERCEPTOR ERROR')
     
     const originalRequest = error.config;
 
-    if (error.response.status === 422) { // validation 
-        console.log('API: 422 - Validation thing')
+    if (error.response.status === 422 || error.response.status === 400) { // validation 
+        console.log('API: Validation thing')
         
         if(error.response && error.response.data){                        
             const res = {
@@ -48,6 +48,7 @@ error => {
             const res = {
                 code: error.response.status,
                 type: 'validation',
+                validations: [],
                 message: 'API validation response error' 
             }
             return Promise.reject(res);

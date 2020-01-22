@@ -169,7 +169,48 @@ function useForm(fileds, validations = {}) {
     }
 
 
-    return { setForm, form, errors, setErrors, saveDisabled, handleOnChange, parseBackendValidations};
+    const setBackendErrors = (backErrors) => {
+        
+        //clean previous remote validation results, and set the new ones
+
+        let newErrors = { ...errors };
+
+        Object.keys(errors).forEach(err => {            
+            if(newErrors[err].origin === 'backend'){
+                newErrors[err].invalid = false
+                newErrors[err].message = ''
+            }               
+        })
+
+        backErrors.map(err => {
+        
+            newErrors = {
+                ...newErrors, 
+                [err.field]: {
+                    invalid: true,
+                    message: err.message,
+                    origin: 'backend'
+                }
+            }
+            
+        })
+
+        setErrors(newErrors)
+
+        // savingPostError.validations.map(err => setErrors(prevState => ({
+        //     ...prevState, 
+        //     [err.field]: {
+        //         invalid: true,
+        //         message: err.message,
+        //         origin: 'backend'
+        //     }
+        // })))
+
+        return newErrors
+    }
+
+
+    return { setForm, form, errors, saveDisabled, handleOnChange, parseBackendValidations, setBackendErrors};
 }
 
 export default useForm;

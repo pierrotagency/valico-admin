@@ -31,24 +31,15 @@ function PostView() {
 
     const { state: post, set: setPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
 
-    const { form, setForm, errors, setErrors, handleOnChange, saveDisabled, parseBackendValidations } = useForm(fieldsSchema, validationsSchema);
+    const { form, setForm, errors, handleOnChange, saveDisabled, setBackendErrors, parseBackendValidations } = useForm(fieldsSchema, validationsSchema);
 
     let { id } = useParams();
 
     // add backend validations to stack of errors
     useEffect(() => {       
-        
         if(savingPostError && savingPostError.validations){
-            savingPostError.validations.map(err => setErrors(prevState => ({
-                ...prevState, 
-                [err.field]: {
-                    invalid: true,
-                    message: err.message,
-                    origin: 'backend'
-                }
-            })))
+            setBackendErrors(savingPostError.validations)
         }
-        
     // eslint-disable-next-line react-hooks/exhaustive-deps  
     },[savingPostError]);
 

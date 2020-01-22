@@ -91,8 +91,8 @@ const validationsSchema = {
                     fileobj: 'required|file|file_ext:png,jpg,gif|file_size:1mb|file_types:image'
                 },
                 messages: {
-                    'fileobj.file_ext': 'Wrong extension',
-                    'fileobj.file_size': 'Too heavy'
+                    // 'fileobj.file_ext': 'Wrong extension', // TODO ustom messagges for FILES not working on AdonisJS/Indicative 
+                    // 'fileobj.file_size': 'Too heavy'
                 },
             }
         ]        
