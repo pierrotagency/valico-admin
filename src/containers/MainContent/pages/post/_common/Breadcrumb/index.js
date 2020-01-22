@@ -6,8 +6,6 @@ export default function Breadcrumb({
     action
 }) {
     
-    const validPost = (post && post.slug)? true:false
-
     return (
         <ol className="breadcrumb" style={{"backgroundColor":"transparent"}}>
             <li key="home" className="breadcrumb-item"><Link to="/"><i className="mdi mdi-home-outline"></i></Link></li>        
@@ -15,8 +13,8 @@ export default function Breadcrumb({
             {(post && post.path) && post.path.reverse().map((item, index) => {                
                 return <li key={index} className="breadcrumb-item"><Link to={"/posts/"+item.uuid}>{item.name}</Link></li>
             })}
-            {post && <li key={post.id} className={action ? 'breadcrumb-item' : 'breadcrumb-item active'}>{validPost?post.name:'New'}</li>}                    
-            {action && validPost && <li className="breadcrumb-item active">{action}</li>}
+            {post && post.name && <li key={post.id} className={action ? 'breadcrumb-item' : 'breadcrumb-item active'}>{post.name}</li>}                    
+            {action && <li className="breadcrumb-item active">{action}</li>}
                 
         </ol>
     )

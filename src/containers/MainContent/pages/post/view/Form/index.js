@@ -33,6 +33,7 @@ function Form() {
 
     const { form, setForm, errors, handleOnChange, saveDisabled, setBackendErrors, parseBackendValidations } = useForm(fieldSchema, validationSchema);
 
+
     // add backend validations to stack of errors
     useEffect(() => {       
         if(savingPostError && savingPostError.validations){
@@ -40,8 +41,6 @@ function Form() {
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps  
     },[savingPostError]);
-
-
 
     useEffect(() => {       
         setPost(viewPost)		
@@ -111,6 +110,8 @@ function Form() {
     const taxonomyOptions = Object.keys(taxonomies).map((taxonomy) => ({ value: taxonomy, label: taxonomies[taxonomy].name }))
     const typeOptions = Object.keys(types).map((type) => ({ value: type, label: types[type].name }))
     
+    
+    const isNew = ( post && post.uuid ) ?  false : true;
 
     return (
         <>
@@ -127,7 +128,7 @@ function Form() {
                                 <h4 className="page-title">{post?post.name:''}</h4>
                                 <Breadcrumb 
                                     post={post} 
-                                    action={'Edit'}                                    
+                                    action={isNew?'New':'Edit'}                                    
                                 />
                             </Col>
                             <Col sm="6">
