@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Alert } from 'reactstrap';
 
-import { Input, Tags, TextArea, FileUpload } from '../../../../../../components/Form';
+import { Input, Tags, TextArea, FileUpload, ImageUpload } from '../../../../../../components/Form';
 
 export default function MetaCard ({ handleInputChange, handleInputBlur, form, validationStatus, tags, parseBackendValidations, validationSchema }) {
 
@@ -9,7 +9,7 @@ export default function MetaCard ({ handleInputChange, handleInputBlur, form, va
 
     if(!form) return(<Alert color="danger" className="bg-white border border-danger">Couldn't get post info</Alert>)
 
-    return (                  
+    return (             
         <Row>
             <Col sm="6">
                 <Input
@@ -46,7 +46,7 @@ export default function MetaCard ({ handleInputChange, handleInputBlur, form, va
             </Col>
             <Col sm="6">
                 
-                <FileUpload 
+                {/* <FileUpload 
                     name="meta_image"
                     label="Cover Image"
                     key='ex1' 
@@ -61,10 +61,27 @@ export default function MetaCard ({ handleInputChange, handleInputBlur, form, va
                     // onAbort={ (e, request) => {console.log('abort', e, request);}}                    
                     // isInvalid={false}
                     // message="validationStatus.meta_keywords.message"
+                /> */}
+
+                <ImageUpload 
+                    name="meta_image"
+                    label="Cover Image"
+                    key='ex1' 
+                    url='http://localhost:3333/api/v1/media/image/upload'
+                    method='post'
+                    backendValidations={parseBackendValidations(['meta_image'])}                   
+                    // onProgress={(e, request, progress) => {console.log('progress', name, progress);}}
+                    onChange={handleInputBlur}
+                    value={form.meta_image || {}}
+                    required={isRequired('meta_image')}
+                    // onError={ (e, request) => {console.log('error', e, request);}}
+                    // onAbort={ (e, request) => {console.log('abort', e, request);}}                    
+                    // isInvalid={false}
+                    // message="validationStatus.meta_keywords.message"
                 />
                 
             </Col>
-        </Row>
+        </Row>      
     )
 
 }
