@@ -5,7 +5,7 @@ import { activateAuthLayout, getTags, createBlankPost} from "../../../../../stor
 
 import Form from './Form/';
 
-import { fieldsSchema } from './Form/formSchema'
+import { fieldSchema } from './Form/formSchema'
 
 function PostNew() {
 
@@ -17,7 +17,7 @@ function PostNew() {
         
         dispatch(getTags())   
         
-        dispatch(createBlankPost(fieldsSchema))
+        dispatch(createBlankPost(fieldSchema))
 
     },[dispatch]);
 

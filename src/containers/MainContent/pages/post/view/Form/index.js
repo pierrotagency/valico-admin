@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
 import { useDispatch, useSelector } from "react-redux";
 import Hotkeys from 'react-hot-keys';
-// import { useHistory } from "react-router";
+// import { useUndo } from "react-router";
 
 import { templates, taxonomies, types } from 'valico-sanmartin'
 
@@ -15,7 +15,7 @@ import ActionsMenu from "../ActionsMenu";
 import MetaCard from '../MetaCard';
 import ChildsCard from '../ChildsCard';
 import ParamsCard from '../ParamsCard';
-import { fieldsSchema, validationsSchema } from './formSchema'
+import { fieldSchema, validationSchema } from './formSchema'
 
 
 function Form() {
@@ -24,13 +24,15 @@ function Form() {
     const loadingViewPost = useSelector(state => state.post.loadingViewPost);
     const savingPost = useSelector(state => state.post.savingPost);
     const savingPostError = useSelector(state => state.post.savingPostError);
-    const dispatch = useDispatch();
+    const virgin = useSelector(state => state.post.virgin);    
     const tags = useSelector(state => state.tag.tags);        
-    // const history = useHistory();
+
+    const dispatch = useDispatch();
+    // const history = useUndo();
 
     const { state: post, set: setPost, init, undo, redo, clear, canUndo, canRedo } = useUndo({});
 
-    const { form, setForm, errors, handleOnChange, saveDisabled, setBackendErrors, parseBackendValidations } = useForm(fieldsSchema, validationsSchema);
+    const { form, setForm, errors, handleOnChange, saveDisabled, setBackendErrors, parseBackendValidations } = useForm(fieldSchema, validationSchema, virgin);
 
     // add backend validations to stack of errors
     useEffect(() => {       
@@ -40,7 +42,7 @@ function Form() {
     // eslint-disable-next-line react-hooks/exhaustive-deps  
     },[savingPostError]);
 
-
+    
 
     useEffect(() => {       
         setPost(viewPost)		
@@ -60,7 +62,7 @@ function Form() {
     const handlePostSave = () => {
         if(saveDisabled) return false
         
-        const fieldsToAddToValidation = Object.keys(validationsSchema)
+        const fieldsToAddToValidation = Object.keys(validationSchema)
         dispatch(saveViewPost(post,parseBackendValidations(fieldsToAddToValidation,true)))		
 
         // add created tags to local Redux so i dont't have to request all the tag list from server
@@ -158,13 +160,14 @@ function Form() {
 
                                     <ParamsCard
                                         form={form}                                    
-                                        validations={errors}
+                                        validationStatus={errors}
                                         handleInputChange={handleInputChange}
                                         handleSelectChange={handleSelectChange}
                                         handleInputBlur={handleInputBlur}
                                         typeOptions={typeOptions}
                                         taxonomyOptions={taxonomyOptions}
-                                        templateOptions={templateOptions}                                                                        
+                                        templateOptions={templateOptions}   
+                                        validationSchema={validationSchema}
                                     />
                                         
                                 </CardBody>
@@ -176,12 +179,13 @@ function Form() {
 
                                     <ChildsCard
                                         form={form}
-                                        validations={errors}
+                                        validationStatus={errors}
                                         handleSwitchToggle={handleSwitchToggle}
                                         handleSelectChange={handleSelectChange}                                
                                         typeOptions={typeOptions}
                                         taxonomyOptions={taxonomyOptions}                                    
-                                        templateOptions={templateOptions}                                    
+                                        templateOptions={templateOptions}   
+                                        validationSchema={validationSchema}                                 
                                     />
 
                                 </CardBody>
@@ -193,11 +197,12 @@ function Form() {
 
                                     <MetaCard
                                         form={form}                                    
-                                        validations={errors}
+                                        validationStatus={errors}
                                         handleInputChange={handleInputChange}
                                         handleInputBlur={handleInputBlur}
                                         tags={tags}
                                         parseBackendValidations={parseBackendValidations}
+                                        validationSchema={validationSchema}
                                     />
 
                                 </CardBody>

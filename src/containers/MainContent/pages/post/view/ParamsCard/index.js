@@ -3,12 +3,13 @@ import { Row, Col , Alert} from 'reactstrap';
 
 import { Select, Input } from '../../../../../../components/Form';
 
-export default function ParamsCard({ form, handleInputChange, handleSelectChange, handleInputBlur, typeOptions, taxonomyOptions, templateOptions, validations }) {
+export default function ParamsCard({ form, handleInputChange, handleSelectChange, handleInputBlur, typeOptions, taxonomyOptions, templateOptions, validationStatus, validationSchema }) {
 
     const typeValue = form && form.type ? typeOptions.find(item => item.value === form.type) : null
     const templateValue = form && form.template ? templateOptions.find(item => item.value === form.template) : null
     const taxonomyValue = form && form.taxonomy ? taxonomyOptions.find(item => item.value === form.taxonomy) : null
 
+    const isRequired = (field) => (validationSchema[field] && validationSchema[field].required) ? true : false
 
     if(!form) return(<Alert color="danger" className="bg-white border border-danger">Couldn't get post info</Alert>)
 
@@ -21,8 +22,9 @@ export default function ParamsCard({ form, handleInputChange, handleSelectChange
                     onChange={handleInputChange} 
                     onBlur={handleInputBlur} 
                     value={form.name || ''}
-                    isInvalid={validations.name.invalid}
-                    message={validations.name.message}
+                    isInvalid={validationStatus.name.invalid}
+                    message={validationStatus.name.message}
+                    required={isRequired('name')}
                 />
                 <Input 
                     name="slug" 
@@ -30,8 +32,9 @@ export default function ParamsCard({ form, handleInputChange, handleSelectChange
                     onBlur={handleInputBlur} 
                     onChange={handleInputChange}
                     value={form.slug || ''} 
-                    isInvalid={validations.slug.invalid}
-                    message={validations.slug.message}                           
+                    isInvalid={validationStatus.slug.invalid}
+                    message={validationStatus.slug.message}
+                    required={isRequired('slug')}                           
                 />
             </Col>
             <Col sm="6">                                                                         
@@ -42,8 +45,9 @@ export default function ParamsCard({ form, handleInputChange, handleSelectChange
                     placeholder={''}
                     onChange={handleSelectChange}
                     value={typeValue}
-                    isInvalid={validations.type.invalid}
-                    message={validations.type.message}
+                    isInvalid={validationStatus.type.invalid}
+                    message={validationStatus.type.message}
+                    required={isRequired('type')}
                 />                                            
                 <Select 
                     name="taxonomy"
@@ -52,8 +56,9 @@ export default function ParamsCard({ form, handleInputChange, handleSelectChange
                     placeholder={''}           
                     onChange={handleSelectChange}
                     value={taxonomyValue}
-                    isInvalid={validations.taxonomy.invalid}
-                    message={validations.taxonomy.message}
+                    isInvalid={validationStatus.taxonomy.invalid}
+                    message={validationStatus.taxonomy.message}
+                    required={isRequired('taxonomy')}
                 />
                 <Select 
                     name="template"
@@ -62,8 +67,9 @@ export default function ParamsCard({ form, handleInputChange, handleSelectChange
                     placeholder={''}              
                     onChange={handleSelectChange}
                     value={templateValue}
-                    isInvalid={validations.template.invalid}
-                    message={validations.template.message}
+                    isInvalid={validationStatus.template.invalid}
+                    message={validationStatus.template.message}
+                    required={isRequired('template')}
                 />
             </Col>
         </Row>

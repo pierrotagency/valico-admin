@@ -1,6 +1,8 @@
 import React  from 'react';
 import Select from 'react-select';
 
+import Label from '../Label' 
+
 const customStyles = {
     control: base => ({
         ...base,
@@ -15,7 +17,7 @@ const customStyles = {
 };
 
 // export default function SuperSelect(props) {
-export default ({label, name, isInvalid, isValid, message, className, onChange, ...props}) => {
+export default ({label, name, isInvalid, isValid, message, className, onChange, required, ...props}) => {
 
     const inputClass = (className?className:'') + "tag form-control" + ((isValid) ? " is-valid" : "") + ((isInvalid) ? " is-invalid" : "") 
 
@@ -23,7 +25,7 @@ export default ({label, name, isInvalid, isValid, message, className, onChange, 
 
     return (
         <div className="form-group position-relative">
-            {label ? <label>{label}</label> : null}
+            <Label name={label} required={required} />
             <Select 
                 {...props}
                 isClearable

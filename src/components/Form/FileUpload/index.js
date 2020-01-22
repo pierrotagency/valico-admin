@@ -1,11 +1,11 @@
 import { EventEmitter } from "events";
 import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-
 import { Progress, Button, Row, Col } from 'reactstrap';
 
+import Label from '../Label' 
 
-const FileUpload = ({label, name, value, className, isInvalid, isValid, message, url, method, onProgress, onChange, onError, onAbort, backendValidations=null, ...props}) => {
+const FileUpload = ({label, name, value, className, isInvalid, isValid, message, url, method, onProgress, onChange, onError, onAbort, backendValidations=null, required, ...props}) => {
 
     const [ progress, setProgress ] = useState(-1)
     const [ hasError, setHasError ] = useState(false)
@@ -89,10 +89,6 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
 
             proxy.removeAllListeners(["abort"]);
             
-
-            console.log(req.status)
-
-
             if (req.status >= 200 && req.status <= 299) { // OK
             
                 const response = JSON.parse(req.response)
@@ -165,7 +161,7 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
 
     return (
         <div className="form-group position-relative">
-            {label ? <label>{label}</label> : null}           
+            <Label name={label} required={required} />          
             <Row>
                 <Col sm="8">
                     <input                                                 

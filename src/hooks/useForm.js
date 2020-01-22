@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import usePrevious from './usePrevious'
 
 
-function useForm(fileds, validations = {}) {
+function useForm(fileds, validations = {}, virgin) {
 
     const [form, setForm] = useState({});
     const [saveDisabled, setSaveDisabled] = useState(true);
@@ -35,15 +35,18 @@ function useForm(fileds, validations = {}) {
 
     const validateForm = () => {   
         
+        // if(virgin) return false; 
+
         if(!form || Object.keys(form).length === 0) return false
         
+        // TODO set all errrors at once in state
         Object.keys(validations).forEach(async (name) => {
             if (form[name] !== prevForm[name]) { // only validate the fields that changed
                 const error = await validate(name, form[name]);                
                 const valid = (typeof error === 'undefined' || error === '') ? true:false
 
                 setErrors(prevState => ({...prevState, [name]: {
-                    invalid: !valid,
+                    invalid: !valid && !virgin,
                     message: error,
                     origin: 'frontend'
                 }}));

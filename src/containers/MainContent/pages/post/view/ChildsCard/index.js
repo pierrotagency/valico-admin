@@ -3,11 +3,13 @@ import { Row, Col , Alert } from 'reactstrap';
 
 import { Select, Toggle } from '../../../../../../components/Form';
 
-export default function ChildsCard({ form, validations, handleSwitchToggle, handleSelectChange, typeOptions, taxonomyOptions, templateOptions }) {
+export default function ChildsCard({ form, validationStatus, handleSwitchToggle, handleSelectChange, typeOptions, taxonomyOptions, templateOptions, validationSchema }) {
 
     const childsTypeValue = form && form.childs_type ? typeOptions.find(item => item.value === form.childs_type) : null
     const childsTemplateValue = form && form.childs_template ? templateOptions.find(item => item.value === form.childs_template) : null
     const childsTaxonomyValue = form && form.childs_taxonomy ? taxonomyOptions.find(item => item.value === form.childs_taxonomy) : null
+
+    const isRequired = (field) => (validationSchema[field] && validationSchema[field].required) ? true : false
 
     if(!form) return(<Alert color="danger" className="bg-white border border-danger">Couldn't get post info</Alert>)
 
@@ -19,8 +21,7 @@ export default function ChildsCard({ form, validations, handleSwitchToggle, hand
                     checked={form.childs_allowed || false}
                     label='Allow Childs'
                     onChange={handleSwitchToggle}
-                />
-                
+                />                
             </Col>
             <Col sm="6">                                                                             
                 <Select 
@@ -30,8 +31,9 @@ export default function ChildsCard({ form, validations, handleSwitchToggle, hand
                     placeholder={''}
                     onChange={handleSelectChange}
                     value={childsTypeValue}
-                    isInvalid={validations.childs_type.invalid}
-                    message={validations.childs_type.message}                                
+                    isInvalid={validationStatus.childs_type.invalid}
+                    message={validationStatus.childs_type.message}
+                    required={isRequired('childs_type')}                             
                 />                                                                                    
                 <Select 
                     name="childs_taxonomy"
@@ -40,8 +42,9 @@ export default function ChildsCard({ form, validations, handleSwitchToggle, hand
                     placeholder={''}           
                     onChange={handleSelectChange}
                     value={childsTaxonomyValue}
-                    isInvalid={validations.childs_taxonomy.invalid}
-                    message={validations.childs_taxonomy.message}                               
+                    isInvalid={validationStatus.childs_taxonomy.invalid}
+                    message={validationStatus.childs_taxonomy.message}    
+                    required={isRequired('childs_taxonomy')}                           
                 />                                                                          
                 <Select 
                     name="childs_template"
@@ -50,8 +53,9 @@ export default function ChildsCard({ form, validations, handleSwitchToggle, hand
                     placeholder={''}              
                     onChange={handleSelectChange}
                     value={childsTemplateValue}
-                    isInvalid={validations.childs_template.invalid}
-                    message={validations.childs_template.message}                             
+                    isInvalid={validationStatus.childs_template.invalid}
+                    message={validationStatus.childs_template.message}        
+                    required={isRequired('childs_template')}                     
                 />                                           
             </Col>
         </Row>

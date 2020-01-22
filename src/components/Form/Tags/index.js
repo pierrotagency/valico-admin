@@ -1,6 +1,7 @@
 import React, { useState, useEffect }  from 'react';
 import CreatableSelect from 'react-select/creatable';
 
+import Label from '../Label' 
 import './index.scss'
 
 const customStyles = {
@@ -38,7 +39,7 @@ function mergeArrays(...arrays) {
     return uniqueArray
 }
 
-export default function Tags({label, name, isInvalid, isValid, message, className, onChange, value, isDisabled, options, ...props}) {
+export default function Tags({label, name, isInvalid, isValid, message, className, onChange, value, isDisabled, options, required, ...props}) {
 
     const inputClass = (className?className:'') + "tag form-control" + ((isValid) ? " is-valid" : "") + ((isInvalid) ? " is-invalid" : "") 
 
@@ -80,7 +81,7 @@ export default function Tags({label, name, isInvalid, isValid, message, classNam
 
     return (
         <div className="form-group position-relative">
-            {label ? <label>{label}</label> : null}
+            <Label name={label} required={required} />
             <CreatableSelect
                 {...props}
                 key={name}

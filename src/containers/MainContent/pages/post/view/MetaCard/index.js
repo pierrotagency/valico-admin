@@ -3,7 +3,9 @@ import { Row, Col, Alert } from 'reactstrap';
 
 import { Input, Tags, TextArea, FileUpload } from '../../../../../../components/Form';
 
-export default function MetaCard ({ handleInputChange, handleInputBlur, form, validations, tags, parseBackendValidations }) {
+export default function MetaCard ({ handleInputChange, handleInputBlur, form, validationStatus, tags, parseBackendValidations, validationSchema }) {
+
+    const isRequired = (field) => (validationSchema[field] && validationSchema[field].required) ? true : false
 
     if(!form) return(<Alert color="danger" className="bg-white border border-danger">Couldn't get post info</Alert>)
 
@@ -16,8 +18,9 @@ export default function MetaCard ({ handleInputChange, handleInputBlur, form, va
                     onChange={handleInputChange} 
                     onBlur={handleInputBlur} 
                     value={form.meta_title || ''}
-                    isInvalid={validations.meta_title.invalid}
-                    message={validations.meta_title.message}
+                    isInvalid={validationStatus.meta_title.invalid}
+                    message={validationStatus.meta_title.message}
+                    required={isRequired('meta_title')}
                 />
                 <Tags 
                     name="meta_keywords" 
@@ -25,8 +28,9 @@ export default function MetaCard ({ handleInputChange, handleInputBlur, form, va
                     onChange={handleInputBlur}                             
                     value={form.meta_keywords || []}
                     options={tags}
-                    isInvalid={validations.meta_keywords.invalid}
-                    message={validations.meta_keywords.message}
+                    isInvalid={validationStatus.meta_keywords.invalid}
+                    message={validationStatus.meta_keywords.message}
+                    required={isRequired('meta_keywords')}
                 />
                 <TextArea
                     name="meta_description" 
@@ -35,8 +39,9 @@ export default function MetaCard ({ handleInputChange, handleInputBlur, form, va
                     onChange={handleInputChange} 
                     onBlur={handleInputBlur} 
                     value={form.meta_description || ''}
-                    isInvalid={validations.meta_description.invalid}
-                    message={validations.meta_description.message}
+                    isInvalid={validationStatus.meta_description.invalid}
+                    message={validationStatus.meta_description.message}
+                    required={isRequired('meta_description')}
                 />                                        
             </Col>
             <Col sm="6">
@@ -51,10 +56,11 @@ export default function MetaCard ({ handleInputChange, handleInputBlur, form, va
                     // onProgress={(e, request, progress) => {console.log('progress', name, progress);}}
                     onChange={handleInputBlur}
                     value={form.meta_image || {}}
+                    required={isRequired('meta_image')}
                     // onError={ (e, request) => {console.log('error', e, request);}}
                     // onAbort={ (e, request) => {console.log('abort', e, request);}}                    
                     // isInvalid={false}
-                    // message="validations.meta_keywords.message"
+                    // message="validationStatus.meta_keywords.message"
                 />
                 
             </Col>

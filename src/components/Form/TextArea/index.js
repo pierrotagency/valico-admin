@@ -1,8 +1,9 @@
 import React  from 'react';
 import PropTypes from 'prop-types';
 
+import Label from '../Label' 
 
-const TextArea = ({label, isInvalid, isValid, message, className, name, onChange, onBlur, value, ...props}) => {
+const TextArea = ({label, isInvalid, isValid, message, className, name, onChange, onBlur, value, required, ...props}) => {
 
     const inputClass = className + " form-control" + ((isValid) ? " is-valid" : "") + ((isInvalid) ? " is-invalid" : "") 
 
@@ -11,7 +12,7 @@ const TextArea = ({label, isInvalid, isValid, message, className, name, onChange
 
     return (
         <div className="form-group position-relative">
-            {label ? <label>{label}</label> : null}         
+            <Label name={label} required={required} />
             <textarea 
                 {...props} 
                 key={name}

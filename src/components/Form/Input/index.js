@@ -1,8 +1,9 @@
 import React  from 'react';
 import PropTypes from 'prop-types';
 
+import Label from '../Label' 
 
-const Input = ({label, isInvalid, isValid, message, className, name, onChange, onBlur, value, ...props}) => {
+const Input = ({label, isInvalid, isValid, message, className, name, onChange, onBlur, value, required, ...props}) => {
 
     const inputClass = className + " form-control" + ((isValid) ? " is-valid" : "") + ((isInvalid) ? " is-invalid" : "") 
 
@@ -11,7 +12,7 @@ const Input = ({label, isInvalid, isValid, message, className, name, onChange, o
 
     return (
         <div className="form-group position-relative">
-            {label ? <label>{label}</label> : null}
+            <Label name={label} required={required} />
             <input 
                 {...props} 
                 key={name}
