@@ -32,7 +32,7 @@ function useForm(fileds, validations = {}) {
     useEffect(() => {
         checkDisabled()
         // eslint-disable-next-line react-hooks/exhaustive-deps 
-    }, [errors]);
+    }, [errors, dirty]);
 
 
     const validateForm = () => {   

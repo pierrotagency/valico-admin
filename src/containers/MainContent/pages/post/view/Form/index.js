@@ -61,7 +61,6 @@ function Form() {
         if(saveDisabled) return false
         
         const fieldsToAddToValidation = Object.keys(validationSchema)
-
         if(isNew){
             dispatch( storeViewPost(post, parseBackendValidations(fieldsToAddToValidation,true)) )		
         }
@@ -69,10 +68,8 @@ function Form() {
             dispatch( saveViewPost(post, parseBackendValidations(fieldsToAddToValidation, true)) )		
         }
         
-
-
         setDirty(false)
-        
+
         // add created tags to local Redux so i dont't have to request all the tag list from server
         const newTags = Object.keys(post.meta_keywords).reduce((object, key) => {
             if (key !== 'isNew') {
@@ -82,7 +79,6 @@ function Form() {
         }, {})
         if(newTags.length>0) dispatch(addLocalTags(newTags))
 
-    
     }
 
 	const handleClickUndo = () => undo()
