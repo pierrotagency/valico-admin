@@ -15,7 +15,7 @@ export default function ChildsCard({ form, validationStatus, handleSwitchToggle,
 
     return (           
         <Row>
-            <Col sm="6">
+            <Col xl="4" lg="6" sm="12">
                 <Toggle 
                     name="childs_allowed"
                     checked={form.childs_allowed || false}
@@ -23,7 +23,7 @@ export default function ChildsCard({ form, validationStatus, handleSwitchToggle,
                     onChange={handleSwitchToggle}
                 />                
             </Col>
-            <Col sm="6">                                                                             
+            <Col xl="4" lg="6" sm="12">                                                                             
                 <Select 
                     name="childs_type"
                     label="Childs Type"

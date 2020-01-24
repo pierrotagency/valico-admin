@@ -15,7 +15,7 @@ export default function ParamsCard({ form, handleInputChange, handleSelectChange
 
     return (           
         <Row>
-            <Col sm="6">
+            <Col xl="4" lg="6" sm="12">
                 <Input
                     name="name" 
                     label="Name" 
@@ -37,7 +37,7 @@ export default function ParamsCard({ form, handleInputChange, handleSelectChange
                     required={isRequired('slug')}                           
                 />
             </Col>
-            <Col sm="6">                                                                         
+            <Col xl="4" lg="6" sm="12">                                                                         
                 <Select 
                     name="type"
                     label="Type" 

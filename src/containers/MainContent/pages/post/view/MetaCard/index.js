@@ -11,7 +11,7 @@ export default function MetaCard ({ handleInputChange, handleInputBlur, form, va
 
     return (             
         <Row>
-            <Col sm="6">
+            <Col xl="4" lg="6" sm="12">
                 <Input
                     name="meta_title" 
                     label="Title" 
@@ -44,7 +44,7 @@ export default function MetaCard ({ handleInputChange, handleInputBlur, form, va
                     required={isRequired('meta_description')}
                 />                                        
             </Col>
-            <Col sm="6">
+            <Col xl="4" lg="6" sm="12">
                 
                 {/* <FileUpload 
                     name="meta_image"

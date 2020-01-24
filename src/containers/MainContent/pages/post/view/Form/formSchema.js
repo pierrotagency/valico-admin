@@ -88,7 +88,9 @@ const validationSchema = {
                 onSubmit: false, 
                 type: 'backend',
                 object: {
-                    fileobj: 'required|file|file_ext:png,jpg,gif|file_size:1mb|file_types:image'
+                    types: ['jpeg', 'jpg', 'png'],
+                    size: '1mb'
+                    // fileobj: 'required|file|file_ext:png,jpg,gif|file_size:1mb|file_types:image'
                 },
                 messages: {
                     // 'fileobj.file_ext': 'Wrong extension', // TODO ustom messagges for FILES not working on AdonisJS/Indicative 

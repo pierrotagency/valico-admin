@@ -64,11 +64,6 @@ const ImageUpload = ({label, name, value, className, isInvalid, isValid, message
         const req = new XMLHttpRequest();
 
         data.append("fileobj", file);
-        
-        if(backendValidations){
-            data.append("_validations", JSON.stringify(backendValidations));
-        }
-        
 
         req.open(method, url);
 
@@ -78,6 +73,11 @@ const ImageUpload = ({label, name, value, className, isInvalid, isValid, message
         });
 
         addRequestBinds(req)
+
+        if(backendValidations){
+            data.append("_validations", JSON.stringify(backendValidations));
+            req.setRequestHeader("_validations", "12123123121231321213212312123132123131");
+        }
 
         req.send(data);
         
@@ -92,10 +92,11 @@ const ImageUpload = ({label, name, value, className, isInvalid, isValid, message
             
             if (req.status >= 200 && req.status <= 299) { // OK
             
-                const response = JSON.parse(req.response)
-
+                
                 setProgress(100)        
                 setHasError(false)
+
+                const response = JSON.parse(req.response)
                 setFilename(response.name)
 
                 callOnChange(response);
