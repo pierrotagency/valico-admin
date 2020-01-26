@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Progress, Button, Row, Col } from 'reactstrap';
 
 import Label from '../Label' 
+import { safeParseJSON } from '../../../helpers/utils'
 
 const FileUpload = ({label, name, value, className, isInvalid, isValid, message, url, method, onProgress, onChange, onError, onAbort, backendValidations=null, required, ...props}) => {
 
@@ -23,7 +24,7 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
 
     
     useEffect(() => {       
-        const name = value.name ? value.name : ''
+        const name = value.filename ? value.filename : ''
         setFilename(name)
     },[value]);
 
@@ -57,17 +58,13 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
 
     }
 
+    // TODO FIX reupload file doest nothing
     const doUpload = (file) => {
 
         const data = new FormData();
         const req = new XMLHttpRequest();
 
         data.append("fileobj", file);
-        
-        if(backendValidations){
-            data.append("_validations", JSON.stringify(backendValidations));
-        }
-        
 
         req.open(method, url);
 
@@ -77,6 +74,11 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
         });
 
         addRequestBinds(req)
+
+        if(backendValidations){
+            data.append("_validations", JSON.stringify(backendValidations));
+            req.setRequestHeader("X-Validate", JSON.stringify(backendValidations));
+        }
 
         req.send(data);
         
@@ -91,25 +93,30 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
             
             if (req.status >= 200 && req.status <= 299) { // OK
             
-                const response = JSON.parse(req.response)
-
                 setProgress(100)        
                 setHasError(false)
-                setFilename(response.name)
 
-                callOnChange(response);
+                const response = safeParseJSON(req.response)
 
+                if(response.name){
+                    setFilename(response.name)
+                    callOnChange(response);
+                }
+                else{
+                    setProgress(-1)        
+                    setHasError(true)
+                    setError('Invalid upload service response')  
+                    callOnError(e);
+                }
+                
             }
             else if(req.status === 422 || req.status === 400){ // Validation
 
-                let response = JSON.parse(req.response)
+                const response = safeParseJSON(req.response)
 
-                // TODO should be ARRAY or not?
-                
+                // TODO should be ARRAY or not?                
                 if(Array.isArray(response) && response.length > 0) response = response[0]
                 
-                console.log(response)
-
                 setProgress(-1)        
                 setHasError(true)
                 setError(response.message)
@@ -191,7 +198,12 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
                             <i className="mdi mdi-file-upload mr-2"></i>Select
                         </Button>  
                     }                        
-                </Col>
+                </Col>                
+            </Row>
+            <Row>
+                <Col sm="12">
+                    <img src="" />
+                </Col>                
             </Row>
             
             <input 

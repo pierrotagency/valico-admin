@@ -50,7 +50,7 @@ export default function MetaCard ({ handleInputChange, handleInputBlur, form, va
                     name="meta_image"
                     label="Cover Image"
                     key='ex1' 
-                    url='http://localhost:3333/api/v1/media/file/upload'
+                    url='http://localhost:3333/api/v1/storage/file/upload'
                     method='post'
                     backendValidations={parseBackendValidations(['meta_image'])}                   
                     // onProgress={(e, request, progress) => {console.log('progress', name, progress);}}
@@ -67,7 +67,7 @@ export default function MetaCard ({ handleInputChange, handleInputBlur, form, va
                     name="meta_image"
                     label="Cover Image"
                     key='ex1' 
-                    url='http://localhost:3333/api/v1/media/image/upload'
+                    url='http://localhost:3333/api/v1/storage/image/upload'
                     method='post'
                     backendValidations={parseBackendValidations(['meta_image'])}                   
                     // onProgress={(e, request, progress) => {console.log('progress', name, progress);}}

@@ -53,6 +53,22 @@ function cloneObject(src) {
   return Object.assign({}, src);
 }
 
+
+
+
+/**
+ * Parse JSON if is not already a JSON
+ * @param  {string}   str - a Json or a String that should be json
+ * @return {string}   The JSON always
+ */
+const safeParseJSON = (str) => {    
+  if(typeof str === 'string' && (str.charAt(0) === '{'  || str.charAt(0) === '['))
+      return JSON.parse(str);
+  else
+      return {};    
+}
+
+
 export {
   addInArrayAtPosition,
   removeFromArrayAtPosition,
@@ -61,5 +77,7 @@ export {
   replaceElementOfArray,
   partialRight,
   getUuid,
-  cloneObject
+  cloneObject,
+  safeParseJSON
 }
+

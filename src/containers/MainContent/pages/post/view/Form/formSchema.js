@@ -87,10 +87,10 @@ const validationSchema = {
             {
                 onSubmit: false, 
                 type: 'backend',
-                object: {
+                object: { // TODO custom messages not supported in backend due to file validation custom methodf
                     types: ['jpeg', 'jpg', 'png'],
-                    size: '1mb'
-                    // fileobj: 'required|file|file_ext:png,jpg,gif|file_size:1mb|file_types:image'
+                    size: '2mb'
+                    // fileobj: 'required|file|file_ext:png,jpg,gif|file_size:1mb|file_types:image' // before file put as stream in back
                 },
                 messages: {
                     // 'fileobj.file_ext': 'Wrong extension', // TODO ustom messagges for FILES not working on AdonisJS/Indicative 

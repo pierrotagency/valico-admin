@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Progress, Button, Row, Col } from 'reactstrap';
 
 import Label from '../Label' 
+import { safeParseJSON } from '../../../helpers/utils'
 
 const ImageUpload = ({label, name, value, className, isInvalid, isValid, message, url, method, onProgress, onChange, onError, onAbort, backendValidations=null, required, ...props}) => {
 
@@ -23,7 +24,7 @@ const ImageUpload = ({label, name, value, className, isInvalid, isValid, message
 
     
     useEffect(() => {       
-        const name = value.name ? value.name : ''
+        const name = value.filename ? value.filename : ''
         setFilename(name)
     },[value]);
 
@@ -76,7 +77,7 @@ const ImageUpload = ({label, name, value, className, isInvalid, isValid, message
 
         if(backendValidations){
             data.append("_validations", JSON.stringify(backendValidations));
-            req.setRequestHeader("_validations", "12123123121231321213212312123132123131");
+            req.setRequestHeader("X-Validate", JSON.stringify(backendValidations));
         }
 
         req.send(data);
@@ -92,26 +93,30 @@ const ImageUpload = ({label, name, value, className, isInvalid, isValid, message
             
             if (req.status >= 200 && req.status <= 299) { // OK
             
-                
                 setProgress(100)        
                 setHasError(false)
 
-                const response = JSON.parse(req.response)
-                setFilename(response.name)
+                const response = safeParseJSON(req.response)
 
-                callOnChange(response);
-
+                if(response.name){
+                    setFilename(response.name)
+                    callOnChange(response);
+                }
+                else{
+                    setProgress(-1)        
+                    setHasError(true)
+                    setError('Invalid upload service response')  
+                    callOnError(e);
+                }
+                
             }
             else if(req.status === 422 || req.status === 400){ // Validation
 
-                let response = JSON.parse(req.response)
+                const response = safeParseJSON(req.response)
 
-                // TODO should be ARRAY or not?
-                
+                // TODO should be ARRAY or not?                
                 if(Array.isArray(response) && response.length > 0) response = response[0]
                 
-                console.log(response)
-
                 setProgress(-1)        
                 setHasError(true)
                 setError(response.message)
@@ -193,7 +198,12 @@ const ImageUpload = ({label, name, value, className, isInvalid, isValid, message
                             <i className="mdi mdi-file-upload mr-2"></i>Select
                         </Button>  
                     }                        
-                </Col>
+                </Col>                
+            </Row>
+            <Row>
+                <Col sm="12">
+                    <img src="" />
+                </Col>                
             </Row>
             
             <input 
