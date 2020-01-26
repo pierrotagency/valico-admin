@@ -1,11 +1,11 @@
 import { 
     CHECK_LOGIN, 
     LOGIN_USER_SUCCESSFUL, 
-    APILOGIN_FAILED, 
+    LOGIN_FAILED, 
     CHECK_OTP,
     VALIDATE_OTP_SUCCESS, 
     VALIDATE_OTP_ERROR, 
-    ERROR_CLEAR, 
+    LOGIN_ERROR_CLEAR, 
     LOGOUT_USER, 
     GET_USER_INFO,
     GET_USER_INFO_OK,
@@ -51,7 +51,7 @@ export const loginUserSuccessful = (user) => {
 
 export const apiLoginError = (error) => {
     return {
-        type: APILOGIN_FAILED,
+        type: LOGIN_FAILED,
         payload: error
     }
 }
@@ -59,7 +59,7 @@ export const apiLoginError = (error) => {
 
 export const clearErrorLogin = () => {
     return {
-        type: ERROR_CLEAR
+        type: LOGIN_ERROR_CLEAR
     }
 }
 

@@ -10,7 +10,9 @@ function* loginUser({ payload: { email, password, history } }) {
         const response = yield call(apiPost, '/auth/login', {email: email, password: password});           
         yield put(loginUserSuccessful(response));
         history.push('/dashboard');
-    } catch (error) {        
+    } catch (error) {      
+        
+        console.log(error)
         yield put(apiLoginError(error));
     }
 }

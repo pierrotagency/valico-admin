@@ -31,7 +31,18 @@ error => {
     
     const originalRequest = error.config;
 
-    if (error.response.status === 422 || error.response.status === 400) { // validation 
+    if (error.response.status === 403 ) { // login failed
+        console.log('API: Login failed')
+            
+        const res = {
+            code: error.response.status,
+            type: 'login',
+            message: error.response.data.message
+        }
+        return Promise.reject(res);
+    
+    }
+    else if (error.response.status === 422 || error.response.status === 400 ) { // validation 
         console.log('API: Validation thing')
         
         if(error.response && error.response.data){                        

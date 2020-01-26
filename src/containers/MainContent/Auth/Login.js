@@ -47,11 +47,9 @@ class Pageslogin extends Component {
                                             <h4 className="font-18 text-center">Login</h4>
                                             <p className="text-muted text-center mb-4">Sign in to continue to Valico.</p>
 
-                                            {this.props.user && <Alert color="success">
-                                                    Your Login is successfull.</Alert>}
+                                            {this.props.user && <Alert color="success">Your Login is successfull.</Alert>}
 
-                                            {this.props.loginError && <Alert color="danger">
-                                                {this.props.loginError}</Alert>}
+                                            {this.props.loginError && <Alert color="danger">{this.props.loginError.message || this.props.loginError}</Alert>}
 
                                             <AvForm className="form-horizontal" onValidSubmit={this.handleSubmit}>
                                             <AvField name="email"  value={this.state.email} placeholder="Email" type="text"  validate={{email: true, required: true}}  />
