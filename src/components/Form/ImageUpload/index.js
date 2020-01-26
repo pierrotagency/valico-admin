@@ -5,6 +5,7 @@ import { Progress, Button, Row, Col } from 'reactstrap';
 
 import Label from '../Label' 
 import { safeParseJSON } from '../../../helpers/utils'
+import { imageUrl } from '../../../helpers/url'
 
 const ImageUpload = ({label, name, value, className, isInvalid, isValid, message, url, method, onProgress, onChange, onError, onAbort, backendValidations=null, required, ...props}) => {
 
@@ -12,6 +13,7 @@ const ImageUpload = ({label, name, value, className, isInvalid, isValid, message
     const [ hasError, setHasError ] = useState(false)
     const [ error, setError ] = useState(null)
     const [ filename, setFilename ] = useState('')
+    const [ imagepath, setImagepath ] = useState('')
 
     const proxy = new EventEmitter();
     
@@ -23,9 +25,12 @@ const ImageUpload = ({label, name, value, className, isInvalid, isValid, message
     const callOnAbort = () => (typeof(onAbort) === 'function') ? onAbort(name) : false
 
     
-    useEffect(() => {       
-        const name = value.filename ? value.filename : ''
-        setFilename(name)
+    useEffect(() => {     
+
+        setFilename(value.filename ? value.filename : '')
+
+        setImagepath(value.value ? value.value : '')
+
     },[value]);
 
 
@@ -112,7 +117,7 @@ const ImageUpload = ({label, name, value, className, isInvalid, isValid, message
             }
             else if(req.status === 422 || req.status === 400){ // Validation
 
-                const response = safeParseJSON(req.response)
+                let response = safeParseJSON(req.response)
 
                 // TODO should be ARRAY or not?                
                 if(Array.isArray(response) && response.length > 0) response = response[0]
@@ -202,7 +207,7 @@ const ImageUpload = ({label, name, value, className, isInvalid, isValid, message
             </Row>
             <Row>
                 <Col sm="12">
-                    <img src="" />
+                    <img src={imageUrl(imagepath)} alt="preview" />
                 </Col>                
             </Row>
             

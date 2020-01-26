@@ -112,7 +112,7 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
             }
             else if(req.status === 422 || req.status === 400){ // Validation
 
-                const response = safeParseJSON(req.response)
+                let response = safeParseJSON(req.response)
 
                 // TODO should be ARRAY or not?                
                 if(Array.isArray(response) && response.length > 0) response = response[0]
@@ -200,12 +200,7 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
                     }                        
                 </Col>                
             </Row>
-            <Row>
-                <Col sm="12">
-                    <img src="" />
-                </Col>                
-            </Row>
-            
+
             <input 
                 type="file" 
                 name={name ? name : 'file'}
