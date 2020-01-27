@@ -78,6 +78,7 @@ const FileUpload = ({label, name, value, className, isInvalid, isValid, message,
         if(backendValidations){
             data.append("_validations", JSON.stringify(backendValidations));
             req.setRequestHeader("X-Validate", JSON.stringify(backendValidations));
+            req.setRequestHeader("X-Storage", 'local');
         }
 
         req.send(data);

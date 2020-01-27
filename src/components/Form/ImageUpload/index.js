@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Progress, Button, Row, Col } from 'reactstrap';
 
 import Label from '../Label' 
+import Image from '../Image' 
 import { safeParseJSON } from '../../../helpers/utils'
 import { imageUrl } from '../../../helpers/url'
 
@@ -14,6 +15,8 @@ const ImageUpload = ({label, name, value, className, isInvalid, isValid, message
     const [ error, setError ] = useState(null)
     const [ filename, setFilename ] = useState('')
     const [ imagepath, setImagepath ] = useState('')
+
+    const [ preview, setPreview ] = useState(null)
 
     const proxy = new EventEmitter();
     
@@ -44,6 +47,8 @@ const ImageUpload = ({label, name, value, className, isInvalid, isValid, message
         setProgress(-1)        
         setHasError(false)
 
+        setPreview(null)
+
     }
 
     const handleOpenDialog = () => {
@@ -56,6 +61,8 @@ const ImageUpload = ({label, name, value, className, isInvalid, isValid, message
         setHasError(false)
 
         const file = inputRef.current.files[0]
+
+        setPreview(URL.createObjectURL(file))
 
         setFilename(file.name)
         
@@ -83,6 +90,7 @@ const ImageUpload = ({label, name, value, className, isInvalid, isValid, message
         if(backendValidations){
             data.append("_validations", JSON.stringify(backendValidations));
             req.setRequestHeader("X-Validate", JSON.stringify(backendValidations));
+            req.setRequestHeader("X-Storage", 'local');
         }
 
         req.send(data);
@@ -105,6 +113,9 @@ const ImageUpload = ({label, name, value, className, isInvalid, isValid, message
 
                 if(response.name){
                     setFilename(response.name)
+                    
+                    setPreview(null)
+
                     callOnChange(response);
                 }
                 else{
@@ -131,7 +142,7 @@ const ImageUpload = ({label, name, value, className, isInvalid, isValid, message
             }
             else { // Error
                 
-                setProgress(100)        
+                setProgress(-1)        
                 setHasError(true)
 
                 callOnError(e);
@@ -191,14 +202,15 @@ const ImageUpload = ({label, name, value, className, isInvalid, isValid, message
                         null
                     }
                 </Col>                
-                <Col sm="4">                        
+                <Col sm="4">
                     {progress > -1 && progress < 100 ?                                                                                                
                         <Button color="danger"
+                            
                             onClick={cancelUpload} >
                             <i className="mdi mdi-cancel mr-2"></i>Cancel
                         </Button>                                          
                     :
-                        <Button color="secondary"
+                        <Button color="secondary"                           
                             onClick={handleOpenDialog} >
                             <i className="mdi mdi-file-upload mr-2"></i>Select
                         </Button>  
@@ -206,8 +218,13 @@ const ImageUpload = ({label, name, value, className, isInvalid, isValid, message
                 </Col>                
             </Row>
             <Row>
-                <Col sm="12">
-                    <img src={imageUrl(imagepath)} alt="preview" />
+                <Col sm="12">                    
+                    <Image 
+                        src={imagepath && imageUrl(imagepath,{width:200})} 
+                        previewSrc={preview}
+                        alt="preview" 
+                        progress={progress}
+                    />
                 </Col>                
             </Row>
             
@@ -226,7 +243,8 @@ const ImageUpload = ({label, name, value, className, isInvalid, isValid, message
 ImageUpload.propTypes = {
     name: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
-    method: PropTypes.string.isRequired,    
+    method: PropTypes.string.isRequired, 
+    value: PropTypes.object.isRequired,    
     onProgress: PropTypes.func,
     onChange: PropTypes.func,
     onError: PropTypes.func,

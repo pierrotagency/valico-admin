@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Alert } from 'reactstrap';
 
-import { Input, Tags, TextArea, FileUpload, ImageUpload } from '../../../../../../components/Form';
+import { Input, Tags, TextArea, ImageUpload } from '../../../../../../components/Form';
 
 export default function MetaCard ({ handleInputChange, handleInputBlur, form, validationStatus, tags, parseBackendValidations, validationSchema }) {
 
@@ -66,7 +66,6 @@ export default function MetaCard ({ handleInputChange, handleInputBlur, form, va
                 <ImageUpload 
                     name="meta_image"
                     label="Cover Image"
-                    key='ex1' 
                     url='http://localhost:3333/api/v1/storage/image/upload'
                     method='post'
                     backendValidations={parseBackendValidations(['meta_image'])}                   
