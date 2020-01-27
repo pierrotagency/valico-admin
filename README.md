@@ -20,6 +20,7 @@ In current project
 ```bash
 yarn link "vaslico-custom-theme"
 ```
+for example *"valico-sanmartin"*
 
 ## Run
 ```bash

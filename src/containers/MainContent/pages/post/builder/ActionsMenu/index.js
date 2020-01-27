@@ -35,7 +35,7 @@ export default function ActionsMenu({
                     </ButtonGroup>
                     {templates[currentTemplate] &&
                     <Dropdown isOpen={toggle} toggle={handleTogggle} className="btn-sm">
-                        <DropdownToggle color="default" className="arrow-none waves-effect waves-light">
+                        <DropdownToggle color="secondary" className="arrow-none">
                             <i className="mdi mdi-monitor-dashboard mr-2"></i> {templates[currentTemplate].name}
                         </DropdownToggle>
                         <DropdownMenu className="language-switch" right>
