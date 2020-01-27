@@ -1,0 +1,151 @@
+.ImageUpload{
+
+    .input-wrapper {
+        -webkit-align-items: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        background-color: #3d4145;
+        border-color: #adb5bd;
+        border-radius: 4px;
+        border-style: solid;
+        border-width: 1px;
+        box-shadow: none;
+        cursor: default;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -webkit-box-pack: justify;
+        -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        min-height: 38px;
+        outline: 0 !important;
+        position: relative;
+        -webkit-transition: all 100ms;
+        transition: all 100ms;
+        box-sizing: border-box;
+        border: 0;
+
+        .input-place{
+            -webkit-align-items: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-flex: 1;
+            -ms-flex: 1;
+            flex: 1;
+            -webkit-flex-wrap: wrap;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            padding: 2px 8px;
+            -webkit-overflow-scrolling: touch;
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box;
+
+            input[disabled]{
+                background: #3d4145;
+            }
+        }
+
+        .btn-wrapper {
+            -webkit-align-items: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-align-self: stretch;
+            -ms-flex-item-align: stretch;
+            align-self: stretch;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-flex-shrink: 0;
+            -ms-flex-negative: 0;
+            flex-shrink: 0;
+            box-sizing: border-box;
+
+            .split {
+                -webkit-align-self: stretch;
+                -ms-flex-item-align: stretch;
+                align-self: stretch;
+                background-color: #adb5bd;
+                margin-bottom: 8px;
+                margin-top: 8px;
+                width: 1px;
+                box-sizing: border-box;
+            }
+
+            .btn-open {
+                color: #adb5bd;
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: -ms-flexbox;
+                display: flex;
+                padding: 8px;         
+                box-sizing: border-box;
+                cursor: pointer;
+
+                .btn-open-svg {
+                    display: inline-block;
+                    fill:currentColor;
+                    line-height: 1;
+                    stroke: currentColor;
+                    stroke-width: 0;
+                    -webkit-transition: color 150ms;
+                    transition: color 150ms;
+                }
+
+
+                &:hover{
+
+                    .btn-open-svg{
+                        color: hsl(0,0%,60%);
+                    }
+                    
+                }
+            }
+
+
+            .btn-cancel {
+                color: #adb5bd;
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: -ms-flexbox;
+                display: flex;
+                padding: 8px;
+                box-sizing: border-box;
+                cursor: pointer;
+
+                .btn-cancel-svg {
+                    display: inline-block;
+                    fill:currentColor;
+                    line-height: 1;
+                    stroke: currentColor;
+                    stroke-width: 0;
+                    -webkit-transition: color 150ms;
+                    transition: color 150ms;
+                }
+
+                &:hover{
+
+                    .btn-open-svg{
+                        color: hsl(0,0%,60%);
+                    }
+                    
+                }
+            }
+        }
+
+    }
+
+}

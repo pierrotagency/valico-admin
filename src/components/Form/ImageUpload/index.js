@@ -1,12 +1,13 @@
 import { EventEmitter } from "events";
 import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Progress, Button, Row, Col } from 'reactstrap';
+import { Progress, Row, Col } from 'reactstrap';
 
 import Label from '../Label' 
 import Image from '../Image' 
 import { safeParseJSON } from '../../../helpers/utils'
 import { imageUrl } from '../../../helpers/url'
+import './index.scss'
 
 const ImageUpload = ({label, name, value, className, isInvalid, isValid, message, url, method, onProgress, onChange, onError, onAbort, backendValidations=null, required, ...props}) => {
 
@@ -183,39 +184,45 @@ const ImageUpload = ({label, name, value, className, isInvalid, isValid, message
     const inputClass = className + " form-control" + ((isValid || hasError) ? " is-valid" : "") + ((isInvalid || hasError) ? " is-invalid" : "") 
 
     return (
-        <div className="form-group position-relative">
+        <div className="ImageUpload form-group position-relative">
             <Label name={label} required={required} />          
             <Row>
-                <Col sm="8">
-                    <input                                                 
-                        type="text"                
-                        defaultValue={filename}
-                        className={inputClass} 
-                        disabled={true}
-                    />
-                    {isValid && message !== '' && <div className="valid-tooltip">{message}</div>}
-                    {isInvalid && message !== '' && <div className="invalid-tooltip">{message}</div>}
-                    {hasError && <div className="invalid-tooltip">{error || "Failed to upload"}</div>}
-                    {progress > -1 && progress <= 100 && !isInvalid && !isValid ? 
-                        <Progress className="mt-2" style={{ height: '5px' }} color={progress===100?"success":"purple"} value={progress} />   
-                        :
-                        null
-                    }
-                </Col>                
-                <Col sm="4">
-                    {progress > -1 && progress < 100 ?                                                                                                
-                        <Button color="danger"
+                <Col sm="12">
+
+                    <div className="input-wrapper">
+                        <div className="input-place">
+                            <input                                                 
+                                type="text"                
+                                defaultValue={filename}
+                                className={inputClass} 
+                                disabled={true}
+                            />
+                            {isValid && message !== '' && <div className="valid-tooltip">{message}</div>}
+                            {isInvalid && message !== '' && <div className="invalid-tooltip">{message}</div>}
+                            {hasError && <div className="invalid-tooltip">{error || "Failed to upload"}</div>}
+                            {progress > -1 && progress <= 100 && !isInvalid && !isValid ? 
+                                <Progress className="mt-2" style={{ height: '5px' }} color={progress===100?"success":"purple"} value={progress} />   
+                                :
+                                null
+                            }
+                        </div>
+
+                        <div className="btn-wrapper">
+                            <span className="split"></span>
+                            {progress < 0 || progress === 100 ?  
+                                <div aria-hidden="true" className="btn-open" onClick={handleOpenDialog} >                                    
+                                    <svg className="btn-open-svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+                                </div>
+                            :
+                                <div aria-hidden="true" className="btn-cancel" onClick={cancelUpload} >                                    
+                                    <svg className="btn-cancel-svg" height="20" width="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false" className="css-6q0nyr-Svg"><path d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"></path></svg>
+                                </div>
+                            }
                             
-                            onClick={cancelUpload} >
-                            <i className="mdi mdi-cancel mr-2"></i>Cancel
-                        </Button>                                          
-                    :
-                        <Button color="secondary"                           
-                            onClick={handleOpenDialog} >
-                            <i className="mdi mdi-file-upload mr-2"></i>Select
-                        </Button>  
-                    }                        
-                </Col>                
+                        </div>
+                    </div>
+
+                </Col>                                             
             </Row>
             <Row>
                 <Col sm="12">                    
