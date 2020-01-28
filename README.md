@@ -26,3 +26,9 @@ for example *"valico-sanmartin"*
 ```bash
 npm start
 ```
+
+
+
+## TODOs
+
+- Migrate DynamicForm (ex react-jsonschema-form-bs4) to React Hooks
