@@ -19,13 +19,13 @@ const fieldSchema = {
 
 const validateUniqueSlug = async (params) =>{
     
-    const { value, form } = params;
+    const { value, currentElement } = params;
 
     return await api.post('/posts/exists/slug/', {
         slug: value
     })
     .then(res => {
-        const result = ( res.data && res.data.found && res.data.id !== form.uuid ) ? false : true    
+        const result = ( res.data && res.data.found && res.data.id !== currentElement.uuid ) ? false : true    
         return {
             validated: true,
             valid: result            

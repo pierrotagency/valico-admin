@@ -2,8 +2,9 @@ import React from 'react';
 import { Row, Col, Alert } from 'reactstrap';
 
 import { Input, Tags, TextArea, ImageUpload } from '../../../../../../components/Form';
+import { parseBackendValidations } from '../../../../../../helpers/validation';
 
-export default function MetaCard ({ handleInputChange, handleInputBlur, form, validationStatus, tags, parseBackendValidations, validationSchema }) {
+export default function MetaCard ({ handleInputChange, handleInputBlur, form, validationStatus, tags, validationSchema }) {
 
     const isRequired = (field) => (validationSchema[field] && validationSchema[field].required) ? true : false
 
@@ -52,7 +53,7 @@ export default function MetaCard ({ handleInputChange, handleInputBlur, form, va
                     key='ex1' 
                     url='http://localhost:3333/api/v1/storage/file/upload'
                     method='post'
-                    backendValidations={parseBackendValidations(['meta_image'])}                   
+                    backendValidations={parseBackendValidations(['meta_image'], false, validationSchema)}                   
                     // onProgress={(e, request, progress) => {console.log('progress', name, progress);}}
                     onChange={handleInputBlur}
                     value={form.meta_image || {}}
@@ -68,7 +69,7 @@ export default function MetaCard ({ handleInputChange, handleInputBlur, form, va
                     label="Cover Image"
                     url='http://localhost:3333/api/v1/storage/image/upload'
                     method='post'
-                    backendValidations={parseBackendValidations(['meta_image'])}                   
+                    backendValidations={parseBackendValidations(['meta_image'], false, validationSchema)}                   
                     // onProgress={(e, request, progress) => {console.log('progress', name, progress);}}
                     onChange={handleInputBlur}
                     value={form.meta_image || {}}

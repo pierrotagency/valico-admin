@@ -12,11 +12,13 @@ import useBack from '../../../../../../hooks/useBack';
 import useForm from '../../../../../../hooks/useForm';
 import DynamicForm from '../../../../../../components/DynamicForm'
 
+
 import ActionsMenu from "../ActionsMenu";
 import MetaCard from '../MetaCard';
 import ChildsCard from '../ChildsCard';
 import ParamsCard from '../ParamsCard';
 import { fieldSchema, validationSchema } from './formSchema'
+import { parseBackendValidations } from '../../../../../../helpers/validation';
 
 
 function Form() {
@@ -32,7 +34,7 @@ function Form() {
 
     const { state: post, set: setPost, init, undo, redo, clear, canUndo, canRedo } = useBack({});
 
-    const { form, setForm, errors, handleOnChange, saveDisabled, setBackendErrors, parseBackendValidations, setDirty, validateForm } = useForm(fieldSchema, validationSchema);
+    const { form, setForm, errors, handleOnChange, saveDisabled, setBackendErrors, setDirty, validateForm } = useForm(fieldSchema, validationSchema);
 
 
     // add backend validations to stack of errors
@@ -67,10 +69,10 @@ function Form() {
 
         const fieldsToAddToValidation = Object.keys(validationSchema)
         if(isNew){
-            dispatch( storeViewPost(post, parseBackendValidations(fieldsToAddToValidation,true)) )		
+            dispatch( storeViewPost(post, parseBackendValidations(fieldsToAddToValidation, true, validationSchema)) )		
         }
         else{
-            dispatch( saveViewPost(post, parseBackendValidations(fieldsToAddToValidation, true)) )		
+            dispatch( saveViewPost(post, parseBackendValidations(fieldsToAddToValidation, true, validationSchema)) )		
         }
 
         // clean state so save button disables
@@ -118,6 +120,12 @@ function Form() {
     const handleFieldUpdated = (name, value) => {
         handleOnChange(name, value)
         setPost({...post, [name]: value})
+    }
+
+    const handleDynamicFormValidate = (formData, errors) => {
+        console.log(formData)
+        console.log(errors)
+        return errors
     }
 
     const templateOptions = Object.keys(templates).map((template) => ({ value: template, label: templates[template].name }))
@@ -216,7 +224,6 @@ function Form() {
                                         handleInputChange={handleInputChange}
                                         handleInputBlur={handleInputBlur}
                                         tags={tags}
-                                        parseBackendValidations={parseBackendValidations}
                                         validationSchema={validationSchema}
                                     />
 
@@ -231,13 +238,12 @@ function Form() {
                                     
                                     <DynamicForm
                                         schema={taxonomies[form.taxonomy].schema}
+                                        formData={form.data}
                                         // onChange={handleDynamicFormChange}
                                         onBlur={handleDynamicFormBlur}
-                                        // onSubmit={formSubmit}
                                         onError={(e) => console.log("form error", e)}    
-                                        // validate={validate}
-                                        // liveValidate={false}
-                                        formData={form.data}
+                                        validate={handleDynamicFormValidate}
+                                        liveValidate={true}                                        
                                     />
 
                                 </CardBody>

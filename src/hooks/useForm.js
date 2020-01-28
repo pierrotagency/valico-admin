@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from "react";
 
 import usePrevious from './usePrevious'
 
+import { validateField } from '../helpers/validation'
+
 
 function useForm(fieldSchema, validationSchema = {}) {
 
@@ -45,7 +47,7 @@ function useForm(fieldSchema, validationSchema = {}) {
         await Object.keys(validationSchema).forEach(async (name) => {
 
             if (form[name] !== prevForm[name] || validateAllFields) { // only validate the fields that changed (except validateAllFields is true)
-                const error = await validate(name, form[name]);                
+                const error = await validateField(name, form[name], validationSchema);                
                 const valid = (typeof error === 'undefined' || error === '') ? true:false
 
                 if(!valid) validForm = false;
@@ -64,7 +66,7 @@ function useForm(fieldSchema, validationSchema = {}) {
     
 
     const checkDisabled = useCallback(() => {
-      
+
         if(!dirty){ // if nothing has been touched in the form, dont enable the save
             setSaveDisabled(true)
             return true
@@ -87,102 +89,6 @@ function useForm(fieldSchema, validationSchema = {}) {
 
         // eslint-disable-next-line react-hooks/exhaustive-deps   
     },[validationSchema]);
-
-
-    const checkRules = (name, rules, value) => {
-        return Promise.all(
-            
-            rules.map(async rule => {
-
-                if (rule.type === 'regex') {
-
-                    if(!rule.regex.test(value)){
-                        return rule.message;                            
-                    }
-                    else{
-                        return ''
-                    }
-                    
-                }
-                else if (rule.type === 'function') {
-                    
-                    const result = await rule.method({
-                        value: value,
-                        name: name,
-                        form: (form ? form : null)                        
-                    })
-
-                    if(result.validated){
-                        if(!result.valid){                                                                                            
-                            return rule.message;
-                        }
-                        else{
-                            return ''
-                        }
-                    }
-                    else{                                                                             
-                        return `Couldnt validate ${name} with value ${value})`
-                    }
-                    
-                }
-
-                // rule.type === 'backend' is handled in the backend when the request is made
-                
-            })
-
-        )
-    }
-
-
-    const validate = async(name, value) => {
-        // console.log(`validating ${name} with value (${value})...`)
-        
-        if(!validationSchema[name]) return ''
-
-        const { rules, required } = validationSchema[name];
-
-        if (required) {            
-            if(Array.isArray(value) && value.length===0)
-                return "This is required field.";                                        
-            else if (!value)
-                return "This is required field.";                
-        }
-        else{
-            if(value==='') return ''
-        }
-
-        if (rules && Array.isArray(rules)){
-            const hasError = await checkRules(name, rules, value)
-            var errors = hasError.filter(el => el !== null && el !== '')
-            
-            return errors[0] || ''
-        }
-
-        return ''
-    }
-
-    const parseBackendValidations = (fields=[],forSubmit=false) => {
-        
-        let res = {
-            objects: {},
-            messages: {}
-        }
-
-        fields.forEach(field => {
-
-            if(validationSchema[field] && validationSchema[field].rules){
-                validationSchema[field].rules
-                    .filter(el => el.type === 'backend' && (el.onSubmit || !forSubmit))
-                    .forEach(el => {
-                        res.objects = {...res.objects, ...(el.object?el.object:{})}
-                        res.messages = {...res.messages, ...(el.messages?el.messages:{})}
-                    })
-            }
-
-        })
-        
-        return res
-    }
 
 
     const setBackendErrors = (backErrors) => {
@@ -226,7 +132,7 @@ function useForm(fieldSchema, validationSchema = {}) {
     }
 
 
-    return { setForm, form, errors, saveDisabled, handleOnChange, parseBackendValidations, setBackendErrors, dirty, setDirty, validateForm};
+    return { setForm, form, errors, saveDisabled, handleOnChange, setBackendErrors, dirty, setDirty, validateForm};
 }
 
 export default useForm;
