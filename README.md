@@ -29,6 +29,23 @@ npm start
 
 
 
-## TODOs
+# TODOs
 
 - Migrate DynamicForm (ex react-jsonschema-form-bs4) to React Hooks
+
+
+
+# Known problems
+
+## on YARN BUILD
+
+- FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory” error
+    
+    https://stackoverflow.com/questions/55613789/how-to-fix-fatal-error-ineffective-mark-compacts-near-heap-limit-allocation-fa
+    In .env: GENERATE_SOURCEMAP=false
+    Works but...
+
+    but its better to increase memory in node (so i went back to TRUE) and enable sourcemaps so we can analyze bundle
+    https://discourse.aurelia.io/t/fatal-error-ineffective-mark-compacts-near-heap-limit-allocation-failed-javascript-heap-out-of-memory/2222/11
+
+    https://create-react-app.dev/docs/analyzing-the-bundle-size/
