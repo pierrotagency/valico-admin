@@ -342,10 +342,10 @@ export default class DynamicForm extends Component {
         {children ? (
           children
         ) : (
-          <div>
-            <button type="submit" className="btn btn-info">
+          <div className="end-dynamic-form">
+            {/* <button type="submit" className="btn btn-info">
               Submit
-            </button>
+            </button> */}
           </div>
         )}
       </FormTag>

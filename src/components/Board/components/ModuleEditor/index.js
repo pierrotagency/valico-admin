@@ -1,7 +1,7 @@
 import React from 'react'
 import { Row, Col, Card, CardBody } from 'reactstrap';
-import DynamicForm from '../../../DynamicForm'
 
+import DynamicForm from '../../../DynamicForm'
 import {log} from '../../../../helpers/log'
 import "react-toggle/style.css";
 import './index.scss'

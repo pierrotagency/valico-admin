@@ -10,6 +10,7 @@ import Breadcrumb from '../../_common/Breadcrumb';
 import { saveViewPost, storeViewPost, addLocalTags } from "../../../../../../store/actions";
 import useBack from '../../../../../../hooks/useBack';
 import useForm from '../../../../../../hooks/useForm';
+import DynamicForm from '../../../../../../components/DynamicForm'
 
 import ActionsMenu from "../ActionsMenu";
 import MetaCard from '../MetaCard';
@@ -124,6 +125,13 @@ function Form() {
     
     const isNew = ( post && post.uuid ) ?  false : true;
 
+
+    const handleDynamicFormChange = (e) => {
+        // console.log(e.formData)  
+        // setPost({...post, data: e.formData})      
+        handleFieldUpdated('data',e.formData)
+    }
+
     return (
         <>
         <Hotkeys 
@@ -220,6 +228,27 @@ function Form() {
 
                                 </CardBody>
                             </Card>
+
+                            {form.taxonomy &&
+                            <Card>
+                                <CardBody>
+                                    <h4 className="mt-0 header-title">Custom Fields</h4>
+                                    <p className="text-muted mb-4">from taxonomy</p>
+                                    
+                                    <DynamicForm
+                                        schema={taxonomies[form.taxonomy].schema}
+                                        onChange={handleDynamicFormChange}
+                                        // onSubmit={formSubmit}
+                                        onError={(e) => console.log("form error", e)}    
+                                        // validate={validate}
+                                        // liveValidate={false}
+                                        formData={form.data}
+                                    />
+
+                                </CardBody>
+                            </Card>
+                            }
+
                         </Col>
                     </Row>
 
