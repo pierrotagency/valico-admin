@@ -19,12 +19,12 @@ import Apexradial2 from '../../../containers/charts/apex/apexradial2';
 import Apexsocial from '../../../containers/charts/apex/apexsocial';
 
 //Images
-import user2 from '../../../images/users/user-2.jpg';
-import user3 from '../../../images/users/user-3.jpg';
-import user4 from '../../../images/users/user-4.jpg';
-import user5 from '../../../images/users/user-5.jpg';
-import user6 from '../../../images/users/user-6.jpg';
-import user7 from '../../../images/users/user-7.jpg';
+import user2 from '../../../images/users/user-1.jpg';
+import user3 from '../../../images/users/user-1.jpg';
+import user4 from '../../../images/users/user-1.jpg';
+import user5 from '../../../images/users/user-1.jpg';
+import user6 from '../../../images/users/user-1.jpg';
+import user7 from '../../../images/users/user-1.jpg';
 
 import DashboardRightSidebar from './rightbar';
 

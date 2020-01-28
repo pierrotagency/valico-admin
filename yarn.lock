@@ -6969,12 +6969,7 @@ jest@24.9.0:
     import-local "^2.0.0"
     jest-cli "^24.9.0"
 
-jquery-mousewheel@^3.1.13:
-  version "3.1.13"
-  resolved "https://registry.yarnpkg.com/jquery-mousewheel/-/jquery-mousewheel-3.1.13.tgz#06f0335f16e353a695e7206bf50503cb523a6ee5"
-  integrity sha1-BvAzXxbjU6aV5yBr9QUDy1I6buU=
-
-jquery@>=1.5, jquery@^3.2.1, jquery@^3.4.0:
+jquery@^3.2.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
   integrity sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
@@ -7280,13 +7275,6 @@ jsx-ast-utils@^2.2.1:
   dependencies:
     array-includes "^3.0.3"
     object.assign "^4.1.0"
-
-jvectormap-next@^3.0.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/jvectormap-next/-/jvectormap-next-3.1.0.tgz#238f35eb46bcfd2acf3d05a9ec90f254cab79b41"
-  integrity sha512-0cWh7b6zjWNnKqjON0yeseYzV4oY3BJItxEQqi2L9T43bylaeUMfn7FfbSpF3xsxnJvu8rfc/ZjDYEesJ9I+SQ==
-  dependencies:
-    jquery ">=1.5"
 
 keycode@^2.2.0:
   version "2.2.0"
@@ -10177,16 +10165,6 @@ react-jsonschema-form@^1.8.1:
     react-is "^16.8.4"
     react-lifecycles-compat "^3.0.4"
     shortid "^2.2.14"
-
-react-jvectormap@0.0.15:
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/react-jvectormap/-/react-jvectormap-0.0.15.tgz#250765cb50d91680f1d879c718bfb3b2ba5bc197"
-  integrity sha512-Ir1avrt42Kk2FzhQ4cnXM+MocObRNez/A0fz+7Rz3NRC9Jch0/sl4jkpm42oaNfJsvSYggXX2zXBMiC1Orl1sw==
-  dependencies:
-    jquery "^3.4.0"
-    jquery-mousewheel "^3.1.13"
-    jvectormap-next "^3.0.0"
-    prop-types "^15.6.0"
 
 react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
