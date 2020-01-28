@@ -40,7 +40,7 @@ export default class DynamicForm extends Component {
     this.formElement = null;
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const nextState = this.getStateFromProps(nextProps);
     if (
       !deepEquals(nextState.formData, nextProps.formData) &&
