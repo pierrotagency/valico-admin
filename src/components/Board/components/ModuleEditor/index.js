@@ -1,7 +1,8 @@
 import React from 'react'
 import { Row, Col, Card, CardBody } from 'reactstrap';
-import Form from "react-jsonschema-form-bs4";
+// import Form from "react-jsonschema-form-bs4";
 // import Form from "react-jsonschema-form"; Original lib form but without BS4 support https://github.com/rjsf-team/react-jsonschema-form/issues/899
+import DynamicForm from '../../../DynamicForm'
 
 import {log} from '../../../../helpers/log'
 // import Toggle from 'react-toggle';
@@ -53,7 +54,7 @@ export default function ModuleEditor({
             </Row> */}
             <Row className="form-group">                
               <Col sm="12">
-                <Form schema={library[module.component].schema}
+                <DynamicForm schema={library[module.component].schema}
                   onChange={handleFormChange}
                   onSubmit={formSubmit}
                   onError={log("form error")}    
