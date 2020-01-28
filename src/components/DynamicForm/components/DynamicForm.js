@@ -208,7 +208,8 @@ export default class DynamicForm extends Component {
 
   onBlur = (...args) => {
     if (this.props.onBlur) {
-      this.props.onBlur(...args);
+      // this.props.onBlur(...args);
+      this.props.onBlur(this.state, ...args);      
     }
   };
 

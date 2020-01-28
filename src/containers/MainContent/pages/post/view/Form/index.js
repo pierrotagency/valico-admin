@@ -113,6 +113,7 @@ function Form() {
     const handleSwitchToggle = (name, value) => handleOnChange(name, value)
     const handleSelectChange = (name, value) => handleFieldUpdated(name, value?value.value:null)
     const handleInputBlur = (name, value) => handleFieldUpdated(name,value) 
+    const handleDynamicFormBlur = (e) => handleFieldUpdated('data',e.formData)
 
     const handleFieldUpdated = (name, value) => {
         handleOnChange(name, value)
@@ -124,13 +125,6 @@ function Form() {
     const typeOptions = Object.keys(types).map((type) => ({ value: type, label: types[type].name }))
     
     const isNew = ( post && post.uuid ) ?  false : true;
-
-
-    const handleDynamicFormChange = (e) => {
-        // console.log(e.formData)  
-        // setPost({...post, data: e.formData})      
-        handleFieldUpdated('data',e.formData)
-    }
 
     return (
         <>
@@ -237,7 +231,8 @@ function Form() {
                                     
                                     <DynamicForm
                                         schema={taxonomies[form.taxonomy].schema}
-                                        onChange={handleDynamicFormChange}
+                                        // onChange={handleDynamicFormChange}
+                                        onBlur={handleDynamicFormBlur}
                                         // onSubmit={formSubmit}
                                         onError={(e) => console.log("form error", e)}    
                                         // validate={validate}
