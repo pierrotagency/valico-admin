@@ -2,7 +2,6 @@ import React from 'react'
 import { Row, Col, Card, CardBody } from 'reactstrap';
 
 import DynamicForm from '../../../DynamicForm'
-import {log} from '../../../../helpers/log'
 import "react-toggle/style.css";
 import './index.scss'
 
@@ -15,19 +14,32 @@ export default function ModuleEditor({
 
   // const [live, setLive] = useState(true)
   
-  const formSubmit = (e) => fieldsUpdated(e.formData)
-
   // const handleFormChange = (e) => live && formSubmit(e) 
-  const handleFormChange = (e) => formSubmit(e) 
+  const handleFormChange = (e) => fieldsUpdated(e.formData)
   
   // const handleLiveReloadToggle = (e) => setLive(e.target.checked) 
 
-  function validate(formData, errors) {
-    if (formData.pass1 !== formData.pass2) {
-      errors.pass2.addError("Passwords don't match");
-    }
-    return errors;
-  }
+
+// TODO $·%$·%$·%$·%·%$·%$·$·$·%·%$·%·%$·%$·%$· VALIDATIONS AND UNDO RESTATE
+
+  const handleDynamicFormValidate = async (formData, errors) => {
+        
+    // const validationSchema = taxonomies[form.taxonomy].validationSchema
+
+    // if(!formData || Object.keys(formData).length === 0) return errors
+
+    // // TODO set all errrors at once in state
+    // Object.keys(validationSchema).forEach(async (name) => {
+    //     // if (!prevForm.data || !prevForm.data[name] || formData[name] !== prevForm.data[name]) { // only validate the fields that changed (except validateAllFields is true)
+    //         const error = await validateField(name, formData[name], validationSchema);                
+    //         const valid = (typeof error === 'undefined' || error === '') ? true:false
+    //         // console.log(name, ' Valid:', valid)
+    //         if(!valid) errors[name].addError(error);
+    //     // }
+    // })
+
+    return errors
+}
   
   return (
     <>
@@ -52,11 +64,11 @@ export default function ModuleEditor({
             <Row className="form-group">                
               <Col sm="12">
                 <DynamicForm schema={library[module.component].schema}
-                  onChange={handleFormChange}
-                  onSubmit={formSubmit}
-                  onError={log("form error")}    
-                  validate={validate}
-                  liveValidate={false}
+                  onBlur={handleFormChange}
+                  // onSubmit={handleFormChange}
+                  validate={handleDynamicFormValidate}
+                  onError={(e) => console.log("form error", e)}  
+                  liveValidate={true}
                   formData={module.fields}
                 />
               </Col>

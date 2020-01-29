@@ -278,12 +278,12 @@ export default class DynamicForm extends Component {
   onSubmit = async (event) => {
     console.log('onSubmit')
 
-    // event.preventDefault();
-    // if (event.target !== event.currentTarget) {
-    //   return;
-    // }
+    event.preventDefault();
+    if (event.target !== event.currentTarget) {
+      return;
+    }
 
-    // event.persist();
+    event.persist();
     let newFormData = this.state.formData;
 
     const { pathSchema } = this.state;
@@ -407,9 +407,9 @@ export default class DynamicForm extends Component {
           children
         ) : (
           <div className="end-dynamic-form">
-            {/* <button type="submit" className="btn btn-info">
+            <button type="submit" className="btn btn-info">
               Submit
-            </button> */}
+            </button>
           </div>
         )}
       </FormTag>

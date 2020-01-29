@@ -69,6 +69,13 @@ const safeParseJSON = (str) => {
 }
 
 
+// Safe get nested property
+// https://medium.com/javascript-inside/safely-accessing-deeply-nested-values-in-javascript-99bf72a0855a
+const get = (p, o) => p.reduce((xs, x) => (xs && xs[x]) ? xs[x] : null, o)
+
+
+
+
 export {
   addInArrayAtPosition,
   removeFromArrayAtPosition,
@@ -78,6 +85,7 @@ export {
   partialRight,
   getUuid,
   cloneObject,
-  safeParseJSON
+  safeParseJSON,
+  get
 }
 

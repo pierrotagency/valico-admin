@@ -60,6 +60,9 @@ function Board({
   const handleOnModuleDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveModule  })
   
   const handlePostUpdate = (updatedPost) => {
+
+    // console.log('handlePostUpdate')
+
     if(typeof(onPostUpdated) === 'function'){
       onPostUpdated(updatedPost)       
     }
@@ -90,8 +93,16 @@ function Board({
     setCurrentModule(module); // TODO se salva? se tiene que salvar?
   }
 
-  function handleModuleFielUpdated(fields) {
+  function handleModuleFieldsUpdated(fields) {
+
+    // console.log('handleModuleFieldsUpdated')
+    // console.log(fields)
+
     const updatedPost = updateModuleFields(post, currentModule, fields)  
+
+
+    // console.log(updatedPost.content[0].modules[0].fields.title)
+
     handlePostUpdate(updatedPost)
   }
 
@@ -122,18 +133,16 @@ function Board({
         }}      
         disableModuleDrag={disableModuleDrag}
         library={library}
-      >
-        {post}
-      </BoardContainer>
-
-
+        post={post}
+      />        
+      
       <RightSidebar visible={currentModule?true:false}>
           <ModuleSidebar
             onCloseClick={handleCloseEditorClick}
             module={currentModule}
           >
             <ModuleEditor
-              fieldsUpdated={handleModuleFielUpdated}
+              fieldsUpdated={handleModuleFieldsUpdated}
               module={currentModule}
               library={library}
               
@@ -146,7 +155,7 @@ function Board({
 }
 
 function BoardContainer({
-  children: post,
+  post,
   renderModule,
   disableModuleDrag,   
   onModuleDragEnd,
@@ -159,6 +168,9 @@ function BoardContainer({
     if (!coordinates.source) return
     onModuleDragEnd(coordinates)
   }
+
+  // console.log('BoardContainer')
+  // console.log(post.content[0].modules[0].fields.title)
 
   const Template = templates[post.template] ? templates[post.template].view : null;
 

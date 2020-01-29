@@ -25,16 +25,16 @@ import { parseBackendValidations, validateField } from '../../../../../../helper
 
 function Form() {
 
-    const viewPost = useSelector(state => state.post.viewPost);    
-    const loadingViewPost = useSelector(state => state.post.loadingViewPost);
-    const savingPost = useSelector(state => state.post.savingPost);
-    const savingPostError = useSelector(state => state.post.savingPostError);    
-    const tags = useSelector(state => state.tag.tags);        
+    const viewPost = useSelector(s => s.post.viewPost);    
+    const loadingViewPost = useSelector(s => s.post.loadingViewPost);
+    const savingPost = useSelector(s => s.post.savingPost);
+    const savingPostError = useSelector(s => s.post.savingPostError);    
+    const tags = useSelector(s => s.tag.tags);        
 
     const dispatch = useDispatch();
     // const history = useBack();
 
-    const { state: post, set: setPost, init, undo, redo, clear, canUndo, canRedo } = useBack({});
+    const { state: post, setState, initState, undoState, redoState, clearState, canUndo, canRedo } = useBack({});
 
     const { form, setForm, errors, handleOnChange, saveDisabled, setBackendErrors, setDirty, validateForm } = useForm(fieldSchema, validationSchema);
 
@@ -49,8 +49,8 @@ function Form() {
     },[savingPostError]);
 
     useEffect(() => {       
-        setPost(viewPost)		
-        init(viewPost)
+        setState(viewPost)		
+        initState(viewPost)
         // eslint-disable-next-line react-hooks/exhaustive-deps  
     }, [viewPost]);
 
@@ -92,19 +92,19 @@ function Form() {
 
     }
 
-	const handleClickUndo = () => undo()
-	const handleClickRedo = () => redo()
-    const handleClickClear = () => clear()
+	const handleClickUndo = () => undoState()
+	const handleClickRedo = () => redoState()
+    const handleClickClear = () => clearState()
     
     // const handleClickBuilder = () => history.push('/posts/'+id+'/builder')    
     
     const onKeyDown = (keyName, e, handle) => {
         switch (keyName) {
             case "ctrl+z":
-                undo();
+                undoState();
                 break;
             case "ctrl+shift+z":
-                redo();
+                redoState();
                 break;
             case "ctrl+s":
                 handlePostSave();
@@ -122,11 +122,12 @@ function Form() {
 
     const handleFieldUpdated = (name, value) => {
         handleOnChange(name, value)
-        setPost({...post, [name]: value})
+        setState({...post, [name]: value})
     }
 
     const handleDynamicFormValidate = async (formData, errors) => {
-        
+        console.log('handleDynamicFormValidate')
+
         const validationSchema = taxonomies[form.taxonomy].validationSchema
 
         if(!formData || Object.keys(formData).length === 0) return errors
