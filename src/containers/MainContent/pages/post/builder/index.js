@@ -16,8 +16,10 @@ import { useBack, SET, RESET } from '../../../../../hooks/useBack'
 function backReducer(state, action) {
   switch (action.type) {
     case SET:
+      console.log('SET', action.payload.content[0].modules[0].fields)
       return { post: action.payload }
     case RESET:
+      console.log('RESET', action.payload.content[0].modules[0].fields)
       return { post: action.payload }         
     default:
       throw new Error(`Unknown action ${action.type}`)

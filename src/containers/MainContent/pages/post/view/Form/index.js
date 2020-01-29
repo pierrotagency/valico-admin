@@ -8,7 +8,6 @@ import { templates, taxonomies, types } from 'valico-sanmartin'
 
 import Breadcrumb from '../../_common/Breadcrumb';
 import { saveViewPost, storeViewPost, addLocalTags } from "../../../../../../store/actions";
-// import useBack from '../../../../../../hooks/useBack';
 import useForm from '../../../../../../hooks/useForm';
 import DynamicForm from '../../../../../../components/DynamicForm'
 import { useBack, SET, RESET } from '../../../../../../hooks/useBack'
@@ -19,8 +18,6 @@ import ChildsCard from '../ChildsCard';
 import ParamsCard from '../ParamsCard';
 import { fieldSchema, validationSchema } from './formSchema'
 import { parseBackendValidations, validateField } from '../../../../../../helpers/validation';
-
-// import usePrevious from '../../../../../../hooks/usePrevious'
 
 function backReducer(state, action) {
     switch (action.type) {
@@ -40,31 +37,12 @@ function Form() {
     const savingPost = useSelector(s => s.post.savingPost);
     const savingPostError = useSelector(s => s.post.savingPostError);    
     const tags = useSelector(s => s.tag.tags);        
-
     const dispatch = useDispatch();
-    // const history = useBack();
-
-    // const { state: post, setState, initState, undoState, redoState, clearState, canUndo, canRedo } = useBack({});
-
-    // const [
-    //     backState,
-    //     {
-    //         set: setState,
-    //         reset: clearState,
-    //         undo: undoState,
-    //         redo: redoState,
-    //         canUndo,
-    //         canRedo,
-    //     },
-    // ] = useBack({});
-    // const { present: post } = backState;
 
     const { state, canUndo, canRedo, undoState, redoState, setState, resetState } = useBack(backReducer,{})
 
     const { form, setForm, errors, handleOnChange, saveDisabled, setBackendErrors, setDirty, validateForm } = useForm(fieldSchema, validationSchema);
 
-    // const prevDynamicForm = usePrevious(form.data);
-    
     // add backend validations to stack of errors
     useEffect(() => {       
         if(savingPostError && savingPostError.validations){ // if the ajax response is an error, check if the response has validations attached and add them to state
@@ -74,15 +52,13 @@ function Form() {
     },[savingPostError]);
 
     useEffect(() => {               
-        resetState(viewPost)
-        // eslint-disable-next-line react-hooks/exhaustive-deps  
+        if(viewPost) resetState(viewPost)
+    // eslint-disable-next-line react-hooks/exhaustive-deps  
     }, [viewPost]);
 
     // refresh Form object ONLY when theres a real object to fill
     useEffect(() => {
-        if(state.post && Object.keys(state.post).length > 1){                 
-            setForm(state.post)       
-        }
+        if(state.post && Object.keys(state.post).length > 1) setForm(state.post)               
     // eslint-disable-next-line react-hooks/exhaustive-deps  
     }, [state.post]);
 
@@ -150,7 +126,7 @@ function Form() {
     }
 
     const handleDynamicFormValidate = async (formData, errors) => {
-        console.log('handleDynamicFormValidate')
+        // console.log('handleDynamicFormValidate')
 
         const validationSchema = taxonomies[form.taxonomy].validationSchema
 
