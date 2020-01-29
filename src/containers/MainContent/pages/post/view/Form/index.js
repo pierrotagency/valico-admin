@@ -126,35 +126,20 @@ function Form() {
     }
 
     const handleDynamicFormValidate = async (formData, errors) => {
-        console.log('handleDynamicFormValidate')
-
+        
         const validationSchema = taxonomies[form.taxonomy].validationSchema
 
         if(!formData || Object.keys(formData).length === 0) return errors
 
         // TODO set all errrors at once in state
         Object.keys(validationSchema).forEach(async (name) => {
-
             // if (!prevForm.data || !prevForm.data[name] || formData[name] !== prevForm.data[name]) { // only validate the fields that changed (except validateAllFields is true)
-
                 const error = await validateField(name, formData[name], validationSchema);                
                 const valid = (typeof error === 'undefined' || error === '') ? true:false
-
-                console.log(name, ' Valid:', valid)
-
+                // console.log(name, ' Valid:', valid)
                 if(!valid) errors[name].addError(error);
-
             // }
-            // else{
-
-            //     console.log()
-
-            // }
-
-
         })
-
-        // console.log(errors)
 
         return errors
     }

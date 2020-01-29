@@ -633,6 +633,7 @@ function processDependencies(
   return resolvedSchema;
 }
 
+// TODO cherck required the Butta's way
 function withDependentProperties(schema, additionallyRequired) {
   if (!additionallyRequired) {
     return schema;

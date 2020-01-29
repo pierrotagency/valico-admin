@@ -67,7 +67,8 @@ function Label(props) {
   return (
     <label htmlFor={id}>
       {label}
-      {required && <span className="required">{REQUIRED_FIELD_SYMBOL}</span>}
+      {required && " "}
+      {required && <sup alt="required">{REQUIRED_FIELD_SYMBOL}</sup>}
     </label>
   );
 }
@@ -76,7 +77,7 @@ function LabelInput(props) {
   const { id, label, onChange } = props;
   return (
     <input
-      className="form-control"
+      className="form-control 1111111"
       type="text"
       id={id}
       onBlur={event => onChange(event.target.value)}
@@ -97,25 +98,23 @@ function Help(props) {
 }
 
 function ErrorList(props) {
+  // console.log('ErrorList')
+
   const { errors = [] } = props;
   if (errors.length === 0) {
     return null;
   }
 
   return (
-    <div>
-      <ul className="error-detail bs-callout bs-callout-info">
+    <>            
         {errors
           .filter(elem => !!elem)
           .map((error, index) => {
             return (
-              <li className="text-danger" key={index}>
-                {error}
-              </li>
-            );
+              <div key={index} className="invalid-tooltip">{error}</div>             
+            )
           })}
-      </ul>
-    </div>
+    </>
   );
 }
 function DefaultTemplate(props) {
@@ -195,7 +194,7 @@ function WrapIfAdditional(props) {
     <div className={classNames}>
       <div className="row">
         <div className="col-xs-5 form-additional">
-          <div className="form-group">
+          <div className="form-group position-relative">
             <Label label={keyLabel} required={required} id={`${id}-key`} />
             <LabelInput
               label={label}
@@ -205,7 +204,7 @@ function WrapIfAdditional(props) {
             />
           </div>
         </div>
-        <div className="form-additional form-group col-xs-5">
+        <div className="form-additional form-group position-relative col-xs-5">
           {props.children}
         </div>
         <div className="col-xs-2">
@@ -237,8 +236,7 @@ function SchemaFieldRender(props) {
     registry = getDefaultRegistry(),
   } = props;
   const { definitions, fields, formContext } = registry;
-  const FieldTemplate =
-    uiSchema["ui:FieldTemplate"] || registry.FieldTemplate || DefaultTemplate;
+  const FieldTemplate = uiSchema["ui:FieldTemplate"] || registry.FieldTemplate || DefaultTemplate;
   let idSchema = props.idSchema;
   const schema = retrieveSchema(props.schema, definitions, formData);
   idSchema = mergeObjects(
@@ -307,9 +305,11 @@ function SchemaFieldRender(props) {
   const hidden = uiSchema["ui:widget"] === "hidden";
   const classNames = [
     "form-group",
+    "position-relative",
+    "taxonomy-field-wrapper",
     "field",
     `field-${type}`,
-    errors && errors.length > 0 ? "field-error text-danger" : "",
+    errors && errors.length > 0 ? "field-error" : "",
     uiSchema.classNames,
   ]
     .join(" ")

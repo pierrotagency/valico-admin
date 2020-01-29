@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import _pick from "lodash/pick";
 import _get from "lodash/get";
 
-import { default as DefaultErrorList } from "./ErrorList";
 import {
   getDefaultFormState,
   retrieveSchema,
@@ -15,7 +14,6 @@ import {
   toPathSchema,
 } from "../utils";
 import validateFormData, { toErrorList } from "../validate";
-import { TransitionTimeouts } from "reactstrap/lib/utils";
 
 export default class DynamicForm extends Component {
   
@@ -27,7 +25,6 @@ export default class DynamicForm extends Component {
     disabled: false,
     safeRenderCompletion: false,
     noHtml5Validate: false,
-    ErrorList: DefaultErrorList,
     omitExtraData: false,
   };
 
@@ -44,15 +41,30 @@ export default class DynamicForm extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
+    console.log('UNSAFE_componentWillReceiveProps')
+
     const nextState = this.getStateFromProps(nextProps);
-    if (
+    if (    
       !deepEquals(nextState.formData, nextProps.formData) &&
       !deepEquals(nextState.formData, this.state.formData) &&
       this.props.onChange
     ) {
+      console.log('2222')
       this.props.onChange(nextState);
     }
     this.setState(nextState);
+
+
+    // this.onSubmit()
+    // this.validate(nextState.formData)
+
+    const forceValidation = async () => {
+      const { errors, errorSchema } = await this.validate(nextState.formData);      
+      const state = { errors, errorSchema };    
+      setState(this, state);
+    }
+    forceValidation()
+
   }
 
   getStateFromProps(props, inputFormData = props.formData) {
@@ -136,23 +148,6 @@ export default class DynamicForm extends Component {
 
   }
 
-  renderErrors() {
-    const { errors, errorSchema, schema, uiSchema } = this.state;
-    const { ErrorList, showErrorList, formContext } = this.props;
-
-    if (errors && errors.length && showErrorList !== false) {
-      return (
-        <ErrorList
-          errors={errors}
-          errorSchema={errorSchema}
-          schema={schema}
-          uiSchema={uiSchema}
-          formContext={formContext}
-        />
-      );
-    }
-    return null;
-  }
 
   getUsedFormData = (formData, fields) => {
     //for the case of a single input form
@@ -268,6 +263,10 @@ export default class DynamicForm extends Component {
     //   }
     // });
 
+    if (this.props.onBlur) {
+      this.props.onBlur(this.state);      
+    }
+
   };
 
   onFocus = (...args) => {
@@ -303,11 +302,11 @@ export default class DynamicForm extends Component {
       
       if (Object.keys(errors).length > 0) {
         setState(this, { errors, errorSchema }, () => {
-          // if (this.props.onError) {
-          //   this.props.onError(errors);
-          // } else {
+          if (this.props.onError) {
+            this.props.onError(errors);
+          } else {
             console.error("Form validation failed", errors);
-          // }
+          }
         });
         return;
       }
@@ -388,7 +387,7 @@ export default class DynamicForm extends Component {
         ref={form => {
           this.formElement = form;
         }}>
-        {this.renderErrors()}
+        {/* {this.renderErrors()} */}
         <SchemaField
           schema={schema}
           uiSchema={uiSchema}
@@ -430,10 +429,8 @@ if (process.env.NODE_ENV !== "production") {
     ArrayFieldTemplate: PropTypes.func,
     ObjectFieldTemplate: PropTypes.func,
     FieldTemplate: PropTypes.func,
-    ErrorList: PropTypes.func,
     onChange: PropTypes.func,
     onError: PropTypes.func,
-    showErrorList: PropTypes.bool,
     onSubmit: PropTypes.func,
     id: PropTypes.string,
     className: PropTypes.string,

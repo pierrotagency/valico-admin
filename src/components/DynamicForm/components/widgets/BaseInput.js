@@ -61,9 +61,13 @@ function BaseInput(props) {
     return props.onChange(value === "" ? options.emptyValue : value);
   };
 
+  // console.log(rawErrors)
+
+  const className = rawErrors && rawErrors.length>0 ? "form-control is-invalid" :"form-control"
+
   return (
     <input
-      className="form-control"
+      className={className}
       readOnly={readonly}
       disabled={disabled}
       autoFocus={autofocus}
