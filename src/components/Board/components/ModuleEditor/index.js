@@ -15,7 +15,10 @@ export default function ModuleEditor({
   // const [live, setLive] = useState(true)
   
   // const handleFormChange = (e) => live && formSubmit(e) 
-  const handleFormChange = (e) => fieldsUpdated(e.formData)
+  const handleFormChange = (formData) => {
+    // console.log('handleFormChange', formData)
+    fieldsUpdated(formData)
+  }
   
   // const handleLiveReloadToggle = (e) => setLive(e.target.checked) 
 

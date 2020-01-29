@@ -1,213 +1,81 @@
-import { useReducer, useCallback } from 'react';
+import { useReducer, useCallback } from 'react'
 
-const UNDO = 'UNDO';
-const REDO = 'REDO';
-const SET = 'SET';
-const RESET = 'RESET';
+export const REDO = 'back_redo'
+export const UNDO = 'back_undo'
+export const SET = 'back_set'
+export const RESET = 'back_reset'
 
-const initialState = {
-  past: [],
-  present: null,
-  future: [],
-};
-
-const reducer = (state, action) => {
-  const { past, present, future } = state;
-
-  switch (action.type) {
-    case UNDO: {
-      const previous = past[past.length - 1];
-      const newPast = past.slice(0, past.length - 1);
-
-      return {
-        past: newPast,
-        present: previous,
-        future: [present, ...future],
-      };
-    }
-
-    case REDO: {
-      const next = future[0];
-      const newFuture = future.slice(1);
-
-      return {
-        past: [...past, present],
-        present: next,
-        future: newFuture,
-      };
-    }
-
-    case SET: {
-      const { newPresent } = action;
-
-      if (newPresent === present) {
-        return state;
-      }
-      return {
-        past: [...past, present],
-        present: newPresent,
-        future: [],
-      };
-    }
-
-    case RESET: {
-      const { newPresent } = action;
-
-      return {
-        past: [],
-        present: newPresent,
-        future: [],
-      };
-    }
+export function useBack(reducer, initialPresent) {
+  const initialState = {
+    history: [initialPresent],
+    currentIndex: 0
   }
-};
 
-const useBack = initialPresent => {
-  const [state, dispatch] = useReducer(reducer, {
-    ...initialState,
-    present: initialPresent,
-  });
+  const [state, dispatch] = useReducer(undoable(reducer), initialState)
+  const { history, currentIndex } = state
 
-  const canUndo = state.past.length !== 0;
-  const canRedo = state.future.length !== 0;
-  const undo = useCallback(() => {
+  const canUndo = currentIndex > 1
+  const canRedo = currentIndex < history.length - 1
+
+
+  const undoState = useCallback(() => {
     if (canUndo) {
       dispatch({ type: UNDO });
     }
   }, [canUndo]);
-  const redo = useCallback(() => {
+
+  const redoState = useCallback(() => {
     if (canRedo) {
       dispatch({ type: REDO });
     }
   }, [canRedo]);
-  const set = useCallback(
-    newPresent => dispatch({ type: SET, newPresent }),
-    []
-  );
-  const reset = useCallback(
-    newPresent => dispatch({ type: RESET, newPresent }),
+
+  const setState = useCallback(
+    payload => dispatch({ type: SET, payload: payload }),
     []
   );
 
-  return [state, { set, reset, undo, redo, canUndo, canRedo }];
-};
+  const resetState = useCallback(
+    payload => dispatch({ type: RESET, payload: payload }),
+    []
+  );
 
-export default useBack;
+  return { state: history[currentIndex], dispatch, history, canUndo, canRedo, undoState, redoState, setState, resetState }
+}
 
+function undoable(reducer) {
+  // Return a reducer that handles undo and redo
+  return function(state, action) {
+    const { history, currentIndex } = state
 
-// import { useReducer, useCallback } from "react";
+    switch (action.type) {
+      case UNDO:
+        return {
+          ...state,
+          currentIndex: currentIndex - 1
+        }
+      case REDO:
+        return {
+          ...state,
+          currentIndex: currentIndex + 1
+        }
+      default:
+        // Delegate handling the action to the passed reducer
+        const present = history[currentIndex]
+        const newPresent = reducer(present, action)
 
-// import { get } from '../helpers/utils'
+        // Nothing's changed, don't update history
+        if (present === newPresent) {
+          return state
+        }
 
-// const initialState = {  
-//   past: [],   // Current state value
-//   present: null, // Future states if we undo
-// 	future: [],
-// 	start: null // initial state for clear (remember dispatch init)
-// };
+        const newIndex = currentIndex + 1
+        const newHistory = history.slice(0, newIndex)
 
-// const reducer = (state, action) => {
-
-//   switch (action.type) {
-//     case "INIT":			
-//     console.log('INIT')
-// 			return {
-//         ...state,
-//         start: action.firstState
-// 			};
-			
-//     case "UNDO":
-//       const previous = st.past[st.past.length - 1];
-//       const newPast = st.past.slice(0, st.past.length - 1);
-
-//       // console.log(previous)
-//       console.log('UNDO')
-//       console.log(previous.content[0].modules[0].fields.title)
-//       console.log(previous._revision)
-
-//       return {
-// 				...state,
-//         past: newPast,
-//         present: previous,
-//         future: [state.present, ...state.future]
-// 			};
-			
-//     case "REDO":    
-//     console.log('REDO')        
-//       return {
-// 				...state,
-//         past: [...state.past, state.present],
-//         present: state.future[0],
-//         future: state.future.slice(1)
-// 			};
-			
-//     case "SET":
-//       // const { newPresent } = action;
-//       // if (newPresent === state.present) {
-//       //   return state;
-//       // }
-
-//       console.group('SET')
-//       console.log(action.newPresent && action.newPresent.content[0].modules[0].fields.title)
-//       console.log(action.newPresent && action.newPresent._revision)
-
-//       console.log('PAST >>')
-//       console.log(get(['present','content',0,'modules',0,'fields','title'],st))
-//       console.log(st && state.present && state.present._revision)
-
-//       console.groupEnd();
-
-//       return {        
-// 				...state,
-//         past: [...state.past, state.present],
-//         present: action.newPresent,
-//         future: []
-// 			};
-			
-//     case "CLEAR":
-//       console.log('CLEAR')
-//       return {
-// 				...state,
-//         past: [...state.past, state.present],
-// 				present: state.start,
-// 				future: []
-//       };
-
-//     default:
-//       return state;
-//   }
-// };
-
-// const useBack = initialPresent => {
-
-//   const [state, dispatch] = useReducer(reducer, {...initialState, present: initialPresent});
-
-//   const canUndo = state.past.length > 2;
-//   const canRedo = state.future.length !== 0;
-
-//   const undoState = useCallback(() => {
-//     if (canUndo) dispatch({ type: "UNDO" });    
-//   }, [canUndo, dispatch]);
-
-//   const redoState = useCallback(() => {
-//     if (canRedo) dispatch({ type: "REDO" });
-//   }, [canRedo, dispatch]);
-
-//   const setState = useCallback(newPresent => {
-    
-//     if(newPresent) {
-//       newPresent._revision = typeof newPresent._revision === 'number' ? newPresent._revision + 1 : 1;
-//       dispatch({ type: "SET", newPresent })
-//     }
-    
-//   }, [ dispatch ]);
-
-//   const clearState = useCallback(() => dispatch({ type: "CLEAR" }), [ dispatch ]);
-	
-// 	const initState = useCallback(firstState => dispatch({ type: "INIT", firstState }), [ dispatch]);
-
-  
-//   return { initState, state: state.present, setState , undoState, redoState, clearState, canUndo, canRedo };
-// }
-
-// export default useBack;
+        return {
+          history: [...newHistory, newPresent],
+          currentIndex: newIndex
+        }
+    }
+  }
+}

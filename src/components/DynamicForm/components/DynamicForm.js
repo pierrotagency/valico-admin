@@ -225,7 +225,7 @@ export default class DynamicForm extends Component {
 
   };
 
-  onBlur = async () => {
+  onBlur = () => {
     // const mustValidate = !this.props.noValidate && this.props.liveValidate;
     // let state = { formData };
     // let newFormData = formData;
@@ -264,7 +264,7 @@ export default class DynamicForm extends Component {
     // });
 
     if (this.props.onBlur) {
-      this.props.onBlur(this.state);      
+      this.props.onBlur(this.state.formData);      
     }
 
   };

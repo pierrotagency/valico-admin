@@ -8,10 +8,10 @@ import { templates, taxonomies, types } from 'valico-sanmartin'
 
 import Breadcrumb from '../../_common/Breadcrumb';
 import { saveViewPost, storeViewPost, addLocalTags } from "../../../../../../store/actions";
-import useBack from '../../../../../../hooks/useBack';
+// import useBack from '../../../../../../hooks/useBack';
 import useForm from '../../../../../../hooks/useForm';
 import DynamicForm from '../../../../../../components/DynamicForm'
-
+import { useBack, SET, RESET } from '../../../../../../hooks/useBack'
 
 import ActionsMenu from "../ActionsMenu";
 import MetaCard from '../MetaCard';
@@ -22,6 +22,16 @@ import { parseBackendValidations, validateField } from '../../../../../../helper
 
 // import usePrevious from '../../../../../../hooks/usePrevious'
 
+function backReducer(state, action) {
+    switch (action.type) {
+        case SET:
+            return { post: action.payload }
+        case RESET:
+            return { post: action.payload }         
+        default:
+            throw new Error(`Unknown action ${action.type}`)
+    }
+}
 
 function Form() {
 
@@ -34,7 +44,22 @@ function Form() {
     const dispatch = useDispatch();
     // const history = useBack();
 
-    const { state: post, setState, initState, undoState, redoState, clearState, canUndo, canRedo } = useBack({});
+    // const { state: post, setState, initState, undoState, redoState, clearState, canUndo, canRedo } = useBack({});
+
+    // const [
+    //     backState,
+    //     {
+    //         set: setState,
+    //         reset: clearState,
+    //         undo: undoState,
+    //         redo: redoState,
+    //         canUndo,
+    //         canRedo,
+    //     },
+    // ] = useBack({});
+    // const { present: post } = backState;
+
+    const { state, canUndo, canRedo, undoState, redoState, setState, resetState } = useBack(backReducer,{})
 
     const { form, setForm, errors, handleOnChange, saveDisabled, setBackendErrors, setDirty, validateForm } = useForm(fieldSchema, validationSchema);
 
@@ -48,19 +73,18 @@ function Form() {
     // eslint-disable-next-line react-hooks/exhaustive-deps  
     },[savingPostError]);
 
-    useEffect(() => {       
-        setState(viewPost)		
-        initState(viewPost)
+    useEffect(() => {               
+        resetState(viewPost)
         // eslint-disable-next-line react-hooks/exhaustive-deps  
     }, [viewPost]);
 
     // refresh Form object ONLY when theres a real object to fill
     useEffect(() => {
-        if(post && Object.keys(post).length > 1){                 
-            setForm(post)       
+        if(state.post && Object.keys(state.post).length > 1){                 
+            setForm(state.post)       
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps  
-    }, [post]);
+    }, [state.post]);
 
 
     const handlePostSave = async () => {
@@ -72,19 +96,19 @@ function Form() {
 
         const fieldsToAddToValidation = Object.keys(validationSchema)
         if(isNew){
-            dispatch( storeViewPost(post, parseBackendValidations(fieldsToAddToValidation, true, validationSchema)) )		
+            dispatch( storeViewPost(state.post, parseBackendValidations(fieldsToAddToValidation, true, validationSchema)) )		
         }
         else{
-            dispatch( saveViewPost(post, parseBackendValidations(fieldsToAddToValidation, true, validationSchema)) )		
+            dispatch( saveViewPost(state.post, parseBackendValidations(fieldsToAddToValidation, true, validationSchema)) )		
         }
 
         // clean state so save button disables
         setDirty(false)
 
         // add created tags to local Redux so i dont't have to request all the tag list from server
-        const newTags = Object.keys(post.meta_keywords).reduce((object, key) => {
+        const newTags = Object.keys(state.post.meta_keywords).reduce((object, key) => {
             if (key !== 'isNew') {
-                object[key] = post.meta_keywords[key]
+                object[key] = state.post.meta_keywords[key]
             }
             return object
         }, {})
@@ -94,20 +118,20 @@ function Form() {
 
 	const handleClickUndo = () => undoState()
 	const handleClickRedo = () => redoState()
-    const handleClickClear = () => clearState()
+    const handleClickClear = () => resetState()
     
     // const handleClickBuilder = () => history.push('/posts/'+id+'/builder')    
     
     const onKeyDown = (keyName, e, handle) => {
         switch (keyName) {
             case "ctrl+z":
-                undoState();
+                handleClickUndo();
                 break;
             case "ctrl+shift+z":
-                redoState();
+                handleClickRedo();
                 break;
             case "ctrl+s":
-                handlePostSave();
+                handleClickClear();
                 break;
             default:
                 break;
@@ -122,7 +146,7 @@ function Form() {
 
     const handleFieldUpdated = (name, value) => {
         handleOnChange(name, value)
-        setState({...post, [name]: value})
+        setState({...state.post, [name]: value})
     }
 
     const handleDynamicFormValidate = async (formData, errors) => {
@@ -149,7 +173,7 @@ function Form() {
     const taxonomyOptions = Object.keys(taxonomies).map((taxonomy) => ({ value: taxonomy, label: taxonomies[taxonomy].name }))
     const typeOptions = Object.keys(types).map((type) => ({ value: type, label: types[type].name }))
     
-    const isNew = ( post && post.uuid ) ?  false : true;
+    const isNew = ( state.post && state.post.uuid ) ?  false : true;
 
     return (
         <>
@@ -163,9 +187,9 @@ function Form() {
                     <div className="page-title-box">
                         <Row className="align-items-center">
                             <Col sm="6">
-                                <h4 className="page-title">{post?post.name:''}</h4>
+                                <h4 className="page-title">{state.post?state.post.name:''}</h4>
                                 <Breadcrumb 
-                                    post={post} 
+                                    post={state.post} 
                                     action={isNew?'New':'Edit'}                                    
                                 />
                             </Col>

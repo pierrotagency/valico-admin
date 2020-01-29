@@ -9,7 +9,21 @@ import { activateAuthLayout, getViewPost,  saveViewPost } from "../../../../../s
 import Breadcrumb from "../_common/Breadcrumb";
 import ActionsMenu from "./ActionsMenu";
 import Board from '../../../../../components/Board'
-import useBack from '../../../../../hooks/useBack';
+
+import { useBack, SET, RESET } from '../../../../../hooks/useBack'
+
+
+function backReducer(state, action) {
+  switch (action.type) {
+    case SET:
+      return { post: action.payload }
+    case RESET:
+      return { post: action.payload }         
+    default:
+      throw new Error(`Unknown action ${action.type}`)
+  }
+}
+
 
 
 function PostBuilder() {
@@ -22,31 +36,10 @@ function PostBuilder() {
   const savingPost = useSelector(s => s.post.savingPost);
   const dispatch = useDispatch();
 
-  // const { state, setState, initState, undoState, redoState, clearState, canUndo, canRedo } = useBack({});
+  const { state, canUndo, canRedo, undoState, redoState, setState, resetState } = useBack(backReducer,{})
   
-  // const { state, setState, initState, undoState, redoState, clearState, canUndo, canRedo } = useBack({});
-
-  const [
-    countState,
-    {
-      set: setState,
-      reset: clearState,
-      undo: undoState,
-      redo: redoState,
-      canUndo,
-      canRedo,
-    },
-  ] = useBack({});
-  const { present: state } = countState;
-
-
-
   let { id } = useParams();
 
-  // useEffect(() => {
-  //   // console.log('useEffect state')
-  //   // if(state && state.content) console.log(state.content[0].modules[0].fields.title)
-  // }, [state]);
 
   useEffect(() => {
 		dispatch(getViewPost(id));	
@@ -58,36 +51,20 @@ function PostBuilder() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	
-
 	useEffect(() => { 
-    console.log('useEffect post')
-    clearState(post)
-    setState(post)				
+    if(post) resetState(post)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [post]);
 
-	const handleChangeTemplate = (t) => setState({...state, template: t})
-	
-	const handlePostUpdate = (updatedPost) => {
-    
-    // updatedPost._revision = typeof updatedPost._revision === 'number' ? updatedPost._revision + 1 : 1;
-
-    // console.log('handlePostUpdate >>')
-    // console.log(updatedPost.content[0].modules[0].fields.title)
-    // console.log(updatedPost._revision)
-
-    // setState({...state, ...updatedPost})
-
-      // setState({...state, content: updatedPost.content})
-    setState(updatedPost)		
-  }
-	
-	const handlePostSave = () => dispatch(saveViewPost(state))		
-
-	const handleClickUndo = () => undoState()
+  const handleChangeTemplate = (t) => setState({...state.post, template: t}) 
+	const handlePostUpdate = (updatedPost) => setState(updatedPost)
+  const handleClickUndo = () => undoState()
 	const handleClickRedo = () => redoState()
-  const handleClickClear = () => clearState()
+  const handleClickClear = () => resetState(post)
   
+  const handlePostSave = () => dispatch(saveViewPost(state.post))		
+
+
   // const handleClickView = () => history.push('/posts/'+id+'/view')    
   
   
@@ -95,13 +72,13 @@ function PostBuilder() {
     // console.log("test:onKeyDown", keyName, e, handle)    
     switch (keyName) {
       case "ctrl+z":
-        undoState();
+        handleClickUndo();
         break;
       case "ctrl+shift+z":
-        redoState();
+        handleClickRedo();
         break;
       case "ctrl+s":
-        handlePostSave();
+        handleClickClear();
         break;
       default:
         break;
@@ -121,16 +98,16 @@ function PostBuilder() {
               <Row className="align-items-center">
                 <Col sm="6">
                   <h4 className="page-title">
-                    {state ? state.name : "..."}
-                    {" "}<sup>({state && state._revision? state._revision : 0})</sup>
+                    {state.post ? state.post.name : "..."}
+                    {" "}<sup>({state.post && state.post._revision? state.post._revision : 0})</sup>
                   </h4>
-                  <Breadcrumb post={state} action={"Builder"} />
+                  <Breadcrumb post={state.post} action={"Builder"} />
                 </Col>
                 <Col sm="6">
                   <div className="float-right d-none d-md-block">
-                    {!loadingPost && state ? (
+                    {!loadingPost && state.post ? (
                       <ActionsMenu 
-                        currentTemplate={state.template}
+                        currentTemplate={state.post.template}
                         onChangeTemplate={handleChangeTemplate}
                         onClickSave={handlePostSave}
                         onClickUndo={handleClickUndo}
@@ -150,10 +127,10 @@ function PostBuilder() {
 
             <Row>
               <Col>
-                {!loadingPost && state ? (
+                {!loadingPost && state.post ? (
                   <Board
                     onPostUpdated={handlePostUpdate}                  
-                    post={state}									
+                    post={state.post}									
                   />
                 ) : null}
               </Col>
