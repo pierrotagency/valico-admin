@@ -119,20 +119,11 @@ function useForm(fieldSchema, validationSchema = {}) {
 
         setErrors(newErrors)
 
-        // savingPostError.validations.map(err => setErrors(prevState => ({
-        //     ...prevState, 
-        //     [err.field]: {
-        //         invalid: true,
-        //         message: err.message,
-        //         origin: 'backend'
-        //     }
-        // })))
-
         return newErrors
     }
 
 
-    return { setForm, form, errors, saveDisabled, handleOnChange, setBackendErrors, dirty, setDirty, validateForm};
+    return { setForm, form, prevForm, errors, saveDisabled, handleOnChange, setBackendErrors, dirty, setDirty, validateForm};
 }
 
 export default useForm;

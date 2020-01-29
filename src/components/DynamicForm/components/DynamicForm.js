@@ -15,8 +15,11 @@ import {
   toPathSchema,
 } from "../utils";
 import validateFormData, { toErrorList } from "../validate";
+import { TransitionTimeouts } from "reactstrap/lib/utils";
 
 export default class DynamicForm extends Component {
+  
+  
   static defaultProps = {
     uiSchema: {},
     noValidate: false,
@@ -53,6 +56,7 @@ export default class DynamicForm extends Component {
   }
 
   getStateFromProps(props, inputFormData = props.formData) {
+
     const state = this.state || {};
     const schema = "schema" in props ? props.schema : this.props.schema;
     const uiSchema = "uiSchema" in props ? props.uiSchema : this.props.uiSchema;
@@ -70,6 +74,14 @@ export default class DynamicForm extends Component {
           errors: state.errors || [],
           errorSchema: state.errorSchema || {},
         };
+
+    // const { errors, errorSchema } = {
+    //     errors: state.errors || [],
+    //     errorSchema: state.errorSchema || {},
+    //   };
+
+
+    
     const idSchema = toIdSchema(
       retrievedSchema,
       uiSchema["ui:rootFieldId"],
@@ -77,7 +89,9 @@ export default class DynamicForm extends Component {
       formData,
       props.idPrefix
     );
+
     const pathSchema = toPathSchema(retrievedSchema, "", definitions, formData);
+
     return {
       schema,
       uiSchema,
@@ -89,36 +103,44 @@ export default class DynamicForm extends Component {
       additionalMetaSchemas,
       pathSchema,
     };
+
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     return shouldRender(this, nextProps, nextState);
   }
 
-  validate(
+  async validate(
     formData,
     schema = this.props.schema,
     additionalMetaSchemas = this.props.additionalMetaSchemas,
     customFormats = this.props.customFormats
   ) {
+
     const { validate, transformErrors } = this.props;
     const { definitions } = this.getRegistry();
     const resolvedSchema = retrieveSchema(schema, definitions, formData);
-    return validateFormData(
+    
+
+
+    const res = await validateFormData(
       formData,
       resolvedSchema,
-      validate,
+      validate, // <-----------
       transformErrors,
       additionalMetaSchemas,
       customFormats
-    );
+      );
+
+    return res
+
   }
 
   renderErrors() {
     const { errors, errorSchema, schema, uiSchema } = this.state;
     const { ErrorList, showErrorList, formContext } = this.props;
 
-    if (errors.length && showErrorList !== false) {
+    if (errors && errors.length && showErrorList !== false) {
       return (
         <ErrorList
           errors={errors}
@@ -170,7 +192,7 @@ export default class DynamicForm extends Component {
     return getAllPaths(pathSchema);
   };
 
-  onChange = (formData, newErrorSchema) => {
+  onChange = async (formData, newErrorSchema) => {
     const mustValidate = !this.props.noValidate && this.props.liveValidate;
     let state = { formData };
     let newFormData = formData;
@@ -190,7 +212,7 @@ export default class DynamicForm extends Component {
     }
 
     if (mustValidate) {
-      const { errors, errorSchema } = this.validate(newFormData);
+      const { errors, errorSchema } = await this.validate(newFormData);      
       state = { formData: newFormData, errors, errorSchema };
     } else if (!this.props.noValidate && newErrorSchema) {
       state = {
@@ -204,13 +226,48 @@ export default class DynamicForm extends Component {
         this.props.onChange(this.state);
       }
     });
+
+
   };
 
-  onBlur = (...args) => {
-    if (this.props.onBlur) {
-      // this.props.onBlur(...args);
-      this.props.onBlur(this.state, ...args);      
-    }
+  onBlur = async () => {
+    // const mustValidate = !this.props.noValidate && this.props.liveValidate;
+    // let state = { formData };
+    // let newFormData = formData;
+
+    
+    // this.onSubmit(null)
+
+    // if (this.props.omitExtraData === true && this.props.liveOmit === true) {
+    //   const newState = this.getStateFromProps(this.props, formData);
+
+    //   const fieldNames = this.getFieldNames(
+    //     newState.pathSchema,
+    //     newState.formData
+    //   );
+
+    //   newFormData = this.getUsedFormData(formData, fieldNames);
+    //   state = {
+    //     formData: newFormData,
+    //   };
+    // }
+    
+    // if (mustValidate) {
+    //   const { errors, errorSchema } = await this.validate(newFormData);
+    //   state = { formData: newFormData, errors, errorSchema };
+    // } else if (!this.props.noValidate && newErrorSchema) {
+    //   state = {
+    //     formData: newFormData,
+    //     errorSchema: newErrorSchema,
+    //     errors: toErrorList(newErrorSchema),
+    //   };
+    // }
+    // setState(this, state, () => {
+    //   if (this.props.onBlur) {
+    //     this.props.onBlur(this.state, ...args);      
+    //   }
+    // });
+
   };
 
   onFocus = (...args) => {
@@ -219,13 +276,15 @@ export default class DynamicForm extends Component {
     }
   };
 
-  onSubmit = event => {
-    event.preventDefault();
-    if (event.target !== event.currentTarget) {
-      return;
-    }
+  onSubmit = async (event) => {
+    console.log('onSubmit')
 
-    event.persist();
+    // event.preventDefault();
+    // if (event.target !== event.currentTarget) {
+    //   return;
+    // }
+
+    // event.persist();
     let newFormData = this.state.formData;
 
     const { pathSchema } = this.state;
@@ -236,17 +295,23 @@ export default class DynamicForm extends Component {
     }
 
     if (!this.props.noValidate) {
-      const { errors, errorSchema } = this.validate(newFormData);
+
+
+      const { errors, errorSchema } = await this.validate(newFormData);
+      
+      console.log(errors)
+      
       if (Object.keys(errors).length > 0) {
         setState(this, { errors, errorSchema }, () => {
-          if (this.props.onError) {
-            this.props.onError(errors);
-          } else {
+          // if (this.props.onError) {
+          //   this.props.onError(errors);
+          // } else {
             console.error("Form validation failed", errors);
-          }
+          // }
         });
         return;
       }
+
     }
 
     this.setState(
@@ -254,8 +319,7 @@ export default class DynamicForm extends Component {
       () => {
         if (this.props.onSubmit) {
           this.props.onSubmit(
-            { ...this.state, formData: newFormData, status: "submitted" },
-            event
+            { ...this.state, formData: newFormData, status: "submitted" }
           );
         }
       }

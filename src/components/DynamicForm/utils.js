@@ -677,14 +677,15 @@ function withDependentSchema(
   );
 }
 
-function withExactlyOneSubschema(
+async function withExactlyOneSubschema(
   schema,
   definitions,
   formData,
   dependencyKey,
   oneOf
 ) {
-  const validSubschemas = oneOf.filter(subschema => {
+
+  const validSubschemas = await oneOf.filter(async subschema => {
     if (!subschema.properties) {
       return false;
     }
@@ -696,11 +697,12 @@ function withExactlyOneSubschema(
           [dependencyKey]: conditionPropertySchema,
         },
       };
-      const { errors } = validateFormData(formData, conditionSchema);
+      const { errors } = await validateFormData(formData, conditionSchema);
       return errors.length === 0;
     }
     return false
   });
+
   if (validSubschemas.length !== 1) {
     console.warn(
       "ignoring oneOf in dependencies because there isn't exactly one subschema that is valid"

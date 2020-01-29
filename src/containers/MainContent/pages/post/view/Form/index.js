@@ -18,7 +18,9 @@ import MetaCard from '../MetaCard';
 import ChildsCard from '../ChildsCard';
 import ParamsCard from '../ParamsCard';
 import { fieldSchema, validationSchema } from './formSchema'
-import { parseBackendValidations } from '../../../../../../helpers/validation';
+import { parseBackendValidations, validateField } from '../../../../../../helpers/validation';
+
+// import usePrevious from '../../../../../../hooks/usePrevious'
 
 
 function Form() {
@@ -36,7 +38,8 @@ function Form() {
 
     const { form, setForm, errors, handleOnChange, saveDisabled, setBackendErrors, setDirty, validateForm } = useForm(fieldSchema, validationSchema);
 
-
+    // const prevDynamicForm = usePrevious(form.data);
+    
     // add backend validations to stack of errors
     useEffect(() => {       
         if(savingPostError && savingPostError.validations){ // if the ajax response is an error, check if the response has validations attached and add them to state
@@ -122,9 +125,37 @@ function Form() {
         setPost({...post, [name]: value})
     }
 
-    const handleDynamicFormValidate = (formData, errors) => {
-        console.log(formData)
-        console.log(errors)
+    const handleDynamicFormValidate = async (formData, errors) => {
+        console.log('handleDynamicFormValidate')
+
+        const validationSchema = taxonomies[form.taxonomy].validationSchema
+
+        if(!formData || Object.keys(formData).length === 0) return errors
+
+        // TODO set all errrors at once in state
+        Object.keys(validationSchema).forEach(async (name) => {
+
+            // if (!prevForm.data || !prevForm.data[name] || formData[name] !== prevForm.data[name]) { // only validate the fields that changed (except validateAllFields is true)
+
+                const error = await validateField(name, formData[name], validationSchema);                
+                const valid = (typeof error === 'undefined' || error === '') ? true:false
+
+                console.log(name, ' Valid:', valid)
+
+                if(!valid) errors[name].addError(error);
+
+            // }
+            // else{
+
+            //     console.log()
+
+            // }
+
+
+        })
+
+        // console.log(errors)
+
         return errors
     }
 
@@ -237,9 +268,8 @@ function Form() {
                                     <p className="text-muted mb-4">from taxonomy</p>
                                     
                                     <DynamicForm
-                                        schema={taxonomies[form.taxonomy].schema}
-                                        formData={form.data}
-                                        // onChange={handleDynamicFormChange}
+                                        schema={taxonomies[form.taxonomy].fieldSchema}
+                                        formData={form.data}                                        
                                         onBlur={handleDynamicFormBlur}
                                         onError={(e) => console.log("form error", e)}    
                                         validate={handleDynamicFormValidate}
