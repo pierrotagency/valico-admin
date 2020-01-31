@@ -6,6 +6,7 @@ export default function usePrevious(value) {
     const ref = useRef();
     
     useEffect(() => {
+        console.log('set Previous')
         ref.current = value;
     }, [value]);
     

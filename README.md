@@ -39,12 +39,6 @@ yarn analyze
 
 
 
-# TODOs
-
-- Migrate DynamicForm (ex react-jsonschema-form-bs4) to React Hooks
-
-
-
 # Known problems
 
 ## on YARN BUILD
@@ -59,10 +53,3 @@ yarn analyze
     https://discourse.aurelia.io/t/fatal-error-ineffective-mark-compacts-near-heap-limit-allocation-failed-javascript-heap-out-of-memory/2222/11
 
     https://create-react-app.dev/docs/analyzing-the-bundle-size/
-
-
-# TMP
-
-Last build analysis
-
-file:///private/var/folders/6m/5n0s7xns3m75s3fspqp68wmw0000gn/T/sme-result-2020028-30730-kxlbmt.ogqu.html

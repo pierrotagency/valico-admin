@@ -138,22 +138,15 @@ export default class DynamicForm extends Component {
   }
 
 
-  doValidate = async (formData = null) => {
-    console.log('dovalidate')
-
+  doValidate = async (formData = null) => {    
     if(!formData) formData = this.state.formData
 
-    const errorSchema = await this.validate(formData);      
-    
+    const errorSchema = await this.validate(formData);          
     const errors = toErrorList(errorSchema)
-
-    // console.log(errors)
-    // console.log(errorSchema)
 
     setState(this, { errors, errorSchema });
 
     return { errorSchema, errors }
-
   };
 
 

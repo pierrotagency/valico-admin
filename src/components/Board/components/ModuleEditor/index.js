@@ -15,15 +15,11 @@ export default function ModuleEditor({
 }) {
 
   const handleFormBlur = (formData, errors) => {
-    
-    console.log('handleFormBlur', formData, errors)
-
+    // console.log('handleFormBlur', formData, errors)
     if(errors.length===0) fieldsUpdated(formData)
-  
   }
 
   const handleDynamicFormValidate = async (formData, errors) => {
-  
     if(!formData || Object.keys(formData).length === 0) return errors
 
     Object.keys(validationSchema).forEach(async name => {

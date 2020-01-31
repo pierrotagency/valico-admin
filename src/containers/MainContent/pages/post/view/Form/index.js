@@ -11,6 +11,7 @@ import { saveViewPost, storeViewPost, addLocalTags } from "../../../../../../sto
 import useForm from '../../../../../../hooks/useForm';
 import DynamicForm from '../../../../../../components/DynamicForm'
 import { useBack, SET, RESET } from '../../../../../../hooks/useBack'
+import usePrevious from '../../../../../../hooks/usePrevious'
 
 import ActionsMenu from "../ActionsMenu";
 import MetaCard from '../MetaCard';
@@ -18,6 +19,8 @@ import ChildsCard from '../ChildsCard';
 import ParamsCard from '../ParamsCard';
 import { fieldSchema, validationSchema } from './formSchema'
 import { parseBackendValidations, validateField } from '../../../../../../helpers/validation';
+
+
 
 function backReducer(state, action) {
     switch (action.type) {
@@ -43,6 +46,8 @@ function Form() {
 
     const { form, setForm, errors, handleOnChange, saveDisabled, setBackendErrors, setDirty, validateForm } = useForm(fieldSchema, validationSchema);
 
+    const prevForm = usePrevious(state.post);
+
     // add backend validations to stack of errors
     useEffect(() => {       
         if(savingPostError && savingPostError.validations){ // if the ajax response is an error, check if the response has validations attached and add them to state
@@ -51,7 +56,7 @@ function Form() {
     // eslint-disable-next-line react-hooks/exhaustive-deps  
     },[savingPostError]);
 
-    useEffect(() => {               
+    useEffect(() => {   
         if(viewPost) resetState(viewPost)
     // eslint-disable-next-line react-hooks/exhaustive-deps  
     }, [viewPost]);
@@ -118,7 +123,7 @@ function Form() {
     const handleSwitchToggle = (name, value) => handleOnChange(name, value)
     const handleSelectChange = (name, value) => handleFieldUpdated(name, value?value.value:null)
     const handleInputBlur = (name, value) => handleFieldUpdated(name,value) 
-    const handleDynamicFormBlur = (e) => handleFieldUpdated('data',e.formData)
+    const handleDynamicFormBlur = (formData) => handleFieldUpdated('data', formData)
 
     const handleFieldUpdated = (name, value) => {
         handleOnChange(name, value)
@@ -126,20 +131,14 @@ function Form() {
     }
 
     const handleDynamicFormValidate = async (formData, errors) => {
-        // console.log('handleDynamicFormValidate')
-
-        const validationSchema = taxonomies[form.taxonomy].validationSchema
-
         if(!formData || Object.keys(formData).length === 0) return errors
-
-        // TODO set all errrors at once in state
-        Object.keys(validationSchema).forEach(async (name) => {
-            // if (!prevForm.data || !prevForm.data[name] || formData[name] !== prevForm.data[name]) { // only validate the fields that changed (except validateAllFields is true)
-                const error = await validateField(name, formData[name], validationSchema);                
-                const valid = (typeof error === 'undefined' || error === '') ? true:false
-                // console.log(name, ' Valid:', valid)
+        
+        Object.keys(dynamicFormValidationSchema).forEach(async name => {
+            if (!prevForm.data || !prevForm.data[name] || formData[name] !== prevForm.data[name]) { // only validate the fields that changed
+                const error = await validateField(name, formData[name], dynamicFormValidationSchema);                
+                const valid = (typeof error === 'undefined' || error === '') ? true:false                
                 if(!valid) errors[name].addError(error);
-            // }
+            }
         })
 
         return errors
@@ -149,6 +148,10 @@ function Form() {
     const taxonomyOptions = Object.keys(taxonomies).map((taxonomy) => ({ value: taxonomy, label: taxonomies[taxonomy].name }))
     const typeOptions = Object.keys(types).map((type) => ({ value: type, label: types[type].name }))
     
+    const dynamicFormFieldSchema = taxonomies[form.taxonomy] ? taxonomies[form.taxonomy].fieldSchema : {};
+    const dynamicFormValidationSchema = taxonomies[form.taxonomy] ? taxonomies[form.taxonomy].validationSchema : {};
+    
+
     const isNew = ( state.post && state.post.uuid ) ?  false : true;
 
     return (
@@ -247,14 +250,13 @@ function Form() {
                                 </CardBody>
                             </Card>
 
-                            {form.taxonomy &&
                             <Card>
                                 <CardBody>
                                     <h4 className="mt-0 header-title">Custom Fields</h4>
                                     <p className="text-muted mb-4">from taxonomy</p>
                                     
                                     <DynamicForm
-                                        schema={taxonomies[form.taxonomy].fieldSchema}
+                                        schema={dynamicFormFieldSchema}
                                         formData={form.data}                                        
                                         onBlur={handleDynamicFormBlur}
                                         onError={(e) => console.log("form error", e)}    
@@ -264,8 +266,7 @@ function Form() {
 
                                 </CardBody>
                             </Card>
-                            }
-
+                        
                         </Col>
                     </Row>
 

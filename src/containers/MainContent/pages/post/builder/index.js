@@ -141,9 +141,6 @@ function PostBuilder() {
             </Row>
           </div>
         </div>
-
-        
-        
       </Hotkeys>
     </>
   );
