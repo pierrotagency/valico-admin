@@ -1,9 +1,6 @@
 import toPath from "lodash.topath";
-import { deepEquals } from "./utils";
 import { isObject } from "./utils";
 
-let formerCustomFormats = null;
-let formerMetaSchema = null;
 
 function toErrorSchema(errors) {
  
@@ -101,34 +98,8 @@ function unwrapErrorHandler(errorHandler) {
 
 export default async function validateFormData(
   formData,
-  schema,
-  customValidate,
-  transformErrors,
-  additionalMetaSchemas = [],
-  customFormats = {}
+  customValidate  
 ) {
-
-  const newMetaSchemas = !deepEquals(formerMetaSchema, additionalMetaSchemas);
-  const newFormats = !deepEquals(formerCustomFormats, customFormats);
-
-  // add more schemas to validate against
-  if (
-    additionalMetaSchemas &&
-    newMetaSchemas &&
-    Array.isArray(additionalMetaSchemas)
-  ) {
-    // ajv.addMetaSchema(additionalMetaSchemas);
-    formerMetaSchema = additionalMetaSchemas;
-  }
-
-  // add more custom formats to validate against
-  if (customFormats && newFormats && isObject(customFormats)) {
-    // Object.keys(customFormats).forEach(formatName => {
-    //   ajv.addFormat(formatName, customFormats[formatName]);
-    // });
-
-    formerCustomFormats = customFormats;
-  }
 
   let errors = []
   let errorSchema = toErrorSchema(errors);

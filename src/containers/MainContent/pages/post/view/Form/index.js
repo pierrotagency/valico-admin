@@ -132,9 +132,14 @@ function Form() {
 
     const handleDynamicFormValidate = async (formData, errors) => {
         if(!formData || Object.keys(formData).length === 0) return errors
+
+        console.log('handleDynamicFormValidate', formData)
         
         Object.keys(dynamicFormValidationSchema).forEach(async name => {
             if (!prevForm.data || !prevForm.data[name] || formData[name] !== prevForm.data[name]) { // only validate the fields that changed
+                console.log('Validating ', name)
+                
+                
                 const error = await validateField(name, formData[name], dynamicFormValidationSchema);                
                 const valid = (typeof error === 'undefined' || error === '') ? true:false                
                 if(!valid) errors[name].addError(error);

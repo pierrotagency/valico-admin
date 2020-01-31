@@ -41,7 +41,6 @@ export default class DynamicForm extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    // console.log('UNSAFE_componentWillReceiveProps')
 
     const nextState = this.getStateFromProps(nextProps);
     if (    
@@ -49,12 +48,9 @@ export default class DynamicForm extends Component {
       !deepEquals(nextState.formData, this.state.formData) &&
       this.props.onChange
     ) {
-      console.log('2222')
       this.props.onChange(nextState);
     }
     this.setState(nextState);
-
-    this.doValidate(nextState.formData)
 
   }
 
@@ -114,35 +110,14 @@ export default class DynamicForm extends Component {
     return shouldRender(this, nextProps, nextState);
   }
 
-  async validate(
-    formData,
-    schema = this.props.schema,
-    additionalMetaSchemas = this.props.additionalMetaSchemas,
-    customFormats = this.props.customFormats
-  ) {
-
-    const { definitions } = this.getRegistry();
-    const resolvedSchema = retrieveSchema(schema, definitions, formData);
-    
-    const res = await validateFormData(
-      formData,
-      resolvedSchema,
-      this.props.validate, 
-      this.props.transformErrors,
-      additionalMetaSchemas,
-      customFormats
-      );
-
-    return res
-
-  }
-
 
   doValidate = async (formData = null) => {    
     if(!formData) formData = this.state.formData
 
-    const errorSchema = await this.validate(formData);          
+    const errorSchema = await validateFormData(formData, this.props.validate    );          
     const errors = toErrorList(errorSchema)
+
+    console.log(errorSchema)
 
     setState(this, { errors, errorSchema });
 
@@ -249,53 +224,6 @@ export default class DynamicForm extends Component {
 
   onSubmit = async (event) => {
     console.log('onSubmit')
-
-    // event.preventDefault();
-    // if (event.target !== event.currentTarget) {
-    //   return;
-    // }
-
-    // event.persist();
-    // let newFormData = this.state.formData;
-
-    // const { pathSchema } = this.state;
-
-    // if (this.props.omitExtraData === true) {
-    //   const fieldNames = this.getFieldNames(pathSchema, this.state.formData);
-    //   newFormData = this.getUsedFormData(this.state.formData, fieldNames);
-    // }
-
-    // if (!this.props.noValidate) {
-
-
-    //   const { errors, errorSchema } = await this.validate(newFormData);
-      
-    //   console.log(errors)
-      
-    //   if (Object.keys(errors).length > 0) {
-    //     setState(this, { errors, errorSchema }, () => {
-    //       if (this.props.onError) {
-    //         this.props.onError(errors);
-    //       } else {
-    //         console.error("Form validation failed", errors);
-    //       }
-    //     });
-    //     return;
-    //   }
-
-    // }
-
-    // this.setState(
-    //   { formData: newFormData, errors: [], errorSchema: {} },
-    //   () => {
-    //     if (this.props.onSubmit) {
-    //       this.props.onSubmit(
-    //         { ...this.state, formData: newFormData, status: "submitted" }
-    //       );
-    //     }
-    //   }
-    // );
-
   };
 
   getRegistry() {
