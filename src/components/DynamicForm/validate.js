@@ -1,7 +1,7 @@
 import toPath from "lodash.topath";
 // import Ajv from "ajv";
 import { deepEquals } from "./utils";
-import { isObject, mergeObjects } from "./utils";
+import { isObject } from "./utils";
 
 // let ajv = createAjvInstance();
 
@@ -88,6 +88,8 @@ export function toErrorList(errorSchema, fieldName = "root") {
   // console.log(fieldName)
   // console.log(errorSchema)
   
+  if(!errorSchema) return [];
+
   // XXX: We should transform fieldName as a full field path string.
   let errorList = [];
   
@@ -107,7 +109,7 @@ export function toErrorList(errorSchema, fieldName = "root") {
     // console.log(errorSchema.__errors.length)
     
       errorSchema.__errors.forEach(err => {
-        // console.log('pushing ', fieldName)
+        console.log('pushing ', fieldName)
         errorList.push({[fieldName]: err})
       
       })
@@ -236,7 +238,7 @@ export default async function validateFormData(
     formerCustomFormats = customFormats;
   }
 
-  let validationError = null;
+  // let validationError = null;
   // try {
   //   ajv.validate(schema, formData);  
   // } catch (err) {
@@ -250,36 +252,36 @@ export default async function validateFormData(
 
 
 
-  const noProperMetaSchema =
-    validationError &&
-    validationError.message &&
-    typeof validationError.message === "string" &&
-    validationError.message.includes("no schema with key or ref ");
+  // const noProperMetaSchema =
+  //   validationError &&
+  //   validationError.message &&
+  //   typeof validationError.message === "string" &&
+  //   validationError.message.includes("no schema with key or ref ");
 
-  if (noProperMetaSchema) {
-    errors = [
-      ...errors,
-      {
-        stack: validationError.message,
-      },
-    ];
-  }
-  if (typeof transformErrors === "function") {
-    errors = transformErrors(errors);
-  }
+  // if (noProperMetaSchema) {
+  //   errors = [
+  //     ...errors,
+  //     {
+  //       stack: validationError.message,
+  //     },
+  //   ];
+  // }
+  // if (typeof transformErrors === "function") {
+  //   errors = transformErrors(errors);
+  // }
 
   let errorSchema = toErrorSchema(errors);
 
-  if (noProperMetaSchema) {
-    errorSchema = {
-      ...errorSchema,
-      ...{
-        $schema: {
-          __errors: [validationError.message],
-        },
-      },
-    };
-  }
+  // if (noProperMetaSchema) {
+  //   errorSchema = {
+  //     ...errorSchema,
+  //     ...{
+  //       $schema: {
+  //         __errors: [validationError.message],
+  //       },
+  //     },
+  //   };
+  // }
 
   if (typeof customValidate !== "function") {
     return { errors, errorSchema };
@@ -287,19 +289,19 @@ export default async function validateFormData(
 
   const errorHandler = await customValidate(formData, createErrorHandler(formData));
   const userErrorSchema = unwrapErrorHandler(errorHandler);
-  const newErrorSchema = mergeObjects(errorSchema, userErrorSchema, true);
+  // const newErrorSchema = mergeObjects(errorSchema, userErrorSchema, true);
   
-  // XXX: The errors list produced is not fully compliant with the format
-  // exposed by the jsonschema lib, which contains full field paths and other
-  // properties.
-  const newErrors = toErrorList(newErrorSchema);
+ 
+  // const newErrors = toErrorList(userErrorSchema);
 
   // console.log(newErrors)
 
-  return {
-    errors: newErrors,
-    errorSchema: newErrorSchema,
-  };
+  // return {
+  //   errors: newErrors,
+  //   errorSchema: userErrorSchema,
+  // };
+
+  return userErrorSchema
 }
 
 /**

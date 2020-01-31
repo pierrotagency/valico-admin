@@ -54,16 +54,7 @@ export default class DynamicForm extends Component {
     }
     this.setState(nextState);
 
-
-    // this.onSubmit()
-    // this.validate(nextState.formData)
-
-    const forceValidation = async () => {
-      const { errors, errorSchema } = await this.validate(nextState.formData);      
-      const state = { errors, errorSchema };    
-      setState(this, state);
-    }
-    forceValidation()
+    this.doValidate(nextState.formData)
 
   }
 
@@ -73,19 +64,27 @@ export default class DynamicForm extends Component {
     const schema = "schema" in props ? props.schema : this.props.schema;
     const uiSchema = "uiSchema" in props ? props.uiSchema : this.props.uiSchema;
     const edit = typeof inputFormData !== "undefined";
-    const liveValidate = props.liveValidate || this.props.liveValidate;
-    const mustValidate = edit && !props.noValidate && liveValidate;
+    // const liveValidate = props.liveValidate || this.props.liveValidate;
+    // const mustValidate = edit && !props.noValidate && liveValidate;
     const { definitions } = schema;
     const formData = getDefaultFormState(schema, inputFormData, definitions);
     const retrievedSchema = retrieveSchema(schema, definitions, formData);
-    const customFormats = props.customFormats;
+    // const customFormats = props.customFormats;
     const additionalMetaSchemas = props.additionalMetaSchemas;
-    const { errors, errorSchema } = mustValidate
-      ? this.validate(formData, schema, additionalMetaSchemas, customFormats)
-      : {
+    // const { errors, errorSchema } = mustValidate
+    //   ? this.validate(formData, schema, additionalMetaSchemas, customFormats)
+    //   : {
+    //       errors: state.errors || [],
+    //       errorSchema: state.errorSchema || {},
+    //     };
+
+    const { errors, errorSchema } = {
           errors: state.errors || [],
           errorSchema: state.errorSchema || {},
         };
+
+    // const errorSchema = await this.validate(formData, schema, additionalMetaSchemas, customFormats);        
+    // const errors = toErrorList(errorSchema)
 
     const idSchema = toIdSchema(
       retrievedSchema,
@@ -139,6 +138,25 @@ export default class DynamicForm extends Component {
   }
 
 
+  doValidate = async (formData = null) => {
+    console.log('dovalidate')
+
+    if(!formData) formData = this.state.formData
+
+    const errorSchema = await this.validate(formData);      
+    
+    const errors = toErrorList(errorSchema)
+
+    // console.log(errors)
+    // console.log(errorSchema)
+
+    setState(this, { errors, errorSchema });
+
+    return { errorSchema, errors }
+
+  };
+
+
   getUsedFormData = (formData, fields) => {
     //for the case of a single input form
     if (fields.length === 0 && typeof formData !== "object") {
@@ -178,7 +196,8 @@ export default class DynamicForm extends Component {
   };
 
   onChange = async (formData, newErrorSchema) => {
-    const mustValidate = !this.props.noValidate && this.props.liveValidate;
+
+    // const mustValidate = !this.props.noValidate && this.props.liveValidate;
     let state = { formData };
     let newFormData = formData;
 
@@ -196,16 +215,20 @@ export default class DynamicForm extends Component {
       };
     }
 
-    if (mustValidate) {
-      const { errors, errorSchema } = await this.validate(newFormData);      
-      state = { formData: newFormData, errors, errorSchema };
-    } else if (!this.props.noValidate && newErrorSchema) {
+    // if (mustValidate) {
+
+    //   const { errors, errorSchema } = await this.validate(newFormData);      
+    
+    //   state = { formData: newFormData, errors, errorSchema };
+    
+    // } else if (!this.props.noValidate && newErrorSchema) {
       state = {
         formData: newFormData,
         errorSchema: newErrorSchema,
         errors: toErrorList(newErrorSchema),
       };
-    }
+    // }
+
     setState(this, state, () => {
       if (this.props.onChange) {
         this.props.onChange(this.state);
@@ -215,9 +238,12 @@ export default class DynamicForm extends Component {
 
   };
 
-  onBlur = () => {
+  onBlur = async () => {
+
+    const { errors } = await this.doValidate()
+
     if (this.props.onBlur) {
-      this.props.onBlur(this.state.formData);      
+      this.props.onBlur(this.state.formData, errors);      
     }
 
   };
