@@ -204,7 +204,7 @@ function unwrapErrorHandler(errorHandler) {
 export default async function validateFormData(
   formData,
   schema,
-  customValidate, // <------
+  customValidate,
   transformErrors,
   additionalMetaSchemas = [],
   customFormats = {}

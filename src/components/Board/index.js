@@ -25,7 +25,7 @@ import {
   findModuleInPost
 } from '../../helpers/post'
 
-import { library, templates } from 'valico-sanmartin'
+import { library, templates, taxonomies } from 'valico-sanmartin'
 
 const StyledBoard = styled.div`
   padding: 5px;
@@ -76,9 +76,6 @@ function Board({
   const handleOnModuleDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveModule  })
   
   const handlePostUpdate = (updatedPost) => {
-
-    // console.log('handlePostUpdate')
-
     if(typeof(onPostUpdated) === 'function'){
       onPostUpdated(updatedPost)       
     }
@@ -106,21 +103,12 @@ function Board({
   }
 
   function handleModuleEdit(area, module) {
-
-    console.log(module)
-
-    setCurrentModule(module); // TODO se salva? se tiene que salvar?
+    setCurrentModule(module);
   }
 
   function handleModuleFieldsUpdated(fields) {
-
-    console.log(currentModule)
     // cloneDeep or yhe fucnking undo state not working! (3 days with this problem)
     const updatedPost = updateModuleFields(cloneDeep(post), currentModule, fields)  
-
-
-    // console.log(updatedPost.content[0].modules[0].fields.title)
-
     handlePostUpdate(updatedPost)
   }
 
@@ -128,10 +116,11 @@ function Board({
     setCurrentModule(); 
   }
   
+  const validationSchema = post && taxonomies[post.taxonomy] ? taxonomies[post.taxonomy].validationSchema : null;
+
 
   return (
     <>
-
       <BoardContainer
         onModuleDragEnd={handleOnModuleDragEnd}      
         handleModuleAdd={handleModuleAdd}        
@@ -153,7 +142,6 @@ function Board({
         library={library}
         post={post}
       />        
-      
       <RightSidebar visible={currentModule?true:false}>
           <ModuleSidebar
             onCloseClick={handleCloseEditorClick}
@@ -163,11 +151,11 @@ function Board({
               fieldsUpdated={handleModuleFieldsUpdated}
               module={currentModule}
               library={library}
+              validationSchema={validationSchema}
               
             />       
           </ModuleSidebar>   
       </RightSidebar>
-
     </>
   )
 }
@@ -187,11 +175,8 @@ function BoardContainer({
     onModuleDragEnd(coordinates)
   }
 
-  // console.log('BoardContainer')
-  // console.log(post.content[0].modules[0].fields.title)
-
   const Template = post && templates[post.template] ? templates[post.template].view : null;
-
+  
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <StyledBoard>
