@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { DragDropContext } from 'react-beautiful-dnd'
+
+import cloneDeep from 'lodash.clonedeep';
 
 import withDroppable from '../withDroppable'
 import { when, partialRight } from '../../helpers/utils'
@@ -19,6 +21,9 @@ import Area from './components/Area'
 import RightSidebar from '../RightSidebar';
 import ModuleSidebar from './components/ModuleSidebar';
 
+import {
+  findModuleInPost
+} from '../../helpers/post'
 
 import { library, templates } from 'valico-sanmartin'
 
@@ -57,6 +62,17 @@ function Board({
   
   const [currentModule, setCurrentModule] = useState()
 
+  // if module is updated, outside a cloned post is saved, so i need to reinstance current module (3 days problem with nested props)
+  useEffect(() => {
+
+    if(currentModule){
+      const module = findModuleInPost(post, 'id', currentModule.id, null)
+      setCurrentModule(module)
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [post]);
+
   const handleOnModuleDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveModule  })
   
   const handlePostUpdate = (updatedPost) => {
@@ -90,15 +106,17 @@ function Board({
   }
 
   function handleModuleEdit(area, module) {
+
+    console.log(module)
+
     setCurrentModule(module); // TODO se salva? se tiene que salvar?
   }
 
   function handleModuleFieldsUpdated(fields) {
 
-    // console.log('handleModuleFieldsUpdated')
-    // console.log(fields)
-
-    const updatedPost = updateModuleFields(post, currentModule, fields)  
+    console.log(currentModule)
+    // cloneDeep or yhe fucnking undo state not working! (3 days with this problem)
+    const updatedPost = updateModuleFields(cloneDeep(post), currentModule, fields)  
 
 
     // console.log(updatedPost.content[0].modules[0].fields.title)
@@ -172,7 +190,7 @@ function BoardContainer({
   // console.log('BoardContainer')
   // console.log(post.content[0].modules[0].fields.title)
 
-  const Template = templates[post.template] ? templates[post.template].view : null;
+  const Template = post && templates[post.template] ? templates[post.template].view : null;
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>

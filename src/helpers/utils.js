@@ -1,4 +1,5 @@
 import uuidv4 from 'uuid/v4'
+import cloneDeep from 'lodash.clonedeep';
 
 
 function getUuid() {
@@ -50,7 +51,8 @@ function replaceElementOfArray(array) {
 
 
 function cloneObject(src) {
-  return Object.assign({}, src);
+  // return Object.assign({}, src); // shallow cloning
+  return cloneDeep(src) // https://stackoverflow.com/questions/122102/what-is-the-most-efficient-way-to-deep-clone-an-object-in-javascript/122704#122704
 }
 
 

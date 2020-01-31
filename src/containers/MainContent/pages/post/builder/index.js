@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Row, Col } from "reactstrap";
 // import { useHistory } from "react-router";
 import Hotkeys from 'react-hot-keys';
+// import cloneDeep from 'lodash.clonedeep';
 
 import { activateAuthLayout, getViewPost,  saveViewPost } from "../../../../../store/actions";
 import Breadcrumb from "../_common/Breadcrumb";
@@ -16,16 +17,15 @@ import { useBack, SET, RESET } from '../../../../../hooks/useBack'
 function backReducer(state, action) {
   switch (action.type) {
     case SET:
-      console.log('SET', action.payload.content[0].modules[0].fields)
+      // console.log('SET', action.payload.content[0].modules[0].fields)
       return { post: action.payload }
     case RESET:
-      console.log('RESET', action.payload.content[0].modules[0].fields)
+      // console.log('RESET', action.payload.content[0].modules[0].fields)
       return { post: action.payload }         
     default:
       throw new Error(`Unknown action ${action.type}`)
   }
 }
-
 
 
 function PostBuilder() {
@@ -42,30 +42,31 @@ function PostBuilder() {
   
   let { id } = useParams();
 
-
-  useEffect(() => {
-		dispatch(getViewPost(id));	
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
-
   useEffect(() => {
     dispatch(activateAuthLayout());
   // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	
+  useEffect(() => {
+		dispatch(getViewPost(id));	
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
 	useEffect(() => { 
     if(post) resetState(post)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [post]);
 
+
   const handleChangeTemplate = (t) => setState({...state.post, template: t}) 
+
 	const handlePostUpdate = (updatedPost) => setState(updatedPost)
+
   const handleClickUndo = () => undoState()
 	const handleClickRedo = () => redoState()
   const handleClickClear = () => resetState(post)
   
   const handlePostSave = () => dispatch(saveViewPost(state.post))		
-
 
   // const handleClickView = () => history.push('/posts/'+id+'/view')    
   
@@ -87,6 +88,9 @@ function PostBuilder() {
     }
     
   }
+
+
+  // const boardPost = state.post; //cloneDeep(state.post);
 
   return (
     <>
@@ -129,7 +133,7 @@ function PostBuilder() {
 
             <Row>
               <Col>
-                {!loadingPost && state.post ? (
+                {!loadingPost ? (
                   <Board
                     onPostUpdated={handlePostUpdate}                  
                     post={state.post}									

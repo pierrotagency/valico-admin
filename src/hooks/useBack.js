@@ -1,4 +1,5 @@
 import { useReducer, useCallback } from 'react'
+// import cloneDeep from 'lodash.clonedeep';
 
 export const REDO = 'back_redo'
 export const UNDO = 'back_undo'
@@ -30,6 +31,7 @@ export function useBack(reducer, initialPresent) {
     }
   }, [canRedo]);
 
+  // console log dispatching twice? it's ok!!! https://github.com/facebook/react/issues/16295
   const setState = useCallback(
     payload => dispatch({ type: SET, payload: payload }),
     []
@@ -70,6 +72,10 @@ function undoable(reducer) {
         }
 
         const newIndex = currentIndex + 1
+
+        // const clonedHistory = cloneDeep(history)
+        // const newHistory = clonedHistory.slice(0, newIndex)
+
         const newHistory = history.slice(0, newIndex)
 
         return {
