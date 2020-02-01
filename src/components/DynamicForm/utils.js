@@ -2,6 +2,8 @@ import React from "react";
 import * as ReactIs from "react-is";
 // import fill from "core-js/library/fn/array/fill";
 import fill from "core-js/es/array/fill";
+import _get from "lodash/get";
+
 import validateFormData, { isValid } from "./validate";
 
 export const ADDITIONAL_PROPERTY_FLAG = "__additional_property";
@@ -1051,3 +1053,124 @@ export function getMatchingOption(formData, options, definitions) {
   }
   return 0;
 }
+
+
+
+
+
+export function getFieldNames(pathSchema, formData) {
+
+  const getAllPaths = (_obj, acc = [], paths = []) => {
+    Object.keys(_obj).forEach(key => {
+      if (typeof _obj[key] === "object") {
+        if (!paths.length) {
+          getAllPaths(_obj[key], acc, [key]);
+        } else {
+          let newPaths = [];
+          paths.forEach(path => {
+            newPaths.push(path);
+          });
+          newPaths = newPaths.map(path => `${path}.${key}`);
+          getAllPaths(_obj[key], acc, newPaths);
+        }
+      } else if (key === "$name") {
+        paths.forEach(path => {
+          const formValue = _get(formData, path);
+          if (typeof formValue !== "object") {
+            acc.push(path);
+          }
+        });
+      }
+    });
+    return acc;
+  };
+
+  return getAllPaths(pathSchema);
+
+};
+
+
+
+
+
+export function formDataToValidationSchema(schema, name = "", formData = {}) {
+  
+  const pathSchema = {
+    $name: name,
+  };
+  
+  if ("$ref" in schema || "dependencies" in schema) {
+    const _schema = retrieveSchema(schema, undefined, formData);
+    return formDataToValidationSchema(_schema, name, formData);
+  }
+  
+  if ("items" in schema) {
+    const retVal = {};
+    if (Array.isArray(formData) && formData.length > 0) {
+      formData.forEach((element, index) => {
+        retVal[index] = formDataToValidationSchema(
+          schema.items,
+          `${name}.[]`,          
+          element
+        );
+      });
+    }
+    return retVal;
+  }
+  
+  if (schema.type !== "object") {
+    return pathSchema;
+  }
+  
+  for (const property in schema.properties || {}) {
+    const field = schema.properties[property];
+    const fieldId = pathSchema.$name
+      ? pathSchema.$name + "." + property
+      : property;
+
+    pathSchema[property] = formDataToValidationSchema(
+      field,
+      fieldId,      
+      // It's possible that formData is not an object -- this can happen if an
+      // array item has just been added, but not populated with data yet
+      (formData || {})[property]
+    );
+  }
+  return pathSchema;
+}
+
+
+
+export function getValidationSchemaKeys(formDataValidationSchema) {
+
+  const getAllPaths = (_obj, acc = [], paths = []) => {
+
+    Object.keys(_obj).forEach(key => {
+    
+      if (typeof _obj[key] === "object") {
+
+        if (!paths.length) {
+          getAllPaths(_obj[key], acc, [key]);
+        } else {
+
+          let newPaths = [];
+          paths.forEach(path => newPaths.push(path))
+          
+          newPaths = newPaths.map(path => `${path}.${key}`);
+          getAllPaths(_obj[key], acc, newPaths);
+        }
+
+      } else if (key === "$name") {
+
+        acc.push(_obj[key]);
+
+      }
+
+    });
+
+    return [ ...new Set(acc) ]; // remove duplicates (for array thing)
+  };
+
+  return getAllPaths(formDataValidationSchema);
+
+};

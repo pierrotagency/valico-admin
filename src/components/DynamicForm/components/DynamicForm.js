@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import _pick from "lodash/pick";
-import _get from "lodash/get";
+
 
 import {
   getDefaultFormState,
@@ -12,6 +12,7 @@ import {
   getDefaultRegistry,
   deepEquals,
   toPathSchema,
+  getFieldNames
 } from "../utils";
 import validateFormData, { toErrorList } from "../validate";
 
@@ -63,6 +64,7 @@ export default class DynamicForm extends Component {
     // const liveValidate = props.liveValidate || this.props.liveValidate;
     // const mustValidate = edit && !props.noValidate && liveValidate;
     const { definitions } = schema;
+
     const formData = getDefaultFormState(schema, inputFormData, definitions);
     const retrievedSchema = retrieveSchema(schema, definitions, formData);
     // const customFormats = props.customFormats;
@@ -134,34 +136,7 @@ export default class DynamicForm extends Component {
     return _pick(formData, fields);
   };
 
-  getFieldNames = (pathSchema, formData) => {
-    const getAllPaths = (_obj, acc = [], paths = []) => {
-      Object.keys(_obj).forEach(key => {
-        if (typeof _obj[key] === "object") {
-          if (!paths.length) {
-            getAllPaths(_obj[key], acc, [key]);
-          } else {
-            let newPaths = [];
-            paths.forEach(path => {
-              newPaths.push(path);
-            });
-            newPaths = newPaths.map(path => `${path}.${key}`);
-            getAllPaths(_obj[key], acc, newPaths);
-          }
-        } else if (key === "$name") {
-          paths.forEach(path => {
-            const formValue = _get(formData, path);
-            if (typeof formValue !== "object") {
-              acc.push(path);
-            }
-          });
-        }
-      });
-      return acc;
-    };
-
-    return getAllPaths(pathSchema);
-  };
+  
 
   onChange = async (formData, newErrorSchema) => {
 
@@ -172,7 +147,7 @@ export default class DynamicForm extends Component {
     if (this.props.omitExtraData === true && this.props.liveOmit === true) {
       const newState = this.getStateFromProps(this.props, formData);
 
-      const fieldNames = this.getFieldNames(
+      const fieldNames = getFieldNames(
         newState.pathSchema,
         newState.formData
       );

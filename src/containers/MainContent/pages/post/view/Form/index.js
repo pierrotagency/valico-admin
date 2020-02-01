@@ -20,6 +20,10 @@ import ParamsCard from '../ParamsCard';
 import { fieldSchema, validationSchema } from './formSchema'
 import { parseBackendValidations, validateField } from '../../../../../../helpers/validation';
 
+// import {    
+//     formDataToValidationSchema,
+//     getValidationSchemaKeys
+// } from "../../../../../../components/DynamicForm/utils";
 
 
 function backReducer(state, action) {
@@ -134,7 +138,13 @@ function Form() {
         if(!formData || Object.keys(formData).length === 0) return errors
 
         console.log('handleDynamicFormValidate', formData)
+
+        // const pathSchema = formDataToValidationSchema(dynamicFormFieldSchema, "", formData);
+        // console.log(pathSchema)
+        // const fieldNames = getValidationSchemaKeys(pathSchema)
+        // console.log(fieldNames)
         
+
         Object.keys(dynamicFormValidationSchema).forEach(async name => {
             if (!prevForm.data || !prevForm.data[name] || formData[name] !== prevForm.data[name]) { // only validate the fields that changed
                 console.log('Validating ', name)
