@@ -20,10 +20,11 @@ import ParamsCard from '../ParamsCard';
 import { fieldSchema, validationSchema } from './formSchema'
 import { parseBackendValidations, validateField } from '../../../../../../helpers/validation';
 
-// import {    
-//     formDataToValidationSchema,
-//     getValidationSchemaKeys
-// } from "../../../../../../components/DynamicForm/utils";
+import {    
+    // formDataToValidationSchema,
+    // getValidationSchemaKeys,
+    deepValidator
+} from "../../../../../../components/DynamicForm/utils";
 
 
 function backReducer(state, action) {
@@ -137,13 +138,15 @@ function Form() {
     const handleDynamicFormValidate = async (formData, errors) => {
         if(!formData || Object.keys(formData).length === 0) return errors
 
-        console.log('handleDynamicFormValidate', formData)
+        // console.log('handleDynamicFormValidate', formData)
 
         // const pathSchema = formDataToValidationSchema(dynamicFormFieldSchema, "", formData);
         // console.log(pathSchema)
         // const fieldNames = getValidationSchemaKeys(pathSchema)
         // console.log(fieldNames)
         
+        const values = deepValidator(formData)
+        console.log(values)
 
         Object.keys(dynamicFormValidationSchema).forEach(async name => {
             if (!prevForm.data || !prevForm.data[name] || formData[name] !== prevForm.data[name]) { // only validate the fields that changed

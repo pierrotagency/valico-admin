@@ -1174,3 +1174,26 @@ export function getValidationSchemaKeys(formDataValidationSchema) {
   return getAllPaths(formDataValidationSchema);
 
 };
+
+
+export function deepValidator(target) {
+
+  let values = []
+
+
+  const deepIterator = (prop, target) => {
+    if (typeof target === 'object') {
+      for (const key in target) {
+        deepIterator(`${prop}.${key}`, target[key]);
+      }
+    } else {
+      if(target) values[prop.slice(1)] = target // avoind undefined rows and remove first dot from key (prop)
+      // console.log(prop, ': ', target);
+    }
+  }
+
+  deepIterator('', target)
+
+  return values
+
+}
