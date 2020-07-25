@@ -119,7 +119,7 @@ export default class DynamicForm extends Component {
     const errorSchema = await validateFormData(formData, this.props.validate    );          
     const errors = toErrorList(errorSchema)
 
-    console.log(errorSchema)
+    // console.log(errorSchema)
 
     setState(this, { errors, errorSchema });
 

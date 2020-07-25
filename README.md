@@ -24,7 +24,7 @@ for example *"valico-sanmartin"*
 
 ## Run
 ```bash
-npm start
+yarn start
 ```
 
 ## Buid
@@ -37,9 +37,24 @@ yarn build
 yarn analyze
 ```
 
+## upgrade vendor
+```bash
+yarn outdated
+ncu -u
+yarn install
+```
+
 
 
 # Known problems
+
+## Babel or lib things
+First lets try
+```bash
+rm -rf node_modules
+yarn install
+```
+
 
 ## on YARN BUILD
 
