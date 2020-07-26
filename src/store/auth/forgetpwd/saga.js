@@ -2,7 +2,7 @@ import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
 
 // Login Redux States
 import { FORGET_USER } from './actionTypes';
-import { apiError } from './actions';
+import { forgetUserApiError } from './actions';
 
 import { apiPost } from '../../../services/api';
 
@@ -14,7 +14,7 @@ function* forgetUser({ payload: { username, history } }) {
             if(response)
                history.push('/reset-password');
         } catch (error) {
-            yield put(apiError(error));
+            yield put(forgetUserApiError(error));
         }
 }
 

@@ -15,7 +15,7 @@ export const forgetUserSuccessful = (user) => {
     }
 }
 
-export const apiError = (error) => {
+export const forgetUserApiError = (error) => {
     return {
         type: API_FAILED,
         payload: error

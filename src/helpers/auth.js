@@ -2,6 +2,7 @@ import { store } from '../store';
 
 // Gets the logged in user data from local session 
 const getLoggedInUser = () => {
+    console.log(store.getState());
     return store.getState().login.user    
 }
 

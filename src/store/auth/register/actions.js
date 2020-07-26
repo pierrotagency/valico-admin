@@ -14,7 +14,7 @@ export const registerUserSuccessful = (user) => {
     }
 }
 
-export const apiError = (error) => {
+export const registerUserApiError = (error) => {
     return {
         type: API_FAILED,
         payload: error

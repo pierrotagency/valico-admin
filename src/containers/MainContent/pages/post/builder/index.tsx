@@ -5,16 +5,15 @@ import { Row, Col } from "reactstrap";
 // import { useHistory } from "react-router";
 import Hotkeys from 'react-hot-keys';
 // import cloneDeep from 'lodash.clonedeep';
-
-import { activateAuthLayout, getViewPost,  saveViewPost } from "../../../../../store/actions";
+import { activateAuthLayout, getViewPost,  saveViewPost, StoreAction } from "../../../../../store/actions";
 import Breadcrumb from "../_common/Breadcrumb";
 import ActionsMenu from "./ActionsMenu";
 import Board from '../../../../../components/Board'
-
 import { useBack, SET, RESET } from '../../../../../hooks/useBack'
+import { AppState } from "../../../../../store/reducers";
 
-
-function backReducer(state, action) {
+function backReducer(_: any, action: StoreAction) {
+  console.log('backReducer', action);
   switch (action.type) {
     case SET:
       return { post: action.payload }
@@ -31,9 +30,11 @@ function PostBuilder() {
   // const location = useLocation();
   // const history = useHistory();
 
-  const post = useSelector(s => s.post.viewPost);
-  const loadingPost = useSelector(s => s.post.loadingViewPost);
-  const savingPost = useSelector(s => s.post.savingPost);
+  const post = useSelector((s: AppState) => {
+    console.log(s);
+    return s.post.viewPost});
+  const loadingPost = useSelector((s: AppState) => s.post.loadingViewPost);
+  const savingPost = useSelector((s: AppState) => s.post.savingPost);
   const dispatch = useDispatch();
 
   const { state, canUndo, canRedo, undoState, redoState, setState, resetState } = useBack(backReducer,{})
@@ -56,9 +57,9 @@ function PostBuilder() {
   }, [post]);
 
 
-  const handleChangeTemplate = (t) => setState({...state.post, template: t}) 
+  const handleChangeTemplate = (t: any) => setState({...state.post, template: t}) 
 
-	const handlePostUpdate = (updatedPost) => setState(updatedPost)
+	const handlePostUpdate = (updatedPost: any) => setState(updatedPost)
 
   const handleClickUndo = () => undoState()
 	const handleClickRedo = () => redoState()
@@ -69,7 +70,7 @@ function PostBuilder() {
   // const handleClickView = () => history.push('/posts/'+id+'/view')    
   
   
-  const onKeyDown = (keyName, e, handle) => {
+  const onKeyDown = (keyName: string) => {
     // console.log("test:onKeyDown", keyName, e, handle)    
     switch (keyName) {
       case "ctrl+z":

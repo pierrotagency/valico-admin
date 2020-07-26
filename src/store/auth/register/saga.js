@@ -2,7 +2,7 @@ import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
 
 //Account Redux states
 import { REGISTER_USER } from './actionTypes';
-import { registerUserSuccessful, apiError } from './actions';
+import { registerUserSuccessful, registerUserApiError } from './actions';
 
 import { apiPost } from '../../../services/api';
 
@@ -12,7 +12,7 @@ function* registerUser({ payload: { user } }) {
         const response = yield call(apiPost, '/post-register', user);
         yield put(registerUserSuccessful(response));
     } catch (error) {
-        yield put(apiError(error));
+        yield put(registerUserApiError(error));
     }
 }
 

@@ -29,7 +29,9 @@ function Area({
   // console.log(content)
   // return(<></>)
 
-  const area = content.find(e => e.name === name)
+  const area = content && content.find(e => e.name === name);
+
+  if (!area) return (<></>);
 
   return (
     <Draggable draggableId={`area-draggable-${area.id}`} index={areaIndex} isDragDisabled={true}>

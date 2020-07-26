@@ -56,8 +56,7 @@ const DroppableBoard = withDroppable(Areas)
 
 function Board({
   post,
-  onPostUpdated,  
-  disableModuleDrag
+  onPostUpdated
 }) {
   
   const [currentModule, setCurrentModule] = useState()
@@ -117,7 +116,7 @@ function Board({
   }
   
   const validationSchema = post && taxonomies[post.taxonomy] ? taxonomies[post.taxonomy].validationSchema : null;
-
+  console.log('validationSchema',validationSchema,post);
 
   return (
     <>
@@ -138,7 +137,6 @@ function Board({
           )
 
         }}      
-        disableModuleDrag={disableModuleDrag}
         library={library}
         post={post}
       />        
@@ -162,8 +160,7 @@ function Board({
 
 function BoardContainer({
   post,
-  renderModule,
-  disableModuleDrag,   
+  renderModule, 
   onModuleDragEnd,
   handleModuleAdd,
   library
@@ -186,7 +183,6 @@ function BoardContainer({
             <Template
                 renderModule={renderModule}
                 moduleAdded={handleModuleAdd}              
-                disableModuleDrag={disableModuleDrag}
                 library={library}
                 className={post.template}
                 Area={Area}
