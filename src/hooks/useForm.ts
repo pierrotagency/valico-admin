@@ -9,13 +9,13 @@ interface Form {
 	data: any;
 }
 
-function useForm(fieldSchema: any, validationSchema = {}) {
-	const [form, setForm] = useState<any>();
+function useForm(fieldSchema: Record<string, any>, validationSchema: object = {}) {
+	const [form, setForm] = useState<Record<string, any>>();
 	const [saveDisabled, setSaveDisabled] = useState(true);
 
 	const [dirty, setDirty] = useState(false);
 
-	const prevForm = usePrevious(form);
+	const prevForm: Record<string, any> = usePrevious(form);
 
 	// generate errors state array with every field (empty)
 	const errorsSchema = { ...fieldSchema };
@@ -51,7 +51,7 @@ function useForm(fieldSchema: any, validationSchema = {}) {
 		Object.keys(validationSchema).forEach(async (name: string) => {
       // only validate the fields that changed (except validateAllFields is true)
       if (validateAllFields
-		//   || form[name] !== prevForm[name] 
+		  || form[name] !== prevForm[name] 
         ) {
         const error = await validateField(name, form[name], validationSchema);
         const valid = !!(typeof error === 'undefined' || error === '');

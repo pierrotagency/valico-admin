@@ -28,7 +28,7 @@ function useDynamicForm(fieldSchema, validationSchema = {}) {
 
   const validateDynamicForm = async (formData, formDataErrors, validateAllFields = false) => {
     // let errors = formDataErrors;
-    console.log(validateAllFields);
+    console.log('validateAllFields', validateAllFields);
     if (!formData || Object.keys(formData).length === 0) return formDataErrors;
 
     // console.log('handleDynamicFormValidate', formData)
@@ -58,7 +58,7 @@ function useDynamicForm(fieldSchema, validationSchema = {}) {
       const error = await validateField(name, value, validationSchema);
       console.log(error);
       if (typeof error !== 'undefined' && error !== '') {
-        errorObj.addError(error);
+        errorObj.__addError(error);
       }
       // }
     });

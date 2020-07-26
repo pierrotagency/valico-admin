@@ -1897,6 +1897,18 @@
     csstype "^2.0.0"
     indefinite-observable "^1.0.1"
 
+"@types/lodash.topath@^4.5.6":
+  version "4.5.6"
+  resolved "https://registry.yarnpkg.com/@types/lodash.topath/-/lodash.topath-4.5.6.tgz#4b0ea9136afede167e0cbfc74abb7d95f5dc13e1"
+  integrity sha512-VOvQT/u5pv7iKLuobli8tzSShSKgDiYC3DBBfN9t+S6a3ubHUhfBgtKRS03bS6q0yZPjD/qss01N6hQyrvVZTQ==
+  dependencies:
+    "@types/lodash" "*"
+
+"@types/lodash@*":
+  version "4.14.158"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.158.tgz#b38ea8b6fe799acd076d7a8d7ab71c26ef77f785"
+  integrity sha512-InCEXJNTv/59yO4VSfuvNrZHt7eeNtWQEgnieIA+mIC+MOWM9arOWG2eQ8Vhk6NbOre6/BidiXhkZYeDY9U35w==
+
 "@types/minimatch@*":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"

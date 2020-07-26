@@ -1,8 +1,8 @@
 import toPath from "lodash.topath";
 import { isObject } from "./utils";
+import { FormValidationError, ErrorSchema } from './index';
 
-
-function toErrorSchema(errors) {
+function toErrorSchema(errors: FormValidationError[]) {
  
   if (!errors.length) {
     return {};
@@ -10,7 +10,7 @@ function toErrorSchema(errors) {
   return errors.reduce((errorSchema, error) => {
     const { property, message } = error;
     const path = toPath(property);
-    let parent = errorSchema;
+    let parent: any = errorSchema;
 
     // If the property is at the root (.level1) then toPath creates
     // an empty array element at the first index. Remove it.
@@ -39,12 +39,13 @@ function toErrorSchema(errors) {
   }, {});
 }
 
-export function toErrorList(errorSchema, fieldName = "root") {  
+export function toErrorList(errorSchema: any, fieldName: string = "root") {  
+  console.log('RRRRRRRRRR toErrorList errorSchema', errorSchema);
   if(!errorSchema) return [];
 
-  let errorList = [];
+  let errorList: object[] = [];
   if ("__errors" in errorSchema) {
-      errorSchema.__errors.forEach(err => errorList.push({[fieldName]: err}))
+      errorSchema.__errors.forEach((err: string) => errorList.push({[fieldName]: err}))
   }
   
   return Object.keys(errorSchema).reduce((acc, key) => {
@@ -54,15 +55,14 @@ export function toErrorList(errorSchema, fieldName = "root") {
 
 }
 
-
-function createErrorHandler(formData) {
-
-  const handler = {
+const createErrorHandler = (formData: Record<string, any>): any => {
+  console.log('createErrorHandler', formData);
+  const handler: ErrorSchema = {
     // We store the list of errors for this node in a property named __errors
     // to avoid name collision with a possible sub schema field named
     // "errors" (see `utils.toErrorSchema`).
     __errors: [],
-    addError(message) {
+    __addError(message: string) {
       // console.log('addError', message)
       this.__errors.push(message);
     },
@@ -84,9 +84,9 @@ function createErrorHandler(formData) {
 }
 
 
-function unwrapErrorHandler(errorHandler) {
+function unwrapErrorHandler(errorHandler: any): any {
   return Object.keys(errorHandler).reduce((acc, key) => {
-    if (key === "addError") {
+    if (key === "__addError") {
       return acc;
     } else if (key === "__errors") {
       return { ...acc, [key]: errorHandler[key] };
@@ -97,11 +97,11 @@ function unwrapErrorHandler(errorHandler) {
 
 
 export default async function validateFormData(
-  formData,
-  customValidate  
+  formData: any,
+  customValidate: any  
 ) {
 
-  let errors = []
+  let errors: FormValidationError[] = [];
   let errorSchema = toErrorSchema(errors);
 
   if (typeof customValidate !== "function") {
@@ -119,7 +119,7 @@ export default async function validateFormData(
  * false otherwise. If the schema is invalid, then this function will return
  * false.
  */
-export function isValid(schema, data) {
+export function isValid(schema: any, data: any) {
 
   // try {
   //   return ajv.validate(schema, data);

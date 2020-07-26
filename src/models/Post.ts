@@ -15,7 +15,7 @@ export interface Post {
     is_published: boolean;
     meta_description: string;
     meta_image: string;
-    meta_keywords: string;
+    meta_keywords: string[];
     meta_title: string;
     name: string;
     params: string;
