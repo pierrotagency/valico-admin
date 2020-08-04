@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Layout from './components/Layout/';
+import Layout from './components/Layout';
 import { withRouter, Route, Switch, BrowserRouter as Router, Redirect, useLocation } from 'react-router-dom';
 
 import routes from './routes';
@@ -11,7 +11,7 @@ import { isUserAuthenticated } from './helpers/auth';
 // import fakeBackend from './helpers/fakeBackend';
 // fakeBackend();
 
-function withLayout(WrappedComponent) {
+function withLayout(WrappedComponent: any) {
   // ...and returns another component...
   return class extends React.Component {
     render() {
@@ -35,7 +35,7 @@ function App() {
     [location]
   )
 
-  const PrivateRoute = ({ component: Component, ...rest }) => (
+  const PrivateRoute = ({ component: Component, ...rest } : any) => (
     <Route {...rest} render={(props) => (
       isUserAuthenticated() === true
         ? <Component {...props} />

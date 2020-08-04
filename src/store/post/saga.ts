@@ -1,11 +1,13 @@
 import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
-
+import { AnyAction } from 'redux'
 import { GET_POSTS, GET_POST, GET_VIEW_POST, SAVE_VIEW_POST, STORE_VIEW_POST } from './actionTypes';
 import { getPostsOk, getPostsError, getViewPostOk, getViewPostError, getPostOk, getPostError, saveViewPostOk, saveViewPostError, storeViewPostOk, storeViewPostError  } from './actions';
 import { apiGet, apiPut, apiPost } from '../../services/api';
+// import { Post } from  '../../models/Post';
 
+// AnyAction --> https://github.com/redux-saga/redux-saga/issues/1188
 
-function* getPosts({ payload: { father, page, epp, sort } }) {
+function* getPosts({ payload: { father, page, epp, sort }} : AnyAction) {
     
     // if (process.env.NODE_ENV === 'development') yield delay(500)
     
@@ -22,7 +24,7 @@ export function* watchGetPosts() {
 }
 
 
-function* getPost({ payload: { uuid } }) {
+function* getPost({ payload: { uuid } } : AnyAction) {
     
     // if (process.env.NODE_ENV === 'development') yield delay(500)
 
@@ -39,7 +41,7 @@ export function* watchGetPost() {
 }
 
 
-function* getViewPost({ payload: { uuid } }) {
+function* getViewPost({ payload: { uuid } } : AnyAction) {
     
     // if (process.env.NODE_ENV === 'development') yield delay(500)
 
@@ -55,7 +57,7 @@ export function* watchGetViewPost() {
     yield takeEvery(GET_VIEW_POST, getViewPost)
 }
 
-function* saveViewPost({ payload: { post, validations } }) {
+function* saveViewPost({ payload: { post, validations } } : AnyAction) {
     try {
         const response = yield call(apiPut, '/posts/' + post.uuid, { ...post, _validations: validations });           
         yield put(saveViewPostOk(response));        
@@ -68,7 +70,7 @@ export function* watchSaveViewPost() {
 }
 
 
-function* storeViewPost({ payload: { post, validations } }) {
+function* storeViewPost({ payload: { post, validations } }: AnyAction) {
     try {
         const response = yield call(apiPost, '/posts', { ...post, _validations: validations });           
         yield put(storeViewPostOk(response));        

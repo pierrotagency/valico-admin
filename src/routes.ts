@@ -12,7 +12,7 @@ import Pages500 from './containers/MainContent/pages/pages-500';
 import PostList from './containers/MainContent/pages/post/list';
 import PostEdit from './containers/MainContent/pages/post/view/edit';
 import PostNew from './containers/MainContent/pages/post/view/new';
-import PostBuilder from './containers/MainContent/pages/post/builder/index.tsx';
+import PostBuilder from './containers/MainContent/pages/post/builder/index';
 
 
 const routes = [
