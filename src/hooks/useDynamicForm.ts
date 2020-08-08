@@ -11,9 +11,10 @@ import { validateField } from '../helpers/validation';
 //     deepValidator
 // } from "../../../../../../components/DynamicForm/utils";
 
-function useDynamicForm(fieldSchema, validationSchema = {}) {
+function useDynamicForm(fieldSchema: any, validationSchema = {}) {
   const [dynamicForm, setDynamicForm] = useState({});
 
+  console.log('fieldSchema', fieldSchema);
   // const [dirty, setDirty] = useState(false);
 
   //   const prevForm = usePrevious(dynamicForm);
@@ -26,7 +27,7 @@ function useDynamicForm(fieldSchema, validationSchema = {}) {
   //     // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [dynamicForm]);
 
-  const validateDynamicForm = async (formData, formDataErrors, validateAllFields = false) => {
+  const validateDynamicForm = async (formData: any, formDataErrors: any, validateAllFields = false) => {
     // let errors = formDataErrors;
     console.log('validateAllFields', validateAllFields);
     if (!formData || Object.keys(formData).length === 0) return formDataErrors;
