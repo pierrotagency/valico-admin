@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { DragDropContext } from 'react-beautiful-dnd'
-
+import { Modal } from "reactstrap";
 import cloneDeep from 'lodash.clonedeep';
 
 import withDroppable from '../withDroppable'
@@ -17,9 +17,6 @@ import {
 } from './services'
 
 import Area from './components/Area'
-
-import RightSidebar from '../RightSidebar';
-import ModuleSidebar from './components/ModuleSidebar';
 
 import {
   findModuleInPost
@@ -140,20 +137,50 @@ function Board({
         library={library}
         post={post}
       />        
-      <RightSidebar visible={currentModule?true:false}>
-          <ModuleSidebar
-            onCloseClick={handleCloseEditorClick}
-            module={currentModule}
+
+      <Modal
+        className="modal-lg"
+        isOpen={currentModule ? true : false}              
+      >
+        <div className="modal-header">
+          <h5
+            className="modal-title mt-0"
+            id="myLargeModalLabel"
           >
-            <ModuleEditor
+            Edit Module
+          </h5>
+          <button
+            onClick={handleCloseEditorClick}
+            type="button"
+            className="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div className="modal-body">
+
+        <ModuleEditor
               fieldsUpdated={handleModuleFieldsUpdated}
               module={currentModule}
               library={library}
               validationSchema={validationSchema}
               
-            />       
-          </ModuleSidebar>   
-      </RightSidebar>
+            />  
+          <p>
+            Cras mattis consectetur purus sit amet fermentum.
+            Cras justo odio, dapibus ac facilisis in, egestas
+            eget quam. Morbi leo risus, porta ac consectetur ac,
+            vestibulum at eros.
+          </p>
+          <p>
+            Praesent commodo cursus magna, vel scelerisque nisl
+            consectetur et. Vivamus sagittis lacus vel augue
+            laoreet rutrum faucibus dolor auctor.
+          </p>       
+        </div>
+      </Modal>
     </>
   )
 }
