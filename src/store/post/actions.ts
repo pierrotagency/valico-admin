@@ -80,7 +80,7 @@ export const setViewPost = (post: Post) => {
     }
 }
 
-export const saveViewPost = (post: Post, validations?: any) => {
+export const saveViewPost = (post: Post | null, validations?: any) => {
     return {
         type: SAVE_VIEW_POST,
         payload: {
@@ -105,7 +105,7 @@ export const saveViewPostError = (error: any) => {
 }
 
 
-export const storeViewPost = (post: Post, validations: any) => {
+export const storeViewPost = (post: Post | null, validations: any) => {
     return {
         type: STORE_VIEW_POST,
         payload: {

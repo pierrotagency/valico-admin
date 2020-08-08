@@ -28,7 +28,7 @@ import ParamsCard from '../ParamsCard';
 import { fieldSchema, validationSchema } from './formSchema';
 import { parseBackendValidations } from '../../../../../../helpers/validation';
 
-function backReducer(state : any, action : StoreAction) {
+function backReducer(state : any, action : StoreAction): Object | Error {
 	console.log('backReducer', state);
 	switch (action.type) {
 		case SET:
@@ -47,6 +47,22 @@ function Form() {
 	const savingPostError = useSelector((s: StorePostState) => s.savingPostError);
 	const tags = useSelector((s: StorePostState) => s.tag.tags);
 	const dispatch = useDispatch();
+
+
+	// const iniitialPoststate: StorePostState = {
+	// 	post: {},
+	// 	posts: [],
+	// 	tag: null,
+	// 	loadingPosts: false,
+	// 	loadingPost: false,
+	// 	viewPost: null,
+	// 	loadingViewPost: false,
+	// 	savingPost: false,
+	// 	epp: 0,
+	// 	page: 1,
+	// 	sort: '',
+	// 	savingPostError: null,
+	// };
 
 	const {
 		state,
@@ -148,9 +164,9 @@ function Form() {
 
 		// add created tags to local Redux so i dont't have to request all the tag list from server
 		// TODO fix eslint disable assign WEIRRRRR BUTTA
-		const newTags = Object.keys(state.post.meta_keywords).reduce((obj, key) => 
+		const newTags = state.post && Object.keys(state.post.meta_keywords).reduce((obj, key: any) => 
 			(key !== 'isNew') 
-			? { ...obj, [key]: state.post.meta_keywords[key]}
+			? { ...obj, [key]: state.post && state.post.meta_keywords[key]}
 			: obj
 		, {});
 		if (newTags) dispatch(addLocalTags(newTags));  
@@ -159,7 +175,7 @@ function Form() {
 
 	const handleClickUndo = () => undoState();
 	const handleClickRedo = () => redoState();
-	const handleClickClear = () => resetState();
+	const handleClickClear = () => resetState({});
 
 	// const handleClickBuilder = () => history.push('/posts/'+id+'/builder')
 

@@ -1,7 +1,7 @@
 import { Post } from "../../models/Post";
 
 export interface StorePostState {
-    post?: Post | null,
+    post: Post | null,
     posts?: Post[],
     tag: any,
     loadingPosts: boolean,

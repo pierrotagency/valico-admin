@@ -12,5 +12,5 @@ export * from './post/types';
 
 export interface StoreAction {
     type: string,
-    payload: object
+    payload?: object
 }

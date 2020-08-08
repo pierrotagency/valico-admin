@@ -31,4 +31,5 @@ export interface Post {
     user: User;
     user_id: number;
     uuid: string;
+    _revision: number;
 }

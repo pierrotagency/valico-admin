@@ -12,7 +12,7 @@ import Board from '../../../../../components/Board'
 import { useBack, SET, RESET } from '../../../../../hooks/useBack'
 import { AppState } from "../../../../../store/reducers";
 
-function backReducer(_: any, action: StoreAction) {
+function backReducer(_: any, action: StoreAction): any | Error {
   console.log('backReducer', action);
   switch (action.type) {
     case SET:

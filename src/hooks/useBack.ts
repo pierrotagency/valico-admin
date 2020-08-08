@@ -1,4 +1,5 @@
 import { useReducer, useCallback } from 'react'
+import { StoreAction, StorePostState } from "../store/actions";
 // import cloneDeep from 'lodash.clonedeep';
 
 export const REDO = 'back_redo'
@@ -6,14 +7,19 @@ export const UNDO = 'back_undo'
 export const SET = 'back_set'
 export const RESET = 'back_reset'
 
-export function useBack(reducer, initialPresent) {
-  const initialState = {
+interface BackState {
+  currentIndex: number,
+  history: StorePostState[],  
+}
+
+export function useBack(reducer: Object, initialPresent: any ) {
+  const initialState: BackState = {
     history: [initialPresent],
     currentIndex: 0
   }
 
   const [state, dispatch] = useReducer(undoable(reducer), initialState)
-  const { history, currentIndex } = state
+  const { history, currentIndex } : BackState = state
 
   const canUndo = currentIndex > 1
   const canRedo = currentIndex < history.length - 1
@@ -45,9 +51,9 @@ export function useBack(reducer, initialPresent) {
   return { state: history[currentIndex], dispatch, history, canUndo, canRedo, undoState, redoState, setState, resetState }
 }
 
-function undoable(reducer) {
+function undoable(reducer: any) {
   // Return a reducer that handles undo and redo
-  return function(state, action) {
+  return function(state: BackState, action: StoreAction) {
     const { history, currentIndex } = state
 
     switch (action.type) {
