@@ -40,7 +40,7 @@ function moveModule(post, { fromPosition, fromAreaId }, { toPosition, toAreaId }
 }
 
 
-function addModule(post, library, inArea, module, { on } = {}) {
+function addModule(post, library, inArea, module, onTop) {
 
   module.id = getUuid();
 
@@ -52,7 +52,7 @@ function addModule(post, library, inArea, module, { on } = {}) {
 
   const areaToAdd = post.content.find(({ id }) => id === inArea.id)
 
-  const modules = addInArrayAtPosition(areaToAdd.modules, module, on === 'top' ? 0 : areaToAdd.modules.length)
+  const modules = addInArrayAtPosition(areaToAdd.modules, module, onTop ? 0 : areaToAdd.modules.length)
   const content = replaceElementOfArray(post.content)({
     when: ({ id }) => inArea.id === id,
     for: value => ({ ...value, modules })

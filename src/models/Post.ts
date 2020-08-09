@@ -1,11 +1,12 @@
 import { User } from './User';
+import { Area } from './Area';
 
 export interface Post {    
     childs_allowed: boolean;
     childs_taxonomy: string;
     childs_template: string;
     childs_type: string;
-    content: object[];
+    content: Area[];
     created_at: string;
     data: object;
     draft_of: string;

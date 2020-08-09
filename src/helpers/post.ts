@@ -1,7 +1,8 @@
+import { Module } from "../models/Module";
+import { Post } from "../models/Post";
 
-
-function findModuleInPost(post, searchProperty, searchValue, defaultValue = {}) {
-  let res = defaultValue
+function findModuleInPost(post: Post, searchProperty: string, searchValue: string): Module | null {
+  let res = null;
 
   if(post && post.content){
     post.content.forEach(area => {

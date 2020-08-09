@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import { DragDropContext } from 'react-beautiful-dnd'
 import { Modal } from "reactstrap";
 import cloneDeep from 'lodash.clonedeep';
-
+import { Post } from '../../models/Post'
+import { Area } from '../../models/Area'
 import withDroppable from '../withDroppable'
 import { when, partialRight } from '../../helpers/utils'
 import ModuleHandler from './components/ModuleHandler'
@@ -16,13 +17,14 @@ import {
   updateModuleFields
 } from './services'
 
-import Area from './components/Area'
+import { Area as AreaComponent } from './components/Area'
 
 import {
   findModuleInPost
 } from '../../helpers/post'
 
 import { library, templates, taxonomies } from 'valico-sanmartin'
+import { Module } from '../../models/Module';
 
 const StyledBoard = styled.div`
   padding: 5px;
@@ -36,7 +38,7 @@ const Areas = styled.div`
   width: 100%; 
 `
 
-function getCoordinates(event) {
+function getCoordinates(event: any) {
   if (event.destination === null) return {}
 
   const areaSource = { fromPosition: event.source.index }
@@ -54,16 +56,16 @@ const DroppableBoard = withDroppable(Areas)
 function Board({
   post,
   onPostUpdated
-}) {
+} : { post: Post, onPostUpdated: any }) {
   
-  const [currentModule, setCurrentModule] = useState()
+  const [currentModule, setCurrentModule] = useState<Module>()
 
   // if module is updated, outside a cloned post is saved, so i need to reinstance current module (3 days problem with nested props)
   useEffect(() => {
 
     if(currentModule){
-      const module = findModuleInPost(post, 'id', currentModule.id, null)
-      setCurrentModule(module)
+      const module = findModuleInPost(post, 'id', currentModule.id);
+      if(module) setCurrentModule(module);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,45 +73,45 @@ function Board({
 
   const handleOnModuleDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveModule  })
   
-  const handlePostUpdate = (updatedPost) => {
+  const handlePostUpdate = (updatedPost: Post) => {
     if(typeof(onPostUpdated) === 'function'){
       onPostUpdated(updatedPost)       
     }
   }
 
-  function handleOnDragEnd({ source, destination }, { moveCallback, notifyCallback }) {
+  function handleOnDragEnd({ source, destination }: any, { moveCallback, notifyCallback }: any) {
     const updatedPost = moveCallback(post, source, destination)
-    when(notifyCallback)(callback => callback(updatedPost, source, destination))
+    when(notifyCallback)((callback: any) => callback(updatedPost, source, destination))
     handlePostUpdate(updatedPost)
   }
 
-  function handleModuleAdd(area, module, options = {}) {
-    const updatedPost = addModule(post, library, area, module, options)    
+  function handleModuleAdd(area: Area, module: Module) {
+    const updatedPost = addModule(post, library, area, module, true)    
     handlePostUpdate(updatedPost)
   }
 
-  function handleModuleClone(area, module, options = {}) {
-    const updatedPost = cloneModule(post, area, module, options)           
+  function handleModuleClone(area: Area, module: Module) {
+    const updatedPost = cloneModule(post, area, module)           
     handlePostUpdate(updatedPost)
   }
 
-  function handleModuleRemove(area, module) {
+  function handleModuleRemove(area: Area, module: Module) {
     const updatedPost = removeModule(post, area, module)
     handlePostUpdate(updatedPost)   
   }
 
-  function handleModuleEdit(area, module) {
+  function handleModuleEdit(module: Module) {
     setCurrentModule(module);
   }
 
-  function handleModuleFieldsUpdated(fields) {
+  function handleModuleFieldsUpdated(fields: any) {
     // cloneDeep or yhe fucnking undo state not working! (3 days with this problem)
     const updatedPost = updateModuleFields(cloneDeep(post), currentModule, fields)  
     handlePostUpdate(updatedPost)
   }
 
   function handleCloseEditorClick() {
-    setCurrentModule(); 
+    setCurrentModule(undefined); 
   }
   
   const validationSchema = post && taxonomies[post.taxonomy] ? taxonomies[post.taxonomy].validationSchema : null;
@@ -120,14 +122,14 @@ function Board({
       <BoardContainer
         onModuleDragEnd={handleOnModuleDragEnd}      
         handleModuleAdd={handleModuleAdd}        
-        renderModule={(area, module, dragging) => {
+        renderModule={(area: Area, module: Module, dragging: boolean) => {
           
           return (
             <ModuleHandler
               dragging={dragging}              
-              onModuleRemove={module => handleModuleRemove(area, module)}
-              onModuleEdit={module => handleModuleEdit(area, module)}
-              onModuleClone={module => handleModuleClone(area, module)}
+              onModuleRemove={(module: Module) => handleModuleRemove(area, module)}
+              onModuleEdit={(module: Module) => handleModuleEdit(module)}
+              onModuleClone={(module: Module) => handleModuleClone(area, module)}
             >
               {module}
             </ModuleHandler>
@@ -191,9 +193,9 @@ function BoardContainer({
   onModuleDragEnd,
   handleModuleAdd,
   library
-}) {
+} : { post: Post, renderModule: any, onModuleDragEnd: any, handleModuleAdd: any, library: any}) {
 
-  function handleOnDragEnd(event) {
+  function handleOnDragEnd(event: any) {
     const coordinates = getCoordinates(event)
     if (!coordinates.source) return
     onModuleDragEnd(coordinates)
@@ -212,7 +214,7 @@ function BoardContainer({
                 moduleAdded={handleModuleAdd}              
                 library={library}
                 className={post.template}
-                Area={Area}
+                Area={AreaComponent}
             >
               {post.content}
           </Template>

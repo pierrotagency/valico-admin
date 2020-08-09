@@ -15,7 +15,7 @@ const DroppableArea = withDroppable(styled.div`
   min-height: 28px; 
 `)
 
-function Area({ 
+export function Area({ 
   children: content, 
   index: areaIndex, 
   renderModule, 
@@ -70,5 +70,3 @@ function Area({
   )
 
 }
-
-export default Area

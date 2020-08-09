@@ -132,7 +132,7 @@ function PostBuilder() {
 
             <Row>
               <Col>
-                {!loadingPost ? (
+                {!loadingPost && state.post ? (
                   <Board
                     onPostUpdated={handlePostUpdate}                  
                     post={state.post}									
